@@ -15,7 +15,8 @@
                     <ClientOnly>
                         <AppGrid grid-id="grid1" class="page-demo-grid" :row-data="rows1" :column-defs="columns1"
                             :default-col-def="defaultColDef" :get-row-height="getRowHeight" row-selection="multiple"
-                            animate-rows :style="{ height: '320px', width: '100%' }" />
+                            animate-rows :style="{ height: '320px', width: '100%' }"
+                            @row-clicked="onUserRowClicked" />
                     </ClientOnly>
                 </section> <!-- GRID 2 -->
                 <section class="page-demo-card">
@@ -94,6 +95,13 @@ import AppGridCellFile from '~/components/AppGrid/Cell/File.vue'
 
 const { title, description } = useDemoI18n('grid')
 
+type UserRow = {
+    USER_ID: string
+    USER_NAME: string
+    USER_POWER: number
+    USER_PHONE: string
+}
+
 
 /* 행 높이 동적 처리 */
 
@@ -120,37 +128,16 @@ const getRowHeight = (params: any) => {
 
 /* 검색 상태 */
 
-const deptSearchOptions = [
-    { label: '개발', value: '개발' },
-    { label: '디자인', value: '디자인' },
-    { label: '기획', value: '기획' },
-    { label: '운영', value: '운영' }
-]
-
 const search1 = reactive({
-    name: '',
-    verifiedPick: null as string | null,
-    qCol: 'name',
+    USER_NAME: '',
+    qCol: 'USER_NAME',
     qText: '',
-    grade: '' as string,
-    departmentSet: [] as string[],
-    activeOnly: false,
-    joinedAt: null as string | null
+    USER_POWER: '' as string,
+    USER_PHONE: ''
 })
 
 const searchFields1: AppGridSearchField[] = [
-    { field: 'name', label: '이름', type: 'input', placeholder: '이름 검색' },
-    {
-        field: 'verifiedPick',
-        filterField: 'verified',
-        label: '인증 여부',
-        type: 'select',
-        placeholderSelect: '선택',
-        options: [
-            { label: 'Y (인증)', value: 'Y' },
-            { label: 'N (미인증)', value: 'N' }
-        ]
-    },
+    { field: 'USER_NAME', label: '이름', type: 'input', placeholder: '이름 검색' },
     {
         id: 'search1-composite',
         field: '_composite',
@@ -160,45 +147,25 @@ const searchFields1: AppGridSearchField[] = [
             columnKey: 'qCol',
             textKey: 'qText',
             options: [
-                { label: '이름', value: 'name' },
-                { label: '이메일', value: 'email' },
-                { label: '부서', value: 'department' },
-                { label: '점수', value: 'score' }
+                { label: '아이디', value: 'USER_ID' },
+                { label: '이름', value: 'USER_NAME' },
+                { label: '권한', value: 'USER_POWER' },
+                { label: '전화번호', value: 'USER_PHONE' }
             ]
         },
         placeholderInput: '검색어 입력',
-        numberFilterFields: ['score']
+        numberFilterFields: ['USER_POWER']
     },
     {
-        field: 'grade',
-        label: '등급',
+        field: 'USER_POWER',
+        label: '권한',
         type: 'radio',
         options: [
-            { label: 'A', value: 'A' },
-            { label: 'B', value: 'B' },
-            { label: 'C', value: 'C' }
+            { label: '0', value: '0' },
+            { label: '1', value: '1' }
         ]
     },
-    {
-        field: 'departmentSet',
-        filterField: 'department',
-        label: '부서(다중)',
-        type: 'checkbox',
-        setFilter: true,
-        options: deptSearchOptions
-    },
-    {
-        field: 'activeOnly',
-        filterField: 'active',
-        label: '재직(활성)만',
-        type: 'toggle'
-    },
-    {
-        field: 'joinedAt',
-        label: '입사일',
-        type: 'calendar',
-        placeholder: '날짜 선택'
-    }
+    { field: 'USER_PHONE', label: '전화번호', type: 'input', placeholder: '전화번호 검색' }
 ]
 
 const search2 = reactive({
@@ -292,58 +259,28 @@ const defaultColDef: ColDef = {
 const columns1: ColDef[] = [
 
     {
-        field: 'id',
-        headerName: 'ID',
-        width: 80,
+        field: 'USER_ID',
+        headerName: '아이디',
+        width: 120,
         checkboxSelection: true,
         headerCheckboxSelection: true
     },
 
     {
-        field: 'name',
+        field: 'USER_NAME',
         headerName: '이름'
     },
 
     {
-        field: 'department',
-        headerName: '부서',
-        filter: 'agSetColumnFilter'
-    },
-
-    {
-        field: 'email',
-        headerName: '이메일'
-    },
-
-    {
-        field: 'grade',
-        headerName: '등급',
-        width: 72
-    },
-
-    {
-        field: 'verified',
-        headerName: '인증',
-        width: 72
-    },
-
-    {
-        field: 'active',
-        headerName: '재직',
-        width: 72
-    },
-
-    {
-        field: 'joinedAt',
-        headerName: '입사일',
-        width: 120,
-        filter: 'agDateColumnFilter'
-    },
-
-    {
-        field: 'score',
-        headerName: '점수',
+        field: 'USER_POWER',
+        headerName: '권한',
+        width: 100,
         filter: 'agNumberColumnFilter'
+    },
+
+    {
+        field: 'USER_PHONE',
+        headerName: '전화번호'
     }
 
 ]
@@ -517,15 +454,14 @@ const columns3: ColDef[] = [
 
 /* GRID 1 data */
 
-const rows1 = [
+const api = useApi()
+const router = useRouter()
+const rows1 = ref<UserRow[]>([])
 
-    { id: 1, name: '홍길동', department: '개발', email: 'hong@test.com', score: 88, grade: 'A', verified: 'Y', active: 'Y', joinedAt: '2026-02-01' },
-    { id: 2, name: '김민수', department: '디자인', email: 'kim@test.com', score: 72, grade: 'B', verified: 'N', active: 'Y', joinedAt: '2026-03-12' },
-    { id: 3, name: '이서연', department: '기획', email: 'lee@test.com', score: 95, grade: 'A', verified: 'Y', active: 'N', joinedAt: '2025-11-20' },
-    { id: 4, name: '박지훈', department: '운영', email: 'park@test.com', score: 61, grade: 'C', verified: 'N', active: 'Y', joinedAt: '2026-01-18' },
-    { id: 5, name: '최유진', department: '개발', email: 'choi@test.com', score: 84, grade: 'B', verified: 'Y', active: 'Y', joinedAt: '2026-04-05' }
-
-]
+const onUserRowClicked = (event: { data?: UserRow }) => {
+    if (!event.data?.USER_ID) return
+    router.push(`/demos/demo-grid-user/${event.data.USER_ID}`)
+}
 
 
 /* GRID 2 data */
@@ -642,5 +578,9 @@ const rows3 = [
     }
 
 ]
+
+onMounted(async () => {
+    rows1.value = await api.get<UserRow[]>('/api/users')
+})
 
 </script>
