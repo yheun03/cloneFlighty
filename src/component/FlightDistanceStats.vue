@@ -2,33 +2,50 @@
 import { ref } from 'vue'
 import ActionButton from './ActionButton.vue'
 
-defineProps({ distance: { type: String, default: '73,650' }, miles: { type: String, default: '45,764' } })
+defineProps({
+    title: { type: String, required: true },
+    shareLabel: { type: String, required: true },
+    shareIcon: { type: String, required: true },
+    distance: { type: String, required: true },
+    distanceUnit: { type: String, required: true },
+    miles: { type: String, required: true },
+    milesUnit: { type: String, required: true },
+    breakdown: { type: Array, required: true },
+    averageLabel: { type: String, required: true },
+    comparisons: { type: Array, required: true },
+    summaryLabel: { type: String, required: true },
+    breakdownLabel: { type: String, required: true },
+    shortestFlight: { type: Object, required: true },
+    longestFlight: { type: Object, required: true }
+})
 const expanded = ref(false)
-const breakdown = [{ label: 'Days', value: '4.6' }, { label: 'Weeks', value: '4.6' }, { label: 'Months', value: '4.6' }, { label: 'Years', value: '4.6' }, { label: 'Avg. Flight Time', value: '5h 28m' }, { label: 'In Air', value: '4.6' }]
 </script>
 
 <template>
-  <div class="fc-distance">
-    <div class="fc-stat-head">
-      <h2>Flight Distance</h2>
-      <ActionButton label="Share" icon="↥" variant="outline" />
+    <div class="fc-distance">
+        <div class="fc-stat-head">
+            <h2>{{ title }}</h2>
+            <ActionButton :label="shareLabel" :icon="shareIcon" variant="outline" />
+        </div>
+        <div class="fc-stat-number"><strong>{{ distance }}</strong><span>{{ distanceUnit }}</span></div>
+        <p>{{ miles }} {{ milesUnit }}</p>
+        <div v-if="expanded" class="fc-distance__breakdown">
+            <div v-for="item in breakdown" :key="item.label"><span>{{ item.label }}</span><strong>{{ item.value
+                    }}</strong>
+            </div>
+        </div>
+        <div v-else class="fc-distance__comparisons"><strong>{{ averageLabel }}</strong>
+            <span v-for="item in comparisons" :key="item.text">{{ item.icon }} <b>{{ item.text }}</b></span>
+        </div>
+        <button type="button" class="fc-stat-more" @click="expanded = !expanded">{{ expanded ? summaryLabel :
+            breakdownLabel }}</button>
+        <div class="fc-distance__flight">
+            <h3>{{ shortestFlight.title }}</h3><strong>{{ shortestFlight.route }} <span>{{ shortestFlight.distance
+                    }}</span></strong><small>{{ shortestFlight.detail }}</small>
+        </div>
+        <div class="fc-distance__flight">
+            <h3>{{ longestFlight.title }}</h3><strong>{{ longestFlight.route }} <span>{{ longestFlight.distance
+                    }}</span></strong><small>{{ longestFlight.detail }}</small>
+        </div>
     </div>
-    <div class="fc-stat-number"><strong>{{ distance }}</strong><span>km</span></div>
-    <p>{{ miles }} mi</p>
-    <div v-if="expanded" class="fc-distance__breakdown">
-      <div v-for="item in breakdown" :key="item.label"><span>{{ item.label }}</span><strong>{{ item.value }}</strong>
-      </div>
-    </div>
-    <div v-else class="fc-distance__comparisons"><strong>Average distance: 3,682 km</strong><span>🌎 <b>1.8x Around
-          Earth</b></span><span>🌕 <b>0.2x To the Moon</b></span><span>☀️ <b>0.02x Around the Sun</b></span></div>
-    <button type="button" class="fc-stat-more" @click="expanded = !expanded">{{ expanded ? 'Show Summary' : 'Show
-      Breakdown' }}</button>
-    <div class="fc-distance__flight">
-      <h3>Shortest flight</h3><strong>Jeju → Seoul <span>451 km</span></strong><small>KE 1238 · 2 Jun 2017</small>
-    </div>
-    <div class="fc-distance__flight">
-      <h3>Longest flight</h3><strong>Seoul → Los Angeles <span>9,647 km</span></strong><small>OZ 202 · 2 Jun
-        2017</small>
-    </div>
-  </div>
 </template>

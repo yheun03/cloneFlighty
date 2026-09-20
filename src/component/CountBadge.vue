@@ -3,5 +3,5 @@ defineProps({ value: { type: [String, Number], default: 1 }, variant: { type: St
 </script>
 
 <template>
-  <span class="fc-count" :class="`fc-count--${variant}`">{{ value }}</span>
+    <span class="fc-count" :class="`fc-count--${variant}`">{{ value }}</span>
 </template>

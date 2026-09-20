@@ -2,27 +2,28 @@
 <html lang="ko">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flighty</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flighty</title>
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.css" />
 </head>
 
 <body>
-  <div id="app"></div>
-  <script id="airports" type="application/json">
-      {
-        "ICN": { "name": "인천", "lat": 37.4602, "lng": 126.4407 },
-        "SFO": { "name": "샌프란시스코", "lat": 37.6213, "lng": -122.3790 },
-        "LAX": { "name": "로스앤젤레스", "lat": 33.9416, "lng": -118.4085 },
-        "JFK": { "name": "뉴욕", "lat": 40.6413, "lng": -73.7781 },
-        "NRT": { "name": "도쿄 나리타", "lat": 35.7720, "lng": 140.3929 },
-        "HND": { "name": "도쿄 하네다", "lat": 35.5494, "lng": 139.7798 },
-        "LHR": { "name": "런던 히스로", "lat": 51.4700, "lng": -0.4543 },
-        "CDG": { "name": "파리 샤를드골", "lat": 49.0097, "lng": 2.5479 },
-        "SIN": { "name": "싱가포르", "lat": 1.3644, "lng": 103.9915 }
-      }
-    </script>
-  <script type="module" src="/src/main.js"></script>
+    <div id="app"></div>
+    <script id="airports" type="application/json">
+            {
+                "ICN": { "name": "인천", "lat": 37.4602, "lng": 126.4407 },
+                "SFO": { "name": "샌프란시스코", "lat": 37.6213, "lng": -122.3790 },
+                "LAX": { "name": "로스앤젤레스", "lat": 33.9416, "lng": -118.4085 },
+                "JFK": { "name": "뉴욕", "lat": 40.6413, "lng": -73.7781 },
+                "NRT": { "name": "도쿄 나리타", "lat": 35.7720, "lng": 140.3929 },
+                "HND": { "name": "도쿄 하네다", "lat": 35.5494, "lng": 139.7798 },
+                "LHR": { "name": "런던 히스로", "lat": 51.4700, "lng": -0.4543 },
+                "CDG": { "name": "파리 샤를드골", "lat": 49.0097, "lng": 2.5479 },
+                "SIN": { "name": "싱가포르", "lat": 1.3644, "lng": 103.9915 }
+            }
+        </script>
+    <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>
