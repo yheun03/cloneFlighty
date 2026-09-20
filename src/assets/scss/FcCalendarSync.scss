@@ -1,0 +1,58 @@
+.fc-calendar-sync {
+    &>strong {
+        display: block;
+        font-size: 17px;
+    }
+
+    &>p {
+        margin: 2px 0 26px;
+        color: #aaa;
+        font-size: 14px;
+    }
+
+    &__item {
+        margin: 25px 0;
+
+        &>div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        & h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        & button:not(.fc-switch) {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 7px;
+            padding: 7px 0;
+            border: 0;
+            border-bottom: 1px solid #444;
+            background: none;
+            color: #ddd;
+            text-align: left;
+        }
+
+        & button>span {
+            color: #aaa;
+        }
+    }
+
+    &__notice {
+        display: flex;
+        margin-top: 40px;
+        padding: 12px;
+        border-radius: 9px;
+        background: #18342b;
+        color: #aaa;
+        font-size: 12px;
+
+        & strong {
+            color: #1fbb79;
+        }
+    }
+}

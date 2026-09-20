@@ -1,0 +1,10 @@
+.fc-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    flex: none;
+    vertical-align: -.125em;
+    background: currentColor;
+    -webkit-mask: var(--fc-icon-url) center / contain no-repeat;
+    mask: var(--fc-icon-url) center / contain no-repeat;
+}

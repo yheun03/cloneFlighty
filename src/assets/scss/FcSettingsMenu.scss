@@ -1,0 +1,73 @@
+.fc-settings {
+    margin-top: 40px;
+
+    & h2 {
+        margin: 0 0 20px;
+        font-size: 32px;
+    }
+
+    &__pro {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 12px;
+        padding: 14px 8px;
+        border: 1px solid #6722ff;
+        border-width: 1px 0;
+        background: none;
+        color: white;
+        text-align: left;
+        font-size: 24px;
+
+        & b {
+            padding: 6px;
+            border-radius: 7px;
+            background: #5d17ff;
+            font-size: 12px;
+        }
+
+        &>span {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            color: #9b5bff;
+            font-size: 18px;
+        }
+
+        & small {
+            font-size: 13px;
+        }
+    }
+
+    &__group {
+        margin-top: 28px;
+
+        & h3 {
+            margin: 0 0 5px;
+            color: #aaa;
+            font-size: 11px;
+        }
+
+        & button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+            padding: 12px 5px;
+            border: 0;
+            border-top: 1px solid #424242;
+            background: none;
+            color: white;
+            text-align: left;
+        }
+
+        & button>span {
+            width: 25px;
+        }
+
+        & button b {
+            margin-left: auto;
+            font-size: 23px;
+        }
+    }
+}

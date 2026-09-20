@@ -1,0 +1,29 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f5f6fa;
+    color: #171b2b;
+    font: 16px/1.5 Arial, sans-serif;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: #526dff;
+    text-decoration: none;
+}
+
+h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+}

@@ -1,0 +1,53 @@
+label {
+    display: block;
+    margin: 20px 0 8px;
+    font-weight: 700;
+}
+
+.field {
+    display: flex;
+    gap: 6px;
+
+    input {
+        width: 100%;
+        min-width: 0;
+        padding: 12px;
+        border: 1px solid #ccd1dc;
+        border-radius: 8px;
+        text-transform: uppercase;
+    }
+
+    button {
+        flex: none;
+        padding: 0 9px;
+        border: 1px solid #ccd1dc;
+        border-radius: 8px;
+        background: white;
+        font-size: 13px;
+    }
+}
+
+.primary {
+    width: 100%;
+    margin-top: 28px;
+    padding: 14px;
+    border: 0;
+    border-radius: 8px;
+    background: #526dff;
+    color: white;
+    font-weight: 700;
+}
+
+.app .hint {
+    margin-top: 16px;
+    font-size: 12px;
+}
+
+.back {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.app .message {
+    color: #c53b3b;
+}

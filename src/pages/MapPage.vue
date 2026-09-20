@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import BaseInput from '../component/BaseInput.vue'
 
 const airports = JSON.parse(document.querySelector('#airports').textContent)
 const route = useRoute()
@@ -144,7 +145,7 @@ onUnmounted(() => {
                     @click="toggleSidebar">{{ sidebarOpen ? '−' : '+' }}</button>
             </div>
             <div v-if="sidebarOpen" class="flight-map__body">
-                <input v-model="search" type="search" placeholder="Search to add flights" aria-label="항공편 검색" />
+                <BaseInput v-model="search" type="search" placeholder="Search to add flights" aria-label="항공편 검색" />
                 <div class="flight-map__filters"><button type="button" :class="{ active: mode === 'mine' }"
                         @click="mode = 'mine'">내 항공편</button><button type="button"
                         :class="{ active: mode === 'friends' }" @click="mode = 'friends'">친구 항공편</button></div>

@@ -1,0 +1,40 @@
+.fc-calendar {
+    max-width: 310px;
+
+    & h3 {
+        margin: 0 0 15px;
+        font-size: 17px;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 7px 2px;
+        text-align: center;
+    }
+
+    &__weekday {
+        color: #818181;
+        font-size: 12px;
+    }
+
+    &__grid {
+        & button {
+            width: 35px;
+            height: 35px;
+            border: 1px solid transparent;
+            border-radius: 50%;
+            background: none;
+            color: white;
+            font-size: 16px;
+        }
+
+        & button.is-marked {
+            background: #087bfa;
+        }
+
+        & button.is-selected {
+            border-color: #087bfa;
+        }
+    }
+}

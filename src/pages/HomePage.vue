@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import BaseInput from '../component/BaseInput.vue'
 
 const airports = JSON.parse(document.querySelector('#airports').textContent)
 const route = useRoute()
@@ -48,14 +49,14 @@ function showMap() {
         <form @submit.prevent="showMap">
             <label for="from">출발 공항</label>
             <div class="field">
-                <input id="from" v-model="from" maxlength="3" placeholder="ICN" />
+                <BaseInput id="from" v-model="from" maxlength="3" placeholder="ICN" />
                 <button type="button" @click="paste('from')">붙여넣기</button>
                 <button type="button" @click="copy(from)">복사</button>
             </div>
 
             <label for="to">도착 공항</label>
             <div class="field">
-                <input id="to" v-model="to" maxlength="3" placeholder="SFO" />
+                <BaseInput id="to" v-model="to" maxlength="3" placeholder="SFO" />
                 <button type="button" @click="paste('to')">붙여넣기</button>
                 <button type="button" @click="copy(to)">복사</button>
             </div>

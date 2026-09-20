@@ -1,0 +1,25 @@
+.fc-gallery {
+    padding-bottom: 60px;
+
+    &>h1 {
+        font-size: 34px;
+    }
+
+    &__group {
+        padding: 28px 0;
+        border-bottom: 1px solid #303030;
+
+        &>h2 {
+            margin: 0 0 20px;
+            font-size: 17px;
+            color: #aaa;
+        }
+    }
+
+    &__row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+    }
+}

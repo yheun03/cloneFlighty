@@ -1,0 +1,26 @@
+.fc-button {
+    border: 0;
+    background: none;
+    color: #1685ff;
+    font-size: 19px;
+    font-weight: 700;
+    padding: 11px 0;
+
+    & .fc-icon {
+        margin-right: 8px;
+    }
+
+    &--outline {
+        border: 1px solid #595959;
+        border-radius: 10px;
+        padding: 10px 16px;
+        color: white;
+    }
+
+    &--soft {
+        border-radius: 12px;
+        background: #3a2021;
+        padding: 12px 18px;
+        color: #ff4e48;
+    }
+}

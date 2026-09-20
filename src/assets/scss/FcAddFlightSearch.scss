@@ -1,0 +1,58 @@
+.fc-search {
+    & h2 {
+        margin: 0;
+        font-size: 28px;
+    }
+
+    & p {
+        margin: 0 0 12px;
+        color: #999;
+        font-size: 15px;
+    }
+
+    &>input {
+        width: 100%;
+        padding: 12px;
+        border: 0;
+        border-radius: 9px;
+        outline: 0;
+        background: #303030;
+        color: white;
+    }
+
+    &__result {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+        padding: 10px 0;
+        border: 0;
+        background: none;
+        color: white;
+        text-align: left;
+
+        &>span:nth-child(2) {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        & small {
+            color: #888;
+        }
+    }
+
+    &__avatar {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: white;
+        color: #111;
+    }
+
+    &__selected {
+        color: #1685ff;
+    }
+}

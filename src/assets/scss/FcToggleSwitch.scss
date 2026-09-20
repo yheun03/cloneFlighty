@@ -1,0 +1,27 @@
+.fc-switch {
+    width: 56px;
+    height: 32px;
+    padding: 2px;
+    border: 0;
+    border-radius: 20px;
+    background: #888;
+    transition: background .2s;
+
+    & span {
+        display: block;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0 1px 3px #0005;
+        transition: transform .2s;
+    }
+
+    &.is-on {
+        background: #087bfa;
+    }
+
+    &.is-on span {
+        transform: translateX(24px);
+    }
+}

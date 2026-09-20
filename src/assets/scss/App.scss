@@ -1,0 +1,28 @@
+.app {
+    max-width: 480px;
+    min-height: 100vh;
+    margin: auto;
+    padding: 24px;
+    background: white;
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 56px;
+
+        strong {
+            font-size: 22px;
+        }
+
+        nav {
+            display: flex;
+            gap: 16px;
+        }
+    }
+
+    section>p {
+        margin: 0 0 32px;
+        color: #697083;
+    }
+}

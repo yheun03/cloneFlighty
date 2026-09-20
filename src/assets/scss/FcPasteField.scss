@@ -1,0 +1,40 @@
+.fc-paste-field {
+    & label {
+        margin: 20px 0 10px;
+        font-size: 20px;
+    }
+
+    &>div {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 7px 5px 10px;
+        border-radius: 9px;
+        background: #303030;
+    }
+
+    &>div>span {
+        color: #777;
+    }
+
+    & input {
+        flex: 1;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: none;
+        color: white;
+    }
+
+    & button {
+        border: 0;
+        border-radius: 7px;
+        padding: 4px 8px;
+        background: #a9a9a9;
+        color: white;
+    }
+
+    & small {
+        color: #ff4d4d;
+    }
+}

@@ -1,0 +1,22 @@
+.fc-frequent-tails {
+    margin: 35px 0;
+
+    &>strong {
+        display: block;
+        font-size: 52px;
+        line-height: 1.1;
+    }
+
+    & p {
+        margin: 7px 0 15px;
+        color: #aaa;
+    }
+
+    & small {
+        color: #aaa;
+    }
+
+    &>span {
+        float: right;
+    }
+}

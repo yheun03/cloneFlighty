@@ -1,0 +1,38 @@
+.fc-terminal {
+    margin-top: 25px;
+
+    &__stop {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 15px;
+
+        & b {
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: #ffc832;
+            color: #111;
+        }
+
+        &>span {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &>span:last-child {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        & small {
+            color: #858585;
+        }
+    }
+
+    &__change {
+        margin: 12px 0 12px 16px;
+        padding: 8px 0 8px 20px;
+        border-left: 1px solid #4b4b4b;
+        font-weight: 700;
+    }
+}

@@ -1,0 +1,65 @@
+.fc-distance {
+    margin: 25px 0;
+
+    &>p {
+        margin: 0 0 22px;
+        color: #aaa;
+    }
+
+    &__comparisons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &>strong {
+            margin-bottom: 5px;
+        }
+
+        &>span {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    &__breakdown {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+
+        & div {
+            display: flex;
+            flex-direction: column;
+            color: #aaa;
+        }
+
+        & strong {
+            color: white;
+            font-size: 23px;
+        }
+    }
+
+    &__flight {
+        padding: 17px 0;
+        border-top: 1px solid #444;
+
+        & h3 {
+            margin: 0 0 12px;
+            font-size: 18px;
+        }
+
+        &>strong {
+            display: flex;
+            justify-content: space-between;
+            gap: 6px;
+            font-size: 16px;
+        }
+
+        &>strong span {
+            flex: none;
+        }
+
+        & small {
+            color: #999;
+        }
+    }
+}

@@ -1,0 +1,21 @@
+.fc-periods {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+
+    & button {
+        flex: none;
+        padding: 6px 10px;
+        border: 0;
+        border-radius: 10px;
+        background: transparent;
+        color: white;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    & button.is-active {
+        background: #333;
+    }
+}

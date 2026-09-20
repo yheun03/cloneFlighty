@@ -1,0 +1,29 @@
+.fc-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 5px 13px;
+    border: 1px solid #4b4b4b;
+    border-radius: 18px;
+    background: transparent;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+
+    &>.fc-icon {
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    &.is-active {
+        border-color: #1685ff;
+        background: #1c3551;
+        color: #1685ff;
+    }
+
+    &.is-filled {
+        background: #087bfa;
+        color: white;
+    }
+}

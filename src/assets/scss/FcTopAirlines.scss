@@ -1,0 +1,37 @@
+.fc-top-airlines {
+    margin: 35px 0;
+
+    &__tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 15px;
+
+        & button {
+            padding: 5px 10px;
+            border: 0;
+            border-radius: 8px;
+            background: none;
+            color: white;
+        }
+
+        & button.is-active {
+            background: #333;
+        }
+    }
+
+    &__bar {
+        display: grid;
+        grid-template-columns: 20px 1fr 32px;
+        align-items: center;
+        gap: 6px;
+        margin: 10px 0;
+
+        & b {
+            background: #8952ff;
+        }
+
+        & small {
+            color: #aaa;
+        }
+    }
+}

@@ -1,0 +1,57 @@
+.fc-seat-stats {
+    margin: 25px 0;
+
+    &__ring {
+        display: grid;
+        place-items: center;
+        width: 180px;
+        height: 180px;
+        margin: 20px auto;
+        border: 25px solid #087bfa;
+        border-radius: 50%;
+        text-align: center;
+
+        & div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        & small {
+            color: #aaa;
+        }
+
+        & strong {
+            font-size: 24px;
+        }
+    }
+
+    &__list {
+        &>div {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin: 7px 0;
+        }
+
+        & i {
+            width: 15px;
+            height: 15px;
+            border-radius: 4px;
+        }
+
+        & strong {
+            flex: 1;
+        }
+
+        & b {
+            min-width: 20px;
+            text-align: right;
+        }
+
+        & span {
+            min-width: 42px;
+            color: #aaa;
+            text-align: right;
+        }
+    }
+}

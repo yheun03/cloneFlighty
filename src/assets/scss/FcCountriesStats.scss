@@ -1,0 +1,55 @@
+.fc-countries {
+    margin: 20px 0;
+
+    &__row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 1px solid #404040;
+
+        &>span {
+            font-size: 23px;
+        }
+
+        & strong {
+            flex: 1;
+        }
+
+        & small {
+            color: #aaa;
+        }
+    }
+
+    &__regions {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 7px;
+        margin-top: 15px;
+
+        & div {
+            display: flex;
+            flex-direction: column;
+            min-height: 70px;
+            padding: 8px;
+            border: 1px solid #555;
+            border-radius: 6px;
+        }
+
+        & strong {
+            color: #aaa;
+            font-size: 11px;
+        }
+
+        & span {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            font-weight: 700;
+        }
+
+        & small {
+            color: #aaa;
+        }
+    }
+}

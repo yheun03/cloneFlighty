@@ -1,0 +1,18 @@
+.fc-connection {
+    text-align: center;
+
+    & h2 {
+        margin: 0 0 4px;
+        font-size: 30px;
+    }
+
+    & p {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    & p strong {
+        color: #53d96c;
+    }
+}

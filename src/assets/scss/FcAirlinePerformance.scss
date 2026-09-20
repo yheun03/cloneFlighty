@@ -1,0 +1,82 @@
+.fc-performance {
+    margin-top: 20px;
+
+    &>.fc-stat-head:not(:first-child) {
+        margin-top: 40px;
+    }
+
+    &__headline {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+
+        & strong {
+            font-size: 55px;
+            line-height: 1.1;
+        }
+
+        & span {
+            color: #aaa;
+            font-size: 25px;
+            font-weight: 700;
+        }
+    }
+
+    &>p {
+        margin: 4px 0 20px;
+        color: #aaa;
+    }
+
+    &__bar {
+        margin: 10px 0;
+
+        &>div {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+    }
+}
+
+.fc-performance__bar i,
+.fc-performance__meter i,
+.fc-top-airlines__bar i {
+    display: block;
+    height: 13px;
+    overflow: hidden;
+    border-radius: 5px;
+    background: #363636;
+}
+
+.fc-performance__bar b,
+.fc-performance__meter b,
+.fc-top-airlines__bar b {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: #ff5049;
+}
+
+.fc-performance {
+    &__meter {
+        display: grid;
+        grid-template-columns: 68px 1fr 33px;
+        align-items: center;
+        gap: 6px;
+        margin: 8px 0;
+        font-size: 12px;
+    }
+
+    &__delay {
+        display: grid;
+        grid-template-columns: 1fr 55px 70px;
+        gap: 5px;
+        margin: 7px 0;
+        color: #aaa;
+        font-size: 12px;
+
+        & b {
+            color: #ff5049;
+        }
+    }
+}
