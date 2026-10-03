@@ -10,7 +10,7 @@ const airlines = [
     { name: 'Finnair', percent: 100, count: '1/1' },
     { name: 'KLM', percent: 50, count: '1/2' },
     { name: 'Asiana', percent: 33, count: '1/3' },
-    { name: 'Korean Air', percent: 25, count: '1/1' },
+    { name: 'Korean Air', percent: 25, count: '1/4' },
     { name: 'Alaska', percent: 10, count: '1/1' }
 ]
 const performance = [
@@ -33,10 +33,11 @@ const performance = [
             <div><span>
                     <FcIcon :src="airlineIcon" /> &nbsp;{{ item.name }}
                 </span><span>{{ item.percent }}% &nbsp;({{ item.count
-                }})</span></div>
+                    }})</span></div>
             <i><b :style="{ width: `${item.percent}%` }"></b></i>
         </div>
-        <button type="button" class="fc-stat-more" @click="showAll = !showAll">{{ showAll ? 'Show Less' : 'Show More'
+        <button type="button" class="fc-stat-more" :aria-expanded="showAll" @click="showAll = !showAll">{{ showAll ?
+            'Show Less' : 'Show More'
             }}</button>
         <div class="fc-stat-head">
             <h2>My Performance</h2>
@@ -45,7 +46,7 @@ const performance = [
         <div class="fc-performance__headline"><strong>11m</strong><span>late</span></div>
         <p>cumulative arrival performance</p>
         <div v-for="item in performance" :key="item.label" class="fc-performance__meter"><span>{{ item.label
-        }}</span><i><b :style="{ width: `${item.value}%`, background: item.color }"></b></i><strong>{{
+                }}</span><i><b :style="{ width: `${item.value}%`, background: item.color }"></b></i><strong>{{
                     item.value }}%</strong></div>
         <h2>Arrival Delays</h2>
         <p><strong>8</strong> total</p>

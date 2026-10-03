@@ -10,7 +10,8 @@ defineEmits(['click'])
 </script>
 
 <template>
-    <button type="button" class="fc-chip" :class="{ 'is-active': active, 'is-filled': filled }" @click="$emit('click')">
+    <button type="button" class="fc-chip" :class="{ 'is-active': active, 'is-filled': filled }" :aria-pressed="active"
+        @click="$emit('click')">
         <FcIcon v-if="icon" :src="icon" />{{ label }}
     </button>
 </template>

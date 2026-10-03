@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+:root :focus-visible {
+    outline: 3px solid #ffbf47;
+    outline-offset: 3px;
+}
+
 body {
     margin: 0;
     background: #f5f6fa;
@@ -19,11 +24,34 @@ button {
 }
 
 a {
-    color: #526dff;
+    color: #4054c7;
     text-decoration: none;
 }
 
 h1 {
     margin: 0 0 8px;
     font-size: 28px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+    }
 }

@@ -18,14 +18,15 @@ const days = computed(() => {
 <template>
     <div class="fc-calendar">
         <h3>{{ title }}</h3>
-        <div class="fc-calendar__grid">
+        <div class="fc-calendar__grid" role="group" :aria-label="`${title} 날짜 선택`">
             <span v-for="day in ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']" :key="day"
-                class="fc-calendar__weekday">{{
+                class="fc-calendar__weekday" aria-hidden="true">{{
                     day }}</span>
             <span v-for="(day, index) in days" :key="index">
                 <button v-if="day" type="button"
                     :class="{ 'is-marked': marked.includes(day), 'is-selected': selected === day }"
-                    @click="selected = day">{{ day }}</button>
+                    :aria-label="`${title} ${day}일${marked.includes(day) ? ', 항공편 있음' : ''}`"
+                    :aria-pressed="selected === day" @click="selected = day">{{ day }}</button>
             </span>
         </div>
     </div>

@@ -2,18 +2,24 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import BaseInput from '../component/BaseInput.vue'
+import '../assets/scss/MapPage.scss'
+
+const MAPLIBRE_CSS_URL = 'https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.css'
 
 const airports = JSON.parse(document.querySelector('#airports').textContent)
 const route = useRoute()
 const router = useRouter()
-const from = computed(() => typeof route.query.from === 'string' ? route.query.from.trim().toUpperCase() : 'ICN')
-const to = computed(() => typeof route.query.to === 'string' ? route.query.to.trim().toUpperCase() : 'SFO')
+const normalizeAirportCode = (value) => value.trim().toUpperCase().slice(0, 3)
+const from = computed(() => typeof route.query.from === 'string' ? normalizeAirportCode(route.query.from) : 'ICN')
+const to = computed(() => typeof route.query.to === 'string' ? normalizeAirportCode(route.query.to) : 'SFO')
 const mode = ref('mine')
 const search = ref('')
 const sidebarOpen = ref(true)
 const isGlobe = ref(false)
 const ready = ref(false)
 const mapError = ref('')
+const mapStatus = ref('지도를 불러오는 중입니다.')
+const routeSummary = computed(() => `${airports[from.value]?.name || from.value}에서 ${airports[to.value]?.name || to.value}까지`)
 const ownFlights = computed(() => [
     { flight: 'KE 24', from: from.value, to: to.value, date: 'Sat, 20 Jun', days: 21 },
     { flight: 'KE 703', from: 'ICN', to: 'NRT', date: 'Tue, 10 Mar', days: 62 },
@@ -29,6 +35,28 @@ const flights = computed(() => (mode.value === 'mine' ? ownFlights.value : frien
 ))
 let map
 let maplibregl
+let routeBounds = null
+let resizeFrame = null
+let disposed = false
+
+function loadMapLibreCss() {
+    const existing = document.querySelector(`link[href="${MAPLIBRE_CSS_URL}"]`)
+    if (existing?.sheet) return Promise.resolve()
+
+    return new Promise((resolve, reject) => {
+        const link = existing || document.createElement('link')
+        link.addEventListener('load', resolve, { once: true })
+        link.addEventListener('error', (error) => {
+            link.remove()
+            reject(error)
+        }, { once: true })
+        if (!existing) {
+            link.rel = 'stylesheet'
+            link.href = MAPLIBRE_CSS_URL
+            document.head.append(link)
+        }
+    })
+}
 
 function routeCoordinates(start, end) {
     const rad = Math.PI / 180
@@ -53,20 +81,10 @@ function routeCoordinates(start, end) {
     return coordinates
 }
 
-function drawRoute() {
-    if (!ready.value) return
-    const start = airports[from.value]
-    const end = airports[to.value]
-    if (!start || !end) return
-    const coordinates = routeCoordinates(start, end)
-    map.getSource('route').setData({ type: 'Feature', geometry: { type: 'LineString', coordinates }, properties: {} })
-    map.getSource('airports').setData({
-        type: 'FeatureCollection',
-        features: [coordinates[0], coordinates.at(-1)].map((point) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: point }, properties: {} }))
-    })
+function fitRoute() {
+    if (!ready.value || !routeBounds) return
     const mobile = window.innerWidth < 768
-    const bounds = coordinates.reduce((result, point) => result.extend(point), new maplibregl.LngLatBounds(coordinates[0], coordinates[0]))
-    map.fitBounds(bounds, {
+    map.fitBounds(routeBounds, {
         padding: {
             top: 40,
             right: 40,
@@ -78,16 +96,41 @@ function drawRoute() {
     })
 }
 
+function updateRoute() {
+    if (!ready.value) return
+    const start = airports[from.value]
+    const end = airports[to.value]
+    if (!start || !end) {
+        routeBounds = null
+        map.getSource('route').setData({ type: 'Feature', geometry: { type: 'LineString', coordinates: [] }, properties: {} })
+        map.getSource('airports').setData({ type: 'FeatureCollection', features: [] })
+        mapError.value = '유효한 출발지와 도착지 공항 코드를 확인해 주세요.'
+        mapStatus.value = ''
+        return
+    }
+    mapError.value = ''
+    const routePoints = routeCoordinates(start, end)
+    routeBounds = routePoints.reduce((bounds, point) => bounds.extend(point), new maplibregl.LngLatBounds(routePoints[0], routePoints[0]))
+    map.getSource('route').setData({ type: 'Feature', geometry: { type: 'LineString', coordinates: routePoints }, properties: {} })
+    map.getSource('airports').setData({
+        type: 'FeatureCollection',
+        features: [routePoints[0], routePoints.at(-1)].map((point) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: point }, properties: {} }))
+    })
+    fitRoute()
+    mapStatus.value = `${routeSummary.value} 경로를 지도에 표시했습니다.`
+}
+
 function toggleProjection() {
     if (!ready.value) return
     isGlobe.value = !isGlobe.value
     map.setProjection({ type: isGlobe.value ? 'globe' : 'mercator' })
-    drawRoute()
+    fitRoute()
+    mapStatus.value = `${isGlobe.value ? '지구본' : '평면'} 보기로 전환했습니다.`
 }
 
 function toggleSidebar() {
     sidebarOpen.value = !sidebarOpen.value
-    drawRoute()
+    fitRoute()
 }
 
 function selectFlight(flight) {
@@ -95,21 +138,32 @@ function selectFlight(flight) {
 }
 
 function resizeMap() {
-    map?.resize()
-    drawRoute()
+    if (resizeFrame !== null) return
+    resizeFrame = window.requestAnimationFrame(() => {
+        resizeFrame = null
+        map?.resize()
+        fitRoute()
+    })
 }
 
 onMounted(async () => {
     try {
-        maplibregl = await import(/* @vite-ignore */ 'https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.mjs')
+        const [, mapLibreModule] = await Promise.all([
+            loadMapLibreCss(),
+            import(/* @vite-ignore */ 'https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.mjs')
+        ])
+        if (disposed) return
+        maplibregl = mapLibreModule
         map = new maplibregl.Map({
-            container: 'map',
+            container: 'flight-map-canvas',
             style: 'https://tiles.openfreemap.org/styles/dark',
             center: [126.4407, 37.4602],
             zoom: 2
         })
     } catch {
+        if (disposed) return
         mapError.value = '이 기기에서는 지도를 표시할 수 없습니다.'
+        mapStatus.value = ''
         return
     }
     map.on('load', () => {
@@ -119,55 +173,70 @@ onMounted(async () => {
         map.addSource('airports', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } })
         map.addLayer({ id: 'flight-airports', type: 'circle', source: 'airports', paint: { 'circle-radius': 5, 'circle-color': '#70acff', 'circle-stroke-color': '#fff', 'circle-stroke-width': 1 } })
         ready.value = true
-        drawRoute()
+        updateRoute()
     })
     map.on('error', () => {
-        if (!ready.value) mapError.value = '지도 데이터를 불러오지 못했습니다.'
+        if (!ready.value) {
+            mapError.value = '지도 데이터를 불러오지 못했습니다.'
+            mapStatus.value = ''
+        }
     })
     window.addEventListener('resize', resizeMap)
 })
-watch([from, to], drawRoute)
+watch([from, to], updateRoute)
 onUnmounted(() => {
+    disposed = true
     window.removeEventListener('resize', resizeMap)
+    if (resizeFrame !== null) window.cancelAnimationFrame(resizeFrame)
     map?.remove()
 })
 </script>
 
 <template>
-    <section class="flight-map" :class="{ 'is-sidebar-closed': !sidebarOpen }">
-        <div id="map"></div>
-        <p v-if="mapError" class="flight-map__error">{{ mapError }}</p>
-        <aside class="flight-map__sidebar" :class="{ 'is-closed': !sidebarOpen }">
+    <section class="flight-map" :class="{ 'is-sidebar-closed': !sidebarOpen }" aria-labelledby="flight-map-title">
+        <div id="flight-map-canvas" role="region" :aria-label="`${routeSummary} 항공편 지도`"
+            aria-describedby="flight-map-route-summary flight-map-status"></div>
+        <p id="flight-map-status" class="flight-map__status" role="status" aria-live="polite">{{ mapStatus }}</p>
+        <p v-if="mapError" class="flight-map__error" role="alert" aria-live="assertive">{{ mapError }}</p>
+        <aside class="flight-map__sidebar" :class="{ 'is-closed': !sidebarOpen }" aria-labelledby="flight-map-title">
             <div class="flight-map__heading">
-                <button type="button" class="flight-map__title" @click="mode = mode === 'mine' ? 'friends' : 'mine'">{{
-                    mode === 'mine' ? 'My Flights' : 'Friends’ Flights' }} <span>⌄</span></button>
+                <div class="flight-map__heading-copy">
+                    <h1 id="flight-map-title">항공편 경로</h1>
+                    <p id="flight-map-route-summary" class="flight-map__route-summary"><strong>{{ from }} → {{ to
+                    }}</strong><span>{{ routeSummary }} · 샘플 데이터</span></p>
+                </div>
                 <button type="button" class="flight-map__collapse" :aria-label="sidebarOpen ? '목록 접기' : '목록 펼치기'"
-                    @click="toggleSidebar">{{ sidebarOpen ? '−' : '+' }}</button>
+                    :aria-expanded="sidebarOpen" aria-controls="flight-map-list" @click="toggleSidebar">{{ sidebarOpen ?
+                    '−' : '+' }}</button>
             </div>
-            <div v-if="sidebarOpen" class="flight-map__body">
-                <BaseInput v-model="search" type="search" placeholder="Search to add flights" aria-label="항공편 검색" />
-                <div class="flight-map__filters"><button type="button" :class="{ active: mode === 'mine' }"
-                        @click="mode = 'mine'">내 항공편</button><button type="button"
-                        :class="{ active: mode === 'friends' }" @click="mode = 'friends'">친구 항공편</button></div>
+            <div v-show="sidebarOpen" id="flight-map-list" class="flight-map__body">
+                <h2 class="flight-map__title">{{ mode === 'mine' ? '내 항공편' : '친구 항공편' }}</h2>
+                <BaseInput v-model="search" type="search" placeholder="항공편명 또는 공항 검색" aria-label="항공편 검색" />
+                <div class="flight-map__filters" role="group" aria-label="항공편 목록 필터"><button type="button"
+                        :class="{ active: mode === 'mine' }" :aria-pressed="mode === 'mine'" @click="mode = 'mine'">내
+                        항공편</button><button type="button" :class="{ active: mode === 'friends' }"
+                        :aria-pressed="mode === 'friends'" @click="mode = 'friends'">친구 항공편</button></div>
                 <div class="flight-map__flights">
                     <button v-for="flight in flights" :key="`${flight.flight}-${flight.from}-${flight.to}`"
                         type="button" class="flight-map__flight"
-                        :class="{ active: from === flight.from && to === flight.to }" @click="selectFlight(flight)">
-                        <span class="flight-map__days"><strong>{{ flight.days }}</strong><small>DAYS</small></span>
+                        :class="{ active: from === flight.from && to === flight.to }"
+                        :aria-current="from === flight.from && to === flight.to ? 'true' : undefined"
+                        @click="selectFlight(flight)">
+                        <span class="flight-map__days"><strong>{{ flight.days }}</strong><small>일 후</small></span>
                         <span class="flight-map__flight-info"><span><small>{{ flight.flight }}</small><small>{{
                             flight.date }}</small></span><strong>{{ airports[flight.from]?.name }} → {{
                                         airports[flight.to]?.name }}</strong><small>{{ flight.from }} 09:25 &nbsp; · &nbsp; {{
                                     flight.to }} 10:50</small></span>
                     </button>
-                    <p v-if="!flights.length" class="flight-map__empty">검색 결과가 없습니다.</p>
+                    <p v-if="!flights.length" class="flight-map__empty" role="status">검색 결과가 없습니다.</p>
                 </div>
                 <RouterLink class="flight-map__add" :to="{ name: 'home', query: { from, to } }">+ 항공편 추가</RouterLink>
             </div>
         </aside>
-        <button type="button" class="flight-map__show" v-if="!sidebarOpen" @click="toggleSidebar">항공편 목록</button>
-        <div class="flight-map__controls"><button type="button" aria-label="지도 확대" :disabled="!ready"
-                @click="map?.zoomIn()">+</button><button type="button" aria-label="지도 축소" :disabled="!ready"
-                @click="map?.zoomOut()">−</button><button type="button" :disabled="!ready" :aria-pressed="isGlobe"
-                @click="toggleProjection">{{ isGlobe ? '평면' : '지구본' }}</button></div>
+        <div class="flight-map__controls" role="group" aria-label="지도 조작"><button type="button" aria-label="지도 확대"
+                :disabled="!ready" @click="map?.zoomIn()">+</button><button type="button" aria-label="지도 축소"
+                :disabled="!ready" @click="map?.zoomOut()">−</button><button type="button" :disabled="!ready"
+                :aria-pressed="isGlobe" :aria-label="isGlobe ? '평면 보기로 전환' : '지구본 보기로 전환'" @click="toggleProjection">{{
+                    isGlobe ? '평면' : '지구본' }}</button></div>
     </section>
 </template>

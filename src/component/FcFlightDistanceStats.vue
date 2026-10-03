@@ -32,7 +32,7 @@ const expanded = ref(false)
         <p>{{ miles }} {{ milesUnit }}</p>
         <div v-if="expanded" class="fc-distance__breakdown">
             <div v-for="item in breakdown" :key="item.label"><span>{{ item.label }}</span><strong>{{ item.value
-            }}</strong>
+                    }}</strong>
             </div>
         </div>
         <div v-else class="fc-distance__comparisons"><strong>{{ averageLabel }}</strong>
@@ -40,15 +40,16 @@ const expanded = ref(false)
                 <FcIcon :src="item.icon" /> <b>{{ item.text }}</b>
             </span>
         </div>
-        <button type="button" class="fc-stat-more" @click="expanded = !expanded">{{ expanded ? summaryLabel :
+        <button type="button" class="fc-stat-more" :aria-expanded="expanded" @click="expanded = !expanded">{{ expanded ?
+            summaryLabel :
             breakdownLabel }}</button>
         <div class="fc-distance__flight">
             <h3>{{ shortestFlight.title }}</h3><strong>{{ shortestFlight.route }} <span>{{ shortestFlight.distance
-            }}</span></strong><small>{{ shortestFlight.detail }}</small>
+                    }}</span></strong><small>{{ shortestFlight.detail }}</small>
         </div>
         <div class="fc-distance__flight">
             <h3>{{ longestFlight.title }}</h3><strong>{{ longestFlight.route }} <span>{{ longestFlight.distance
-            }}</span></strong><small>{{ longestFlight.detail }}</small>
+                    }}</span></strong><small>{{ longestFlight.detail }}</small>
         </div>
     </div>
 </template>

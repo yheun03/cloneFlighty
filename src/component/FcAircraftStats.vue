@@ -31,7 +31,7 @@ const ages = [{ label: "2000's", value: 25 }, { label: "2010's", value: 19 }, { 
                     }}</span></div>
         </div>
         <div class="fc-aircraft-stats__cards">
-            <div><strong>Newest Aircraft</strong><b>2 years old</b><span>5/25/2022</span></div>
+            <div><strong>Newest Aircraft</strong><b>2 years old</b><span>5/25/2024</span></div>
             <div><strong>Oldest Aircraft</strong><b>25 years old</b><span>11/8/2000</span></div>
         </div>
         <h3>Frequented Tail No.</h3>

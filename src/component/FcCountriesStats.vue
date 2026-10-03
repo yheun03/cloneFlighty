@@ -18,7 +18,8 @@ const regions = ['Asia', 'Europe', 'N. America', 'Africa', 'C. America', 'Caribb
         <div v-for="country in (expanded ? countries : countries.slice(0, 3))" :key="country.name"
             class="fc-countries__row"><span>{{ country.flag }}</span><strong>{{ country.name }}</strong><small>{{
                 country.count }} flights</small></div>
-        <button type="button" class="fc-stat-more" @click="expanded = !expanded">{{ expanded ? 'Show Less' : 'Show More'
+        <button type="button" class="fc-stat-more" :aria-expanded="expanded" @click="expanded = !expanded">{{ expanded ?
+            'Show Less' : 'Show More'
             }}</button>
         <div class="fc-countries__regions">
             <div v-for="region in regions" :key="region"><strong>{{ region }}</strong><span>5 <small>14%</small></span>

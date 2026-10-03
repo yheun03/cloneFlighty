@@ -24,13 +24,25 @@ const forecast = [
     { label: '30m late', value: 40, color: '#ff9d20' },
     { label: '45m+ late', value: 20, color: '#ff4d4d' }
 ]
+const popularFeatures = [
+    { icon: bookingIcon, title: 'Booking Code', action: 'Tap to Edit' },
+    { icon: planeIcon, title: 'Seat Information', action: 'Add Seat' }
+]
+const airportNames = {
+    SFO: 'San Francisco Intl.',
+    ICN: 'Incheon Intl.',
+    NRT: 'Narita Intl.',
+    LAX: 'Los Angeles Intl.',
+    JFK: 'John F. Kennedy Intl.'
+}
 </script>
 
 <template>
     <div class="fc-details" :class="{ 'is-completed': completed }">
         <div class="fc-schedule">
             <div class="fc-schedule__airport">
-                <FcIcon :src="departureIcon" /> &nbsp;{{ from }} &nbsp;·&nbsp; San Francisco Intl.
+                <FcIcon :src="departureIcon" /> &nbsp;{{ from }} &nbsp;·&nbsp; {{ airportNames[from] || 'Departure
+                airport' }}
             </div>
             <div class="fc-schedule__time"><strong>{{ departure }}</strong><b>
                     <FcIcon :src="departureIcon" /> F4
@@ -42,7 +54,7 @@ const forecast = [
                 <FcIcon :src="overnightIcon" /> &nbsp;Overnight
             </div>
             <div class="fc-schedule__airport">
-                <FcIcon :src="arrivalIcon" /> &nbsp;{{ to }} &nbsp;·&nbsp; Incheon Intl.
+                <FcIcon :src="arrivalIcon" /> &nbsp;{{ to }} &nbsp;·&nbsp; {{ airportNames[to] || 'Arrival airport' }}
             </div>
             <div class="fc-schedule__time"><strong>{{ arrival }}<sup>+1</sup></strong><b>
                     <FcIcon :src="arrivalIcon" /> F4
@@ -52,9 +64,9 @@ const forecast = [
         </div>
         <h2>Enable popular features:</h2>
         <div class="fc-details__features">
-            <div v-for="n in 2" :key="n">
-                <FcIcon :src="bookingIcon" /> <span></span><strong>Booking Code</strong><small>Tap to
-                    Edit</small>
+            <div v-for="feature in popularFeatures" :key="feature.title">
+                <FcIcon :src="feature.icon" /> <span></span><strong>{{ feature.title }}</strong><small>{{ feature.action
+                    }}</small>
             </div>
         </div>
         <h2>Good to Know</h2>
@@ -79,7 +91,7 @@ const forecast = [
         </div>
         <div class="fc-details__card">
             <h3>What’s My Plane?</h3>
-            <p>{{ plane }} &nbsp;·&nbsp; HL-7587</p><small>First Flight: Nov 8, 2000 &nbsp;·&nbsp; 24 years old</small>
+            <p>{{ plane }} &nbsp;·&nbsp; HL-7587</p><small>First Flight: Nov 8, 2000 &nbsp;·&nbsp; 25 years old</small>
             <div class="fc-details__plane">
                 <FcIcon :src="planeIcon" />
             </div>
@@ -98,17 +110,17 @@ const forecast = [
         </div>
         <div class="fc-details__card">
             <h3>My History on This Route</h3>
-            <p>ICN
-                <FcIcon :src="routeIcon" /> SIN
+            <p>{{ from }}
+                <FcIcon :src="routeIcon" /> {{ to }}
             </p>
             <div class="fc-details__stats"><span>Flights <strong>
                         <FcIcon :src="durationIcon" /> 1
                     </strong></span><span>Distance
                     <strong>
-                        <FcIcon :src="durationIcon" /> 4,611
+                        <FcIcon :src="durationIcon" /> 9,086
                         km
                     </strong></span><span>Flight Time <strong>
-                        <FcIcon :src="durationIcon" /> 6h 14m
+                        <FcIcon :src="durationIcon" /> 13h
                     </strong></span></div>
             <p>Most recent flights</p><strong>
                 <FcIcon :src="airlineIcon" /> &nbsp;20 Aug 2025 &nbsp;&nbsp;&nbsp; KE 647

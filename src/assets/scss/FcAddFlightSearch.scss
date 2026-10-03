@@ -4,7 +4,8 @@
         font-size: 28px;
     }
 
-    & p {
+    & label {
+        display: block;
         margin: 0 0 12px;
         color: #999;
         font-size: 15px;
@@ -15,7 +16,6 @@
         padding: 12px;
         border: 0;
         border-radius: 9px;
-        outline: 0;
         background: #303030;
         color: white;
     }

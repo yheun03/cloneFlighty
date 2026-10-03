@@ -13,7 +13,13 @@ defineProps({
     airlines: { type: Number, default: 5 }
 })
 const period = ref('ALL-TIME')
-const recent = Array.from({ length: 5 }, (_, index) => ({ id: index, code: 'KE 5926', route: 'AMS → ICN', title: 'Amsterdam to Seoul', date: 'Dec 29, 2025' }))
+const recent = [
+    { id: 1, code: 'KE 5926', route: 'AMS → ICN', title: 'Amsterdam to Seoul', date: 'Dec 29, 2025' },
+    { id: 2, code: 'AY 041', route: 'HEL → ICN', title: 'Helsinki to Seoul', date: 'Nov 14, 2025' },
+    { id: 3, code: 'KE 703', route: 'ICN → NRT', title: 'Seoul to Tokyo', date: 'Sep 8, 2025' },
+    { id: 4, code: 'SQ 607', route: 'ICN → SIN', title: 'Seoul to Singapore', date: 'Aug 20, 2025' },
+    { id: 5, code: 'OZ 202', route: 'ICN → LAX', title: 'Seoul to Los Angeles', date: 'Jun 2, 2025' }
+]
 </script>
 
 <template>

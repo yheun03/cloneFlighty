@@ -1,4 +1,4 @@
-#map {
+#flight-map-canvas {
     width: 100%;
     height: 400px;
     border-radius: 12px;
@@ -24,7 +24,7 @@
     overflow: hidden;
     border-radius: 12px;
 
-    #map {
+    #flight-map-canvas {
         width: 100%;
         height: 100%;
         border-radius: 0;
@@ -45,11 +45,33 @@
         left: 50%;
         z-index: 1000;
         transform: translate(-50%, -50%);
+        margin: 0;
         padding: 12px;
         border-radius: 8px;
         background: #1c1d20;
         color: white;
         text-align: center;
+    }
+
+    &__status {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    >.flight-map__error {
+        margin: 0;
+        color: white;
+    }
+
+    >.flight-map__status {
+        margin: -1px;
     }
 
     &__sidebar {
@@ -78,6 +100,35 @@
         padding: 12px;
     }
 
+    &__heading-copy {
+        min-width: 0;
+
+        h1 {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.3;
+        }
+    }
+
+    &__route-summary {
+        display: flex;
+        flex-direction: column;
+        margin: 3px 0 0;
+        color: #a6a7aa;
+        font-size: 10px;
+
+        strong {
+            color: white;
+            font-size: 12px;
+        }
+
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
     &__title,
     &__collapse {
         border: 0;
@@ -86,11 +137,17 @@
         font-weight: 700;
     }
 
-    &__title span {
-        color: #aaa;
+    &__title {
+        align-self: flex-start;
+        margin: 0;
+        padding: 0 0 8px;
+        font-size: 13px;
     }
 
     &__collapse {
+        flex: none;
+        min-width: 36px;
+        min-height: 36px;
         font-size: 20px;
     }
 
@@ -106,7 +163,6 @@
             padding: 8px 10px;
             border: 0;
             border-radius: 7px;
-            outline: 0;
             background: #333439;
             color: white;
             font-size: 12px;
@@ -215,28 +271,16 @@
         font-size: 11px;
     }
 
-    &__show,
     &__controls {
         position: absolute;
+        top: 18px;
+        right: 18px;
         z-index: 1000;
+        display: flex;
+        flex-direction: column;
         border-radius: 9px;
         background: #1c1d20e8;
         box-shadow: 0 3px 12px #0005;
-    }
-
-    &__show {
-        bottom: 18px;
-        left: 18px;
-        padding: 9px 13px;
-        border: 0;
-        color: white;
-    }
-
-    &__controls {
-        top: 18px;
-        right: 18px;
-        display: flex;
-        flex-direction: column;
 
         & button {
             min-width: 34px;
@@ -302,10 +346,6 @@
 
     .flight-map__flight-info small {
         font-size: 10px;
-    }
-
-    .flight-map__show {
-        display: none;
     }
 
     .flight-map .maplibregl-ctrl-bottom-right {

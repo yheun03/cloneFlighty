@@ -10,8 +10,8 @@ defineProps({
     flight: { type: String, default: '24' },
     title: { type: String, default: 'San Francisco to Seoul' },
     date: { type: String, default: 'Sat, 20 Jun' },
-    departure: { type: String, default: 'ICN 09:25' },
-    arrival: { type: String, default: 'YNJ 10:50⁺¹' },
+    departure: { type: String, default: 'SFO 11:40' },
+    arrival: { type: String, default: 'ICN 17:40⁺¹' },
     days: { type: Number, default: 21 }
 })
 defineEmits(['remove'])
@@ -42,7 +42,7 @@ defineEmits(['remove'])
             <div v-else-if="variant === 'history'" class="fc-flight-list__sub"><span>2h 50m</span><span>2h 50m</span>
             </div>
         </div>
-        <button v-if="variant === 'header'" type="button" class="fc-flight-list__close" aria-label="닫기"
+        <button v-if="variant === 'header'" type="button" class="fc-flight-list__close" aria-label="항공편 닫기"
             @click="$emit('remove')">×</button>
     </div>
 </template>
