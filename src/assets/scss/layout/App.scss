@@ -44,9 +44,13 @@
         font-weight: 700;
     }
 
-    &--map > .app__main {
-        height: 100%;
+    &--map {
+        max-width: none;
+        height: 100dvh;
         min-height: 0;
+        padding: 24px;
+        background: #08090b;
+        color: white;
     }
 }
 
@@ -84,11 +88,17 @@
             font-size: 18px;
         }
 
-        nav {
+        &__header nav {
             justify-content: flex-end;
             flex-wrap: wrap;
             gap: 8px 14px;
             font-size: 13px;
         }
+    }
+}
+
+@media (max-width: 767px) {
+    .app--map {
+        padding: 0;
     }
 }

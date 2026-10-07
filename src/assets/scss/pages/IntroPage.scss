@@ -1,4 +1,4 @@
-.home {
+.intro {
     padding-bottom: 64px;
 
     &__hero {
@@ -119,7 +119,7 @@
             letter-spacing: -0.03em;
         }
 
-        > p:last-child:not(.home__eyebrow) {
+        > p:last-child:not(.intro__eyebrow) {
             margin: 10px 0 0;
             color: #5d6472;
             line-height: 1.65;
@@ -225,7 +225,7 @@
 }
 
 @media (max-width: 720px) {
-    .home {
+    .intro {
         &__hero {
             padding-top: 36px;
         }

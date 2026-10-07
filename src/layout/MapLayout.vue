@@ -1,15 +1,13 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import BaseInput from "../component/base/BaseInput.vue";
-import "../assets/scss/pages/MapPage.scss";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import "../assets/scss/layout/MapLayout.scss";
 
 const MAPLIBRE_CSS_URL =
     "https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.css";
 
 const airports = JSON.parse(document.querySelector("#airports").textContent);
 const route = useRoute();
-const router = useRouter();
 const normalizeAirportCode = (value) => value.trim().toUpperCase().slice(0, 3);
 const from = computed(() =>
     typeof route.query.from === "string"
@@ -21,8 +19,7 @@ const to = computed(() =>
         ? normalizeAirportCode(route.query.to)
         : "SFO",
 );
-const mode = ref("mine");
-const search = ref("");
+const sidebar = ref(null);
 const sidebarOpen = ref(true);
 const isGlobe = ref(false);
 const ready = ref(false);
@@ -31,36 +28,6 @@ const mapStatus = ref("지도를 불러오는 중입니다.");
 const routeSummary = computed(
     () =>
         `${airports[from.value]?.name || from.value}에서 ${airports[to.value]?.name || to.value}까지`,
-);
-const ownFlights = computed(() => [
-    {
-        flight: "KE 24",
-        from: from.value,
-        to: to.value,
-        date: "Sat, 20 Jun",
-        days: 21,
-    },
-    { flight: "KE 703", from: "ICN", to: "NRT", date: "Tue, 10 Mar", days: 62 },
-    { flight: "KE 16", from: "NRT", to: "SFO", date: "Sun, 22 Mar", days: 74 },
-]);
-const friendFlights = [
-    { flight: "SK 613", from: "CDG", to: "LHR", date: "Thu, 15 Jan", days: 8 },
-    {
-        flight: "KL 1268",
-        from: "LHR",
-        to: "CDG",
-        date: "Fri, 24 Apr",
-        days: 107,
-    },
-    { flight: "KE 24", from: "SFO", to: "ICN", date: "Sat, 20 Jun", days: 164 },
-];
-const flights = computed(() =>
-    (mode.value === "mine" ? ownFlights.value : friendFlights).filter(
-        (flight) =>
-            `${flight.flight} ${flight.from} ${flight.to} ${airports[flight.from]?.name || ""} ${airports[flight.to]?.name || ""}`
-                .toLowerCase()
-                .includes(search.value.toLowerCase()),
-    ),
 );
 let map;
 let maplibregl;
@@ -137,17 +104,15 @@ function routeCoordinates(start, end) {
 }
 
 function fitRoute() {
-    if (!ready.value || !routeBounds) return;
+    if (disposed || !ready.value || !routeBounds) return;
     const mobile = window.innerWidth < 768;
+    const panelBounds = sidebar.value?.getBoundingClientRect();
     map.fitBounds(routeBounds, {
         padding: {
             top: 40,
             right: 40,
-            bottom:
-                mobile && sidebarOpen.value
-                    ? Math.min(window.innerHeight * 0.44, 370) + 20
-                    : 40,
-            left: !mobile && sidebarOpen.value ? 330 : 40,
+            bottom: mobile ? (panelBounds?.height || 0) + 20 : 40,
+            left: !mobile ? (panelBounds?.width || 0) + 40 : 40,
         },
         maxZoom: isGlobe.value ? 1.5 : 5,
         duration: 0,
@@ -206,11 +171,6 @@ function toggleProjection() {
 
 function toggleSidebar() {
     sidebarOpen.value = !sidebarOpen.value;
-    fitRoute();
-}
-
-function selectFlight(flight) {
-    router.push({ name: "map", query: { from: flight.from, to: flight.to } });
 }
 
 function resizeMap() {
@@ -288,6 +248,18 @@ onMounted(async () => {
     window.addEventListener("resize", resizeMap);
 });
 watch([from, to], updateRoute);
+watch(sidebarOpen, async () => {
+    await nextTick();
+    fitRoute();
+});
+watch(
+    () => route.name,
+    async () => {
+        sidebarOpen.value = true;
+        await nextTick();
+        fitRoute();
+    },
+);
 onUnmounted(() => {
     disposed = true;
     window.removeEventListener("resize", resizeMap);
@@ -300,7 +272,7 @@ onUnmounted(() => {
     <section
         class="flight-map"
         :class="{ 'is-sidebar-closed': !sidebarOpen }"
-        aria-labelledby="flight-map-title"
+        aria-label="비행 경로 지도"
     >
         <div
             id="flight-map-canvas"
@@ -324,14 +296,20 @@ onUnmounted(() => {
         >
             {{ mapError }}
         </p>
-        <aside
+        <main
+            id="main-content"
+            ref="sidebar"
             class="flight-map__sidebar"
-            :class="{ 'is-closed': !sidebarOpen }"
+            :class="{
+                'is-closed': !sidebarOpen,
+                'flight-map__sidebar--wide': route.meta.widePanel,
+            }"
+            tabindex="-1"
             aria-labelledby="flight-map-title"
         >
-            <div class="flight-map__heading">
+            <header class="flight-map__heading">
                 <div class="flight-map__heading-copy">
-                    <h1 id="flight-map-title">항공편 경로</h1>
+                    <h1 id="flight-map-title">{{ route.meta.panelTitle }}</h1>
                     <p
                         id="flight-map-route-summary"
                         class="flight-map__route-summary"
@@ -343,97 +321,38 @@ onUnmounted(() => {
                 <button
                     type="button"
                     class="flight-map__collapse"
-                    :aria-label="sidebarOpen ? '목록 접기' : '목록 펼치기'"
+                    :aria-label="sidebarOpen ? '본문 접기' : '본문 펼치기'"
                     :aria-expanded="sidebarOpen"
-                    aria-controls="flight-map-list"
+                    aria-controls="flight-map-content"
                     @click="toggleSidebar"
                 >
                     {{ sidebarOpen ? "−" : "+" }}
                 </button>
-            </div>
+            </header>
+            <nav
+                v-show="sidebarOpen"
+                class="flight-map__nav"
+                aria-label="주요 메뉴"
+            >
+                <RouterLink :to="{ name: 'home', query: route.query }"
+                    >내 항공편</RouterLink
+                >
+                <RouterLink :to="{ name: 'component', query: route.query }"
+                    >UI 컴포넌트</RouterLink
+                >
+                <RouterLink to="/intro">소개</RouterLink>
+            </nav>
             <div
                 v-show="sidebarOpen"
-                id="flight-map-list"
-                class="flight-map__body"
+                id="flight-map-content"
+                class="flight-map__content"
+                :class="{
+                    'flight-map__content--gallery': route.meta.widePanel,
+                }"
             >
-                <h2 class="flight-map__title">
-                    {{ mode === "mine" ? "내 항공편" : "친구 항공편" }}
-                </h2>
-                <BaseInput
-                    v-model="search"
-                    type="search"
-                    placeholder="항공편명 또는 공항 검색"
-                    aria-label="항공편 검색"
-                />
-                <div
-                    class="flight-map__filters"
-                    role="group"
-                    aria-label="항공편 목록 필터"
-                >
-                    <button
-                        type="button"
-                        :class="{ active: mode === 'mine' }"
-                        :aria-pressed="mode === 'mine'"
-                        @click="mode = 'mine'"
-                    >
-                        내 항공편</button
-                    ><button
-                        type="button"
-                        :class="{ active: mode === 'friends' }"
-                        :aria-pressed="mode === 'friends'"
-                        @click="mode = 'friends'"
-                    >
-                        친구 항공편
-                    </button>
-                </div>
-                <div class="flight-map__flights">
-                    <button
-                        v-for="flight in flights"
-                        :key="`${flight.flight}-${flight.from}-${flight.to}`"
-                        type="button"
-                        class="flight-map__flight"
-                        :class="{
-                            active: from === flight.from && to === flight.to,
-                        }"
-                        :aria-current="
-                            from === flight.from && to === flight.to
-                                ? 'true'
-                                : undefined
-                        "
-                        @click="selectFlight(flight)"
-                    >
-                        <span class="flight-map__days"
-                            ><strong>{{ flight.days }}</strong
-                            ><small>일 후</small></span
-                        >
-                        <span class="flight-map__flight-info"
-                            ><span
-                                ><small>{{ flight.flight }}</small
-                                ><small>{{ flight.date }}</small></span
-                            ><strong
-                                >{{ airports[flight.from]?.name }} →
-                                {{ airports[flight.to]?.name }}</strong
-                            ><small
-                                >{{ flight.from }} 09:25 &nbsp; · &nbsp;
-                                {{ flight.to }} 10:50</small
-                            ></span
-                        >
-                    </button>
-                    <p
-                        v-if="!flights.length"
-                        class="flight-map__empty"
-                        role="status"
-                    >
-                        검색 결과가 없습니다.
-                    </p>
-                </div>
-                <RouterLink
-                    class="flight-map__add"
-                    :to="{ name: 'home', query: { from, to } }"
-                    >+ 항공편 추가</RouterLink
-                >
+                <RouterView />
             </div>
-        </aside>
+        </main>
         <div class="flight-map__controls" role="group" aria-label="지도 조작">
             <button
                 type="button"
