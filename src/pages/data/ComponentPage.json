@@ -43,6 +43,7 @@
         "flightTime": "2h 50m"
     },
     "search": {
+        "placeholder": "Korean Air, ICN, or KE123",
         "items": [
             {
                 "title": "Korean Air",
@@ -770,6 +771,314 @@
     },
     "alerts": {
         "shared": true,
-        "selected": "Basics"
-    }
+        "selected": "Basics",
+        "mode": "mine",
+        "modes": ["mine", "friend"],
+        "previews": {
+            "mine": {
+                "title": "My Flight Alerts",
+                "desc": "Pick the notification types you receive for your flights."
+            },
+            "friend": {
+                "title": "Customize Alerts",
+                "desc": "Customize this per friend in Flighty Friends."
+            }
+        }
+    },
+    "gallery": {
+        "eyebrow": "COMPONENT GALLERY",
+        "title": "컴포넌트 모아보기",
+        "description": "공통 컴포넌트의 모양과 상태를 한곳에서 확인하세요. 긴 예시는 카드 안에서 스크롤할 수 있습니다.",
+        "category": "all",
+        "total": 27,
+        "tags": ["JSON 더미 데이터", "상태 미리보기"],
+        "categories": [
+            {
+                "id": "all",
+                "label": "전체",
+                "count": 27
+            },
+            {
+                "id": "basic",
+                "label": "기본 UI",
+                "count": 10
+            },
+            {
+                "id": "flight",
+                "label": "항공편",
+                "count": 5
+            },
+            {
+                "id": "stats",
+                "label": "통계",
+                "count": 9
+            },
+            {
+                "id": "settings",
+                "label": "설정",
+                "count": 3
+            }
+        ],
+        "catalog": {
+            "buttons": {
+                "category": "basic",
+                "title": "버튼",
+                "component": "BaseButton",
+                "description": "기본 · 아웃라인 · 강조 · 비활성 상태"
+            },
+            "input": {
+                "category": "basic",
+                "title": "입력창",
+                "component": "BaseInput",
+                "description": "입력 가능 상태와 비활성 상태"
+            },
+            "icons": {
+                "category": "basic",
+                "title": "아이콘",
+                "component": "FcIcon",
+                "description": "항공편과 설정에 사용하는 공통 아이콘"
+            },
+            "toggle": {
+                "category": "basic",
+                "title": "토글 스위치",
+                "component": "FcToggleSwitch",
+                "description": "켜짐 · 꺼짐 · 비활성 상태"
+            },
+            "choice": {
+                "category": "basic",
+                "title": "선택 칩",
+                "component": "FcChoiceChip",
+                "description": "좌석 위치 선택과 활성 상태"
+            },
+            "periods": {
+                "category": "basic",
+                "title": "기간 탭",
+                "component": "FcPeriodTabs",
+                "description": "기간별 선택 상태"
+            },
+            "badges": {
+                "category": "basic",
+                "title": "수량 배지",
+                "component": "FcCountBadge",
+                "description": "기본 · 채움 · 테두리 스타일"
+            },
+            "calendar": {
+                "category": "basic",
+                "title": "달력",
+                "component": "FcCalendarPicker",
+                "description": "선택일과 항공편이 있는 날짜"
+            },
+            "rows": {
+                "category": "basic",
+                "title": "목록 행",
+                "component": "FcListRow",
+                "description": "사용자 정보와 강조 액션"
+            },
+            "paste": {
+                "category": "basic",
+                "title": "붙여넣기 입력",
+                "component": "FcPasteField",
+                "description": "버튼을 누르면 예시 예약 코드 입력"
+            },
+            "flights": {
+                "category": "flight",
+                "title": "항공편 목록",
+                "component": "FcFlightListItem",
+                "description": "예정 · 지난 항공편 · 상세 헤더"
+            },
+            "search": {
+                "category": "flight",
+                "title": "항공편 검색",
+                "component": "FcAddFlightSearch",
+                "description": "검색어에 따른 더미 목록 필터"
+            },
+            "connection": {
+                "category": "flight",
+                "title": "연결편 상태",
+                "component": "FcConnectionStatus",
+                "description": "환승 시간과 여유 시간 안내"
+            },
+            "timeline": {
+                "category": "flight",
+                "title": "터미널 타임라인",
+                "component": "FcTerminalTimeline",
+                "description": "도착 · 터미널 이동 · 출발 정보"
+            },
+            "details": {
+                "category": "flight",
+                "title": "항공편 상세",
+                "component": "FcFlightDetails",
+                "description": "운항 일정과 비행 종료 상태"
+            },
+            "passport": {
+                "category": "stats",
+                "title": "패스포트 요약",
+                "component": "FcPassportOverview",
+                "description": "항공편 · 거리 · 시간 · 최근 기록"
+            },
+            "delays": {
+                "category": "stats",
+                "title": "지연 리포트",
+                "component": "FcDelayReport",
+                "description": "지연 비율과 누적 지연 시간"
+            },
+            "aircraft": {
+                "category": "stats",
+                "title": "항공기 통계",
+                "component": "FcAircraftStats",
+                "description": "기종별 요약과 항공기 연령"
+            },
+            "performance": {
+                "category": "stats",
+                "title": "운항 성과",
+                "component": "FcAirlinePerformance",
+                "description": "개인 · 지연 · 항공사 · 공항 통계"
+            },
+            "seats": {
+                "category": "stats",
+                "title": "좌석 통계",
+                "component": "FcSeatStats",
+                "description": "좌석 위치 · 등급 · 여행 목적"
+            },
+            "tails": {
+                "category": "stats",
+                "title": "자주 탑승한 항공기",
+                "component": "FcFrequentTails",
+                "description": "항공기 등록 번호와 탑승 횟수"
+            },
+            "countries": {
+                "category": "stats",
+                "title": "방문 국가",
+                "component": "FcCountriesStats",
+                "description": "국가 목록과 지역별 비행 횟수"
+            },
+            "airlines": {
+                "category": "stats",
+                "title": "주요 항공사",
+                "component": "FcTopAirlines",
+                "description": "비행 횟수와 거리 기준 비교"
+            },
+            "distance": {
+                "category": "stats",
+                "title": "비행 거리",
+                "component": "FcFlightDistanceStats",
+                "description": "요약과 상세 내역 전환"
+            },
+            "alerts": {
+                "category": "settings",
+                "title": "항공편 알림",
+                "component": "FcAlertSettings",
+                "description": "내 항공편과 친구 알림 선택 상태"
+            },
+            "sync": {
+                "category": "settings",
+                "title": "캘린더 동기화",
+                "component": "FcCalendarSync",
+                "description": "가져오기 · 내보내기 · 달력 선택"
+            },
+            "settings": {
+                "category": "settings",
+                "title": "설정 메뉴",
+                "component": "FcSettingsMenu",
+                "description": "멤버십과 설정 목록"
+            }
+        }
+    },
+    "buttons": [
+        {
+            "label": "Share",
+            "icon": "share-2",
+            "variant": "outline"
+        },
+        {
+            "label": "Show More",
+            "variant": "link"
+        },
+        {
+            "label": "Done",
+            "variant": "soft"
+        },
+        {
+            "label": "Disabled",
+            "variant": "outline",
+            "disabled": true
+        }
+    ],
+    "input": {
+        "value": "KE 24",
+        "label": "Flight number",
+        "placeholder": "Enter flight number",
+        "disabledLabel": "Disabled",
+        "disabledValue": "KE 9999"
+    },
+    "icons": [
+        {
+            "src": "plane",
+            "label": "plane"
+        },
+        {
+            "src": "route",
+            "label": "route"
+        },
+        {
+            "src": "bell",
+            "label": "bell"
+        },
+        {
+            "src": "calendar-days",
+            "label": "calendar"
+        },
+        {
+            "src": "users",
+            "label": "users"
+        },
+        {
+            "src": "earth",
+            "label": "earth"
+        }
+    ],
+    "badges": [
+        {
+            "value": 1,
+            "variant": "plain"
+        },
+        {
+            "value": 8,
+            "variant": "filled"
+        },
+        {
+            "value": 20,
+            "variant": "outline"
+        }
+    ],
+    "rows": [
+        {
+            "title": "김민지",
+            "subtitle": "friend@example.com",
+            "avatar": "M"
+        },
+        {
+            "title": "Invite a Friend",
+            "accent": true
+        }
+    ],
+    "flightVariants": [
+        {
+            "label": "Upcoming",
+            "variant": "upcoming"
+        },
+        {
+            "label": "History",
+            "variant": "history"
+        },
+        {
+            "label": "Header",
+            "variant": "header"
+        }
+    ],
+    "performanceSection": "mine",
+    "performanceSections": ["mine", "delays", "airline", "airport"],
+    "seatMode": "seat",
+    "seatModes": ["seat", "class", "reason"],
+    "secondaryEnabled": false
 }

@@ -1,9 +1,10 @@
 <script setup>
 import "../../assets/scss/FcGalleryBundle.scss";
-import shareIcon from "../../assets/icons/lucide/share-2.svg";
 import chipIcon from "../../assets/icons/lucide/square.svg";
 import { ref } from "vue";
 import BaseButton from "../base/BaseButton.vue";
+import BaseInput from "../base/BaseInput.vue";
+import FcIcon from "./FcIcon.vue";
 import FcToggleSwitch from "./FcToggleSwitch.vue";
 import FcChoiceChip from "./FcChoiceChip.vue";
 import FcPeriodTabs from "./FcPeriodTabs.vue";
@@ -30,224 +31,946 @@ import FcTopAirlines from "./FcTopAirlines.vue";
 import FcFlightDistanceStats from "./FcFlightDistanceStats.vue";
 
 const props = defineProps({ data: { type: Object, required: true } });
+const gallery = ref(null);
+const category = ref(props.data.gallery.category);
+const inputValue = ref(props.data.input.value);
+const performanceSection = ref(props.data.performanceSection);
+const seatMode = ref(props.data.seatMode);
+const alertMode = ref(props.data.alerts.mode);
 const enabled = ref(props.data.enabled);
+const secondaryEnabled = ref(props.data.secondaryEnabled);
 const seat = ref(props.data.seat);
 const period = ref(props.data.period);
 const day = ref(props.data.day);
 const reason = ref(props.data.reason);
 const completed = ref(props.data.completed);
+
+function selectCategory(item) {
+    category.value = item.id;
+    gallery.value?.scrollIntoView({ block: "start" });
+}
 </script>
 
 <template>
-    <article class="fc-gallery">
+    <article ref="gallery" class="fc-gallery">
         <header class="fc-gallery__intro">
-            <p class="fc-gallery__eyebrow">Reusable UI System</p>
-            <h1>항공편 경험을 구성하는<br />Vue 3 컴포넌트</h1>
-            <p>
-                복잡한 항공 정보를 빠르게 파악할 수 있도록 표시 우선순위를
-                나누고, 상태와 variant를 외부에서 제어할 수 있게 구성했습니다.
-                아래 예시에서 주요 상태를 직접 변경해 볼 수 있습니다.
-            </p>
-            <ul class="fc-gallery__meta" aria-label="컴포넌트 설계 특징">
-                <li>Composition API</li>
-                <li>Props 기반 variant</li>
-                <li>v-model 상태 연결</li>
-                <li>SCSS 컴포넌트 스타일</li>
+            <div>
+                <p class="fc-gallery__eyebrow">{{ data.gallery.eyebrow }}</p>
+                <h1>{{ data.gallery.title }}</h1>
+                <p class="fc-gallery__description">
+                    {{ data.gallery.description }}
+                </p>
+            </div>
+            <ul class="fc-gallery__meta" aria-label="갤러리 구성">
+                <li>
+                    <strong>{{ data.gallery.total }}</strong
+                    >개 컴포넌트
+                </li>
+                <li v-for="tag in data.gallery.tags" :key="tag">{{ tag }}</li>
             </ul>
         </header>
 
-        <section class="fc-gallery__group" aria-labelledby="gallery-actions">
-            <h2 id="gallery-actions">재사용 액션 버튼</h2>
-            <p class="fc-gallery__description">
-                강조 수준에 따라 variant를 나눈 공통 버튼입니다.
-            </p>
-            <div class="fc-gallery__row">
-                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
-                <BaseButton />
-                <BaseButton variant="soft" />
-            </div>
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-selection">
-            <h2 id="gallery-selection">상태 선택 인터랙션</h2>
-            <p class="fc-gallery__description">
-                토글과 선택 칩의 활성·비활성 상태를 독립적으로 제어합니다.
-            </p>
-            <div class="fc-gallery__row">
-                <FcToggleSwitch v-model="enabled" label="알림" />
-                <FcToggleSwitch
-                    :model-value="false"
-                    label="비활성 상태"
-                    disabled
-                />
-                <FcChoiceChip label="Middle" :icon="chipIcon" />
-                <FcChoiceChip label="Middle" :icon="chipIcon" active filled />
-            </div>
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-filter">
-            <h2 id="gallery-filter">기간 필터와 상태 배지</h2>
-            <p class="fc-gallery__description">
-                조회 기간 전환과 수량 표시를 작은 단위의 컴포넌트로 나눈습니다.
-            </p>
-            <FcPeriodTabs v-model="period" :items="data.periods" />
-            <div class="fc-gallery__row">
-                <FcCountBadge />
-                <FcCountBadge variant="filled" />
-                <FcCountBadge variant="outline" />
-            </div>
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-calendar">
-            <h2 id="gallery-calendar">날짜 선택</h2>
-            <p class="fc-gallery__description">
-                선택한 날짜를 v-model로 연결한 달력 UI입니다.
-            </p>
-            <FcCalendarPicker v-model="day" v-bind="data.calendar" />
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-preference">
-            <h2 id="gallery-preference">사용자와 좌석 선호 설정</h2>
-            <p class="fc-gallery__description">
-                사용자 초대, 메모 입력, 좌석 선호 선택을 하나의 흐름으로
-                구성했습니다.
-            </p>
-            <FcListRow :title="data.friend.title" />
-            <FcListRow title="Invite a Friend" accent />
-            <FcPasteField v-model="reason" :sample-value="data.bookingCode" />
-            <div class="fc-gallery__row">
-                <FcChoiceChip
-                    v-for="item in data.positions"
-                    :key="item"
-                    :label="item"
-                    :icon="chipIcon"
-                    :active="seat === item"
-                    @click="seat = item"
-                />
-            </div>
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-connection">
-            <h2 id="gallery-connection">연결편 상태와 타임라인</h2>
-            <p class="fc-gallery__description">
-                연결 가능 여부와 터미널 이동 과정을 시간 순서로 표현했습니다.
-            </p>
-            <FcConnectionStatus v-bind="data.connection" />
-            <FcTerminalTimeline v-bind="data.timeline" />
-        </section>
-        <section
-            class="fc-gallery__group"
-            aria-labelledby="gallery-flight-list"
+        <div
+            class="fc-gallery__filters"
+            role="group"
+            aria-label="컴포넌트 분류"
         >
-            <h2 id="gallery-flight-list">항공편 목록 패턴</h2>
-            <p class="fc-gallery__description">
-                기본, 이력, 헤더 형태를 하나의 컴포넌트에서 variant로
-                구분했습니다.
-            </p>
-            <FcFlightListItem v-bind="data.flight" />
-            <FcFlightListItem v-bind="data.flight" variant="history" />
-            <FcFlightListItem v-bind="data.flight" variant="header" />
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-search">
-            <h2 id="gallery-search">항공편 검색</h2>
-            <p class="fc-gallery__description">
-                항공편 추가 과정에 필요한 검색과 입력 상태를 구성했습니다.
-            </p>
-            <FcAddFlightSearch v-bind="data.search" />
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-details">
-            <h2 id="gallery-details">항공편 상세와 운항 일정</h2>
-            <p class="fc-gallery__description">
-                시간, 터미널, 지연 예측, 기종 정보를 하나의 정보 구조로
-                정리했습니다.
-            </p>
-            <div class="fc-gallery__row fc-gallery__state-preview">
-                <FcToggleSwitch v-model="completed" label="비행 종료" />
-            </div>
-            <FcFlightDetails :details="data.details" :completed="completed" />
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-passport">
-            <h2 id="gallery-passport">여행 기록 요약</h2>
-            <p class="fc-gallery__description">
-                누적 항공편, 거리, 시간, 이용 공항을 패스포트 형태로
-                요약했습니다.
-            </p>
-            <FcPassportOverview v-bind="data.overview" />
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-delay">
-            <h2 id="gallery-delay">지연 데이터 리포트</h2>
-            <p class="fc-gallery__description">
-                지연 비율과 누적 시간을 비교해 운항 경험을 빠르게 파악할 수 있게
-                표현했습니다.
-            </p>
-            <FcDelayReport v-bind="data.delayReport" />
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-aircraft">
-            <h2 id="gallery-aircraft">항공기 정보</h2>
-            <p class="fc-gallery__description">
-                기종별 이용 통계와 자주 탑승한 항공기 이력을 카드로
-                나누었습니다.
-            </p>
-            <FcAircraftStats :aircraft="data.aircraft" />
-            <FcFrequentTails v-bind="data.tails" />
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-alerts">
-            <h2 id="gallery-alerts">알림 정책 설정</h2>
-            <p class="fc-gallery__description">
-                본인과 친구의 항공편에 필요한 알림 범위를 서로 다른 상태로
-                구성했습니다.
-            </p>
-            <FcAlertSettings
-                title="My Flight Alerts"
-                desc="Pick the notification types you receive for your flights."
-                :options="data.myAlertOptions"
-                :initial-shared="data.alerts.shared"
-                :initial-selected="data.alerts.selected"
-            />
-            <FcAlertSettings
-                mode="friend"
-                title="Customize Alerts"
-                desc="Customize this per friend in Flighty Friends."
-                :options="data.friendAlertOptions"
-                v-bind="data.friend"
-                :initial-shared="data.alerts.shared"
-                :initial-selected="data.alerts.selected"
-            />
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-settings">
-            <h2 id="gallery-settings">캘린더 연동과 설정</h2>
-            <p class="fc-gallery__description">
-                외부 캘린더 연동 상태와 계정 설정 목록을 일관된 행 패턴으로
-                표현했습니다.
-            </p>
-            <FcCalendarSync
-                :calendars="data.calendarSync.calendars"
-                :settings="data.calendarSync"
-            />
-            <FcSettingsMenu v-bind="data.settings" />
-        </section>
-        <section
-            class="fc-gallery__group"
-            aria-labelledby="gallery-performance"
-        >
-            <h2 id="gallery-performance">항공사 운항 성과</h2>
-            <p class="fc-gallery__description">
-                항공사별 운항 기록과 정시성 지표를 비교할 수 있게 구성했습니다.
-            </p>
-            <FcAirlinePerformance :report="data.performance" />
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-seats">
-            <h2 id="gallery-seats">좌석 이용 통계</h2>
-            <p class="fc-gallery__description">
-                좌석 위치와 등급별 이용 기록을 각각의 통계 상태로 표현했습니다.
-            </p>
-            <FcSeatStats v-bind="data.seats.seat" />
-            <FcSeatStats v-bind="data.seats.class" />
-        </section>
-        <section class="fc-gallery__group" aria-labelledby="gallery-statistics">
-            <h2 id="gallery-statistics">여행 데이터 시각화</h2>
-            <p class="fc-gallery__description">
-                방문 국가, 주요 항공사, 비행 거리를 카드와 비교 지표로
-                구성했습니다.
-            </p>
-            <FcCountriesStats v-bind="data.countries" />
-            <FcTopAirlines v-bind="data.airlines" />
-            <FcFlightDistanceStats v-bind="data.distance" />
-        </section>
+            <button
+                v-for="item in data.gallery.categories"
+                :key="item.id"
+                type="button"
+                :class="{ 'is-active': category === item.id }"
+                :aria-pressed="category === item.id"
+                @click="selectCategory(item)"
+            >
+                {{ item.label }} <span>{{ item.count }}</span>
+            </button>
+        </div>
+
+        <div class="fc-gallery__grid">
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.buttons.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-buttons"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.buttons.component }}
+                    </p>
+                    <h2 id="gallery-buttons">
+                        {{ data.gallery.catalog.buttons.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.buttons.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-buttons"
+                    tabindex="0"
+                >
+                    <div class="fc-gallery__row">
+                        <BaseButton
+                            v-for="button in data.buttons"
+                            :key="button.label"
+                            v-bind="button"
+                        />
+                    </div>
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.input.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-input"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.input.component }}
+                    </p>
+                    <h2 id="gallery-input">
+                        {{ data.gallery.catalog.input.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.input.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-input"
+                    tabindex="0"
+                >
+                    <div class="fc-gallery__field">
+                        <label for="gallery-flight-number">{{
+                            data.input.label
+                        }}</label>
+                        <BaseInput
+                            id="gallery-flight-number"
+                            v-model="inputValue"
+                            class="fc-gallery__input"
+                            :placeholder="data.input.placeholder"
+                        />
+                        <label for="gallery-input-disabled">{{
+                            data.input.disabledLabel
+                        }}</label>
+                        <BaseInput
+                            id="gallery-input-disabled"
+                            class="fc-gallery__input"
+                            :model-value="data.input.disabledValue"
+                            disabled
+                        />
+                    </div>
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.icons.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-icons"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.icons.component }}
+                    </p>
+                    <h2 id="gallery-icons">
+                        {{ data.gallery.catalog.icons.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.icons.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-icons"
+                    tabindex="0"
+                >
+                    <div class="fc-gallery__icons">
+                        <div v-for="icon in data.icons" :key="icon.src">
+                            <FcIcon :src="icon.src" />
+                            <small>{{ icon.label }}</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.toggle.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-toggle"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.toggle.component }}
+                    </p>
+                    <h2 id="gallery-toggle">
+                        {{ data.gallery.catalog.toggle.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.toggle.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-toggle"
+                    tabindex="0"
+                >
+                    <div class="fc-gallery__row">
+                        <FcToggleSwitch v-model="enabled" label="알림" />
+                        <FcToggleSwitch
+                            v-model="secondaryEnabled"
+                            label="꺼짐"
+                        />
+                        <FcToggleSwitch
+                            :model-value="false"
+                            label="비활성 상태"
+                            disabled
+                        />
+                    </div>
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.choice.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-choice"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.choice.component }}
+                    </p>
+                    <h2 id="gallery-choice">
+                        {{ data.gallery.catalog.choice.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.choice.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-choice"
+                    tabindex="0"
+                >
+                    <div class="fc-gallery__row">
+                        <FcChoiceChip
+                            v-for="item in data.positions"
+                            :key="item"
+                            :label="item"
+                            :icon="chipIcon"
+                            :active="seat === item"
+                            :filled="seat === item"
+                            @click="seat = item"
+                        />
+                    </div>
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.periods.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-periods"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.periods.component }}
+                    </p>
+                    <h2 id="gallery-periods">
+                        {{ data.gallery.catalog.periods.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.periods.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-periods"
+                    tabindex="0"
+                >
+                    <FcPeriodTabs v-model="period" :items="data.periods" />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.badges.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-badges"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.badges.component }}
+                    </p>
+                    <h2 id="gallery-badges">
+                        {{ data.gallery.catalog.badges.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.badges.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-badges"
+                    tabindex="0"
+                >
+                    <div class="fc-gallery__row">
+                        <FcCountBadge
+                            v-for="badge in data.badges"
+                            :key="badge.variant"
+                            v-bind="badge"
+                        />
+                    </div>
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.calendar.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-calendar"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.calendar.component }}
+                    </p>
+                    <h2 id="gallery-calendar">
+                        {{ data.gallery.catalog.calendar.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.calendar.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-calendar"
+                    tabindex="0"
+                >
+                    <FcCalendarPicker v-model="day" v-bind="data.calendar" />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.rows.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-rows"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.rows.component }}
+                    </p>
+                    <h2 id="gallery-rows">
+                        {{ data.gallery.catalog.rows.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.rows.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-rows"
+                    tabindex="0"
+                >
+                    <FcListRow
+                        v-for="row in data.rows"
+                        :key="row.title"
+                        v-bind="row"
+                    />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.paste.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-paste"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.paste.component }}
+                    </p>
+                    <h2 id="gallery-paste">
+                        {{ data.gallery.catalog.paste.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.paste.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-paste"
+                    tabindex="0"
+                >
+                    <FcPasteField
+                        v-model="reason"
+                        label="Booking Code"
+                        :sample-value="data.bookingCode"
+                    />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.flights.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-flights"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.flights.component }}
+                    </p>
+                    <h2 id="gallery-flights">
+                        {{ data.gallery.catalog.flights.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.flights.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-flights"
+                    tabindex="0"
+                >
+                    <div
+                        v-for="sample in data.flightVariants"
+                        :key="sample.variant"
+                    >
+                        <p class="fc-gallery__sample-label">
+                            {{ sample.label }}
+                        </p>
+                        <FcFlightListItem
+                            v-bind="data.flight"
+                            :variant="sample.variant"
+                        />
+                    </div>
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.search.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-search"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.search.component }}
+                    </p>
+                    <h2 id="gallery-search">
+                        {{ data.gallery.catalog.search.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.search.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-search"
+                    tabindex="0"
+                >
+                    <FcAddFlightSearch v-bind="data.search" />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.connection.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-connection"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.connection.component }}
+                    </p>
+                    <h2 id="gallery-connection">
+                        {{ data.gallery.catalog.connection.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.connection.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-connection"
+                    tabindex="0"
+                >
+                    <FcConnectionStatus v-bind="data.connection" />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.timeline.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-timeline"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.timeline.component }}
+                    </p>
+                    <h2 id="gallery-timeline">
+                        {{ data.gallery.catalog.timeline.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.timeline.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-timeline"
+                    tabindex="0"
+                >
+                    <FcTerminalTimeline v-bind="data.timeline" />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.details.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-details"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.details.component }}
+                    </p>
+                    <h2 id="gallery-details">
+                        {{ data.gallery.catalog.details.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.details.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-details"
+                    tabindex="0"
+                >
+                    <div class="fc-gallery__row fc-gallery__state-preview">
+                        <FcToggleSwitch v-model="completed" label="비행 종료" />
+                    </div>
+                    <FcFlightDetails
+                        :details="data.details"
+                        :completed="completed"
+                    />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.passport.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-passport"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.passport.component }}
+                    </p>
+                    <h2 id="gallery-passport">
+                        {{ data.gallery.catalog.passport.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.passport.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-passport"
+                    tabindex="0"
+                >
+                    <FcPassportOverview
+                        v-bind="data.overview"
+                        :show-period="false"
+                        :show-map="false"
+                    />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.delays.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-delays"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.delays.component }}
+                    </p>
+                    <h2 id="gallery-delays">
+                        {{ data.gallery.catalog.delays.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.delays.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-delays"
+                    tabindex="0"
+                >
+                    <FcDelayReport v-bind="data.delayReport" />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.aircraft.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-aircraft"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.aircraft.component }}
+                    </p>
+                    <h2 id="gallery-aircraft">
+                        {{ data.gallery.catalog.aircraft.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.aircraft.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-aircraft"
+                    tabindex="0"
+                >
+                    <FcAircraftStats
+                        :aircraft="data.aircraft"
+                        :show-period="false"
+                    />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.performance.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-performance"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.performance.component }}
+                    </p>
+                    <h2 id="gallery-performance">
+                        {{ data.gallery.catalog.performance.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.performance.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-performance"
+                    tabindex="0"
+                >
+                    <FcPeriodTabs
+                        v-model="performanceSection"
+                        :items="data.performanceSections"
+                        label="운항 성과 예시"
+                    />
+                    <FcAirlinePerformance
+                        :key="performanceSection"
+                        :report="data.performance"
+                        :section="performanceSection"
+                    />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.seats.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-seats"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.seats.component }}
+                    </p>
+                    <h2 id="gallery-seats">
+                        {{ data.gallery.catalog.seats.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.seats.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-seats"
+                    tabindex="0"
+                >
+                    <FcPeriodTabs
+                        v-model="seatMode"
+                        :items="data.seatModes"
+                        label="좌석 통계 예시"
+                    />
+                    <FcSeatStats
+                        v-bind="data.seats[seatMode]"
+                        :show-title="false"
+                    />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.tails.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-tails"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.tails.component }}
+                    </p>
+                    <h2 id="gallery-tails">
+                        {{ data.gallery.catalog.tails.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.tails.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-tails"
+                    tabindex="0"
+                >
+                    <FcFrequentTails v-bind="data.tails" />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.countries.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-countries"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.countries.component }}
+                    </p>
+                    <h2 id="gallery-countries">
+                        {{ data.gallery.catalog.countries.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.countries.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-countries"
+                    tabindex="0"
+                >
+                    <FcCountriesStats v-bind="data.countries" />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.airlines.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-airlines"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.airlines.component }}
+                    </p>
+                    <h2 id="gallery-airlines">
+                        {{ data.gallery.catalog.airlines.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.airlines.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-airlines"
+                    tabindex="0"
+                >
+                    <FcTopAirlines v-bind="data.airlines" />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.distance.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-distance"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.distance.component }}
+                    </p>
+                    <h2 id="gallery-distance">
+                        {{ data.gallery.catalog.distance.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.distance.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-distance"
+                    tabindex="0"
+                >
+                    <FcFlightDistanceStats v-bind="data.distance" />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.alerts.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-alerts"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.alerts.component }}
+                    </p>
+                    <h2 id="gallery-alerts">
+                        {{ data.gallery.catalog.alerts.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.alerts.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-alerts"
+                    tabindex="0"
+                >
+                    <FcPeriodTabs
+                        v-model="alertMode"
+                        :items="data.alerts.modes"
+                        label="항공편 알림 예시"
+                    />
+                    <FcAlertSettings
+                        :key="alertMode"
+                        :mode="alertMode"
+                        v-bind="data.alerts.previews[alertMode]"
+                        :options="
+                            alertMode === 'mine'
+                                ? data.myAlertOptions
+                                : data.friendAlertOptions
+                        "
+                        :friend-name="data.friend.friendName"
+                        :friend-email="data.friend.friendEmail"
+                        :initial-shared="data.alerts.shared"
+                        :initial-selected="data.alerts.selected"
+                    />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.sync.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-sync"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.sync.component }}
+                    </p>
+                    <h2 id="gallery-sync">
+                        {{ data.gallery.catalog.sync.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.sync.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-sync"
+                    tabindex="0"
+                >
+                    <FcCalendarSync
+                        :calendars="data.calendarSync.calendars"
+                        :settings="data.calendarSync"
+                    />
+                </div>
+            </section>
+            <section
+                v-show="
+                    category === 'all' ||
+                    category === data.gallery.catalog.settings.category
+                "
+                class="fc-gallery__group"
+                aria-labelledby="gallery-settings"
+            >
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        {{ data.gallery.catalog.settings.component }}
+                    </p>
+                    <h2 id="gallery-settings">
+                        {{ data.gallery.catalog.settings.title }}
+                    </h2>
+                    <p class="fc-gallery__description">
+                        {{ data.gallery.catalog.settings.description }}
+                    </p>
+                </header>
+                <div
+                    class="fc-gallery__preview"
+                    role="region"
+                    aria-labelledby="gallery-settings"
+                    tabindex="0"
+                >
+                    <FcSettingsMenu v-bind="data.settings" />
+                </div>
+            </section>
+        </div>
     </article>
 </template>

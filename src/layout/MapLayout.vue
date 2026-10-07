@@ -124,7 +124,8 @@ function routeCoordinates(start, end) {
 }
 
 function fitRoute() {
-    if (disposed || !ready.value || !routeBounds) return;
+    if (disposed || !ready.value || !routeBounds || route.meta.widePanel)
+        return;
     const mobile = window.innerWidth < 768;
     const panelBounds = sidebar.value?.getBoundingClientRect();
     map.fitBounds(routeBounds, {
