@@ -16,7 +16,7 @@
         }
 
         & span {
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
             font-size: 25px;
             font-weight: 700;
         }
@@ -24,7 +24,7 @@
 
     & > p {
         margin: 4px 0 20px;
-        color: #aaa;
+        color: var(--fc-text-secondary, #aaa);
     }
 
     &__bar {
@@ -45,7 +45,7 @@
     height: 13px;
     overflow: hidden;
     border-radius: 5px;
-    background: #363636;
+    background: var(--fc-meter-bg, #363636);
 }
 
 .fc-performance__bar b,
@@ -54,7 +54,7 @@
     display: block;
     height: 100%;
     border-radius: inherit;
-    background: #ff5049;
+    background: var(--fc-danger, #ff5049);
 }
 
 .fc-performance {
@@ -72,11 +72,11 @@
         grid-template-columns: 1fr 55px 70px;
         gap: 5px;
         margin: 7px 0;
-        color: #aaa;
+        color: var(--fc-text-secondary, #aaa);
         font-size: 12px;
 
         & b {
-            color: #ff5049;
+            color: var(--fc-danger, #ff5049);
         }
     }
 }

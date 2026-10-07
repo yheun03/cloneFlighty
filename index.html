@@ -1,59 +1,58 @@
 <!doctype html>
 <html lang="ko">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flighty UI Clone | Vue 3 프론트엔드 포트폴리오</title>
-    <meta name="description"
-        content="Vue 3, Vue Router, SCSS, MapLibre로 공항 검색, 항로 지도, 재사용 UI를 구현한 비공식 Flighty 클론 프론트엔드 포트폴리오입니다." />
-    <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ko_KR" />
-    <meta property="og:site_name" content="Flighty UI Clone" />
-    <meta property="og:title" content="Flighty UI Clone | Vue 3 프론트엔드 포트폴리오" />
-    <meta property="og:description" content="공항 검색부터 항로 지도, 재사용 UI까지 구현한 Vue 3 프론트엔드 포트폴리오입니다." />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Flighty UI Clone | Vue 3 프론트엔드 포트폴리오" />
-    <meta name="twitter:description" content="공항 검색부터 항로 지도, 재사용 UI까지 구현한 Vue 3 프론트엔드 포트폴리오입니다." />
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "Flighty UI Clone",
-            "description": "Vue 3, Vue Router, SCSS, MapLibre로 공항 검색, 항로 지도, 재사용 UI를 구현한 비공식 개인 포트폴리오입니다.",
-            "applicationCategory": "TravelApplication",
-            "operatingSystem": "Web",
-            "browserRequirements": "JavaScript를 지원하는 최신 웹 브라우저",
-            "inLanguage": "ko",
-            "isAccessibleForFree": true,
-            "featureList": [
-                "공항 코드 기반 비행 경로 확인",
-                "항공편 목록 검색",
-                "평면 및 지구본 지도 전환",
-                "Vue 3 UI 컴포넌트 갤러리"
-            ]
-        }
-    </script>
-</head>
-
-<body>
-    <div id="app"></div>
-    <script id="airports" type="application/json">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Flighty UI Clone | Vue 3 프론트엔드 포트폴리오</title>
+        <meta
+            name="description"
+            content="Vue 3, Vue Router, SCSS, MapLibre로 공항 검색, 항로 지도, 재사용 UI를 구현한 비공식 Flighty 클론 프론트엔드 포트폴리오입니다."
+        />
+        <meta name="robots" content="index, follow" />
+        <meta name="theme-color" content="#ffffff" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="ko_KR" />
+        <meta property="og:site_name" content="Flighty UI Clone" />
+        <meta
+            property="og:title"
+            content="Flighty UI Clone | Vue 3 프론트엔드 포트폴리오"
+        />
+        <meta
+            property="og:description"
+            content="공항 검색부터 항로 지도, 재사용 UI까지 구현한 Vue 3 프론트엔드 포트폴리오입니다."
+        />
+        <meta name="twitter:card" content="summary" />
+        <meta
+            name="twitter:title"
+            content="Flighty UI Clone | Vue 3 프론트엔드 포트폴리오"
+        />
+        <meta
+            name="twitter:description"
+            content="공항 검색부터 항로 지도, 재사용 UI까지 구현한 Vue 3 프론트엔드 포트폴리오입니다."
+        />
+        <script type="application/ld+json">
             {
-                "ICN": { "name": "인천", "lat": 37.4602, "lng": 126.4407 },
-                "SFO": { "name": "샌프란시스코", "lat": 37.6213, "lng": -122.3790 },
-                "LAX": { "name": "로스앤젤레스", "lat": 33.9416, "lng": -118.4085 },
-                "JFK": { "name": "뉴욕", "lat": 40.6413, "lng": -73.7781 },
-                "NRT": { "name": "도쿄 나리타", "lat": 35.7720, "lng": 140.3929 },
-                "HND": { "name": "도쿄 하네다", "lat": 35.5494, "lng": 139.7798 },
-                "LHR": { "name": "런던 히스로", "lat": 51.4700, "lng": -0.4543 },
-                "CDG": { "name": "파리 샤를드골", "lat": 49.0097, "lng": 2.5479 },
-                "SIN": { "name": "싱가포르", "lat": 1.3644, "lng": 103.9915 }
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "name": "Flighty UI Clone",
+                "description": "Vue 3, Vue Router, SCSS, MapLibre로 공항 검색, 항로 지도, 재사용 UI를 구현한 비공식 개인 포트폴리오입니다.",
+                "applicationCategory": "TravelApplication",
+                "operatingSystem": "Web",
+                "browserRequirements": "JavaScript를 지원하는 최신 웹 브라우저",
+                "inLanguage": "ko",
+                "isAccessibleForFree": true,
+                "featureList": [
+                    "공항 코드 기반 비행 경로 확인",
+                    "항공편 목록 검색",
+                    "평면 및 지구본 지도 전환",
+                    "Vue 3 UI 컴포넌트 갤러리"
+                ]
             }
         </script>
-    <script type="module" src="/src/main.js"></script>
-</body>
+    </head>
 
+    <body>
+        <div id="app"></div>
+        <script type="module" src="/src/main.js"></script>
+    </body>
 </html>

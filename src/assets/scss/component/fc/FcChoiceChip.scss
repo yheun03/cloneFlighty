@@ -4,10 +4,10 @@
     gap: 8px;
     min-height: 36px;
     padding: 5px 13px;
-    border: 1px solid #4b4b4b;
+    border: 1px solid var(--fc-border, #4b4b4b);
     border-radius: 18px;
     background: transparent;
-    color: white;
+    color: var(--fc-text-strong, white);
     font-size: 17px;
     font-weight: 600;
 
@@ -17,13 +17,13 @@
     }
 
     &.is-active {
-        border-color: #1685ff;
-        background: #1c3551;
-        color: #1685ff;
+        border-color: var(--fc-link, #1685ff);
+        background: var(--fc-chip-bg, #1c3551);
+        color: var(--fc-link, #1685ff);
     }
 
     &.is-filled {
-        background: #087bfa;
+        background: var(--fc-blue, #087bfa);
         color: white;
     }
 }

@@ -1,0 +1,29 @@
+{
+    "selected": "device",
+    "languages": [
+        {
+            "id": "ko",
+            "title": "한국어",
+            "subtitle": "Korean",
+            "avatar": "🇰🇷"
+        },
+        {
+            "id": "en",
+            "title": "English",
+            "subtitle": "English",
+            "avatar": "🇬🇧"
+        },
+        {
+            "id": "ja",
+            "title": "Japanese",
+            "subtitle": "日本語",
+            "avatar": "🇯🇵"
+        }
+    ],
+    "device": {
+        "id": "device",
+        "title": "Use Device Language",
+        "subtitle": "Follow your device language settings.",
+        "avatar": "⚙"
+    }
+}

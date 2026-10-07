@@ -7,7 +7,7 @@
         width: 180px;
         height: 180px;
         margin: 20px auto;
-        border: 25px solid #087bfa;
+        border: 25px solid var(--fc-seat-ring, #087bfa);
         border-radius: 50%;
         text-align: center;
 
@@ -17,7 +17,7 @@
         }
 
         & small {
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
         }
 
         & strong {
@@ -50,8 +50,16 @@
 
         & span {
             min-width: 42px;
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
             text-align: right;
         }
     }
+}
+
+.fc-seat-stats--class {
+    --fc-seat-ring: var(--fc-economy-ring, #087bfa);
+}
+
+.fc-seat-stats--reason {
+    --fc-seat-ring: var(--fc-reason-ring, #087bfa);
 }

@@ -2,9 +2,11 @@
 import shareIcon from "../../assets/icons/lucide/share-2.svg";
 import BaseButton from "../base/BaseButton.vue";
 defineProps({
-    tail: { type: String, default: "HL-8078" },
-    flights: { type: Number, default: 2 },
-    model: { type: String, default: "A359" },
+    airline: { type: String, required: true },
+    flag: { type: String, required: true },
+    tail: { type: String, required: true },
+    flights: { type: Number, required: true },
+    model: { type: String, required: true },
 });
 </script>
 
@@ -16,7 +18,7 @@ defineProps({
         </div>
         <strong>{{ tail }}</strong>
         <p>{{ flights }} flights</p>
-        <small>OZ · {{ model }}</small
-        ><span>🇰🇷</span>
+        <small>{{ airline }} · {{ model }}</small
+        ><span>{{ flag }}</span>
     </div>
 </template>

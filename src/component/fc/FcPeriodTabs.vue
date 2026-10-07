@@ -1,15 +1,16 @@
 <script setup>
 defineProps({
+    label: { type: String, default: "조회 기간" },
     items: {
         type: Array,
-        default: () => ["ALL-TIME", "2025", "2024", "2023", "2017"],
+        required: true,
     },
 });
 const selected = defineModel({ type: String, default: "ALL-TIME" });
 </script>
 
 <template>
-    <div class="fc-periods" role="group" aria-label="조회 기간">
+    <div class="fc-periods" role="group" :aria-label="label">
         <button
             v-for="item in items"
             :key="item"

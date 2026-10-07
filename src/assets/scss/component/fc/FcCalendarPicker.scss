@@ -14,7 +14,7 @@
     }
 
     &__weekday {
-        color: #818181;
+        color: var(--fc-text-secondary, #818181);
         font-size: 12px;
     }
 
@@ -25,16 +25,17 @@
             border: 1px solid transparent;
             border-radius: 50%;
             background: none;
-            color: white;
+            color: var(--fc-text-strong, white);
             font-size: 16px;
         }
 
         & button.is-marked {
-            background: #087bfa;
+            background: var(--fc-blue, #087bfa);
+            color: white;
         }
 
         & button.is-selected {
-            border-color: #087bfa;
+            border-color: var(--fc-blue, #087bfa);
         }
     }
 }

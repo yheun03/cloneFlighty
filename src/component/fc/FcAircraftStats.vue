@@ -4,63 +4,76 @@ import planeIcon from "../../assets/icons/lucide/plane.svg";
 import { ref } from "vue";
 import FcPeriodTabs from "./FcPeriodTabs.vue";
 
-defineProps({
-    total: { type: Number, default: 12 },
-    mostFlown: { type: String, default: "A330-300" },
-    tail: { type: String, default: "HL-8078" },
+const props = defineProps({
+    aircraft: { type: Object, required: true },
+    showPeriod: { type: Boolean, default: true },
+    showAge: { type: Boolean, default: true },
+    showAgeTitle: { type: Boolean, default: true },
+    showTail: { type: Boolean, default: true },
+    showOverview: { type: Boolean, default: true },
 });
-const period = ref("ALL-TIME");
-const ages = [
-    { label: "2000's", value: 25 },
-    { label: "2010's", value: 19 },
-    { label: "2020's", value: 6 },
-];
+const period = ref(props.aircraft.periods[0]);
 </script>
 
 <template>
     <div class="fc-aircraft-stats">
-        <FcPeriodTabs v-model="period" />
-        <div class="fc-aircraft-stats__numbers">
-            <div>
-                <span>Total Aircraft</span><strong>{{ total }}</strong
-                ><small>55% Airbus</small>
+        <FcPeriodTabs
+            v-if="showPeriod"
+            v-model="period"
+            :items="aircraft.periods"
+        />
+        <template v-if="showOverview">
+            <div class="fc-aircraft-stats__numbers">
+                <div>
+                    <span>Total Aircraft</span
+                    ><strong>{{ aircraft.total }}</strong
+                    ><small>{{ aircraft.manufacturer }}</small>
+                </div>
+                <div>
+                    <span>Newest Aircraft</span
+                    ><strong>{{ aircraft.newest.age }}</strong
+                    ><small>{{ aircraft.newest.model }}</small>
+                </div>
+                <div>
+                    <span>Oldest Aircraft</span
+                    ><strong>{{ aircraft.oldest.age }}</strong
+                    ><small>{{ aircraft.oldest.model }}</small>
+                </div>
             </div>
-            <div>
-                <span>Newest Aircraft</span><strong>2 years</strong
-                ><small>Embraer 175</small>
+            <h3>Most flown aircraft</h3>
+            <div class="fc-aircraft-stats__featured">
+                <strong>{{ aircraft.mostFlown }}</strong
+                ><span>{{ aircraft.summary }}</span>
+                <div>
+                    <FcIcon :src="planeIcon" />
+                </div>
             </div>
-            <div>
-                <span>Oldest Aircraft</span><strong>25 years</strong
-                ><small>B737-800</small>
+        </template>
+        <template v-if="showAge">
+            <h3 v-if="showAgeTitle">Aircraft Age</h3>
+            <p>{{ aircraft.median }} <small>median age</small></p>
+            <div class="fc-aircraft-stats__ages">
+                <div v-for="age in aircraft.ages" :key="age.label">
+                    <i :style="{ height: `${age.value * 5}px` }"></i
+                    ><span>{{ age.label }}</span>
+                </div>
             </div>
-        </div>
-        <h3>Most flown aircraft</h3>
-        <div class="fc-aircraft-stats__featured">
-            <strong>{{ mostFlown }}</strong
-            ><span>4 flights · 12 hours</span>
-            <div>
-                <FcIcon :src="planeIcon" />
+            <div class="fc-aircraft-stats__cards">
+                <div>
+                    <strong>Newest Aircraft</strong
+                    ><b>{{ aircraft.newest.age }} old</b
+                    ><span>{{ aircraft.newest.date }}</span>
+                </div>
+                <div>
+                    <strong>Oldest Aircraft</strong
+                    ><b>{{ aircraft.oldest.age }} old</b
+                    ><span>{{ aircraft.oldest.date }}</span>
+                </div>
             </div>
-        </div>
-        <h3>Aircraft Age</h3>
-        <p>9 years old <small>median age</small></p>
-        <div class="fc-aircraft-stats__ages">
-            <div v-for="age in ages" :key="age.label">
-                <i :style="{ height: `${age.value * 5}px` }"></i
-                ><span>{{ age.label }}</span>
-            </div>
-        </div>
-        <div class="fc-aircraft-stats__cards">
-            <div>
-                <strong>Newest Aircraft</strong><b>2 years old</b
-                ><span>5/25/2024</span>
-            </div>
-            <div>
-                <strong>Oldest Aircraft</strong><b>25 years old</b
-                ><span>11/8/2000</span>
-            </div>
-        </div>
-        <h3>Frequented Tail No.</h3>
-        <p>2 flights · {{ tail }}</p>
+        </template>
+        <template v-if="showTail">
+            <h3>Frequented Tail No.</h3>
+            <p>{{ aircraft.tailFlights }} flights · {{ aircraft.tail }}</p>
+        </template>
     </div>
 </template>

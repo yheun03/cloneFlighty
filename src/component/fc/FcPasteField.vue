@@ -1,21 +1,20 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
 import pasteIcon from "../../assets/icons/lucide/clipboard-paste.svg";
-import { ref, useId } from "vue";
+import { useId } from "vue";
 import BaseInput from "../base/BaseInput.vue";
 
-defineProps({ label: { type: String, default: "Reason" } });
+const props = defineProps({
+    sampleValue: { type: String, default: "" },
+    label: { type: String, default: "Reason" },
+    placeholder: { type: String, default: "PASTE" },
+    pasteLabel: { type: String, default: "붙여넣기" },
+});
 const value = defineModel({ type: String, default: "" });
-const error = ref("");
 const inputId = useId();
 
-async function paste() {
-    try {
-        value.value = await navigator.clipboard.readText();
-        error.value = "";
-    } catch {
-        error.value = "클립보드를 읽을 수 없습니다.";
-    }
+function paste() {
+    value.value = props.sampleValue;
 }
 </script>
 
@@ -29,13 +28,8 @@ async function paste() {
             <BaseInput
                 :id="inputId"
                 v-model="value"
-                :aria-describedby="error ? `${inputId}-error` : undefined"
-                :aria-invalid="Boolean(error)"
-                placeholder="PASTE"
-            /><button type="button" @click="paste">붙여넣기</button>
+                :placeholder="placeholder"
+            /><button type="button" @click="paste">{{ pasteLabel }}</button>
         </div>
-        <small v-if="error" :id="`${inputId}-error`" role="alert">{{
-            error
-        }}</small>
     </div>
 </template>

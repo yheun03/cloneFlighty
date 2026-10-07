@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomePage from "../pages/HomePage.vue";
+import layoutData from "../layout/data/MapLayout.json";
 
 const defaultTitle = "Flighty UI Clone | Vue 3 프론트엔드 포트폴리오";
 const defaultDescription =
@@ -27,14 +28,260 @@ const router = createRouter({
                         description:
                             "선택한 공항의 비행 경로와 항공편 목록을 MapLibre 지도에서 확인할 수 있습니다.",
                         panelTitle: "항공편 경로",
+                        section: "flights",
                     },
                 },
                 { path: "map", redirect: { name: "home" } },
                 {
+                    path: "flights/friends",
+                    name: "friend-flights",
+                    component: HomePage,
+                    meta: {
+                        title: "Friends’ Flights | Flighty",
+                        panelTitle: "Friends’ Flights",
+                        section: "flights",
+                        backName: "home",
+                    },
+                },
+                {
+                    path: "passport",
+                    name: "passport",
+                    component: () => import("../pages/PassportPage.vue"),
+                    meta: {
+                        title: "My Flighty Passport | Flighty",
+                        panelTitle: "My Passport",
+                        section: "passport",
+                    },
+                },
+                {
+                    path: "stats/flights",
+                    name: "flight-stats",
+                    component: () => import("../pages/FlightStatsPage.vue"),
+                    meta: {
+                        title: "All Flight Stats | Flighty",
+                        panelTitle: "Flight Stats",
+                        section: "passport",
+                        backName: "passport",
+                    },
+                },
+                {
+                    path: "stats/delays",
+                    name: "delay-stats",
+                    component: () => import("../pages/DelayStatsPage.vue"),
+                    meta: {
+                        title: "Delay Stats | Flighty",
+                        panelTitle: "Delay Stats",
+                        section: "passport",
+                        backName: "passport",
+                    },
+                },
+                {
+                    path: "stats/aircraft",
+                    name: "aircraft-stats",
+                    component: () => import("../pages/AircraftStatsPage.vue"),
+                    meta: {
+                        title: "Aircraft Stats | Flighty",
+                        panelTitle: "Aircraft Stats",
+                        section: "passport",
+                        backName: "passport",
+                    },
+                },
+                {
+                    path: "settings",
+                    name: "settings",
+                    component: () => import("../pages/SettingsPage.vue"),
+                    meta: {
+                        title: "Settings | Flighty",
+                        panelTitle: "Settings",
+                        section: "settings",
+                    },
+                },
+                {
+                    path: "settings/my-flight-alerts",
+                    name: "my-flight-alerts",
+                    component: () => import("../pages/AlertsPage.vue"),
+                    meta: {
+                        title: "My Flight Alerts | Flighty",
+                        panelTitle: "My Flight Alerts",
+                        section: "settings",
+                        alertMode: "mine",
+                        backName: "settings",
+                    },
+                },
+                {
+                    path: "settings/friends-flight-alerts",
+                    name: "friends-flight-alerts",
+                    component: () => import("../pages/AlertsPage.vue"),
+                    meta: {
+                        title: "Friends’ Flight Alerts | Flighty",
+                        panelTitle: "Friends’ Flight Alerts",
+                        section: "settings",
+                        alertMode: "friends",
+                        backName: "settings",
+                    },
+                },
+                {
+                    path: "settings/calendar-sync",
+                    name: "calendar-sync",
+                    component: () => import("../pages/CalendarSyncPage.vue"),
+                    meta: {
+                        title: "Calendar Sync | Flighty",
+                        panelTitle: "Calendar Sync",
+                        section: "settings",
+                        backName: "settings",
+                    },
+                },
+                {
+                    path: "settings/language",
+                    name: "language",
+                    component: () => import("../pages/LanguagePage.vue"),
+                    meta: {
+                        title: "Language | Flighty",
+                        panelTitle: "Language",
+                        section: "settings",
+                        backName: "settings",
+                    },
+                },
+                {
+                    path: "settings/units",
+                    name: "units",
+                    component: () => import("../pages/UnitsPage.vue"),
+                    meta: {
+                        title: "Units | Flighty",
+                        panelTitle: "Units",
+                        section: "settings",
+                        backName: "settings",
+                    },
+                },
+                {
+                    path: "friends",
+                    name: "friends",
+                    component: () => import("../pages/FriendsPage.vue"),
+                    meta: {
+                        title: "Flighty Friends | Flighty",
+                        panelTitle: "Flighty Friends",
+                        section: "friends",
+                    },
+                },
+                {
+                    path: "friends/:id",
+                    name: "friend-detail",
+                    component: () => import("../pages/AlertsPage.vue"),
+                    meta: {
+                        title: "Friend Alerts | Flighty",
+                        panelTitle: "Friend Settings",
+                        section: "friends",
+                        alertMode: "friend",
+                        backName: "friends",
+                    },
+                },
+                {
+                    path: "add-flight",
+                    name: "add-flight",
+                    component: () => import("../pages/AddFlightPage.vue"),
+                    meta: {
+                        title: "Add Flight | Flighty",
+                        panelTitle: "Add Flight",
+                        section: "flights",
+                        backName: "home",
+                    },
+                },
+                {
+                    path: "add-flight/number",
+                    name: "add-flight-number",
+                    component: () => import("../pages/AddFlightPage.vue"),
+                    meta: {
+                        title: "Find by Flight Number | Flighty",
+                        panelTitle: "Add Flight",
+                        section: "flights",
+                        searchMode: "number",
+                        backName: "add-flight",
+                    },
+                },
+                {
+                    path: "add-flight/route",
+                    name: "add-flight-route",
+                    component: () => import("../pages/AddFlightPage.vue"),
+                    meta: {
+                        title: "Find by Route | Flighty",
+                        panelTitle: "Find by Route",
+                        section: "flights",
+                        searchMode: "route",
+                        backName: "add-flight",
+                    },
+                },
+                {
+                    path: "add-flight/calendar",
+                    name: "add-flight-calendar",
+                    component: () => import("../pages/AddFlightPage.vue"),
+                    meta: {
+                        title: "Pick Flight Date | Flighty",
+                        panelTitle: "Add Flight",
+                        section: "flights",
+                        searchMode: "calendar",
+                        backName: "add-flight-number",
+                    },
+                },
+                {
+                    path: "add-flight/results",
+                    name: "flight-results",
+                    component: HomePage,
+                    meta: {
+                        title: "Flight Search Results | Flighty",
+                        panelTitle: "Flight Results",
+                        section: "flights",
+                        backName: "add-flight-number",
+                    },
+                },
+                {
+                    path: "flights/:id",
+                    name: "flight-detail",
+                    component: () => import("../pages/FlightDetailPage.vue"),
+                    meta: {
+                        title: "Flight Details | Flighty",
+                        panelTitle: "Flight Details",
+                        section: "flights",
+                        backName: "home",
+                    },
+                    children: [
+                        {
+                            path: "edit",
+                            name: "flight-booking",
+                            component: () =>
+                                import("../pages/FlightBookingPage.vue"),
+                            meta: {
+                                title: "Edit Booking | Flighty",
+                                backName: "flight-detail",
+                            },
+                        },
+                    ],
+                },
+                {
+                    path: "connections/:id",
+                    name: "connection",
+                    component: () => import("../pages/ConnectionPage.vue"),
+                    meta: {
+                        title: "Relaxed Connection | Flighty",
+                        panelTitle: "Connection",
+                        section: "flights",
+                        backName: "flight-detail",
+                    },
+                },
+                {
+                    path: "connections/:id/details",
+                    name: "connection-details",
+                    component: () => import("../pages/ConnectionPage.vue"),
+                    meta: {
+                        title: "Minimum Connection Time | Flighty",
+                        panelTitle: "Connection",
+                        section: "flights",
+                        backName: "connection",
+                    },
+                },
+                {
                     path: "component",
                     name: "component",
-                    component: () =>
-                        import("../component/fc/FcComponentGallery.vue"),
+                    component: () => import("../pages/ComponentPage.vue"),
                     meta: {
                         title: "Vue 3 UI 컴포넌트 | Flighty UI Clone",
                         description:
@@ -66,11 +313,11 @@ router.afterEach((to) => {
         const from =
             typeof to.query.from === "string"
                 ? to.query.from.trim().toUpperCase().slice(0, 3)
-                : "ICN";
+                : layoutData.from;
         const destination =
             typeof to.query.to === "string"
                 ? to.query.to.trim().toUpperCase().slice(0, 3)
-                : "SFO";
+                : layoutData.to;
 
         if (/^[A-Z]{3}$/.test(from) && /^[A-Z]{3}$/.test(destination)) {
             title = `${from} → ${destination} 비행 경로 | Flighty UI Clone`;

@@ -2,9 +2,10 @@
 import { computed } from "vue";
 
 const props = defineProps({
-    year: { type: Number, default: 2026 },
-    month: { type: Number, default: 1 },
-    marked: { type: Array, default: () => [11, 13] },
+    year: { type: Number, required: true },
+    month: { type: Number, required: true },
+    marked: { type: Array, default: () => [] },
+    outlined: { type: Array, default: () => [] },
 });
 const selected = defineModel({ type: Number, default: 20 });
 const title = computed(() =>
@@ -44,6 +45,7 @@ const days = computed(() => {
                     :class="{
                         'is-marked': marked.includes(day),
                         'is-selected': selected === day,
+                        'is-outlined': outlined.includes(day),
                     }"
                     :aria-label="`${title} ${day}일${marked.includes(day) ? ', 항공편 있음' : ''}`"
                     :aria-pressed="selected === day"

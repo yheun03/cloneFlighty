@@ -28,7 +28,7 @@
     }
 
     & span {
-        color: #999;
+        color: var(--fc-text-secondary, #999);
         font-size: 24px;
         font-weight: 700;
     }
@@ -38,7 +38,7 @@
     border: 0;
     padding: 12px 0;
     background: none;
-    color: #1685ff;
+    color: var(--fc-link, #1685ff);
     font-size: 17px;
     font-weight: 700;
 }

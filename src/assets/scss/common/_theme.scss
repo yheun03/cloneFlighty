@@ -1,8 +1,67 @@
-.app--dark {
-    background: #050505;
-    color: #f5f5f5;
+// 다크 모드의 세부 회색은 각 스타일의 var() fallback으로 기존 값을 유지합니다.
+.app[data-theme] {
+    color-scheme: dark;
+    --fc-app-bg: #08090b;
+    --fc-surface: #18191b;
+    --fc-sidebar-bg: #18191bf5;
+    --fc-map-control-bg: #1c1d20e8;
+    --fc-text: #f5f5f5;
+    --fc-blue: #087bfa;
+    --fc-chart-blue: #087bfa;
+    --fc-chart-aircraft: #123e69;
+    --fc-chart-purple: #593586;
+    --fc-chart-line: #8952ff;
+    --fc-economy: #a6b3e8;
+    --fc-premium-economy: #6276c4;
+    --fc-business: #495ba8;
+    --fc-first-class: #344486;
+}
 
-    a {
-        color: #8eb9ff;
-    }
+// 첨부된 라이트 화면에서 추출한 배경, 텍스트, 차트 색상입니다.
+.app[data-theme="light"] {
+    color-scheme: light;
+    --fc-app-bg: #f5f5f5;
+    --fc-surface: #ffffff;
+    --fc-sidebar-bg: #fffffff5;
+    --fc-map-control-bg: #ffffffe8;
+    --fc-dialog-bg: #ffffff;
+    --fc-raised-surface: #ffffff;
+    --fc-text: #272727;
+    --fc-text-strong: #272727;
+    --fc-text-body: #272727;
+    --fc-text-heading: #272727;
+    --fc-text-secondary: #808080;
+    --fc-placeholder: #808080;
+    --fc-control-bg: #f5f5f5;
+    --fc-selected-bg: #f5f5f5;
+    --fc-segment-selected: #ffffff;
+    --fc-border: #dddddd;
+    --fc-card-border: #ebebeb;
+    --fc-border-subtle: #ebebeb;
+    --fc-meter-bg: #f5f5f5;
+    --fc-scrollbar: #c1c1c1;
+    --fc-attribution-bg: #ffffffbb;
+    --fc-chip-bg: #eff8ff;
+    --fc-copy-bg: #eff8ff;
+    --fc-paste-bg: #e7e7e7;
+    --fc-calendar-marked-bg: #eff8ff;
+    --fc-switch-bg: #e5e5e5;
+    --fc-success-bg: #edf8f3;
+    --fc-danger-bg: #fff0f0;
+    --fc-panel-shadow: 0 8px 24px #0000001a;
+    --fc-blue: #007aff;
+    --fc-link: #007aff;
+    --fc-danger: #ff3b30;
+    --fc-success: #0bb66e;
+    --fc-chart-blue: #1570ef;
+    --fc-chart-aircraft: #1570ef;
+    --fc-chart-purple: #6927da;
+    --fc-chart-line: #6927da;
+    --fc-economy: #b1dcfd;
+    --fc-premium-economy: #79d3fa;
+    --fc-business: #03a8e5;
+    --fc-first-class: #1570ef;
+    --fc-economy-ring: #b1dcfd;
+    --fc-reason-ring: #0bb66e;
+    --fc-passport-label: #808080;
 }

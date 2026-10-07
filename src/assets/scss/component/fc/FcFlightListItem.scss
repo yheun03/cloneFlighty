@@ -3,7 +3,7 @@
     align-items: center;
     gap: 12px;
     padding: 12px 0;
-    border-bottom: 1px solid #383838;
+    border-bottom: 1px solid var(--fc-border, #383838);
 
     &__days {
         display: flex;
@@ -18,7 +18,7 @@
         }
 
         & small {
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
         }
     }
 
@@ -28,7 +28,7 @@
         place-items: center;
         width: 54px;
         height: 54px;
-        border: 3px solid white;
+        border: 3px solid var(--fc-border, white);
         border-radius: 50%;
         font-size: 31px;
     }
@@ -42,7 +42,7 @@
         display: flex;
         justify-content: space-between;
         gap: 8px;
-        color: #aaa;
+        color: var(--fc-text-secondary, #aaa);
         font-size: 14px;
     }
 
@@ -55,25 +55,25 @@
     }
 
     &__sub {
-        color: #999;
+        color: var(--fc-text-secondary, #999);
         font-size: 14px;
 
         & > span {
             display: inline-block;
             margin: 4px 5px 0 0;
             padding: 0 5px;
-            border: 1px solid #555;
+            border: 1px solid var(--fc-card-border, #555);
             border-radius: 10px;
         }
     }
 
     &__close {
-        border: 1px solid white;
+        border: 1px solid var(--fc-border, white);
         border-radius: 50%;
         width: 35px;
         height: 35px;
         background: none;
-        color: white;
+        color: var(--fc-text-strong, white);
         font-size: 24px;
     }
 }

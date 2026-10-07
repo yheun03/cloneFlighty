@@ -9,11 +9,11 @@
 
     & p {
         margin: 7px 0 15px;
-        color: #aaa;
+        color: var(--fc-text-secondary, #aaa);
     }
 
     & small {
-        color: #aaa;
+        color: var(--fc-text-secondary, #aaa);
     }
 
     & > span {

@@ -25,14 +25,14 @@
         }
 
         & small {
-            color: #858585;
+            color: var(--fc-text-secondary, #858585);
         }
     }
 
     &__change {
         margin: 12px 0 12px 16px;
         padding: 8px 0 8px 20px;
-        border-left: 1px solid #4b4b4b;
+        border-left: 1px solid var(--fc-border, #4b4b4b);
         font-weight: 700;
     }
 }

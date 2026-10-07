@@ -1,25 +1,44 @@
 <script setup>
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import {
+    computed,
+    inject,
+    nextTick,
+    onMounted,
+    onUnmounted,
+    ref,
+    watch,
+} from "vue";
 import { useRoute } from "vue-router";
+import layoutData from "./data/MapLayout.json";
 import "../assets/scss/layout/MapLayout.scss";
+import "../assets/scss/pages/FramePages.scss";
 
 const MAPLIBRE_CSS_URL =
     "https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.css";
 
-const airports = JSON.parse(document.querySelector("#airports").textContent);
+const airports = layoutData.airports;
 const route = useRoute();
+const { theme } = inject("appearance");
+const mapStyle = computed(
+    () =>
+        `https://tiles.openfreemap.org/styles/${theme.value === "light" ? "bright" : "dark"}`,
+);
+const routeColor = computed(() =>
+    theme.value === "light" ? "#1570ef" : "#70acff",
+);
 const normalizeAirportCode = (value) => value.trim().toUpperCase().slice(0, 3);
 const from = computed(() =>
     typeof route.query.from === "string"
         ? normalizeAirportCode(route.query.from)
-        : "ICN",
+        : layoutData.from,
 );
 const to = computed(() =>
     typeof route.query.to === "string"
         ? normalizeAirportCode(route.query.to)
-        : "SFO",
+        : layoutData.to,
 );
 const sidebar = ref(null);
+const content = ref(null);
 const sidebarOpen = ref(true);
 const isGlobe = ref(false);
 const ready = ref(false);
@@ -34,6 +53,7 @@ let maplibregl;
 let routeBounds = null;
 let resizeFrame = null;
 let disposed = false;
+let fitAfterStyleLoad = true;
 
 function loadMapLibreCss() {
     const existing = document.querySelector(`link[href="${MAPLIBRE_CSS_URL}"]`);
@@ -119,7 +139,7 @@ function fitRoute() {
     });
 }
 
-function updateRoute() {
+function updateRoute(shouldFit = true) {
     if (!ready.value) return;
     const start = airports[from.value];
     const end = airports[to.value];
@@ -157,7 +177,7 @@ function updateRoute() {
             properties: {},
         })),
     });
-    fitRoute();
+    if (shouldFit) fitRoute();
     mapStatus.value = `${routeSummary.value} 경로를 지도에 표시했습니다.`;
 }
 
@@ -194,7 +214,7 @@ onMounted(async () => {
         maplibregl = mapLibreModule;
         map = new maplibregl.Map({
             container: "flight-map-canvas",
-            style: "https://tiles.openfreemap.org/styles/dark",
+            style: mapStyle.value,
             center: [126.4407, 37.4602],
             zoom: 2,
         });
@@ -204,7 +224,8 @@ onMounted(async () => {
         mapStatus.value = "";
         return;
     }
-    map.on("load", () => {
+    // 테마로 지도 스타일을 교체하면 항공편 레이어도 다시 추가합니다.
+    map.on("style.load", () => {
         mapError.value = "";
         map.addSource("route", {
             type: "geojson",
@@ -219,7 +240,7 @@ onMounted(async () => {
             type: "line",
             source: "route",
             layout: { "line-cap": "round", "line-join": "round" },
-            paint: { "line-color": "#70acff", "line-width": 3 },
+            paint: { "line-color": routeColor.value, "line-width": 3 },
         });
         map.addSource("airports", {
             type: "geojson",
@@ -231,13 +252,15 @@ onMounted(async () => {
             source: "airports",
             paint: {
                 "circle-radius": 5,
-                "circle-color": "#70acff",
+                "circle-color": routeColor.value,
                 "circle-stroke-color": "#fff",
                 "circle-stroke-width": 1,
             },
         });
         ready.value = true;
-        updateRoute();
+        if (isGlobe.value) map.setProjection({ type: "globe" });
+        updateRoute(fitAfterStyleLoad);
+        fitAfterStyleLoad = false;
     });
     map.on("error", () => {
         if (!ready.value) {
@@ -247,16 +270,29 @@ onMounted(async () => {
     });
     window.addEventListener("resize", resizeMap);
 });
-watch([from, to], updateRoute);
+watch([from, to], () => {
+    if (!ready.value) fitAfterStyleLoad = true;
+    updateRoute();
+});
+watch(theme, () => {
+    if (!map) return;
+    ready.value = false;
+    mapError.value = "";
+    mapStatus.value = "지도 색상 모드를 변경하는 중입니다.";
+    map.setStyle(mapStyle.value, { diff: false });
+});
 watch(sidebarOpen, async () => {
     await nextTick();
     fitRoute();
 });
 watch(
     () => route.name,
-    async () => {
+    async (name, previousName) => {
         sidebarOpen.value = true;
         await nextTick();
+        if (name !== "flight-booking" && previousName !== "flight-booking") {
+            content.value?.scrollTo({ top: 0 });
+        }
         fitRoute();
     },
 );
@@ -334,17 +370,75 @@ onUnmounted(() => {
                 class="flight-map__nav"
                 aria-label="주요 메뉴"
             >
-                <RouterLink :to="{ name: 'home', query: route.query }"
-                    >내 항공편</RouterLink
+                <RouterLink
+                    :to="{ name: 'home', query: route.query }"
+                    :class="{ 'is-active': route.meta.section === 'flights' }"
+                    >Flights</RouterLink
+                >
+                <RouterLink
+                    :to="{ name: 'passport', query: route.query }"
+                    :class="{ 'is-active': route.meta.section === 'passport' }"
+                    >Passport</RouterLink
+                >
+                <RouterLink
+                    :to="{ name: 'friends', query: route.query }"
+                    :class="{ 'is-active': route.meta.section === 'friends' }"
+                    >Friends</RouterLink
+                >
+                <RouterLink
+                    :to="{ name: 'settings', query: route.query }"
+                    :class="{ 'is-active': route.meta.section === 'settings' }"
+                    >Settings</RouterLink
+                >
+                <RouterLink
+                    :to="{ name: 'add-flight', query: route.query }"
+                    aria-label="Add Flight"
+                    >＋</RouterLink
                 >
                 <RouterLink :to="{ name: 'component', query: route.query }"
-                    >UI 컴포넌트</RouterLink
+                    >UI</RouterLink
                 >
-                <RouterLink to="/intro">소개</RouterLink>
             </nav>
+            <div
+                v-if="
+                    sidebarOpen &&
+                    (route.meta.backName ||
+                        route.name === 'home' ||
+                        route.name === 'friend-flights')
+                "
+                class="flight-map__page-nav"
+            >
+                <RouterLink
+                    v-if="route.meta.backName"
+                    :to="{
+                        name: route.meta.backName,
+                        params:
+                            route.meta.backName === 'flight-detail' ||
+                            route.meta.backName === 'connection'
+                                ? { id: route.params.id }
+                                : {},
+                        query: route.query,
+                    }"
+                    >‹ Back</RouterLink
+                >
+                <template
+                    v-if="
+                        route.name === 'home' || route.name === 'friend-flights'
+                    "
+                >
+                    <RouterLink :to="{ name: 'home', query: route.query }"
+                        >My Flights</RouterLink
+                    >
+                    <RouterLink
+                        :to="{ name: 'friend-flights', query: route.query }"
+                        >Friends’ Flights</RouterLink
+                    >
+                </template>
+            </div>
             <div
                 v-show="sidebarOpen"
                 id="flight-map-content"
+                ref="content"
                 class="flight-map__content"
                 :class="{
                     'flight-map__content--gallery': route.meta.widePanel,

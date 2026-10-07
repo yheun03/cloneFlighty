@@ -32,7 +32,7 @@
 
     & > small,
     &__numbers span {
-        color: #a8afd9;
+        color: var(--fc-passport-label, #a8afd9);
         font-size: 11px;
     }
 
@@ -64,15 +64,20 @@
     }
 
     & h3 small {
-        color: #aaa;
+        color: var(--fc-text-secondary, #aaa);
     }
 
     &__flight {
         display: flex;
+        width: 100%;
         align-items: center;
         gap: 8px;
         padding: 10px 0;
-        border-bottom: 1px solid #333;
+        border: 0;
+        border-bottom: 1px solid var(--fc-border, #333);
+        background: transparent;
+        color: inherit;
+        text-align: left;
 
         & > span {
             flex: none;
@@ -87,7 +92,7 @@
         }
 
         & small {
-            color: #999;
+            color: var(--fc-text-secondary, #999);
             font-size: 10px;
         }
 

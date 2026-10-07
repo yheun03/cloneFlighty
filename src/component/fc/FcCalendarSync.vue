@@ -6,8 +6,26 @@ import noticeIcon from "../../assets/icons/lucide/shield-check.svg";
 import { ref } from "vue";
 import FcToggleSwitch from "./FcToggleSwitch.vue";
 
-const importEnabled = ref(true);
-const exportEnabled = ref(true);
+const props = defineProps({
+    calendars: { type: Array, required: true },
+    settings: { type: Object, required: true },
+});
+const importEnabled = ref(props.settings.importEnabled);
+const exportEnabled = ref(props.settings.exportEnabled);
+const choosing = ref("");
+const importCalendars = ref([...props.settings.importCalendars]);
+const exportCalendar = ref(props.settings.exportCalendar);
+
+function selectCalendar(calendar) {
+    if (choosing.value === "import") {
+        importCalendars.value = importCalendars.value.includes(calendar)
+            ? importCalendars.value.filter((item) => item !== calendar)
+            : [...importCalendars.value, calendar];
+    } else {
+        exportCalendar.value = calendar;
+        choosing.value = "";
+    }
+}
 </script>
 
 <template>
@@ -26,10 +44,14 @@ const exportEnabled = ref(true);
                     label="Import Flights"
                 />
             </div>
-            <button type="button">
+            <button
+                type="button"
+                :aria-expanded="choosing === 'import'"
+                @click="choosing = choosing === 'import' ? '' : 'import'"
+            >
                 <FcIcon :src="calendarIcon" /> &nbsp;Choose Calendars
                 <span
-                    >Select&nbsp;
+                    >{{ importCalendars.join(", ") || "Select" }}&nbsp;
                     <FcIcon :src="nextIcon" />
                 </span>
             </button>
@@ -42,13 +64,45 @@ const exportEnabled = ref(true);
                     label="Export Flights"
                 />
             </div>
-            <button type="button">
+            <button
+                type="button"
+                :aria-expanded="choosing === 'export'"
+                @click="choosing = choosing === 'export' ? '' : 'export'"
+            >
                 <FcIcon :src="calendarIcon" /> &nbsp;Choose Calendar
                 <span
-                    >Select&nbsp;
+                    >{{ exportCalendar || "Select" }}&nbsp;
                     <FcIcon :src="nextIcon" />
                 </span>
             </button>
+        </div>
+        <div
+            v-if="choosing"
+            class="fc-calendar-sync__choices"
+            role="group"
+            aria-label="Choose calendar"
+        >
+            <button
+                v-for="calendar in calendars"
+                :key="calendar"
+                type="button"
+                :aria-pressed="
+                    choosing === 'import'
+                        ? importCalendars.includes(calendar)
+                        : exportCalendar === calendar
+                "
+                @click="selectCalendar(calendar)"
+            >
+                {{ calendar }}
+                <span
+                    v-if="
+                        choosing === 'import' &&
+                        importCalendars.includes(calendar)
+                    "
+                    >✓</span
+                >
+            </button>
+            <button type="button" @click="choosing = ''">Done</button>
         </div>
         <div class="fc-calendar-sync__notice">
             <FcIcon :src="noticeIcon" /> &nbsp;<span

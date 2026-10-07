@@ -1,4 +1,15 @@
 <script setup>
+import { provide, readonly, ref } from "vue";
+
+// 테마는 현재 퍼블리싱 미리보기에서만 변경합니다.
+const theme = ref("dark");
+
+function setTheme(value) {
+    if (value === "dark" || value === "light") theme.value = value;
+}
+
+provide("appearance", { theme: readonly(theme), setTheme });
+
 function focusMainContent() {
     document.getElementById("main-content")?.focus();
 }
@@ -7,6 +18,7 @@ function focusMainContent() {
 <template>
     <div
         class="app"
+        :data-theme="theme"
         :class="{
             'app--map': $route.meta.layout === 'map',
         }"

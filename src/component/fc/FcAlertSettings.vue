@@ -8,11 +8,14 @@ const props = defineProps({
     title: { type: String, required: true },
     desc: { type: String, required: true },
     options: { type: Array, required: true },
-    friendName: { type: String, default: "김민지" },
-    friendEmail: { type: String, default: "friend@example.com" },
+    initialShared: { type: Boolean, default: false },
+    initialSelected: { type: String, default: "" },
+    friendName: { type: String, default: "" },
+    friendEmail: { type: String, default: "" },
 });
-const shared = ref(true);
-const selected = ref("Basics");
+defineEmits(["remove"]);
+const shared = ref(props.initialShared);
+const selected = ref(props.initialSelected);
 const options = reactive(props.options.map((option) => ({ ...option })));
 </script>
 
@@ -33,30 +36,30 @@ const options = reactive(props.options.map((option) => ({ ...option })));
         </template>
         <h2>{{ title }}</h2>
         <p>{{ desc }}</p>
+        <slot name="intro"></slot>
         <div
-            :role="mode === 'friend' ? 'radiogroup' : undefined"
-            :aria-label="mode === 'friend' ? title : undefined"
+            :role="mode !== 'mine' ? 'radiogroup' : undefined"
+            :aria-label="mode !== 'mine' ? title : undefined"
         >
             <div
                 v-for="option in options"
                 :key="option.title"
                 class="fc-alerts__option"
                 :class="{
-                    'is-selected':
-                        mode === 'friend' && selected === option.title,
+                    'is-selected': mode !== 'mine' && selected === option.title,
                 }"
-                :role="mode === 'friend' ? 'radio' : undefined"
-                :tabindex="mode === 'friend' ? 0 : undefined"
+                :role="mode !== 'mine' ? 'radio' : undefined"
+                :tabindex="mode !== 'mine' ? 0 : undefined"
                 :aria-checked="
-                    mode === 'friend' ? selected === option.title : undefined
+                    mode !== 'mine' ? selected === option.title : undefined
                 "
                 @keydown.enter.prevent="
-                    mode === 'friend' && (selected = option.title)
+                    mode !== 'mine' && (selected = option.title)
                 "
                 @keydown.space.prevent="
-                    mode === 'friend' && (selected = option.title)
+                    mode !== 'mine' && (selected = option.title)
                 "
-                @click="mode === 'friend' && (selected = option.title)"
+                @click="mode !== 'mine' && (selected = option.title)"
             >
                 <div>
                     <span :style="{ color: option.color }">
@@ -72,10 +75,12 @@ const options = reactive(props.options.map((option) => ({ ...option })));
                 <p>{{ option.desc }}</p>
             </div>
         </div>
+        <slot name="after-options"></slot>
         <button
             v-if="mode === 'friend'"
             type="button"
             class="fc-alerts__remove"
+            @click="$emit('remove')"
         >
             Remove Friend
         </button>

@@ -5,63 +5,37 @@ import earthIcon from "../../assets/icons/lucide/earth.svg";
 import FcPeriodTabs from "./FcPeriodTabs.vue";
 import { ref } from "vue";
 
-defineProps({
-    flights: { type: Number, default: 20 },
-    distance: { type: String, default: "73,650 km" },
-    flightTime: { type: String, default: "4d 13h" },
-    airports: { type: Number, default: 16 },
-    airlines: { type: Number, default: 5 },
+const props = defineProps({
+    flights: { type: Number, required: true },
+    distance: { type: String, required: true },
+    flightTime: { type: String, required: true },
+    airports: { type: Number, required: true },
+    airlines: { type: Number, required: true },
+    recent: { type: Array, default: () => [] },
+    periods: { type: Array, required: true },
+    mapFrom: { type: String, required: true },
+    mapTo: { type: String, required: true },
+    flags: { type: String, required: true },
+    historyTitle: { type: String, required: true },
+    historyCount: { type: String, required: true },
+    showPeriod: { type: Boolean, default: true },
+    showMap: { type: Boolean, default: true },
+    showHistory: { type: Boolean, default: true },
 });
-const period = ref("ALL-TIME");
-const recent = [
-    {
-        id: 1,
-        code: "KE 5926",
-        route: "AMS → ICN",
-        title: "Amsterdam to Seoul",
-        date: "Dec 29, 2025",
-    },
-    {
-        id: 2,
-        code: "AY 041",
-        route: "HEL → ICN",
-        title: "Helsinki to Seoul",
-        date: "Nov 14, 2025",
-    },
-    {
-        id: 3,
-        code: "KE 703",
-        route: "ICN → NRT",
-        title: "Seoul to Tokyo",
-        date: "Sep 8, 2025",
-    },
-    {
-        id: 4,
-        code: "SQ 607",
-        route: "ICN → SIN",
-        title: "Seoul to Singapore",
-        date: "Aug 20, 2025",
-    },
-    {
-        id: 5,
-        code: "OZ 202",
-        route: "ICN → LAX",
-        title: "Seoul to Los Angeles",
-        date: "Jun 2, 2025",
-    },
-];
+defineEmits(["select"]);
+const period = ref(props.periods[0]);
 </script>
 
 <template>
     <div class="fc-passport">
-        <FcPeriodTabs v-model="period" />
-        <div class="fc-passport__map">
-            <span>ICN</span
-            ><span>
-                <FcIcon :src="earthIcon" /> </span
-            ><span>ICN</span>
+        <FcPeriodTabs v-if="showPeriod" v-model="period" :items="periods" />
+        <div v-if="showMap" class="fc-passport__map">
+            <span>{{ mapFrom }}</span
+            ><span> <FcIcon :src="earthIcon" /> </span><span>{{ mapTo }}</span>
         </div>
-        <div class="fc-passport__flags">🇰🇷 🇲🇾 🇯🇵 🇩🇪 🇨🇳 🇸🇬 🇳🇱 🇫🇮 🇩🇰 🇸🇪 🇲🇳</div>
+        <div v-if="showMap" class="fc-passport__flags">
+            {{ flags }}
+        </div>
         <h2>MY FLIGHTY PASSPORT</h2>
         <small>PASSPORT · PASS · PASPORTE</small>
         <div class="fc-passport__numbers">
@@ -81,20 +55,26 @@ const recent = [
                 <span>AIRLINES</span><strong>{{ airlines }}</strong>
             </div>
         </div>
-        <h3>2025 <small>9 FLIGHTS</small></h3>
-        <div
-            v-for="flight in recent"
-            :key="flight.id"
-            class="fc-passport__flight"
-        >
-            <span>
-                <FcIcon :src="planeIcon" />
-            </span>
-            <div>
-                <small>{{ flight.code }} &nbsp;{{ flight.route }}</small
-                ><strong>{{ flight.title }}</strong>
-            </div>
-            <small>{{ flight.date }}</small>
-        </div>
+        <template v-if="showHistory">
+            <h3>
+                {{ historyTitle }} <small>{{ historyCount }}</small>
+            </h3>
+            <button
+                v-for="flight in recent"
+                :key="flight.id"
+                class="fc-passport__flight"
+                type="button"
+                @click="$emit('select', flight)"
+            >
+                <span>
+                    <FcIcon :src="planeIcon" />
+                </span>
+                <div>
+                    <small>{{ flight.code }} &nbsp;{{ flight.route }}</small
+                    ><strong>{{ flight.title }}</strong>
+                </div>
+                <small>{{ flight.date }}</small>
+            </button>
+        </template>
     </div>
 </template>

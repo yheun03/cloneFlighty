@@ -1,13 +1,5 @@
 <script setup>
 import "../../assets/scss/FcGalleryBundle.scss";
-import basicsIcon from "../../assets/icons/lucide/bell.svg";
-import checkIcon from "../../assets/icons/lucide/badge-check.svg";
-import flightPlanIcon from "../../assets/icons/lucide/route.svg";
-import arrivalIcon from "../../assets/icons/lucide/plane-landing.svg";
-import friendIcon from "../../assets/icons/lucide/users.svg";
-import earthIcon from "../../assets/icons/lucide/earth.svg";
-import moonIcon from "../../assets/icons/lucide/moon.svg";
-import sunIcon from "../../assets/icons/lucide/sun.svg";
 import shareIcon from "../../assets/icons/lucide/share-2.svg";
 import chipIcon from "../../assets/icons/lucide/square.svg";
 import { ref } from "vue";
@@ -37,93 +29,13 @@ import FcCountriesStats from "./FcCountriesStats.vue";
 import FcTopAirlines from "./FcTopAirlines.vue";
 import FcFlightDistanceStats from "./FcFlightDistanceStats.vue";
 
-const enabled = ref(true);
-const seat = ref("Aisle");
-const period = ref("2024");
-const day = ref(20);
-const reason = ref("");
-const completed = ref(false);
-const myAlertOptions = [
-    {
-        icon: basicsIcon,
-        title: "Basics",
-        desc: "The most critical alerts like gate changes, delays, & Cancellations.",
-        color: "#1685ff",
-        enabled: true,
-    },
-    {
-        icon: checkIcon,
-        title: "Above & Beyond",
-        desc: "Get alerts on inbound aircraft status, connection assistance, and aircraft changes",
-        color: "#00ae70",
-        enabled: false,
-    },
-    {
-        icon: flightPlanIcon,
-        title: "Flight Plans",
-        desc: "Get a map of the flight path when the pilot files it with authorities.",
-        color: "#ffca2d",
-        enabled: false,
-    },
-    {
-        icon: arrivalIcon,
-        title: "Arrival Information",
-        desc: "Get alerts for landing, gate arrival, and baggage claim.",
-        color: "#ff9d20",
-        enabled: false,
-    },
-];
-const friendAlertOptions = [
-    {
-        icon: friendIcon,
-        title: "None",
-        desc: "No alerts please. I’ll just view their flights in the app.",
-        color: "#ff5049",
-    },
-    {
-        icon: arrivalIcon,
-        title: "Just Landed",
-        desc: "Only notify me when they land.",
-        color: "#00ae70",
-    },
-    {
-        icon: friendIcon,
-        title: "Basics",
-        desc: "Add alerts for major disruptions, takeoff, 1h until arrival, and on morning of travel.",
-        color: "#1685ff",
-    },
-    {
-        icon: friendIcon,
-        title: "Everything",
-        desc: "Every alert. Check-in, gate change, disruptions, landing, baggage, etc",
-        color: "#ff9d20",
-    },
-];
-const distanceBreakdown = [
-    { label: "Days", value: "4.6" },
-    { label: "Weeks", value: "0.7" },
-    { label: "Months", value: "0.15" },
-    { label: "Years", value: "0.01" },
-    { label: "Avg. Flight Time", value: "5h 28m" },
-    { label: "In Air", value: "0.8%" },
-];
-const distanceComparisons = [
-    { icon: earthIcon, text: "1.8x Around Earth" },
-    { icon: moonIcon, text: "0.2x To the Moon" },
-    { icon: sunIcon, text: "0.02x Around the Sun" },
-];
-const shortestFlight = {
-    title: "Shortest flight",
-    route: "Jeju → Seoul",
-    distance: "451 km",
-    detail: "KE 1238 · 2 Jun 2017",
-};
-const longestFlight = {
-    title: "Longest flight",
-    route: "Seoul → Los Angeles",
-    distance: "9,647 km",
-    detail: "OZ 202 · 2 Jun 2017",
-};
+const props = defineProps({ data: { type: Object, required: true } });
+const enabled = ref(props.data.enabled);
+const seat = ref(props.data.seat);
+const period = ref(props.data.period);
+const day = ref(props.data.day);
+const reason = ref(props.data.reason);
+const completed = ref(props.data.completed);
 </script>
 
 <template>
@@ -176,7 +88,7 @@ const longestFlight = {
             <p class="fc-gallery__description">
                 조회 기간 전환과 수량 표시를 작은 단위의 컴포넌트로 나눈습니다.
             </p>
-            <FcPeriodTabs v-model="period" />
+            <FcPeriodTabs v-model="period" :items="data.periods" />
             <div class="fc-gallery__row">
                 <FcCountBadge />
                 <FcCountBadge variant="filled" />
@@ -188,7 +100,7 @@ const longestFlight = {
             <p class="fc-gallery__description">
                 선택한 날짜를 v-model로 연결한 달력 UI입니다.
             </p>
-            <FcCalendarPicker v-model="day" />
+            <FcCalendarPicker v-model="day" v-bind="data.calendar" />
         </section>
         <section class="fc-gallery__group" aria-labelledby="gallery-preference">
             <h2 id="gallery-preference">사용자와 좌석 선호 설정</h2>
@@ -196,19 +108,12 @@ const longestFlight = {
                 사용자 초대, 메모 입력, 좌석 선호 선택을 하나의 흐름으로
                 구성했습니다.
             </p>
-            <FcListRow title="김민지" />
+            <FcListRow :title="data.friend.title" />
             <FcListRow title="Invite a Friend" accent />
-            <FcPasteField v-model="reason" />
+            <FcPasteField v-model="reason" :sample-value="data.bookingCode" />
             <div class="fc-gallery__row">
                 <FcChoiceChip
-                    v-for="item in [
-                        'Aisle',
-                        'Middle',
-                        'Window',
-                        'Pilot',
-                        'Captain',
-                        'Jumpseat',
-                    ]"
+                    v-for="item in data.positions"
                     :key="item"
                     :label="item"
                     :icon="chipIcon"
@@ -222,8 +127,8 @@ const longestFlight = {
             <p class="fc-gallery__description">
                 연결 가능 여부와 터미널 이동 과정을 시간 순서로 표현했습니다.
             </p>
-            <FcConnectionStatus />
-            <FcTerminalTimeline />
+            <FcConnectionStatus v-bind="data.connection" />
+            <FcTerminalTimeline v-bind="data.timeline" />
         </section>
         <section
             class="fc-gallery__group"
@@ -234,16 +139,16 @@ const longestFlight = {
                 기본, 이력, 헤더 형태를 하나의 컴포넌트에서 variant로
                 구분했습니다.
             </p>
-            <FcFlightListItem />
-            <FcFlightListItem variant="history" />
-            <FcFlightListItem variant="header" />
+            <FcFlightListItem v-bind="data.flight" />
+            <FcFlightListItem v-bind="data.flight" variant="history" />
+            <FcFlightListItem v-bind="data.flight" variant="header" />
         </section>
         <section class="fc-gallery__group" aria-labelledby="gallery-search">
             <h2 id="gallery-search">항공편 검색</h2>
             <p class="fc-gallery__description">
                 항공편 추가 과정에 필요한 검색과 입력 상태를 구성했습니다.
             </p>
-            <FcAddFlightSearch />
+            <FcAddFlightSearch v-bind="data.search" />
         </section>
         <section class="fc-gallery__group" aria-labelledby="gallery-details">
             <h2 id="gallery-details">항공편 상세와 운항 일정</h2>
@@ -254,7 +159,7 @@ const longestFlight = {
             <div class="fc-gallery__row fc-gallery__state-preview">
                 <FcToggleSwitch v-model="completed" label="비행 종료" />
             </div>
-            <FcFlightDetails :completed="completed" />
+            <FcFlightDetails :details="data.details" :completed="completed" />
         </section>
         <section class="fc-gallery__group" aria-labelledby="gallery-passport">
             <h2 id="gallery-passport">여행 기록 요약</h2>
@@ -262,7 +167,7 @@ const longestFlight = {
                 누적 항공편, 거리, 시간, 이용 공항을 패스포트 형태로
                 요약했습니다.
             </p>
-            <FcPassportOverview />
+            <FcPassportOverview v-bind="data.overview" />
         </section>
         <section class="fc-gallery__group" aria-labelledby="gallery-delay">
             <h2 id="gallery-delay">지연 데이터 리포트</h2>
@@ -270,7 +175,7 @@ const longestFlight = {
                 지연 비율과 누적 시간을 비교해 운항 경험을 빠르게 파악할 수 있게
                 표현했습니다.
             </p>
-            <FcDelayReport />
+            <FcDelayReport v-bind="data.delayReport" />
         </section>
         <section class="fc-gallery__group" aria-labelledby="gallery-aircraft">
             <h2 id="gallery-aircraft">항공기 정보</h2>
@@ -278,8 +183,8 @@ const longestFlight = {
                 기종별 이용 통계와 자주 탑승한 항공기 이력을 카드로
                 나누었습니다.
             </p>
-            <FcAircraftStats />
-            <FcFrequentTails />
+            <FcAircraftStats :aircraft="data.aircraft" />
+            <FcFrequentTails v-bind="data.tails" />
         </section>
         <section class="fc-gallery__group" aria-labelledby="gallery-alerts">
             <h2 id="gallery-alerts">알림 정책 설정</h2>
@@ -290,13 +195,18 @@ const longestFlight = {
             <FcAlertSettings
                 title="My Flight Alerts"
                 desc="Pick the notification types you receive for your flights."
-                :options="myAlertOptions"
+                :options="data.myAlertOptions"
+                :initial-shared="data.alerts.shared"
+                :initial-selected="data.alerts.selected"
             />
             <FcAlertSettings
                 mode="friend"
                 title="Customize Alerts"
                 desc="Customize this per friend in Flighty Friends."
-                :options="friendAlertOptions"
+                :options="data.friendAlertOptions"
+                v-bind="data.friend"
+                :initial-shared="data.alerts.shared"
+                :initial-selected="data.alerts.selected"
             />
         </section>
         <section class="fc-gallery__group" aria-labelledby="gallery-settings">
@@ -305,8 +215,11 @@ const longestFlight = {
                 외부 캘린더 연동 상태와 계정 설정 목록을 일관된 행 패턴으로
                 표현했습니다.
             </p>
-            <FcCalendarSync />
-            <FcSettingsMenu />
+            <FcCalendarSync
+                :calendars="data.calendarSync.calendars"
+                :settings="data.calendarSync"
+            />
+            <FcSettingsMenu v-bind="data.settings" />
         </section>
         <section
             class="fc-gallery__group"
@@ -316,15 +229,15 @@ const longestFlight = {
             <p class="fc-gallery__description">
                 항공사별 운항 기록과 정시성 지표를 비교할 수 있게 구성했습니다.
             </p>
-            <FcAirlinePerformance />
+            <FcAirlinePerformance :report="data.performance" />
         </section>
         <section class="fc-gallery__group" aria-labelledby="gallery-seats">
             <h2 id="gallery-seats">좌석 이용 통계</h2>
             <p class="fc-gallery__description">
                 좌석 위치와 등급별 이용 기록을 각각의 통계 상태로 표현했습니다.
             </p>
-            <FcSeatStats />
-            <FcSeatStats mode="class" />
+            <FcSeatStats v-bind="data.seats.seat" />
+            <FcSeatStats v-bind="data.seats.class" />
         </section>
         <section class="fc-gallery__group" aria-labelledby="gallery-statistics">
             <h2 id="gallery-statistics">여행 데이터 시각화</h2>
@@ -332,24 +245,9 @@ const longestFlight = {
                 방문 국가, 주요 항공사, 비행 거리를 카드와 비교 지표로
                 구성했습니다.
             </p>
-            <FcCountriesStats />
-            <FcTopAirlines />
-            <FcFlightDistanceStats
-                title="Flight Distance"
-                share-label="Share"
-                :share-icon="shareIcon"
-                distance="73,650"
-                distance-unit="km"
-                miles="45,764"
-                miles-unit="mi"
-                :breakdown="distanceBreakdown"
-                average-label="Average distance: 3,682 km"
-                :comparisons="distanceComparisons"
-                summary-label="Show Summary"
-                breakdown-label="Show Breakdown"
-                :shortest-flight="shortestFlight"
-                :longest-flight="longestFlight"
-            />
+            <FcCountriesStats v-bind="data.countries" />
+            <FcTopAirlines v-bind="data.airlines" />
+            <FcFlightDistanceStats v-bind="data.distance" />
         </section>
     </article>
 </template>

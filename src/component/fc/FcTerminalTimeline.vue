@@ -2,10 +2,10 @@
 import FcIcon from "./FcIcon.vue";
 import terminalIcon from "../../assets/icons/lucide/circle-check.svg";
 defineProps({
-    arrival: { type: String, default: "05:20" },
-    departure: { type: String, default: "09:50" },
-    terminal: { type: String, default: "Terminal Main" },
-    gate: { type: String, default: "A4" },
+    arrival: { type: String, required: true },
+    departure: { type: String, required: true },
+    terminal: { type: String, required: true },
+    gate: { type: String, required: true },
 });
 </script>
 

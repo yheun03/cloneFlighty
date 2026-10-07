@@ -1,11 +1,21 @@
 <script setup>
-defineProps({ src: { type: String, required: true } });
+import { computed } from "vue";
+
+const props = defineProps({ src: { type: String, required: true } });
+const icons = import.meta.glob("../../assets/icons/lucide/*.svg", {
+    eager: true,
+    query: "?url",
+    import: "default",
+});
+const source = computed(
+    () => icons[`../../assets/icons/lucide/${props.src}.svg`] || props.src,
+);
 </script>
 
 <template>
     <span
         class="fc-icon"
-        :style="{ '--fc-icon-url': `url(${src})` }"
+        :style="{ '--fc-icon-url': `url(&quot;${source}&quot;)` }"
         aria-hidden="true"
     ></span>
 </template>

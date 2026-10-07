@@ -6,7 +6,7 @@
         align-items: center;
         gap: 10px;
         padding: 10px 0;
-        border-bottom: 1px solid #404040;
+        border-bottom: 1px solid var(--fc-border, #404040);
 
         & > span {
             font-size: 23px;
@@ -17,7 +17,7 @@
         }
 
         & small {
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
         }
     }
 
@@ -32,12 +32,12 @@
             flex-direction: column;
             min-height: 70px;
             padding: 8px;
-            border: 1px solid #555;
+            border: 1px solid var(--fc-card-border, #555);
             border-radius: 6px;
         }
 
         & strong {
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
             font-size: 11px;
         }
 
@@ -49,7 +49,7 @@
         }
 
         & small {
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
         }
     }
 }

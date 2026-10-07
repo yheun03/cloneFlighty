@@ -1,27 +1,10 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import flightIcon from "../../assets/icons/lucide/plane.svg";
-import friendIcon from "../../assets/icons/lucide/users.svg";
-import calendarIcon from "../../assets/icons/lucide/calendar-days.svg";
-import appearanceIcon from "../../assets/icons/lucide/settings.svg";
 import nextIcon from "../../assets/icons/lucide/chevron-right.svg";
-const groups = [
-    {
-        label: "ALERTS",
-        items: [
-            { icon: flightIcon, title: "My Flights" },
-            { icon: friendIcon, title: "Friends’ Flights" },
-        ],
-    },
-    {
-        label: "AUTOMATIONS",
-        items: [{ icon: calendarIcon, title: "Calendar Sync" }],
-    },
-    {
-        label: "CUSTOMIZE",
-        items: [{ icon: appearanceIcon, title: "App Appearance" }],
-    },
-];
+defineProps({
+    groups: { type: Array, required: true },
+    membership: { type: Object, required: true },
+});
 defineEmits(["select"]);
 </script>
 
@@ -34,7 +17,10 @@ defineEmits(["select"]);
             @click="$emit('select', 'pro')"
         >
             <b>PRO</b
-            ><span><strong>Flighty Pro</strong><small>Member</small></span>
+            ><span
+                ><strong>{{ membership.title }}</strong
+                ><small>{{ membership.status }}</small></span
+            >
             <FcIcon :src="nextIcon" />
         </button>
         <div
@@ -47,11 +33,9 @@ defineEmits(["select"]);
                 v-for="item in group.items"
                 :key="item.title"
                 type="button"
-                @click="$emit('select', item.title)"
+                @click="$emit('select', item)"
             >
-                <span>
-                    <FcIcon :src="item.icon" /> </span
-                >{{ item.title
+                <span> <FcIcon :src="item.icon" /> </span>{{ item.title
                 }}<b>
                     <FcIcon :src="nextIcon" />
                 </b>

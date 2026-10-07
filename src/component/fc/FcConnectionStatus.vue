@@ -1,8 +1,8 @@
 <script setup>
 defineProps({
-    title: { type: String, default: "Relaxed Connection" },
-    duration: { type: String, default: "4h 30m" },
-    extra: { type: String, default: "3h 10m" },
+    title: { type: String, required: true },
+    duration: { type: String, required: true },
+    extra: { type: String, required: true },
 });
 </script>
 
@@ -11,8 +11,7 @@ defineProps({
         <h2>{{ title }}</h2>
         <p>
             You have <strong>{{ duration }} between flights.</strong> That's
-            {{ extra }}<br />
-            more than the suggested minimum.
+            {{ extra }} more than the suggested minimum.
         </p>
     </div>
 </template>

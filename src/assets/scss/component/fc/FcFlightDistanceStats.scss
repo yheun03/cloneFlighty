@@ -3,7 +3,7 @@
 
     & > p {
         margin: 0 0 22px;
-        color: #aaa;
+        color: var(--fc-text-secondary, #aaa);
     }
 
     &__comparisons {
@@ -29,18 +29,18 @@
         & div {
             display: flex;
             flex-direction: column;
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
         }
 
         & strong {
-            color: white;
+            color: var(--fc-text-strong, white);
             font-size: 23px;
         }
     }
 
     &__flight {
         padding: 17px 0;
-        border-top: 1px solid #444;
+        border-top: 1px solid var(--fc-border, #444);
 
         & h3 {
             margin: 0 0 12px;
@@ -59,7 +59,7 @@
         }
 
         & small {
-            color: #999;
+            color: var(--fc-text-secondary, #999);
         }
     }
 }

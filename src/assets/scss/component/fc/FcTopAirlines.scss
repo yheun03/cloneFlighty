@@ -11,11 +11,11 @@
             border: 0;
             border-radius: 8px;
             background: none;
-            color: white;
+            color: var(--fc-text-strong, white);
         }
 
         & button.is-active {
-            background: #333;
+            background: var(--fc-selected-bg, #333);
         }
     }
 
@@ -27,11 +27,11 @@
         margin: 10px 0;
 
         & b {
-            background: #8952ff;
+            background: var(--fc-chart-line);
         }
 
         & small {
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
         }
     }
 }

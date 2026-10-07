@@ -18,6 +18,7 @@ defineProps({
     breakdownLabel: { type: String, required: true },
     shortestFlight: { type: Object, required: true },
     longestFlight: { type: Object, required: true },
+    view: { type: String, default: "toggle" },
 });
 const expanded = ref(false);
 </script>
@@ -37,7 +38,10 @@ const expanded = ref(false);
             ><span>{{ distanceUnit }}</span>
         </div>
         <p>{{ miles }} {{ milesUnit }}</p>
-        <div v-if="expanded" class="fc-distance__breakdown">
+        <div
+            v-if="view === 'breakdown' || expanded"
+            class="fc-distance__breakdown"
+        >
             <div v-for="item in breakdown" :key="item.label">
                 <span>{{ item.label }}</span
                 ><strong>{{ item.value }}</strong>
@@ -50,6 +54,7 @@ const expanded = ref(false);
             </span>
         </div>
         <button
+            v-if="view === 'toggle'"
             type="button"
             class="fc-stat-more"
             :aria-expanded="expanded"

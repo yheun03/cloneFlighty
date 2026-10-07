@@ -3,20 +3,21 @@ import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import BaseInput from "../component/base/BaseInput.vue";
 import "../assets/scss/pages/IntroPage.scss";
+import pageData from "./data/IntroPage.json";
 
-const airports = JSON.parse(document.querySelector("#airports").textContent);
+const airports = pageData.airports;
 const route = useRoute();
 const router = useRouter();
 const normalize = (value) => value.trim().toUpperCase();
 const from = ref(
     typeof route.query.from === "string"
         ? normalize(route.query.from).slice(0, 3)
-        : "ICN",
+        : pageData.from,
 );
 const to = ref(
     typeof route.query.to === "string"
         ? normalize(route.query.to).slice(0, 3)
-        : "SFO",
+        : pageData.to,
 );
 const statusMessage = ref("");
 const errorMessage = ref("");
@@ -28,32 +29,15 @@ function clearMessages() {
     invalidFields.value = [];
 }
 
-async function paste(field) {
-    try {
-        const target = field === "from" ? from : to;
-        target.value = normalize(await navigator.clipboard.readText()).slice(
-            0,
-            3,
-        );
-        clearMessages();
-    } catch {
-        statusMessage.value = "";
-        invalidFields.value = [];
-        errorMessage.value = "클립보드를 읽을 수 없습니다.";
-    }
+function paste(field) {
+    const target = field === "from" ? from : to;
+    target.value = pageData[field];
+    clearMessages();
 }
 
-async function copy(value) {
-    try {
-        await navigator.clipboard.writeText(normalize(value));
-        errorMessage.value = "";
-        invalidFields.value = [];
-        statusMessage.value = "공항 코드를 복사했습니다.";
-    } catch {
-        statusMessage.value = "";
-        invalidFields.value = [];
-        errorMessage.value = "클립보드에 복사할 수 없습니다.";
-    }
+function copy() {
+    clearMessages();
+    statusMessage.value = pageData.copiedMessage;
 }
 
 function showMap() {
@@ -83,8 +67,9 @@ function showMap() {
             <p class="intro__eyebrow">Vue 3 UI Clone Project</p>
             <h1>항공편 사용자 경험을<br />Vue 3로 재구성했습니다.</h1>
             <p class="intro__lead">
-                Flighty의 정보 구조와 인터랙션을 분석해 공항 검색, 항로 시각화,
-                상태 기반 UI 컴포넌트로 구현한 개인 프로젝트입니다.
+                Flighty의 화면을 Vue와 SCSS로 구성한 웹 퍼블리싱 프로젝트입니다.
+                각 페이지의 JSON 더미 데이터로 레이아웃과 다양한 UI 상태를
+                확인합니다.
             </p>
             <ul class="intro__stack" aria-label="사용 기술">
                 <li>Vue 3</li>
@@ -96,13 +81,12 @@ function showMap() {
             <dl class="intro__facts">
                 <div>
                     <dt>담당 범위</dt>
-                    <dd>UI 분석 · 웹 퍼블리싱 · Vue 프론트엔드 구현</dd>
+                    <dd>UI 분석 · 웹 퍼블리싱</dd>
                 </div>
                 <div>
                     <dt>구현 결과</dt>
                     <dd>
-                        검색부터 지도, 재사용 컴포넌트까지 이어지는 인터랙티브
-                        데모
+                        항공편, 통계, 설정 화면과 선택·토글·모달 상태 미리보기
                     </dd>
                 </div>
             </dl>
@@ -133,8 +117,8 @@ function showMap() {
                 <li>
                     <strong>검색 상태 연결</strong>
                     <p>
-                        공항 코드를 정규화·검증하고 URL 쿼리로 전달해 검색과
-                        지도 화면의 상태를 연결했습니다.
+                        페이지별 JSON 더미 데이터로 검색 목록과 빈 결과 화면을
+                        확인할 수 있도록 구성했습니다.
                     </p>
                 </li>
                 <li>
@@ -147,8 +131,8 @@ function showMap() {
                 <li>
                     <strong>재사용 UI 설계</strong>
                     <p>
-                        선택, 완료, 변형 상태를 props와 v-model로 제어하는
-                        항공편 UI 컴포넌트를 구성했습니다.
+                        기존 공통 컴포넌트를 재사용하고 선택, 완료, 변형 상태를
+                        화면에서 확인할 수 있도록 구성했습니다.
                     </p>
                 </li>
             </ul>

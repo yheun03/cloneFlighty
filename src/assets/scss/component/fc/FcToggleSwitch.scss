@@ -4,7 +4,7 @@
     padding: 2px;
     border: 0;
     border-radius: 20px;
-    background: #888;
+    background: var(--fc-switch-bg, #888);
     transition: background 0.2s;
 
     & span {
@@ -18,7 +18,7 @@
     }
 
     &.is-on {
-        background: #087bfa;
+        background: var(--fc-blue, #087bfa);
     }
 
     &.is-on span {

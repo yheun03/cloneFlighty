@@ -1,0 +1,1088 @@
+.frame-page {
+    position: relative;
+    min-height: 100%;
+    padding: 20px 16px 32px;
+    background: var(--fc-surface, #18191b);
+    color: var(--fc-text, #f5f5f5);
+
+    &__title {
+        margin: 0 36px 8px 4px;
+        font-size: 34px;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.8px;
+    }
+
+    &__lead {
+        margin: 12px 4px 28px;
+        font-size: 18px;
+        line-height: 1.55;
+    }
+
+    &__input {
+        width: 100%;
+        min-width: 0;
+        min-height: 44px;
+        padding: 12px;
+        border: 0;
+        border-radius: 9px;
+        background: var(--fc-control-bg, #2b2b2b);
+        color: var(--fc-text-body, #ddd);
+
+        &::placeholder {
+            color: var(--fc-placeholder, #777);
+        }
+    }
+
+    &__close {
+        position: absolute;
+        top: 22px;
+        right: 16px;
+        z-index: 1;
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        border: 1px solid var(--fc-border, #333);
+        border-radius: 50%;
+        color: var(--fc-text-strong, white);
+        font-size: 24px;
+        line-height: 1;
+    }
+
+    &__label {
+        margin: 30px 0 12px;
+        color: var(--fc-text-secondary, #aaa);
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    &__note {
+        color: var(--fc-text-secondary, #999);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    &__link {
+        padding: 0;
+        border: 0;
+        background: none;
+        color: var(--fc-blue, #087bfa);
+        font-weight: 600;
+    }
+
+    &__primary {
+        width: 100%;
+        margin-top: 20px;
+        padding: 11px 16px;
+        border: 0;
+        border-radius: 9px;
+        background: var(--fc-blue, #087bfa);
+        color: white;
+        font-weight: 600;
+    }
+
+    &__feedback {
+        position: sticky;
+        bottom: 0;
+        margin: 0;
+        padding: 12px;
+        border: 1px solid var(--fc-border, #494949);
+        border-radius: 8px;
+        background: var(--fc-control-bg, #303030);
+        color: var(--fc-text-strong, white);
+        font-size: 14px;
+    }
+}
+
+.frame-page .fc-periods {
+    gap: 5px;
+    margin-bottom: 10px;
+
+    button {
+        padding: 6px 9px;
+        border-radius: 7px;
+        font-size: 15px;
+    }
+}
+
+.frame-page .fc-list-row__avatar {
+    width: 36px;
+    height: 36px;
+    background: #5c5c5e;
+    font-size: 24px;
+}
+
+.frame-page .fc-list-row__text strong {
+    color: var(--fc-text-body, #d4d4d4);
+    font-size: 16px;
+    font-weight: 500;
+
+    &.is-accent {
+        color: var(--fc-blue, #087bfa);
+        font-weight: 700;
+    }
+}
+
+.frame-page .fc-list-row__arrow {
+    color: var(--fc-text-heading, #ccc);
+    font-size: 22px;
+}
+
+.flights-page__list {
+    margin-top: 10px;
+}
+
+.flights-page__flight,
+.passport-page__history a {
+    display: block;
+    color: var(--fc-text-body, #d4d4d4);
+}
+
+.flights-page .fc-flight-list {
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 0;
+}
+
+.flights-page .fc-flight-list__content {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--fc-border, #303030);
+}
+
+.flights-page .fc-flight-list__days {
+    padding-top: 5px;
+
+    strong {
+        margin-bottom: 8px;
+        font-size: 32px;
+    }
+
+    small {
+        font-size: 13px;
+    }
+}
+
+.fc-flight-list__avatar {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 7px;
+    border-radius: 50%;
+    background: #bcbec5;
+}
+
+.flights-page .fc-flight-list__meta,
+.flights-page .fc-flight-list__sub {
+    font-size: 13px;
+}
+
+.flights-page__add {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 14px;
+}
+
+.settings-page .fc-settings {
+    margin: 0;
+
+    h2 {
+        margin-bottom: 24px;
+        font-size: 34px;
+    }
+}
+
+.settings-page .fc-settings__pro {
+    padding: 20px 12px;
+
+    > span:not(.fc-icon) {
+        font-size: 24px;
+    }
+
+    small {
+        font-size: 16px;
+    }
+}
+
+.settings-page .fc-settings__group {
+    margin-top: 36px;
+
+    h3 {
+        margin-left: 10px;
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+    button {
+        gap: 16px;
+        padding: 13px 12px;
+        color: var(--fc-text-body, #d4d4d4);
+    }
+
+    button:last-child {
+        border-bottom: 1px solid var(--fc-border, #363636);
+    }
+
+    button > span {
+        font-size: 20px;
+    }
+}
+
+.settings-page__appearance {
+    margin-top: 36px;
+
+    h2 {
+        margin: 0 0 4px;
+        font-size: 20px;
+    }
+
+    p {
+        margin: 0 0 14px;
+    }
+}
+
+.settings-page .settings-page__theme-options {
+    gap: 6px;
+    padding: 4px;
+    border: 1px solid var(--fc-border, #363636);
+    border-radius: 10px;
+
+    button {
+        flex: 1;
+        min-height: 38px;
+    }
+
+    .is-active {
+        background: var(--fc-chip-bg, #1c3551);
+        color: var(--fc-link, #1685ff);
+    }
+}
+
+.alerts-page .fc-alerts {
+    margin: 0;
+
+    h2 {
+        margin: 0 4px 10px;
+        font-size: 34px;
+        line-height: 1.2;
+        letter-spacing: -0.8px;
+    }
+
+    > p {
+        margin: 0 4px 32px;
+        font-size: 18px;
+        line-height: 1.55;
+    }
+}
+
+.alerts-page .fc-alerts__option {
+    margin: 12px 0;
+    padding: 15px 16px;
+    border-radius: 17px;
+    background: var(--fc-control-bg, #2b2b2b);
+
+    > div > span {
+        font-size: 23px;
+    }
+
+    strong {
+        font-size: 18px;
+    }
+
+    p {
+        margin-top: 7px;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+}
+
+.alerts-page .fc-alerts__friend {
+    > span {
+        width: 50px;
+        height: 50px;
+        background: #5c5c5e;
+    }
+
+    strong {
+        font-size: 24px;
+    }
+
+    small {
+        font-size: 16px;
+    }
+}
+
+.alerts-page .fc-alerts__friend ~ h2 {
+    margin-left: 0;
+    font-size: 22px;
+}
+
+.alerts-page__intro {
+    margin: 36px 0 14px;
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+.alerts-page__footer {
+    margin-top: 70px;
+}
+
+.alerts-page__new-flights {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    padding: 16px;
+    border-radius: 16px;
+    background: var(--fc-control-bg, #2b2b2b);
+
+    > .fc-icon {
+        color: #ff3b30;
+        font-size: 22px;
+    }
+
+    strong {
+        flex: 1;
+        font-size: 18px;
+    }
+}
+
+.calendar-sync-page .fc-calendar-sync {
+    display: flex;
+    flex-direction: column;
+    min-height: 650px;
+
+    > strong {
+        margin: 12px 4px;
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    > p {
+        margin: 0 4px 20px;
+        font-size: 16px;
+    }
+}
+
+.calendar-sync-page .fc-calendar-sync__item {
+    margin: 20px 0;
+
+    h3 {
+        font-size: 20px;
+    }
+}
+
+.calendar-sync-page .fc-calendar-sync__notice {
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+
+    > .fc-icon {
+        flex: none;
+        color: var(--fc-success, #00ae70);
+        font-size: 24px;
+    }
+}
+
+.fc-calendar-sync__choices {
+    display: grid;
+    gap: 6px;
+
+    button {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border: 1px solid var(--fc-border, #444);
+        border-radius: 6px;
+        background: var(--fc-control-bg, #2b2b2b);
+        color: var(--fc-text-strong, white);
+    }
+}
+
+.language-page .fc-list-row {
+    padding: 16px 12px;
+
+    &__avatar {
+        width: 26px;
+        height: 26px;
+        background: transparent;
+    }
+}
+
+.language-page .frame-page__label {
+    margin-bottom: 0;
+    padding: 0 10px 6px;
+    border-bottom: 1px solid var(--fc-border, #363636);
+}
+
+.language-page__device {
+    margin-top: 44px;
+}
+
+.units-page__section {
+    margin-top: 36px;
+
+    h2 {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    p {
+        margin: 4px 0 14px;
+        font-size: 16px;
+    }
+}
+
+.units-page .units-page__segments {
+    display: flex;
+    gap: 0;
+    padding: 2px;
+    border-radius: 20px;
+    background: var(--fc-control-bg, #2b2b2b);
+
+    button {
+        flex: 1;
+        padding: 4px 8px;
+        border: 0;
+        border-radius: 18px;
+        background: transparent;
+        color: var(--fc-text-strong, white);
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .is-active {
+        background: var(--fc-segment-selected, #666);
+    }
+}
+
+.friends-page__list {
+    margin-top: 36px;
+}
+
+.friends-page__invite {
+    display: grid;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.add-flight-page .fc-search {
+    h2 {
+        margin: 0 36px 8px 4px;
+        font-size: 32px;
+    }
+
+    label {
+        margin: 8px 4px 14px;
+        font-size: 18px;
+    }
+
+    input {
+        margin-bottom: 24px;
+        background: var(--fc-control-bg, #2b2b2b);
+    }
+}
+
+.add-flight-page .fc-search__result strong,
+.add-flight-page .fc-list-row__text strong {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.add-flight-page .fc-search__section-label {
+    margin: 0 0 8px;
+    color: var(--fc-text-secondary, #888);
+    font-size: 15px;
+}
+
+.add-flight-page .fc-list-row {
+    border: 0;
+}
+
+.add-flight-page .fc-search__avatar,
+.add-flight-page .fc-list-row__avatar {
+    width: 26px;
+    height: 26px;
+    background: transparent;
+    color: var(--fc-text-strong, white);
+}
+
+.add-flight-page__hint {
+    margin-bottom: 14px;
+    color: var(--fc-placeholder, #777);
+}
+
+.add-flight-page__fields--number {
+    display: grid;
+    grid-template-columns: 60px 60px minmax(0, 1fr);
+    gap: 8px;
+}
+
+.add-flight-page__dates,
+.add-flight-page .fc-calendar {
+    margin-top: 28px;
+}
+
+.add-flight-page .fc-calendar {
+    max-width: none;
+}
+
+.add-flight-page .fc-calendar__grid button {
+    width: min(44px, 100%);
+    height: 44px;
+
+    &.is-marked {
+        background: var(--fc-calendar-marked-bg, #123e69);
+        color: var(--fc-link, white);
+    }
+
+    &.is-outlined {
+        border-color: var(--fc-blue, #087bfa);
+    }
+
+    &.is-selected {
+        background: var(--fc-blue, #087bfa);
+        color: white;
+    }
+}
+
+.add-flight-page__route {
+    display: grid;
+    gap: 8px;
+}
+
+.add-flight-page__report {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 14px;
+    color: var(--fc-text-secondary, #888);
+    font-size: 13px;
+}
+
+.flight-detail-page .fc-flight-list--header {
+    margin-bottom: 15px;
+    border: 0;
+
+    .fc-flight-list__logo {
+        width: 38px;
+        height: 38px;
+        border-width: 2px;
+        font-size: 24px;
+    }
+
+    .fc-flight-list__meta {
+        font-size: 11px;
+    }
+
+    .fc-flight-list__close {
+        flex: none;
+        width: 30px;
+        height: 30px;
+        border-color: var(--fc-border, #333);
+    }
+}
+
+.fc-details__features > button {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+    border: 1px solid var(--fc-border, #333);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--fc-text-body, #ddd);
+    text-align: left;
+
+    > span {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 3px 6px;
+        border-radius: 5px;
+        background: var(--fc-copy-bg, #0d2d4c);
+        color: var(--fc-blue, #087bfa);
+        font-size: 10px;
+    }
+
+    strong {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+}
+
+.fc-details__connection {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px solid var(--fc-border, #333);
+    border-radius: 9px;
+    background: none;
+    color: var(--fc-blue, #087bfa);
+    text-align: left;
+}
+
+.flight-detail-page .fc-details__card {
+    border-color: var(--fc-border, #303030);
+}
+
+.fc-schedule__actual {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+
+    del {
+        color: var(--fc-placeholder, #777);
+        font-size: 13px;
+    }
+}
+
+.fc-schedule__gates {
+    display: flex;
+    gap: 4px;
+}
+
+.flight-detail-page__background--blurred {
+    filter: blur(4px);
+}
+
+.booking-dialog {
+    position: absolute;
+    z-index: 10;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overflow-y: auto;
+    background: #0008;
+    backdrop-filter: blur(3px);
+
+    &__panel {
+        position: relative;
+        width: 100%;
+        max-height: 100%;
+        padding: 24px 16px;
+        overflow-y: auto;
+        border: 1px solid var(--fc-border, #222);
+        border-radius: 16px;
+        background: var(--fc-dialog-bg, #111);
+        color: var(--fc-text-strong, white);
+        box-shadow: 0 10px 35px #0005;
+    }
+
+    &__close {
+        position: absolute;
+        top: 6px;
+        right: 10px;
+        padding: 0 6px;
+        border: 0;
+        background: none;
+        color: var(--fc-text-secondary, #aaa);
+        font-size: 24px;
+    }
+
+    &__label {
+        display: block;
+        margin: 24px 0 8px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    &__choices {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 8px;
+    }
+
+    .fc-chip {
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+
+    .fc-paste-field {
+        margin: 0;
+    }
+}
+
+.app[data-theme="light"] .booking-dialog .fc-chip:not(.is-active) {
+    background: transparent;
+    color: var(--fc-text);
+}
+
+.connection-page .fc-connection h2 {
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.connection-page .fc-connection p {
+    margin-top: 12px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.connection-page__description {
+    margin: 14px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--fc-border, #333);
+    color: var(--fc-text-secondary, #999);
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.connection-page__meter {
+    position: relative;
+    display: block;
+    margin-top: 20px;
+    padding: 25px 12px;
+    color: var(--fc-text-secondary, #999);
+    font-size: 12px;
+}
+
+.connection-page__track {
+    display: block;
+    height: 14px;
+    padding: 4px 18px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #78312c, #246447);
+
+    > span {
+        display: block;
+        height: 7px;
+        border-radius: 20px;
+        background: linear-gradient(90deg, #ff3b30, #ffc832 28%, #42d563 45%);
+    }
+}
+
+.connection-page__minimum {
+    position: absolute;
+    top: 0;
+    left: 20%;
+}
+
+.connection-page__duration {
+    position: absolute;
+    top: 0;
+    right: 8%;
+    color: #42d563;
+}
+
+.connection-page .fc-terminal {
+    margin-top: 0;
+}
+
+.passport-page__card {
+    margin-top: 10px;
+    padding: 16px;
+    border-radius: 18px;
+
+    h2 {
+        margin: 0;
+        font-size: 23px;
+        line-height: 1.25;
+    }
+
+    p {
+        margin: 6px 0;
+        font-size: 14px;
+    }
+
+    &--passport {
+        background: #160748;
+        color: #f5f5f5;
+        --fc-passport-label: #a8afd9;
+    }
+
+    &--delays {
+        background: #800812;
+        color: #f5f5f5;
+
+        p {
+            color: #d9858b;
+        }
+    }
+
+    &--aircraft {
+        background: #d8d8f4;
+        color: #004465;
+    }
+}
+
+.passport-page .fc-passport h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.passport-page .fc-passport__numbers {
+    margin: 18px 0;
+
+    strong {
+        font-size: 27px;
+        line-height: 1.4;
+    }
+
+    span {
+        font-size: 13px;
+    }
+}
+
+.passport-page__stats-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding: 10px 14px;
+    border: 1px solid #ffffff30;
+    border-radius: 8px;
+    background: #ffffff18;
+    color: inherit;
+    font-weight: 600;
+
+    span {
+        font-size: 22px;
+        line-height: 1;
+    }
+}
+
+.passport-page__card--aircraft .passport-page__stats-link {
+    background: #9cbbe3;
+}
+
+.passport-page__large {
+    display: block;
+    margin-bottom: 16px;
+    font-size: clamp(40px, 8vw, 56px);
+    line-height: 1.2;
+}
+
+.passport-page__plane {
+    margin: 24px 0;
+    color: #44a8d3;
+    text-align: center;
+    font-size: 90px;
+    line-height: 1;
+}
+
+.passport-page__past-title {
+    margin: 22px 0 10px;
+    color: var(--fc-text-heading, #ccc);
+    font-size: 24px;
+}
+
+.passport-page__history {
+    margin: 22px 0;
+
+    h3 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+        padding: 0 0 8px;
+        border-bottom: 1px solid var(--fc-border, #333);
+        color: var(--fc-text-heading, #ccc);
+        font-size: 17px;
+    }
+
+    h3 small {
+        color: var(--fc-text-secondary, #888);
+        font-size: 11px;
+        font-weight: 400;
+    }
+
+    .fc-flight-list__logo {
+        width: 32px;
+        height: 32px;
+        border: 0;
+        border-radius: 0;
+        background: var(--fc-control-bg, #444);
+        font-size: 18px;
+    }
+
+    .fc-flight-list__meta {
+        font-size: 11px;
+    }
+
+    .fc-flight-list__content > strong {
+        font-size: 14px;
+    }
+
+    .fc-flight-list__sub {
+        display: none;
+    }
+}
+
+.stats-page > .fc-distance,
+.stats-page > .fc-performance,
+.stats-page > .fc-top-airlines,
+.stats-page > .fc-countries,
+.stats-page > .fc-frequent-tails,
+.stats-page__section,
+.aircraft-stats-page__age {
+    margin: 48px 0;
+}
+
+.stats-page .fc-stat-head {
+    margin-bottom: 12px;
+
+    h2 {
+        color: var(--fc-text-heading, #ccc);
+        font-size: 19px;
+    }
+
+    .fc-button {
+        padding: 5px 8px;
+        border-color: var(--fc-border, #444);
+        border-radius: 6px;
+        font-size: 12px;
+    }
+}
+
+.stats-page .fc-stat-number {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+
+    strong {
+        font-size: 44px;
+    }
+
+    span {
+        font-size: 22px;
+    }
+}
+
+.stats-page .fc-top-airlines__bar {
+    grid-template-columns: 54px minmax(0, 1fr) 28px;
+    font-size: 12px;
+}
+
+.stats-page .fc-stat-more {
+    padding: 8px 0;
+    font-size: 13px;
+}
+
+.stats-page__flight-tabs {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+
+    > span {
+        color: var(--fc-text-secondary, #aaa);
+        font-size: 11px;
+    }
+
+    .fc-periods button {
+        padding: 3px 7px;
+        border-radius: 4px;
+        font-size: 12px;
+    }
+}
+
+.stats-page__line-chart {
+    display: block;
+    width: 100%;
+    height: 180px;
+    margin-top: 20px;
+    overflow: visible;
+}
+
+.delay-stats-page .fc-delay-report__brand {
+    display: none;
+}
+
+.delay-stats-page .fc-delay-report__stripe {
+    background: var(--fc-control-bg, #444);
+}
+
+.delay-stats-page .fc-performance__headline {
+    flex-wrap: wrap;
+
+    strong {
+        font-size: 48px;
+    }
+
+    span {
+        font-size: 22px;
+    }
+}
+
+.delay-stats-page .fc-performance__delay {
+    grid-template-columns: 78px 58px 62px minmax(0, 1fr);
+    gap: 3px;
+    font-size: 11px;
+
+    small {
+        font-size: 10px;
+        text-align: right;
+    }
+}
+
+.aircraft-stats-page .fc-aircraft-stats__featured {
+    height: 160px;
+    padding: 0;
+    background: transparent;
+    color: #004465;
+}
+
+.aircraft-stats-page__seat-summary {
+    margin: 24px 0;
+    font-size: 12px;
+
+    > div:first-child {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    p strong {
+        display: block;
+    }
+}
+
+.aircraft-stats-page__seat-bar {
+    display: grid;
+    grid-template-columns: 19fr 1fr 1fr 1fr;
+    background: #9fc8e3;
+    color: var(--fc-blue, #087bfa);
+    text-align: right;
+
+    span {
+        padding-right: 4px;
+        border-right: 1px solid var(--fc-blue, #087bfa);
+    }
+}
+
+.aircraft-stats-page .fc-seat-stats:not(:first-of-type) {
+    margin-top: 32px;
+}
+
+.aircraft-stats-page__age .fc-aircraft-stats > p {
+    font-size: 36px;
+    font-weight: 600;
+
+    small {
+        display: block;
+        font-size: 14px;
+        font-weight: 400;
+    }
+}
+
+@media (max-width: 359px) {
+    .frame-page {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .frame-page__title,
+    .alerts-page .fc-alerts h2 {
+        font-size: 29px;
+    }
+
+    .passport-page__card {
+        padding: 12px;
+    }
+
+    .passport-page .fc-passport h2 {
+        font-size: 19px;
+    }
+}

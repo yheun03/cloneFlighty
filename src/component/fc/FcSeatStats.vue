@@ -1,34 +1,22 @@
 <script setup>
-const props = defineProps({ mode: { type: String, default: "seat" } });
-const rows =
-    props.mode === "class"
-        ? [
-              { name: "Economy", count: 20, percent: 100, color: "#a6b3e8" },
-              {
-                  name: "Premium Economy",
-                  count: 0,
-                  percent: 0,
-                  color: "#6276c4",
-              },
-              { name: "Business", count: 0, percent: 0, color: "#495ba8" },
-              { name: "First Class", count: 0, percent: 0, color: "#344486" },
-          ]
-        : [
-              { name: "Aisle", count: 0, percent: 0, color: "#00ae70" },
-              { name: "Middle", count: 2, percent: 10, color: "#ff9d20" },
-              { name: "Window", count: 18, percent: 90, color: "#087bfa" },
-          ];
+defineProps({
+    mode: { type: String, default: "seat" },
+    showTitle: { type: Boolean, default: true },
+    topLabel: { type: String, required: true },
+    topValue: { type: String, required: true },
+    rows: { type: Array, required: true },
+});
 </script>
 
 <template>
-    <div class="fc-seat-stats">
-        <div class="fc-stat-head">
+    <div class="fc-seat-stats" :class="`fc-seat-stats--${mode}`">
+        <div v-if="showTitle" class="fc-stat-head">
             <h2>{{ mode === "class" ? "Class and Seat" : "Favorite Seat" }}</h2>
         </div>
         <div class="fc-seat-stats__ring">
             <div>
-                <small>{{ mode === "class" ? "Top Class" : "Top Seat" }}</small
-                ><strong>{{ mode === "class" ? "Economy" : "32K" }}</strong>
+                <small>{{ topLabel }}</small
+                ><strong>{{ topValue }}</strong>
             </div>
         </div>
         <div class="fc-seat-stats__list">

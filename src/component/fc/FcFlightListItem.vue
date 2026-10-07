@@ -6,13 +6,16 @@ import arrivalIcon from "../../assets/icons/lucide/plane-landing.svg";
 import routeIcon from "../../assets/icons/lucide/arrow-right.svg";
 defineProps({
     variant: { type: String, default: "upcoming" },
-    airline: { type: String, default: "KE" },
-    flight: { type: String, default: "24" },
-    title: { type: String, default: "San Francisco to Seoul" },
-    date: { type: String, default: "Sat, 20 Jun" },
-    departure: { type: String, default: "SFO 11:40" },
-    arrival: { type: String, default: "ICN 17:40⁺¹" },
-    days: { type: Number, default: 21 },
+    airline: { type: String, required: true },
+    flight: { type: String, required: true },
+    title: { type: String, required: true },
+    date: { type: String, required: true },
+    departure: { type: String, required: true },
+    arrival: { type: String, required: true },
+    duration: { type: String, default: "" },
+    flightTime: { type: String, default: "" },
+    days: { type: Number, default: 0 },
+    avatar: { type: Boolean, default: false },
 });
 defineEmits(["remove"]);
 </script>
@@ -20,8 +23,11 @@ defineEmits(["remove"]);
 <template>
     <div class="fc-flight-list" :class="`fc-flight-list--${variant}`">
         <div v-if="variant === 'upcoming'" class="fc-flight-list__days">
-            <strong>{{ days }}</strong
-            ><small>DAYS</small>
+            <span v-if="avatar" class="fc-flight-list__avatar"></span>
+            <strong v-else>{{ days }}</strong>
+            <small
+                ><template v-if="avatar">{{ days }} </template>DAYS</small
+            >
         </div>
         <div v-else class="fc-flight-list__logo">
             <FcIcon :src="airlineIcon" />
@@ -29,9 +35,10 @@ defineEmits(["remove"]);
         <div class="fc-flight-list__content">
             <div class="fc-flight-list__meta">
                 <span
-                    >{{ airline }} {{ flight
+                    ><FcIcon v-if="variant === 'upcoming'" :src="airlineIcon" />
+                    {{ airline }} {{ flight
                     }}<template v-if="variant === 'header'">
-                        · WED, 28 JAN</template
+                        · {{ date }}</template
                     ><template v-else-if="variant === 'history'">
                         &nbsp; {{ departure.split(" ")[0] }}
                         <FcIcon :src="routeIcon" /> {{ arrival.split(" ")[0] }}
@@ -45,7 +52,8 @@ defineEmits(["remove"]);
                 <FcIcon :src="arrivalIcon" /> {{ arrival }}
             </div>
             <div v-else-if="variant === 'history'" class="fc-flight-list__sub">
-                <span>2h 50m</span><span>2h 50m</span>
+                <span>{{ duration }}</span
+                ><span>{{ flightTime }}</span>
             </div>
         </div>
         <button

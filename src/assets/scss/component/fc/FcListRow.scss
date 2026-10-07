@@ -5,9 +5,9 @@
     gap: 12px;
     padding: 10px 0;
     border: 0;
-    border-bottom: 1px solid #363636;
+    border-bottom: 1px solid var(--fc-border, #363636);
     background: none;
-    color: white;
+    color: var(--fc-text-strong, white);
     text-align: left;
 
     &__avatar {
@@ -31,11 +31,11 @@
         }
 
         & strong.is-accent {
-            color: #1685ff;
+            color: var(--fc-link, #1685ff);
         }
 
         & small {
-            color: #858585;
+            color: var(--fc-text-secondary, #858585);
             font-size: 14px;
         }
     }

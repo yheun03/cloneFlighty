@@ -12,12 +12,12 @@
     }
 
     .maplibregl-ctrl-attrib {
-        background: #111b;
-        color: #ddd;
+        background: var(--fc-attribution-bg, #111b);
+        color: var(--fc-text-body, #ddd);
     }
 
     .maplibregl-ctrl-attrib a {
-        color: #b4d0ff;
+        color: var(--fc-link, #b4d0ff);
     }
 
     &__error {
@@ -29,8 +29,8 @@
         margin: 0;
         padding: 12px;
         border-radius: 8px;
-        background: #1c1d20;
-        color: white;
+        background: var(--fc-raised-surface, #1c1d20);
+        color: var(--fc-text-strong, white);
         text-align: center;
     }
 
@@ -48,7 +48,7 @@
 
     > .flight-map__error {
         margin: 0;
-        color: white;
+        color: var(--fc-text-strong, white);
     }
 
     > .flight-map__status {
@@ -61,12 +61,12 @@
         inset: 16px auto 16px 16px;
         display: flex;
         flex-direction: column;
-        width: 290px;
+        width: 393px;
         overflow: hidden;
-        border: 1px solid #ffffff18;
+        border: 1px solid var(--fc-border-subtle, #ffffff18);
         border-radius: 14px;
-        background: #1c1d20f5;
-        box-shadow: 0 10px 30px #0006;
+        background: var(--fc-sidebar-bg, #18191bf5);
+        box-shadow: var(--fc-panel-shadow, 0 10px 30px #0006);
 
         &--wide {
             width: min(640px, calc(100% - 100px));
@@ -98,22 +98,39 @@
     &__nav {
         display: flex;
         flex: none;
-        flex-wrap: wrap;
+        overflow-x: auto;
         gap: 6px;
         margin: 0 12px 12px;
         padding-bottom: 10px;
-        border-bottom: 1px solid #ffffff20;
+        border-bottom: 1px solid var(--fc-border-subtle, #ffffff20);
 
         a {
             padding: 5px 7px;
             border-radius: 6px;
-            color: #a6a7aa;
+            color: var(--fc-text-secondary, #a6a7aa);
             font-size: 11px;
         }
 
-        .router-link-active {
-            background: #3b3c40;
-            color: white;
+        .router-link-exact-active,
+        .is-active {
+            background: var(--fc-selected-bg, #3b3c40);
+            color: var(--fc-text-strong, white);
+        }
+    }
+
+    &__page-nav {
+        display: flex;
+        flex: none;
+        gap: 14px;
+        padding: 0 16px 8px;
+        font-size: 12px;
+
+        a {
+            color: var(--fc-text-secondary, #999);
+        }
+
+        .router-link-exact-active {
+            color: var(--fc-blue, #087bfa);
         }
     }
 
@@ -123,11 +140,13 @@
         flex-direction: column;
         min-height: 0;
         overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--fc-scrollbar, #454545) var(--fc-surface);
 
         &--gallery {
             display: block;
             padding: 0 18px;
-            color: #f5f5f5;
+            color: var(--fc-text, #f5f5f5);
         }
     }
 
@@ -135,11 +154,11 @@
         display: flex;
         flex-direction: column;
         margin: 3px 0 0;
-        color: #a6a7aa;
+        color: var(--fc-text-secondary, #a6a7aa);
         font-size: 10px;
 
         strong {
-            color: white;
+            color: var(--fc-text-strong, white);
             font-size: 12px;
         }
 
@@ -154,7 +173,7 @@
     &__collapse {
         border: 0;
         background: none;
-        color: white;
+        color: var(--fc-text-strong, white);
         font-weight: 700;
     }
 
@@ -184,13 +203,13 @@
             padding: 8px 10px;
             border: 0;
             border-radius: 7px;
-            background: #333439;
-            color: white;
+            background: var(--fc-control-bg, #333439);
+            color: var(--fc-text-strong, white);
             font-size: 12px;
         }
 
         & > input::placeholder {
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
         }
     }
 
@@ -204,13 +223,13 @@
             border: 0;
             border-radius: 6px;
             background: none;
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
             font-size: 11px;
         }
 
         & button.active {
-            background: #3b3c40;
-            color: white;
+            background: var(--fc-selected-bg, #3b3c40);
+            color: var(--fc-text-strong, white);
         }
     }
 
@@ -226,9 +245,9 @@
         gap: 9px;
         padding: 9px 4px;
         border: 0;
-        border-bottom: 1px solid #ffffff16;
+        border-bottom: 1px solid var(--fc-border-subtle, #ffffff16);
         background: none;
-        color: white;
+        color: var(--fc-text-strong, white);
         text-align: left;
 
         &.active {
@@ -249,7 +268,7 @@
         }
 
         & small {
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
             font-size: 7px;
         }
     }
@@ -267,7 +286,7 @@
         }
 
         & small {
-            color: #a6a7aa;
+            color: var(--fc-text-secondary, #a6a7aa);
             font-size: 9px;
         }
 
@@ -280,15 +299,15 @@
     }
 
     &__empty {
-        color: #aaa;
+        color: var(--fc-text-secondary, #aaa);
         font-size: 12px;
     }
 
     &__add {
         display: block;
         padding: 8px 3px 0;
-        border-top: 1px solid #ffffff20;
-        color: #8eb9ff;
+        border-top: 1px solid var(--fc-border-subtle, #ffffff20);
+        color: var(--fc-link, #8eb9ff);
         font-size: 11px;
     }
 
@@ -300,7 +319,7 @@
         display: flex;
         flex-direction: column;
         border-radius: 9px;
-        background: #1c1d20e8;
+        background: var(--fc-map-control-bg, #1c1d20e8);
         box-shadow: 0 3px 12px #0005;
 
         & button {
@@ -308,12 +327,12 @@
             height: 34px;
             border: 0;
             background: none;
-            color: white;
+            color: var(--fc-text-strong, white);
             font-size: 19px;
         }
 
         & button + button {
-            border-top: 1px solid #ffffff25;
+            border-top: 1px solid var(--fc-border-subtle, #ffffff25);
         }
 
         & button:last-child {
@@ -336,7 +355,7 @@
     .flight-map__sidebar {
         inset: auto 0 0;
         width: 100%;
-        height: min(44dvh, 370px);
+        height: 78dvh;
         border-radius: 18px 18px 0 0;
     }
 
@@ -366,7 +385,7 @@
     }
 
     .flight-map .maplibregl-ctrl-bottom-right {
-        bottom: min(44dvh, 370px);
+        bottom: 78dvh;
     }
 
     .flight-map.is-sidebar-closed .maplibregl-ctrl-bottom-right {

@@ -2,9 +2,11 @@
 import FcIcon from "./FcIcon.vue";
 import brandIcon from "../../assets/icons/lucide/square.svg";
 defineProps({
-    delayed: { type: Number, default: 8 },
-    total: { type: Number, default: 20 },
-    lostMinutes: { type: Number, default: 180 },
+    delayed: { type: Number, required: true },
+    total: { type: Number, required: true },
+    worstDelay: { type: String, required: true },
+    worstAirline: { type: String, required: true },
+    lostMinutes: { type: Number, required: true },
 });
 </script>
 
@@ -31,9 +33,9 @@ defineProps({
             >{{ Math.floor(lostMinutes / 60) }}h {{ lostMinutes % 60 }}m</strong
         >
         <h3>Worst Delay</h3>
-        <p>KE 24 · 1h 05m late</p>
+        <p>{{ worstDelay }}</p>
         <div class="fc-delay-report__stripe"></div>
         <h3>Worst Airline</h3>
-        <p>Korean Air · 2h 10m late in total</p>
+        <p>{{ worstAirline }}</p>
     </div>
 </template>

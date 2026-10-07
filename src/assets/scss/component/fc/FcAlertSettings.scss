@@ -19,10 +19,10 @@
         padding: 15px;
         border: 2px solid transparent;
         border-radius: 14px;
-        background: #303030;
+        background: var(--fc-control-bg, #303030);
 
         &.is-selected {
-            border-color: #1685ff;
+            border-color: var(--fc-link, #1685ff);
         }
 
         & > div {
@@ -47,7 +47,7 @@
 
         & p {
             margin: 2px 0 0;
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
             font-size: 13px;
         }
     }
@@ -71,7 +71,7 @@
         }
 
         & small {
-            color: #999;
+            color: var(--fc-text-secondary, #999);
         }
     }
 
@@ -88,8 +88,8 @@
         padding: 13px;
         border: 0;
         border-radius: 9px;
-        background: #3a2021;
-        color: #ff5049;
+        background: var(--fc-danger-bg, #3a2021);
+        color: var(--fc-danger, #ff5049);
         font-weight: 700;
     }
 }

@@ -10,11 +10,11 @@
         gap: 8px;
         padding: 5px 7px 5px 10px;
         border-radius: 9px;
-        background: #303030;
+        background: var(--fc-control-bg, #303030);
     }
 
     & > div > span {
-        color: #777;
+        color: var(--fc-placeholder, #777);
     }
 
     & input {
@@ -22,18 +22,18 @@
         min-width: 0;
         border: 0;
         background: none;
-        color: white;
+        color: var(--fc-text-strong, white);
     }
 
     & button {
         border: 0;
         border-radius: 7px;
         padding: 4px 8px;
-        background: #a9a9a9;
-        color: white;
+        background: var(--fc-paste-bg, #a9a9a9);
+        color: var(--fc-text-strong, white);
     }
 
     & small {
-        color: #ff4d4d;
+        color: var(--fc-danger, #ff4d4d);
     }
 }

@@ -6,7 +6,7 @@
 
     & > p {
         margin: 2px 0 26px;
-        color: #aaa;
+        color: var(--fc-text-secondary, #aaa);
         font-size: 14px;
     }
 
@@ -31,14 +31,14 @@
             margin-top: 7px;
             padding: 7px 0;
             border: 0;
-            border-bottom: 1px solid #444;
+            border-bottom: 1px solid var(--fc-border, #444);
             background: none;
-            color: #ddd;
+            color: var(--fc-text-body, #ddd);
             text-align: left;
         }
 
         & button > span {
-            color: #aaa;
+            color: var(--fc-text-secondary, #aaa);
         }
     }
 
@@ -47,8 +47,8 @@
         margin-top: 40px;
         padding: 12px;
         border-radius: 9px;
-        background: #18342b;
-        color: #aaa;
+        background: var(--fc-success-bg, #18342b);
+        color: var(--fc-text-secondary, #aaa);
         font-size: 12px;
 
         & strong {

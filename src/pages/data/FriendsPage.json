@@ -1,0 +1,16 @@
+{
+    "friends": [
+        {
+            "id": "1",
+            "title": "Kimhj",
+            "email": "kimhj@example.com"
+        },
+        {
+            "id": "2",
+            "title": "Kimhj",
+            "email": "kimhj2@example.com"
+        }
+    ],
+    "email": "",
+    "invitationMessage": "Invitation preview ready."
+}
