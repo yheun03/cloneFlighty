@@ -1,8 +1,8 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import BaseInput from "../component/BaseInput.vue";
-import "../assets/scss/MapPage.scss";
+import BaseInput from "../component/base/BaseInput.vue";
+import "../assets/scss/pages/MapPage.scss";
 
 const MAPLIBRE_CSS_URL =
     "https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.css";

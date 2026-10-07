@@ -1,6 +1,6 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import nextIcon from "../assets/icons/lucide/chevron-right.svg";
+import nextIcon from "../../assets/icons/lucide/chevron-right.svg";
 defineProps({
     title: { type: String, required: true },
     subtitle: { type: String, default: "" },

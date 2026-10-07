@@ -1,9 +1,9 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import airlineIcon from "../assets/icons/lucide/circle.svg";
-import departureIcon from "../assets/icons/lucide/plane-takeoff.svg";
-import arrivalIcon from "../assets/icons/lucide/plane-landing.svg";
-import routeIcon from "../assets/icons/lucide/arrow-right.svg";
+import airlineIcon from "../../assets/icons/lucide/circle.svg";
+import departureIcon from "../../assets/icons/lucide/plane-takeoff.svg";
+import arrivalIcon from "../../assets/icons/lucide/plane-landing.svg";
+import routeIcon from "../../assets/icons/lucide/arrow-right.svg";
 defineProps({
     variant: { type: String, default: "upcoming" },
     airline: { type: String, default: "KE" },

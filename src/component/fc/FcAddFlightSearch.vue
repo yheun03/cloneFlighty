@@ -1,10 +1,10 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import airlineIcon from "../assets/icons/lucide/circle.svg";
-import airportIcon from "../assets/icons/lucide/plane.svg";
-import nextIcon from "../assets/icons/lucide/arrow-right.svg";
+import airlineIcon from "../../assets/icons/lucide/circle.svg";
+import airportIcon from "../../assets/icons/lucide/plane.svg";
+import nextIcon from "../../assets/icons/lucide/arrow-right.svg";
 import { computed, ref, useId } from "vue";
-import BaseInput from "./BaseInput.vue";
+import BaseInput from "../base/BaseInput.vue";
 
 const query = defineModel({ type: String, default: "" });
 const items = [

@@ -1,7 +1,7 @@
 <script setup>
-import shareIcon from "../assets/icons/lucide/share-2.svg";
+import shareIcon from "../../assets/icons/lucide/share-2.svg";
 import { ref } from "vue";
-import BaseButton from "./BaseButton.vue";
+import BaseButton from "../base/BaseButton.vue";
 
 const expanded = ref(false);
 const countries = [

@@ -1,9 +1,9 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import shareIcon from "../assets/icons/lucide/share-2.svg";
-import airlineIcon from "../assets/icons/lucide/circle.svg";
+import shareIcon from "../../assets/icons/lucide/share-2.svg";
+import airlineIcon from "../../assets/icons/lucide/circle.svg";
 import { ref } from "vue";
-import BaseButton from "./BaseButton.vue";
+import BaseButton from "../base/BaseButton.vue";
 
 const metric = ref("Flights");
 const expanded = ref(false);

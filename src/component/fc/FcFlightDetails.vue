@@ -1,13 +1,13 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import bookingIcon from "../assets/icons/lucide/ticket.svg";
-import planeIcon from "../assets/icons/lucide/plane.svg";
-import airlineIcon from "../assets/icons/lucide/circle.svg";
-import departureIcon from "../assets/icons/lucide/plane-takeoff.svg";
-import arrivalIcon from "../assets/icons/lucide/plane-landing.svg";
-import durationIcon from "../assets/icons/lucide/clock-3.svg";
-import overnightIcon from "../assets/icons/lucide/moon.svg";
-import routeIcon from "../assets/icons/lucide/arrow-right.svg";
+import bookingIcon from "../../assets/icons/lucide/ticket.svg";
+import planeIcon from "../../assets/icons/lucide/plane.svg";
+import airlineIcon from "../../assets/icons/lucide/circle.svg";
+import departureIcon from "../../assets/icons/lucide/plane-takeoff.svg";
+import arrivalIcon from "../../assets/icons/lucide/plane-landing.svg";
+import durationIcon from "../../assets/icons/lucide/clock-3.svg";
+import overnightIcon from "../../assets/icons/lucide/moon.svg";
+import routeIcon from "../../assets/icons/lucide/arrow-right.svg";
 defineProps({
     airline: { type: String, default: "Korean Air" },
     plane: { type: String, default: "Airbus A330-300" },

@@ -1,10 +1,10 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import flightIcon from "../assets/icons/lucide/plane.svg";
-import friendIcon from "../assets/icons/lucide/users.svg";
-import calendarIcon from "../assets/icons/lucide/calendar-days.svg";
-import appearanceIcon from "../assets/icons/lucide/settings.svg";
-import nextIcon from "../assets/icons/lucide/chevron-right.svg";
+import flightIcon from "../../assets/icons/lucide/plane.svg";
+import friendIcon from "../../assets/icons/lucide/users.svg";
+import calendarIcon from "../../assets/icons/lucide/calendar-days.svg";
+import appearanceIcon from "../../assets/icons/lucide/settings.svg";
+import nextIcon from "../../assets/icons/lucide/chevron-right.svg";
 const groups = [
     {
         label: "ALERTS",

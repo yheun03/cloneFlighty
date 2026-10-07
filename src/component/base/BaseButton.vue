@@ -1,5 +1,5 @@
 <script setup>
-import FcIcon from "./FcIcon.vue";
+import FcIcon from "../fc/FcIcon.vue";
 defineProps({
     label: { type: String, default: "Show More" },
     variant: { type: String, default: "link" },

@@ -1,8 +1,8 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import calendarIcon from "../assets/icons/lucide/calendar-days.svg";
-import nextIcon from "../assets/icons/lucide/chevron-right.svg";
-import noticeIcon from "../assets/icons/lucide/shield-check.svg";
+import calendarIcon from "../../assets/icons/lucide/calendar-days.svg";
+import nextIcon from "../../assets/icons/lucide/chevron-right.svg";
+import noticeIcon from "../../assets/icons/lucide/shield-check.svg";
 import { ref } from "vue";
 import FcToggleSwitch from "./FcToggleSwitch.vue";
 

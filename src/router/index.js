@@ -34,7 +34,7 @@ const router = createRouter({
         {
             path: "/component",
             name: "component",
-            component: () => import("../component/FcComponentGallery.vue"),
+            component: () => import("../component/fc/FcComponentGallery.vue"),
             meta: {
                 title: "Vue 3 UI 컴포넌트 | Flighty UI Clone",
                 description:

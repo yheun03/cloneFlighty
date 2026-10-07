@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import BaseInput from "../component/BaseInput.vue";
+import BaseInput from "../component/base/BaseInput.vue";
 
 const airports = JSON.parse(document.querySelector("#airports").textContent);
 const route = useRoute();

@@ -1,7 +1,7 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import planeIcon from "../assets/icons/lucide/plane.svg";
-import earthIcon from "../assets/icons/lucide/earth.svg";
+import planeIcon from "../../assets/icons/lucide/plane.svg";
+import earthIcon from "../../assets/icons/lucide/earth.svg";
 import FcPeriodTabs from "./FcPeriodTabs.vue";
 import { ref } from "vue";
 

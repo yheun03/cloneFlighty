@@ -1,6 +1,6 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import planeIcon from "../assets/icons/lucide/plane.svg";
+import planeIcon from "../../assets/icons/lucide/plane.svg";
 import { ref } from "vue";
 import FcPeriodTabs from "./FcPeriodTabs.vue";
 

@@ -1,8 +1,8 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import pasteIcon from "../assets/icons/lucide/clipboard-paste.svg";
+import pasteIcon from "../../assets/icons/lucide/clipboard-paste.svg";
 import { ref, useId } from "vue";
-import BaseInput from "./BaseInput.vue";
+import BaseInput from "../base/BaseInput.vue";
 
 defineProps({ label: { type: String, default: "Reason" } });
 const value = defineModel({ type: String, default: "" });

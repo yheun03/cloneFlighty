@@ -1,6 +1,6 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import terminalIcon from "../assets/icons/lucide/circle-check.svg";
+import terminalIcon from "../../assets/icons/lucide/circle-check.svg";
 defineProps({
     arrival: { type: String, default: "05:20" },
     departure: { type: String, default: "09:50" },

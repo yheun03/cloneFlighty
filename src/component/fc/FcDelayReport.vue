@@ -1,6 +1,6 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
-import brandIcon from "../assets/icons/lucide/square.svg";
+import brandIcon from "../../assets/icons/lucide/square.svg";
 defineProps({
     delayed: { type: Number, default: 8 },
     total: { type: Number, default: 20 },

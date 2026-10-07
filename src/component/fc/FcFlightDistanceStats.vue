@@ -1,7 +1,7 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
 import { ref } from "vue";
-import BaseButton from "./BaseButton.vue";
+import BaseButton from "../base/BaseButton.vue";
 
 defineProps({
     title: { type: String, required: true },

@@ -1,6 +1,6 @@
 <script setup>
-import shareIcon from "../assets/icons/lucide/share-2.svg";
-import BaseButton from "./BaseButton.vue";
+import shareIcon from "../../assets/icons/lucide/share-2.svg";
+import BaseButton from "../base/BaseButton.vue";
 defineProps({
     tail: { type: String, default: "HL-8078" },
     flights: { type: Number, default: 2 },
