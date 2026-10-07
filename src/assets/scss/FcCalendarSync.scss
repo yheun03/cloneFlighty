@@ -1,10 +1,10 @@
 .fc-calendar-sync {
-    &>strong {
+    & > strong {
         display: block;
         font-size: 17px;
     }
 
-    &>p {
+    & > p {
         margin: 2px 0 26px;
         color: #aaa;
         font-size: 14px;
@@ -13,7 +13,7 @@
     &__item {
         margin: 25px 0;
 
-        &>div {
+        & > div {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -37,7 +37,7 @@
             text-align: left;
         }
 
-        & button>span {
+        & button > span {
             color: #aaa;
         }
     }

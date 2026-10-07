@@ -1,9 +1,17 @@
 <template>
-    <div class="app" :class="{ 'app--dark': $route.name === 'component', 'app--map': $route.name === 'map' }">
+    <div
+        class="app"
+        :class="{
+            'app--dark': $route.name === 'component',
+            'app--map': $route.name === 'map',
+        }"
+    >
         <a class="skip-link" href="#main-content">본문 바로가기</a>
         <header class="app__header">
             <div class="app__identity">
-                <RouterLink class="app__brand" to="/">Flighty UI Clone</RouterLink>
+                <RouterLink class="app__brand" to="/"
+                    >Flighty UI Clone</RouterLink
+                >
                 <span>비공식 개인 포트폴리오</span>
             </div>
             <nav aria-label="주요 메뉴">

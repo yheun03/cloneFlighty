@@ -1,7 +1,7 @@
 .fc-performance {
     margin-top: 20px;
 
-    &>.fc-stat-head:not(:first-child) {
+    & > .fc-stat-head:not(:first-child) {
         margin-top: 40px;
     }
 
@@ -22,7 +22,7 @@
         }
     }
 
-    &>p {
+    & > p {
         margin: 4px 0 20px;
         color: #aaa;
     }
@@ -30,7 +30,7 @@
     &__bar {
         margin: 10px 0;
 
-        &>div {
+        & > div {
             display: flex;
             justify-content: space-between;
             font-size: 14px;

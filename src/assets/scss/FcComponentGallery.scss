@@ -11,10 +11,10 @@
             margin: 0;
             font-size: clamp(34px, 7vw, 52px);
             line-height: 1.14;
-            letter-spacing: -.04em;
+            letter-spacing: -0.04em;
         }
 
-        >p:not(.fc-gallery__eyebrow) {
+        > p:not(.fc-gallery__eyebrow) {
             max-width: 680px;
             margin: 18px 0 0;
             color: #bbb;
@@ -28,7 +28,7 @@
         color: #70acff;
         font-size: 12px;
         font-weight: 800;
-        letter-spacing: .12em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
     }
 
@@ -55,11 +55,11 @@
         padding: 28px 0;
         border-bottom: 1px solid #303030;
 
-        &>h2 {
+        & > h2 {
             margin: 0;
             color: #f0f0f0;
             font-size: 19px;
-            letter-spacing: -.02em;
+            letter-spacing: -0.02em;
         }
     }
 

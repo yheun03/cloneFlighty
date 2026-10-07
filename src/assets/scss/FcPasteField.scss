@@ -4,7 +4,7 @@
         font-size: 20px;
     }
 
-    &>div {
+    & > div {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -13,7 +13,7 @@
         background: #303030;
     }
 
-    &>div>span {
+    & > div > span {
         color: #777;
     }
 

@@ -11,7 +11,9 @@ body {
     margin: 0;
     background: #f5f6fa;
     color: #171b2b;
-    font: 16px/1.5 Arial, sans-serif;
+    font:
+        16px/1.5 Arial,
+        sans-serif;
 }
 
 button,
@@ -50,8 +52,8 @@ h1 {
     *::before,
     *::after {
         scroll-behavior: auto !important;
-        transition-duration: .01ms !important;
-        animation-duration: .01ms !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
     }
 }

@@ -1,7 +1,7 @@
 .fc-distance {
     margin: 25px 0;
 
-    &>p {
+    & > p {
         margin: 0 0 22px;
         color: #aaa;
     }
@@ -11,11 +11,11 @@
         flex-direction: column;
         gap: 10px;
 
-        &>strong {
+        & > strong {
             margin-bottom: 5px;
         }
 
-        &>span {
+        & > span {
             display: flex;
             justify-content: space-between;
         }
@@ -47,14 +47,14 @@
             font-size: 18px;
         }
 
-        &>strong {
+        & > strong {
             display: flex;
             justify-content: space-between;
             gap: 6px;
             font-size: 16px;
         }
 
-        &>strong span {
+        & > strong span {
             flex: none;
         }
 

@@ -1,5 +1,8 @@
 <script setup>
-defineProps({ value: { type: [String, Number], default: 1 }, variant: { type: String, default: 'plain' } })
+defineProps({
+    value: { type: [String, Number], default: 1 },
+    variant: { type: String, default: "plain" },
+});
 </script>
 
 <template>

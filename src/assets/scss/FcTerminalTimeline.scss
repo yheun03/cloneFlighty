@@ -14,12 +14,12 @@
             color: #111;
         }
 
-        &>span {
+        & > span {
             display: flex;
             flex-direction: column;
         }
 
-        &>span:last-child {
+        & > span:last-child {
             margin-left: auto;
             text-align: right;
         }

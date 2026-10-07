@@ -12,7 +12,7 @@
     background: #08090b;
     color: white;
 
-    >header {
+    > header {
         display: none;
     }
 }
@@ -65,12 +65,12 @@
         border: 0;
     }
 
-    >.flight-map__error {
+    > .flight-map__error {
         margin: 0;
         color: white;
     }
 
-    >.flight-map__status {
+    > .flight-map__status {
         margin: -1px;
     }
 
@@ -158,7 +158,7 @@
         min-height: 0;
         padding: 0 9px 10px;
 
-        &>input {
+        & > input {
             width: 100%;
             padding: 8px 10px;
             border: 0;
@@ -168,7 +168,7 @@
             font-size: 12px;
         }
 
-        &>input::placeholder {
+        & > input::placeholder {
             color: #aaa;
         }
     }
@@ -239,7 +239,7 @@
         flex-direction: column;
         min-width: 0;
 
-        &>span {
+        & > span {
             display: flex;
             justify-content: space-between;
             gap: 5px;
@@ -291,7 +291,7 @@
             font-size: 19px;
         }
 
-        & button+button {
+        & button + button {
             border-top: 1px solid #ffffff25;
         }
 
@@ -301,7 +301,7 @@
         }
 
         & button:disabled {
-            opacity: .5;
+            opacity: 0.5;
             cursor: default;
         }
     }

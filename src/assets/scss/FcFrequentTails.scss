@@ -1,7 +1,7 @@
 .fc-frequent-tails {
     margin: 35px 0;
 
-    &>strong {
+    & > strong {
         display: block;
         font-size: 52px;
         line-height: 1.1;
@@ -16,7 +16,7 @@
         color: #aaa;
     }
 
-    &>span {
+    & > span {
         float: right;
     }
 }
