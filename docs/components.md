@@ -2,15 +2,15 @@
 
 컴포넌트는 src/component/base, src/component/fc에 있습니다. 타입·필수 여부·기본값은 각 Vue 파일의 defineProps가 기준입니다. 정해진 상태 값은 validator로 확인합니다. 아래 속성명은 script 기준 camelCase이며 템플릿에서는 show-period, initial-selected처럼 kebab-case로 작성합니다.
 
-객체·배열은 페이지 JSON에서 전달합니다. 공통 컴포넌트에 화면 샘플 데이터를 추가하지 않습니다. 선언하지 않은 일반 HTML 속성은 단일 루트 요소에 전달됩니다.
+객체·배열은 각 페이지 Vue 파일 하단의 `<script setup>`에 있는 `pageData` 예제 JSON 객체에서 props로 전달합니다. 페이지는 사용하는 공통 컴포넌트를 직접 import합니다. 공통 컴포넌트에 화면 샘플 데이터를 추가하지 않습니다. 선언하지 않은 일반 HTML 속성은 단일 루트 요소에 전달됩니다.
 
 ## 파일 작성 기준
 
-Vue는 import → defineProps → defineModel → defineEmits → 화면 상태 → computed → 이벤트 함수 → 생명주기 순서로 정리합니다. 템플릿에는 표시 구조를 두고 긴 계산과 여러 동작이 섞인 이벤트 식은 script에서 처리합니다.
+공통 컴포넌트의 Vue는 import → defineProps → defineModel → defineEmits → 화면 상태 → computed → 이벤트 함수 → 생명주기 순서로 정리합니다. 페이지는 template을 먼저 두고 하단의 `<script setup>`에서 import → 예제 JSON → 화면 상태 → computed → 이벤트 함수 순서로 정리합니다. 템플릿에는 표시 구조를 두고 긴 계산과 여러 동작이 섞인 이벤트 식은 script에서 처리합니다.
 
-SCSS는 기본 모양을 component/, 페이지별 조정을 pages/페이지명.scss에 둡니다. FramePages.scss는 \_frame.scss와 각 페이지 스타일을 기존 순서로 모읍니다. 통계 공통은 component/fc/\_stats.scss, 테마 색상은 common/\_theme.scss를 사용합니다.
+SCSS는 기본 모양을 component/, 페이지별 조정을 pages/페이지명.scss에 둡니다. 각 페이지에서 필요한 컴포넌트 SCSS를 먼저 import하고 페이지 SCSS를 마지막에 import합니다. 공통 프레임은 MapLayout.vue에서 pages/\_frame.scss를 불러옵니다. 통계 컴포넌트 공통은 component/fc/\_stats.scss, 통계 페이지 공통은 pages/\_stats.scss, 테마 색상은 common/\_theme.scss를 사용합니다.
 
-.prettierrc.json은 기존 4칸 들여쓰기와 속성별 줄바꿈을 유지합니다. 인라인 아이콘·날짜 등에 있는 prettier-ignore는 자동 줄바꿈으로 텍스트 공백과 너비가 바뀌는 것을 막기 위한 것입니다.
+.prettierrc.json은 기존 4칸 들여쓰기와 속성별 줄바꿈을 유지합니다. 예제 JSON 객체의 prettier-ignore는 JSON 형식을 유지하고, 인라인 아이콘·날짜 등의 prettier-ignore는 자동 줄바꿈으로 텍스트 공백과 너비가 바뀌는 것을 막기 위한 것입니다.
 
 ```vue
 <FcAddFlightSearch
@@ -197,7 +197,7 @@ items는 { title, subtitle, avatar, type, code } 목록입니다. title과 subti
 
 ## FcFlightDetails
 
-details는 [FlightDetailPage.json](../src/pages/data/FlightDetailPage.json)의 details·pastDetails 구조입니다. bookingCode·seat는 예약 편집 결과이며, edit·connection은 전달값 없이 발생합니다.
+details는 [FlightDetailPage.vue](../src/pages/FlightDetailPage.vue) 하단 예제 JSON의 details·pastDetails 구조입니다. bookingCode·seat는 예약 편집 결과이며, edit·connection은 전달값 없이 발생합니다.
 
 | 속성          | 타입    | 필수 | 기본값·허용값 |
 | ------------- | ------- | ---- | ------------- |
@@ -210,7 +210,7 @@ details는 [FlightDetailPage.json](../src/pages/data/FlightDetailPage.json)의 d
 
 ## FcPassportOverview
 
-recent는 { id, code, route, title, date } 목록입니다. select(flight)는 선택한 최근 항공편을 전달합니다. periods의 첫 항목이 최초 선택값입니다. [PassportPage.json](../src/pages/data/PassportPage.json)의 overview를 참고합니다.
+recent는 { id, code, route, title, date } 목록입니다. select(flight)는 선택한 최근 항공편을 전달합니다. periods의 첫 항목이 최초 선택값입니다. [PassportPage.vue](../src/pages/PassportPage.vue) 하단 예제 JSON의 overview를 참고합니다.
 
 | 속성           | 타입    | 필수 | 기본값·허용값 |
 | -------------- | ------- | ---- | ------------- |
@@ -246,7 +246,7 @@ delayed·total은 항공편 수, lostMinutes는 분 단위 누적 지연입니�
 
 ## FcAircraftStats
 
-aircraft는 [AircraftStatsPage.json](../src/pages/data/AircraftStatsPage.json)의 aircraft 구조입니다. show\*는 각 영역의 표시 여부이며 showAgeTitle은 showAge 영역의 제목만 제어합니다.
+aircraft는 [AircraftStatsPage.vue](../src/pages/AircraftStatsPage.vue) 하단 예제 JSON의 aircraft 구조입니다. show\*는 각 영역의 표시 여부이며 showAgeTitle은 showAge 영역의 제목만 제어합니다.
 
 | 속성           | 타입    | 필수 | 기본값·허용값 |
 | -------------- | ------- | ---- | ------------- |
@@ -259,7 +259,7 @@ aircraft는 [AircraftStatsPage.json](../src/pages/data/AircraftStatsPage.json)�
 
 ## FcAirlinePerformance
 
-report는 [DelayStatsPage.json](../src/pages/data/DelayStatsPage.json)의 performance 구조입니다. section으로 전체·항공사·공항·개인·지연 영역을 선택합니다. 최초 목록은 성과 5개, 지연 4개입니다.
+report는 [DelayStatsPage.vue](../src/pages/DelayStatsPage.vue) 하단 예제 JSON의 performance 구조입니다. section으로 전체·항공사·공항·개인·지연 영역을 선택합니다. 최초 목록은 성과 5개, 지연 4개입니다.
 
 | 속성      | 타입   | 필수 | 기본값·허용값                                                 |
 | --------- | ------ | ---- | ------------------------------------------------------------- |
@@ -268,7 +268,7 @@ report는 [DelayStatsPage.json](../src/pages/data/DelayStatsPage.json)의 perfor
 
 ## FcSeatStats
 
-rows는 { name, count, percent, color } 목록입니다. percent는 0~100 숫자, color는 CSS 색상입니다. mode별 데이터는 [AircraftStatsPage.json](../src/pages/data/AircraftStatsPage.json)의 seats를 참고합니다.
+rows는 { name, count, percent, color } 목록입니다. percent는 0~100 숫자, color는 CSS 색상입니다. mode별 데이터는 [AircraftStatsPage.vue](../src/pages/AircraftStatsPage.vue) 하단 예제 JSON의 seats를 참고합니다.
 
 | 속성        | 타입    | 필수 | 기본값·허용값                              |
 | ----------- | ------- | ---- | ------------------------------------------ |
@@ -317,7 +317,7 @@ items는 { name, flights, distance } 목록이며 distance는 km 숫자입니다
 
 ## FcFlightDistanceStats
 
-breakdown은 { label, value }, comparisons는 { icon, text }, 최단·최장 항공편은 { title, route, distance, detail } 구조입니다. view의 toggle은 전환 버튼, summary는 요약, breakdown은 상세를 표시합니다. [FlightStatsPage.json](../src/pages/data/FlightStatsPage.json)의 distance를 참고합니다.
+breakdown은 { label, value }, comparisons는 { icon, text }, 최단·최장 항공편은 { title, route, distance, detail } 구조입니다. view의 toggle은 전환 버튼, summary는 요약, breakdown은 상세를 표시합니다. [FlightStatsPage.vue](../src/pages/FlightStatsPage.vue) 하단 예제 JSON의 distance를 참고합니다.
 
 | 속성             | 타입   | 필수 | 기본값·허용값                                       |
 | ---------------- | ------ | ---- | --------------------------------------------------- |
@@ -376,7 +376,7 @@ groups는 { label, items: [{ name, title, icon }] } 목록, membership은 { titl
 
 ## FcComponentGallery
 
-data는 [ComponentPage.json](../src/pages/data/ComponentPage.json)의 전체 구조입니다. gallery.catalog는 카드 설명·분류, 나머지는 미리보기 데이터입니다. v-show로 분류를 바꿔도 미리보기 상태를 유지합니다.
+data는 [ComponentPage.vue](../src/pages/ComponentPage.vue) 하단 예제 JSON의 전체 구조입니다. gallery.catalog는 카드 설명·분류, 나머지는 미리보기 데이터입니다. v-show로 분류를 바꿔도 미리보기 상태를 유지합니다.
 
 | 속성   | 타입   | 필수 | 기본값·허용값 |
 | ------ | ------ | ---- | ------------- |

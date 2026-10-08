@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import HomePage from "../pages/HomePage.vue";
 import layoutData from "../layout/data/MapLayout.json";
+
+const HomePage = () => import("../pages/HomePage.vue");
 
 const defaultTitle = "Flighty UI Clone | Vue 3 프론트엔드 포트폴리오";
 const defaultDescription =

@@ -1,35 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-import { useRoute, useRouter } from "vue-router";
-
-import BaseInput from "../component/base/BaseInput.vue";
-import BaseButton from "../component/base/BaseButton.vue";
-import FcListRow from "../component/fc/FcListRow.vue";
-
-import pageData from "./data/FriendsPage.json";
-
-const route = useRoute();
-const router = useRouter();
-const inviting = ref(false);
-const email = ref(pageData.email);
-const message = ref("");
-
-function openFriend(friend) {
-    router.push({
-        name: "friend-detail",
-        params: { id: friend.id },
-        query: route.query,
-    });
-}
-
-function inviteFriend() {
-    message.value = pageData.invitationMessage;
-    inviting.value = false;
-    email.value = "";
-}
-</script>
-
 <template>
     <section class="frame-page friends-page">
         <h1 class="frame-page__title">Flighty Friends</h1>
@@ -78,3 +46,57 @@ function inviteFriend() {
         </p>
     </section>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+import { useRoute, useRouter } from "vue-router";
+
+import BaseInput from "../component/base/BaseInput.vue";
+import BaseButton from "../component/base/BaseButton.vue";
+import FcListRow from "../component/fc/FcListRow.vue";
+
+import "../assets/scss/component/base/BaseButton.scss";
+import "../assets/scss/component/fc/FcIcon.scss";
+import "../assets/scss/component/fc/FcListRow.scss";
+import "../assets/scss/pages/FriendsPage.scss";
+
+// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// prettier-ignore
+const pageData = {
+    "friends": [
+        {
+            "id": "1",
+            "title": "Kimhj",
+            "email": "kimhj@example.com"
+        },
+        {
+            "id": "2",
+            "title": "Kimhj",
+            "email": "kimhj2@example.com"
+        }
+    ],
+    "email": "",
+    "invitationMessage": "Invitation preview ready."
+};
+
+const route = useRoute();
+const router = useRouter();
+const inviting = ref(false);
+const email = ref(pageData.email);
+const message = ref("");
+
+function openFriend(friend) {
+    router.push({
+        name: "friend-detail",
+        params: { id: friend.id },
+        query: route.query,
+    });
+}
+
+function inviteFriend() {
+    message.value = pageData.invitationMessage;
+    inviting.value = false;
+    email.value = "";
+}
+</script>

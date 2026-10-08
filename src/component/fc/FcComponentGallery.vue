@@ -31,10 +31,8 @@ import FcFlightDistanceStats from "./FcFlightDistanceStats.vue";
 
 import chipIcon from "../../assets/icons/lucide/square.svg";
 
-import "../../assets/scss/FcGalleryBundle.scss";
-
 const props = defineProps({
-    // ComponentPage.json의 갤러리 설명과 각 컴포넌트 미리보기 데이터입니다.
+    // ComponentPage.vue의 예제 JSON에 있는 갤러리 설명과 미리보기 데이터입니다.
     data: { type: Object, required: true },
 });
 

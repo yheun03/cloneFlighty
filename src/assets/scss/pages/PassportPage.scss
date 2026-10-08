@@ -144,3 +144,15 @@
         }
     }
 }
+
+@media (max-width: 359px) {
+    .passport-page {
+        &__card {
+            padding: 12px;
+        }
+
+        .fc-passport h2 {
+            font-size: 19px;
+        }
+    }
+}

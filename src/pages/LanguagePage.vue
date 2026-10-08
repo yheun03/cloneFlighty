@@ -1,13 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-import FcListRow from "../component/fc/FcListRow.vue";
-
-import pageData from "./data/LanguagePage.json";
-
-const selected = ref(pageData.selected);
-</script>
-
 <template>
     <section class="frame-page language-page">
         <h1 class="frame-page__title">Language</h1>
@@ -46,3 +36,47 @@ const selected = ref(pageData.selected);
         </p>
     </section>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+import FcListRow from "../component/fc/FcListRow.vue";
+
+import "../assets/scss/component/fc/FcIcon.scss";
+import "../assets/scss/component/fc/FcListRow.scss";
+import "../assets/scss/pages/LanguagePage.scss";
+
+// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// prettier-ignore
+const pageData = {
+    "selected": "device",
+    "languages": [
+        {
+            "id": "ko",
+            "title": "한국어",
+            "subtitle": "Korean",
+            "avatar": "🇰🇷"
+        },
+        {
+            "id": "en",
+            "title": "English",
+            "subtitle": "English",
+            "avatar": "🇬🇧"
+        },
+        {
+            "id": "ja",
+            "title": "Japanese",
+            "subtitle": "日本語",
+            "avatar": "🇯🇵"
+        }
+    ],
+    "device": {
+        "id": "device",
+        "title": "Use Device Language",
+        "subtitle": "Follow your device language settings.",
+        "avatar": "⚙"
+    }
+};
+
+const selected = ref(pageData.selected);
+</script>

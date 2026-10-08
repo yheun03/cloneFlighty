@@ -1,70 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-import { useRoute, useRouter } from "vue-router";
-
-import BaseInput from "../component/base/BaseInput.vue";
-
-import pageData from "./data/IntroPage.json";
-
-import "../assets/scss/pages/IntroPage.scss";
-
-const airports = pageData.airports;
-const route = useRoute();
-const router = useRouter();
-const normalize = (value) => value.trim().toUpperCase();
-const from = ref(
-    typeof route.query.from === "string"
-        ? normalize(route.query.from).slice(0, 3)
-        : pageData.from,
-);
-const to = ref(
-    typeof route.query.to === "string"
-        ? normalize(route.query.to).slice(0, 3)
-        : pageData.to,
-);
-const statusMessage = ref("");
-const errorMessage = ref("");
-const invalidFields = ref([]);
-
-function clearMessages() {
-    statusMessage.value = "";
-    errorMessage.value = "";
-    invalidFields.value = [];
-}
-
-function paste(field) {
-    const target = field === "from" ? from : to;
-    target.value = pageData[field];
-    clearMessages();
-}
-
-function copy() {
-    clearMessages();
-    statusMessage.value = pageData.copiedMessage;
-}
-
-function showMap() {
-    const start = normalize(from.value);
-    const end = normalize(to.value);
-    if (!airports[start] || !airports[end]) {
-        statusMessage.value = "";
-        invalidFields.value = [
-            !airports[start] && "from",
-            !airports[end] && "to",
-        ].filter(Boolean);
-        errorMessage.value =
-            invalidFields.value.length === 2
-                ? "등록된 출발·도착 공항 코드를 입력해 주세요."
-                : `등록된 ${invalidFields.value[0] === "from" ? "출발" : "도착"} 공항 코드를 입력해 주세요.`;
-        document.getElementById(invalidFields.value[0])?.focus();
-        return;
-    }
-    clearMessages();
-    router.push({ name: "home", query: { from: start, to: end } });
-}
-</script>
-
 <template>
     <article class="intro">
         <header class="intro__hero">
@@ -263,3 +196,143 @@ function showMap() {
         </section>
     </article>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+import { useRoute, useRouter } from "vue-router";
+
+import BaseInput from "../component/base/BaseInput.vue";
+
+import "../assets/scss/pages/IntroPage.scss";
+
+// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// prettier-ignore
+const pageData = {
+    "from": "ICN",
+    "to": "SFO",
+    "airports": {
+        "ICN": {
+            "name": "인천",
+            "lat": 37.4602,
+            "lng": 126.4407
+        },
+        "SFO": {
+            "name": "샌프란시스코",
+            "lat": 37.6213,
+            "lng": -122.379
+        },
+        "LAX": {
+            "name": "로스앤젤레스",
+            "lat": 33.9416,
+            "lng": -118.4085
+        },
+        "JFK": {
+            "name": "뉴욕",
+            "lat": 40.6413,
+            "lng": -73.7781
+        },
+        "NRT": {
+            "name": "도쿄 나리타",
+            "lat": 35.772,
+            "lng": 140.3929
+        },
+        "HND": {
+            "name": "도쿄 하네다",
+            "lat": 35.5494,
+            "lng": 139.7798
+        },
+        "LHR": {
+            "name": "런던 히스로",
+            "lat": 51.47,
+            "lng": -0.4543
+        },
+        "CDG": {
+            "name": "파리 샤를드골",
+            "lat": 49.0097,
+            "lng": 2.5479
+        },
+        "SIN": {
+            "name": "싱가포르",
+            "lat": 1.3644,
+            "lng": 103.9915
+        },
+        "AMS": {
+            "name": "암스테르담",
+            "lat": 52.3105,
+            "lng": 4.7683
+        },
+        "HEL": {
+            "name": "헬싱키",
+            "lat": 60.3172,
+            "lng": 24.9633
+        },
+        "EWR": {
+            "name": "뉴어크",
+            "lat": 40.6895,
+            "lng": -74.1745
+        },
+        "BLR": {
+            "name": "벵갈루루",
+            "lat": 13.1986,
+            "lng": 77.7066
+        }
+    },
+    "copiedMessage": "공항 코드 복사 상태 미리보기입니다."
+};
+
+const airports = pageData.airports;
+const route = useRoute();
+const router = useRouter();
+const normalize = (value) => value.trim().toUpperCase();
+const from = ref(
+    typeof route.query.from === "string"
+        ? normalize(route.query.from).slice(0, 3)
+        : pageData.from,
+);
+const to = ref(
+    typeof route.query.to === "string"
+        ? normalize(route.query.to).slice(0, 3)
+        : pageData.to,
+);
+const statusMessage = ref("");
+const errorMessage = ref("");
+const invalidFields = ref([]);
+
+function clearMessages() {
+    statusMessage.value = "";
+    errorMessage.value = "";
+    invalidFields.value = [];
+}
+
+function paste(field) {
+    const target = field === "from" ? from : to;
+    target.value = pageData[field];
+    clearMessages();
+}
+
+function copy() {
+    clearMessages();
+    statusMessage.value = pageData.copiedMessage;
+}
+
+function showMap() {
+    const start = normalize(from.value);
+    const end = normalize(to.value);
+    if (!airports[start] || !airports[end]) {
+        statusMessage.value = "";
+        invalidFields.value = [
+            !airports[start] && "from",
+            !airports[end] && "to",
+        ].filter(Boolean);
+        errorMessage.value =
+            invalidFields.value.length === 2
+                ? "등록된 출발·도착 공항 코드를 입력해 주세요."
+                : `등록된 ${invalidFields.value[0] === "from" ? "출발" : "도착"} 공항 코드를 입력해 주세요.`;
+        document.getElementById(invalidFields.value[0])?.focus();
+        return;
+    }
+    clearMessages();
+    router.push({ name: "home", query: { from: start, to: end } });
+}
+</script>

@@ -1,17 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-import FcIcon from "../component/fc/FcIcon.vue";
-import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
-
-import speedIcon from "../assets/icons/lucide/clock-3.svg";
-
-import pageData from "./data/UnitsPage.json";
-
-const speed = ref(pageData.speed);
-const altitude = ref(pageData.altitude);
-</script>
-
 <template>
     <section class="frame-page units-page">
         <h1 class="frame-page__title">Units</h1>
@@ -56,3 +42,28 @@ const altitude = ref(pageData.altitude);
         </section>
     </section>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+import FcIcon from "../component/fc/FcIcon.vue";
+import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
+
+import speedIcon from "../assets/icons/lucide/clock-3.svg";
+
+import "../assets/scss/component/fc/FcIcon.scss";
+import "../assets/scss/component/fc/FcPeriodTabs.scss";
+import "../assets/scss/pages/UnitsPage.scss";
+
+// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// prettier-ignore
+const pageData = {
+    "speed": "km/h",
+    "altitude": "m",
+    "speedUnits": ["mph", "km/h", "kt"],
+    "altitudeUnits": ["ft", "km", "m", "FL"]
+};
+
+const speed = ref(pageData.speed);
+const altitude = ref(pageData.altitude);
+</script>

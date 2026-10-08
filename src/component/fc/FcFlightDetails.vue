@@ -11,7 +11,7 @@ import overnightIcon from "../../assets/icons/lucide/moon.svg";
 import routeIcon from "../../assets/icons/lucide/arrow-right.svg";
 
 defineProps({
-    // FlightDetailPage.json의 details 또는 pastDetails를 전달합니다.
+    // FlightDetailPage.vue의 예제 JSON에서 details 또는 pastDetails를 전달합니다.
     details: { type: Object, required: true },
     completed: { type: Boolean, default: false },
     bookingCode: { type: String, default: "" },

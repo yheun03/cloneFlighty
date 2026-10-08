@@ -14,7 +14,7 @@ import { useRoute } from "vue-router";
 import layoutData from "./data/MapLayout.json";
 
 import "../assets/scss/layout/MapLayout.scss";
-import "../assets/scss/pages/FramePages.scss";
+import "../assets/scss/pages/_frame.scss";
 
 const MAPLIBRE_CSS_URL =
     "https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.css";

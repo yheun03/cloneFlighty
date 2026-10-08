@@ -7,7 +7,7 @@ import FcPeriodTabs from "./FcPeriodTabs.vue";
 import planeIcon from "../../assets/icons/lucide/plane.svg";
 
 const props = defineProps({
-    // AircraftStatsPage.json의 aircraft 데이터 구조를 사용합니다.
+    // AircraftStatsPage.vue의 예제 JSON에서 aircraft 데이터 구조를 사용합니다.
     aircraft: { type: Object, required: true },
     // 표시할 통계 영역입니다.
     showPeriod: { type: Boolean, default: true },

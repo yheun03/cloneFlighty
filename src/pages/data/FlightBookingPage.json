@@ -1,7 +1,0 @@
-{
-    "bookingCode": "ABC123",
-    "seatPlaceholder": "32K",
-    "positions": ["Aisle", "Middle", "Window", "Pilot", "Captain", "Jumpseat"],
-    "cabins": ["Economy", "Premium Economy", "Business", "First Class"],
-    "reasons": ["Personal", "Business", "Crew"]
-}

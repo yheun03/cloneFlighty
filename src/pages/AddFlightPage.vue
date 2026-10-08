@@ -1,66 +1,3 @@
-<script setup>
-import { computed, ref } from "vue";
-
-import { useRoute, useRouter } from "vue-router";
-
-import BaseInput from "../component/base/BaseInput.vue";
-import FcAddFlightSearch from "../component/fc/FcAddFlightSearch.vue";
-import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
-import FcListRow from "../component/fc/FcListRow.vue";
-
-import pageData from "./data/AddFlightPage.json";
-
-const route = useRoute();
-const router = useRouter();
-const query = ref(pageData.query);
-const airline = ref(pageData.airline);
-const flight = ref(pageData.flight);
-const date = ref(pageData.date);
-const day = ref(pageData.day);
-const from = ref(pageData.from);
-const to = ref(pageData.to);
-const message = ref("");
-const mode = computed(() => route.meta.searchMode || "search");
-const calendarDate = computed(() => {
-    const year = pageData.calendar.year;
-    const month = String(pageData.calendar.month).padStart(2, "0");
-    const selectedDay = String(day.value).padStart(2, "0");
-    return `${year}-${month}-${selectedDay}`;
-});
-
-function openPage(name, extra = {}) {
-    router.push({
-        name,
-        params: name === "flight-detail" ? { id: "random" } : {},
-        query: {
-            ...route.query,
-            airline: airline.value,
-            flight: flight.value,
-            from: from.value,
-            to: to.value,
-            ...extra,
-        },
-    });
-}
-
-function selectResult(item) {
-    if (item.type === "airline") {
-        airline.value = item.code;
-    } else {
-        from.value = item.code;
-    }
-    openPage("add-flight-number");
-}
-
-function showFlights(selectedDate) {
-    openPage("flight-results", {
-        date: selectedDate,
-        from: from.value,
-        to: to.value,
-    });
-}
-</script>
-
 <template>
     <section class="frame-page add-flight-page">
         <RouterLink
@@ -203,3 +140,160 @@ function showFlights(selectedDate) {
         </template>
     </section>
 </template>
+
+<script setup>
+import { computed, ref } from "vue";
+
+import { useRoute, useRouter } from "vue-router";
+
+import BaseInput from "../component/base/BaseInput.vue";
+import FcAddFlightSearch from "../component/fc/FcAddFlightSearch.vue";
+import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
+import FcListRow from "../component/fc/FcListRow.vue";
+
+import "../assets/scss/component/fc/FcIcon.scss";
+import "../assets/scss/component/fc/FcCalendarPicker.scss";
+import "../assets/scss/component/fc/FcListRow.scss";
+import "../assets/scss/component/fc/FcAddFlightSearch.scss";
+import "../assets/scss/pages/AddFlightPage.scss";
+
+// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// prettier-ignore
+const pageData = {
+    "query": "",
+    "airline": "KE",
+    "flight": "9999",
+    "date": "",
+    "day": 17,
+    "from": "SFO",
+    "to": "ICN",
+    "search": {
+        "placeholder": "10/5 or Friday",
+        "sectionLabel": "FREQUENTLY USED",
+        "items": [
+            {
+                "title": "Korean Air",
+                "subtitle": "KE  ·  KAL",
+                "avatar": "circle",
+                "type": "airline",
+                "code": "KE"
+            },
+            {
+                "title": "John F Kennedy Intl.",
+                "subtitle": "JFK  ·  KJFK  ·  New York",
+                "avatar": "plane",
+                "type": "airport",
+                "code": "JFK"
+            },
+            {
+                "title": "Newark Liberty Intl.",
+                "subtitle": "EWR  ·  KEWR  ·  Newark",
+                "avatar": "plane",
+                "type": "airport",
+                "code": "EWR"
+            },
+            {
+                "title": "Kempegowda Intl.",
+                "subtitle": "BLR  ·  VOBL  ·  Bengaluru",
+                "avatar": "plane",
+                "type": "airport",
+                "code": "BLR"
+            }
+        ]
+    },
+    "more": [
+        {
+            "title": "Find by Route",
+            "avatar": "✈",
+            "name": "add-flight-route"
+        },
+        {
+            "title": "Find by Flight Number",
+            "avatar": "✈",
+            "name": "add-flight-number"
+        },
+        {
+            "title": "Sync from Calendar",
+            "subtitle": "Fast, secure, and no setup",
+            "avatar": "✈",
+            "name": "calendar-sync"
+        },
+        {
+            "title": "Random Flight",
+            "subtitle": "Try Pro features for free",
+            "avatar": "✈",
+            "name": "flight-detail"
+        }
+    ],
+    "dates": [
+        {
+            "title": "Today",
+            "subtitle": "Wed, 7 Jan",
+            "date": "2026-01-07"
+        },
+        {
+            "title": "Tomorrow",
+            "subtitle": "Thu, 8 Jan",
+            "date": "2026-01-08"
+        }
+    ],
+    "calendar": {
+        "year": 2026,
+        "month": 1,
+        "marked": [16],
+        "outlined": [6]
+    },
+    "calendarMonth": "January",
+    "reportMessage": "Report preview opened."
+};
+
+const route = useRoute();
+const router = useRouter();
+const query = ref(pageData.query);
+const airline = ref(pageData.airline);
+const flight = ref(pageData.flight);
+const date = ref(pageData.date);
+const day = ref(pageData.day);
+const from = ref(pageData.from);
+const to = ref(pageData.to);
+const message = ref("");
+const mode = computed(() => route.meta.searchMode || "search");
+const calendarDate = computed(() => {
+    const year = pageData.calendar.year;
+    const month = String(pageData.calendar.month).padStart(2, "0");
+    const selectedDay = String(day.value).padStart(2, "0");
+    return `${year}-${month}-${selectedDay}`;
+});
+
+function openPage(name, extra = {}) {
+    router.push({
+        name,
+        params: name === "flight-detail" ? { id: "random" } : {},
+        query: {
+            ...route.query,
+            airline: airline.value,
+            flight: flight.value,
+            from: from.value,
+            to: to.value,
+            ...extra,
+        },
+    });
+}
+
+function selectResult(item) {
+    if (item.type === "airline") {
+        airline.value = item.code;
+    } else {
+        from.value = item.code;
+    }
+    openPage("add-flight-number");
+}
+
+function showFlights(selectedDate) {
+    openPage("flight-results", {
+        date: selectedDate,
+        from: from.value,
+        to: to.value,
+    });
+}
+</script>

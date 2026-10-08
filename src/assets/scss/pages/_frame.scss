@@ -128,3 +128,14 @@
         font-size: 22px;
     }
 }
+
+@media (max-width: 359px) {
+    .frame-page {
+        padding-right: 12px;
+        padding-left: 12px;
+
+        &__title {
+            font-size: 29px;
+        }
+    }
+}

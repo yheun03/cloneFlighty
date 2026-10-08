@@ -1,9 +1,1123 @@
-<script setup>
-import FcComponentGallery from "../component/fc/FcComponentGallery.vue";
-
-import pageData from "./data/ComponentPage.json";
-</script>
-
 <template>
     <FcComponentGallery :data="pageData" />
 </template>
+
+<script setup>
+import FcComponentGallery from "../component/fc/FcComponentGallery.vue";
+
+import "../assets/scss/component/fc/FcComponentGallery.scss";
+import "../assets/scss/component/base/BaseButton.scss";
+import "../assets/scss/component/fc/FcIcon.scss";
+import "../assets/scss/component/fc/FcToggleSwitch.scss";
+import "../assets/scss/component/fc/FcChoiceChip.scss";
+import "../assets/scss/component/fc/FcPeriodTabs.scss";
+import "../assets/scss/component/fc/FcCountBadge.scss";
+import "../assets/scss/component/fc/FcCalendarPicker.scss";
+import "../assets/scss/component/fc/FcListRow.scss";
+import "../assets/scss/component/fc/FcPasteField.scss";
+import "../assets/scss/component/fc/FcConnectionStatus.scss";
+import "../assets/scss/component/fc/FcTerminalTimeline.scss";
+import "../assets/scss/component/fc/FcFlightListItem.scss";
+import "../assets/scss/component/fc/FcAddFlightSearch.scss";
+import "../assets/scss/component/fc/FcFlightDetails.scss";
+import "../assets/scss/component/fc/_stats.scss";
+import "../assets/scss/component/fc/FcPassportOverview.scss";
+import "../assets/scss/component/fc/FcDelayReport.scss";
+import "../assets/scss/component/fc/FcAircraftStats.scss";
+import "../assets/scss/component/fc/FcAlertSettings.scss";
+import "../assets/scss/component/fc/FcCalendarSync.scss";
+import "../assets/scss/component/fc/FcSettingsMenu.scss";
+import "../assets/scss/component/fc/FcAirlinePerformance.scss";
+import "../assets/scss/component/fc/FcSeatStats.scss";
+import "../assets/scss/component/fc/FcFrequentTails.scss";
+import "../assets/scss/component/fc/FcCountriesStats.scss";
+import "../assets/scss/component/fc/FcTopAirlines.scss";
+import "../assets/scss/component/fc/FcFlightDistanceStats.scss";
+
+// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// prettier-ignore
+const pageData = {
+    "enabled": true,
+    "seat": "Aisle",
+    "period": "2024",
+    "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
+    "day": 20,
+    "reason": "",
+    "completed": false,
+    "bookingCode": "ABC123",
+    "positions": ["Aisle", "Middle", "Window", "Pilot", "Captain", "Jumpseat"],
+    "calendar": {
+        "year": 2026,
+        "month": 1,
+        "marked": [11, 13],
+        "outlined": []
+    },
+    "friend": {
+        "title": "김민지",
+        "friendName": "김민지",
+        "friendEmail": "friend@example.com"
+    },
+    "connection": {
+        "title": "Relaxed Connection",
+        "duration": "4h 30m",
+        "extra": "3h 10m"
+    },
+    "timeline": {
+        "arrival": "05:20",
+        "departure": "09:50",
+        "terminal": "Terminal Main",
+        "gate": "A4"
+    },
+    "flight": {
+        "airline": "KE",
+        "flight": "24",
+        "title": "San Francisco to Seoul",
+        "date": "Sat, 20 Jun",
+        "departure": "SFO 11:40",
+        "arrival": "ICN 17:40⁺¹",
+        "days": 21,
+        "avatar": false,
+        "duration": "2h 50m",
+        "flightTime": "2h 50m"
+    },
+    "search": {
+        "placeholder": "Korean Air, ICN, or KE123",
+        "items": [
+            {
+                "title": "Korean Air",
+                "subtitle": "KE  ·  KAL",
+                "avatar": "circle"
+            },
+            {
+                "title": "John F Kennedy Intl.",
+                "subtitle": "JFK  ·  KJFK  ·  New York",
+                "avatar": "plane"
+            },
+            {
+                "title": "Newark Liberty Intl.",
+                "subtitle": "EWR  ·  KEWR  ·  Newark",
+                "avatar": "plane"
+            },
+            {
+                "title": "Kempegowda Intl.",
+                "subtitle": "BLR  ·  VOBL  ·  Bengaluru",
+                "avatar": "plane"
+            }
+        ]
+    },
+    "details": {
+        "airline": "Korean Air",
+        "plane": "Airbus A330-300",
+        "from": "SFO",
+        "to": "ICN",
+        "departure": "11:40",
+        "arrival": "17:40",
+        "departureAirport": "San Francisco Intl.",
+        "arrivalAirport": "Incheon Intl.",
+        "scheduledDeparture": "11:40",
+        "scheduledArrival": "18:00",
+        "departureGate": "F4",
+        "arrivalGate": "F4",
+        "baggage": "14",
+        "departureStatus": "20m Late",
+        "arrivalStatus": "20m Early",
+        "departureTerminal": "Terminal 1",
+        "arrivalTerminal": "Terminal 1",
+        "duration": "13h",
+        "distance": "9,086 km",
+        "arrivalDayOffset": "+1",
+        "overnight": true,
+        "timezoneTitle": "+17 Hours Timezone Change",
+        "timezoneDescription": "17:40 arrival is 00:40 San Francisco time",
+        "forecastDescription": "KE 24 performance over the last 60 days",
+        "forecastStats": [
+            {
+                "label": "Late",
+                "value": "22%"
+            },
+            {
+                "label": "Average of Late",
+                "value": "17m"
+            },
+            {
+                "label": "Observed",
+                "value": "59"
+            }
+        ],
+        "forecast": [
+            {
+                "label": "Early",
+                "value": 81,
+                "color": "var(--fc-success, #00ae57)"
+            },
+            {
+                "label": "On Time",
+                "value": 80,
+                "color": "#56d76a"
+            },
+            {
+                "label": "15m late",
+                "value": 60,
+                "color": "#ffcb31"
+            },
+            {
+                "label": "30m late",
+                "value": 40,
+                "color": "#ff9d20"
+            },
+            {
+                "label": "45m+ late",
+                "value": 20,
+                "color": "var(--fc-danger, #ff4d4d)"
+            }
+        ],
+        "features": [
+            {
+                "title": "Booking Code",
+                "action": "Tap to Edit",
+                "field": "bookingCode"
+            },
+            {
+                "title": "Seat Information",
+                "action": "Add Seat",
+                "field": "seat"
+            }
+        ],
+        "tail": "HL-7587",
+        "firstFlight": "Nov 8, 2000",
+        "age": "25 years old",
+        "alliance": "SkyTeam",
+        "callsign": "KOREANAIR",
+        "icao": "KAL",
+        "iata": "KE",
+        "historyStats": [
+            {
+                "label": "Flights",
+                "value": "1"
+            },
+            {
+                "label": "Distance",
+                "value": "9,086 km"
+            },
+            {
+                "label": "Flight Time",
+                "value": "13h"
+            }
+        ],
+        "recentFlight": "20 Aug 2025 · KE 647"
+    },
+    "overview": {
+        "flights": 20,
+        "distance": "73,650 km",
+        "flightTime": "4d 13h",
+        "airports": 16,
+        "airlines": 5,
+        "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
+        "mapFrom": "ICN",
+        "mapTo": "ICN",
+        "flags": "🇰🇷 🇲🇾 🇯🇵 🇩🇪 🇨🇳 🇸🇬 🇳🇱 🇫🇮 🇩🇰 🇸🇪 🇲🇳",
+        "historyTitle": "2025",
+        "historyCount": "9 FLIGHTS",
+        "recent": [
+            {
+                "id": 1,
+                "code": "KE 5926",
+                "route": "AMS → ICN",
+                "title": "Amsterdam to Seoul",
+                "date": "Dec 29, 2025"
+            },
+            {
+                "id": 2,
+                "code": "AY 041",
+                "route": "HEL → ICN",
+                "title": "Helsinki to Seoul",
+                "date": "Nov 14, 2025"
+            },
+            {
+                "id": 3,
+                "code": "KE 703",
+                "route": "ICN → NRT",
+                "title": "Seoul to Tokyo",
+                "date": "Sep 8, 2025"
+            },
+            {
+                "id": 4,
+                "code": "SQ 607",
+                "route": "ICN → SIN",
+                "title": "Seoul to Singapore",
+                "date": "Aug 20, 2025"
+            },
+            {
+                "id": 5,
+                "code": "OZ 202",
+                "route": "ICN → LAX",
+                "title": "Seoul to Los Angeles",
+                "date": "Jun 2, 2025"
+            }
+        ]
+    },
+    "delayReport": {
+        "delayed": 8,
+        "total": 20,
+        "lostMinutes": 180,
+        "worstDelay": "KE 24 · 1h 05m late",
+        "worstAirline": "Korean Air · 2h 10m late in total"
+    },
+    "aircraft": {
+        "total": 12,
+        "mostFlown": "A330-300",
+        "tail": "HL-8078",
+        "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
+        "manufacturer": "55% Airbus",
+        "newest": {
+            "age": "2 years",
+            "model": "Embraer 175",
+            "date": "5/25/2024"
+        },
+        "oldest": {
+            "age": "25 years",
+            "model": "B737-800",
+            "date": "11/8/2000"
+        },
+        "summary": "4 flights · 12 hours",
+        "median": "9 years old",
+        "ages": [
+            {
+                "label": "2000's",
+                "value": 25
+            },
+            {
+                "label": "2010's",
+                "value": 19
+            },
+            {
+                "label": "2020's",
+                "value": 6
+            }
+        ],
+        "tailFlights": 2
+    },
+    "tails": {
+        "tail": "HL-8078",
+        "flights": 2,
+        "model": "A359",
+        "airline": "OZ",
+        "flag": "🇰🇷"
+    },
+    "myAlertOptions": [
+        {
+            "icon": "bell",
+            "title": "Basics",
+            "desc": "The most critical alerts like gate changes, delays, & Cancellations.",
+            "color": "var(--fc-link, #1685ff)",
+            "enabled": true
+        },
+        {
+            "icon": "circle-check",
+            "title": "Above & Beyond",
+            "desc": "Get alerts on inbound aircraft status, connection assistance, and aircraft changes",
+            "color": "var(--fc-success, #00ae70)",
+            "enabled": false
+        },
+        {
+            "icon": "route",
+            "title": "Flight Plans",
+            "desc": "Get a map of the flight path when the pilot files it with authorities.",
+            "color": "#ffca2d",
+            "enabled": false
+        },
+        {
+            "icon": "plane-landing",
+            "title": "Arrival Information",
+            "desc": "Get alerts for landing, gate arrival, and baggage claim.",
+            "color": "#ff9d20",
+            "enabled": false
+        }
+    ],
+    "friendAlertOptions": [
+        {
+            "icon": "users",
+            "title": "None",
+            "desc": "No alerts please. I’ll just view their flights in the app.",
+            "color": "var(--fc-danger, #ff5049)"
+        },
+        {
+            "icon": "plane-landing",
+            "title": "Just Landed",
+            "desc": "Only notify me when they land.",
+            "color": "var(--fc-success, #00ae70)"
+        },
+        {
+            "icon": "users",
+            "title": "Basics",
+            "desc": "Add alerts for major disruptions, takeoff, 1h until arrival, and on morning of travel.",
+            "color": "var(--fc-link, #1685ff)"
+        },
+        {
+            "icon": "users",
+            "title": "Everything",
+            "desc": "Every alert. Check-in, gate change, disruptions, landing, baggage, etc",
+            "color": "#ff9d20"
+        }
+    ],
+    "calendarSync": {
+        "calendars": ["Personal", "Work", "Flighty"],
+        "importEnabled": false,
+        "exportEnabled": false,
+        "importCalendars": [],
+        "exportCalendar": ""
+    },
+    "settings": {
+        "groups": [
+            {
+                "label": "ALERTS",
+                "items": [
+                    {
+                        "icon": "plane",
+                        "title": "My Flights",
+                        "name": "my-flight-alerts"
+                    },
+                    {
+                        "icon": "users",
+                        "title": "Friends’ Flights",
+                        "name": "friends-flight-alerts"
+                    }
+                ]
+            },
+            {
+                "label": "AUTOMATIONS",
+                "items": [
+                    {
+                        "icon": "calendar-days",
+                        "title": "Calendar Sync",
+                        "name": "calendar-sync"
+                    }
+                ]
+            },
+            {
+                "label": "CUSTOMIZE",
+                "items": [
+                    {
+                        "icon": "earth",
+                        "title": "Language",
+                        "name": "language"
+                    },
+                    {
+                        "icon": "settings",
+                        "title": "Unit",
+                        "name": "units"
+                    }
+                ]
+            }
+        ],
+        "membership": {
+            "title": "Flighty Pro",
+            "status": "Member"
+        }
+    },
+    "performance": {
+        "airports": [
+            {
+                "name": "🇰🇷 ICN",
+                "percent": 100,
+                "count": "1/1"
+            },
+            {
+                "name": "🇫🇷 CDG",
+                "percent": 50,
+                "count": "1/2"
+            },
+            {
+                "name": "🇺🇸 LAX",
+                "percent": 33,
+                "count": "1/3"
+            },
+            {
+                "name": "🇯🇵 NRT",
+                "percent": 25,
+                "count": "1/4"
+            },
+            {
+                "name": "🇳🇱 AMS",
+                "percent": 10,
+                "count": "1/1"
+            },
+            {
+                "name": "🇫🇮 HEL",
+                "percent": 10,
+                "count": "1/1"
+            }
+        ],
+        "airlines": [
+            {
+                "name": "Finnair",
+                "percent": 100,
+                "count": "1/1"
+            },
+            {
+                "name": "KLM",
+                "percent": 50,
+                "count": "1/2"
+            },
+            {
+                "name": "Asiana",
+                "percent": 33,
+                "count": "1/3"
+            },
+            {
+                "name": "Korean Air",
+                "percent": 25,
+                "count": "1/4"
+            },
+            {
+                "name": "Alaska",
+                "percent": 10,
+                "count": "1/1"
+            },
+            {
+                "name": "Singapore Airlines",
+                "percent": 10,
+                "count": "1/1"
+            }
+        ],
+        "performance": [
+            {
+                "label": "Early",
+                "value": 81,
+                "color": "var(--fc-success, #00ae70)"
+            },
+            {
+                "label": "On Time",
+                "value": 80,
+                "color": "#53d96c"
+            },
+            {
+                "label": "15m late",
+                "value": 60,
+                "color": "#ffca2d"
+            },
+            {
+                "label": "30m late",
+                "value": 40,
+                "color": "#ff9d20"
+            },
+            {
+                "label": "45m+ late",
+                "value": 20,
+                "color": "var(--fc-danger, #ff5049)"
+            }
+        ],
+        "airportHeadline": "75%",
+        "airlineHeadline": "50%",
+        "cumulative": "11m",
+        "delayTotal": 8,
+        "delays": [
+            {
+                "flight": "KL 1251",
+                "duration": "10h 47m",
+                "route": "AMS-HEL",
+                "date": "Dec 24, 2025"
+            },
+            {
+                "flight": "KL 6410",
+                "duration": "47m",
+                "route": "AMS-HEL",
+                "date": "Dec 24, 2025"
+            },
+            {
+                "flight": "KL 703",
+                "duration": "47m",
+                "route": "AMS-HEL",
+                "date": "Dec 24, 2025"
+            },
+            {
+                "flight": "AY 911",
+                "duration": "47m",
+                "route": "AMS-HEL",
+                "date": "Dec 24, 2025"
+            },
+            {
+                "flight": "KE 24",
+                "duration": "47m",
+                "route": "AMS-HEL",
+                "date": "Dec 24, 2025"
+            },
+            {
+                "flight": "OZ 202",
+                "duration": "47m",
+                "route": "AMS-HEL",
+                "date": "Dec 24, 2025"
+            },
+            {
+                "flight": "AY 41",
+                "duration": "47m",
+                "route": "AMS-HEL",
+                "date": "Dec 24, 2025"
+            },
+            {
+                "flight": "KL 5926",
+                "duration": "47m",
+                "route": "AMS-HEL",
+                "date": "Dec 24, 2025"
+            }
+        ]
+    },
+    "seats": {
+        "seat": {
+            "mode": "seat",
+            "topLabel": "Top Seat",
+            "topValue": "32K",
+            "rows": [
+                {
+                    "name": "Aisle",
+                    "count": 0,
+                    "percent": 0,
+                    "color": "var(--fc-success, #00ae70)"
+                },
+                {
+                    "name": "Middle",
+                    "count": 2,
+                    "percent": 10,
+                    "color": "#ff9d20"
+                },
+                {
+                    "name": "Window",
+                    "count": 18,
+                    "percent": 90,
+                    "color": "var(--fc-blue, #087bfa)"
+                }
+            ]
+        },
+        "class": {
+            "mode": "class",
+            "topLabel": "Top Class",
+            "topValue": "Economy",
+            "rows": [
+                {
+                    "name": "Economy",
+                    "count": 20,
+                    "percent": 100,
+                    "color": "var(--fc-economy)"
+                },
+                {
+                    "name": "Premium Economy",
+                    "count": 0,
+                    "percent": 0,
+                    "color": "var(--fc-premium-economy)"
+                },
+                {
+                    "name": "Business",
+                    "count": 0,
+                    "percent": 0,
+                    "color": "var(--fc-business)"
+                },
+                {
+                    "name": "First Class",
+                    "count": 0,
+                    "percent": 0,
+                    "color": "var(--fc-first-class)"
+                }
+            ]
+        },
+        "reason": {
+            "mode": "reason",
+            "topLabel": "Top Reason",
+            "topValue": "Personal",
+            "rows": [
+                {
+                    "name": "Personal",
+                    "count": 20,
+                    "percent": 100,
+                    "color": "var(--fc-success, #00ae70)"
+                },
+                {
+                    "name": "Business",
+                    "count": 0,
+                    "percent": 0,
+                    "color": "var(--fc-blue, #087bfa)"
+                }
+            ]
+        }
+    },
+    "countries": {
+        "total": 11,
+        "countries": [
+            {
+                "flag": "🇰🇷",
+                "name": "South Korea",
+                "count": 16
+            },
+            {
+                "flag": "🇳🇱",
+                "name": "Netherlands",
+                "count": 16
+            },
+            {
+                "flag": "🇺🇸",
+                "name": "United States",
+                "count": 16
+            },
+            {
+                "flag": "🇯🇵",
+                "name": "Japan",
+                "count": 7
+            },
+            {
+                "flag": "🇸🇬",
+                "name": "Singapore",
+                "count": 5
+            }
+        ],
+        "regions": [
+            {
+                "name": "Asia",
+                "count": 5,
+                "percent": "14%"
+            },
+            {
+                "name": "Europe",
+                "count": 5,
+                "percent": "14%"
+            },
+            {
+                "name": "N. America",
+                "count": 5,
+                "percent": "14%"
+            },
+            {
+                "name": "Africa",
+                "count": 5,
+                "percent": "14%"
+            },
+            {
+                "name": "C. America",
+                "count": 5,
+                "percent": "14%"
+            },
+            {
+                "name": "Caribbean",
+                "count": 5,
+                "percent": "14%"
+            },
+            {
+                "name": "Middle East",
+                "count": 5,
+                "percent": "14%"
+            },
+            {
+                "name": "Oceania",
+                "count": 5,
+                "percent": "14%"
+            },
+            {
+                "name": "S. America",
+                "count": 5,
+                "percent": "14%"
+            }
+        ]
+    },
+    "airlines": {
+        "title": "Top Airlines",
+        "total": 9,
+        "unit": "total airlines",
+        "items": [
+            {
+                "name": "Korean Air",
+                "flights": 13,
+                "distance": 48600
+            },
+            {
+                "name": "Asiana",
+                "flights": 3,
+                "distance": 12000
+            },
+            {
+                "name": "KLM",
+                "flights": 2,
+                "distance": 7800
+            },
+            {
+                "name": "Finnair",
+                "flights": 2,
+                "distance": 5250
+            }
+        ]
+    },
+    "distance": {
+        "title": "Flight Distance",
+        "shareLabel": "Share",
+        "shareIcon": "share-2",
+        "distance": "73,650",
+        "distanceUnit": "km",
+        "miles": "45,764",
+        "milesUnit": "mi",
+        "breakdown": [
+            {
+                "label": "Days",
+                "value": "4.6"
+            },
+            {
+                "label": "Weeks",
+                "value": "0.7"
+            },
+            {
+                "label": "Months",
+                "value": "0.15"
+            },
+            {
+                "label": "Years",
+                "value": "0.01"
+            },
+            {
+                "label": "Avg. Flight Time",
+                "value": "5h 28m"
+            },
+            {
+                "label": "In Air",
+                "value": "0.8%"
+            }
+        ],
+        "averageLabel": "Average distance: 3,682 km",
+        "comparisons": [
+            {
+                "icon": "earth",
+                "text": "1.8x Around Earth"
+            },
+            {
+                "icon": "moon",
+                "text": "0.2x To the Moon"
+            },
+            {
+                "icon": "sun",
+                "text": "0.02x Around the Sun"
+            }
+        ],
+        "summaryLabel": "Show Summary",
+        "breakdownLabel": "Show Breakdown",
+        "shortestFlight": {
+            "title": "Shortest flight",
+            "route": "Jeju → Seoul",
+            "distance": "451 km",
+            "detail": "KE 1238 · 2 Jun 2017"
+        },
+        "longestFlight": {
+            "title": "Longest flight",
+            "route": "Seoul → Los Angeles",
+            "distance": "9,647 km",
+            "detail": "OZ 202 · 2 Jun 2017"
+        }
+    },
+    "alerts": {
+        "shared": true,
+        "selected": "Basics",
+        "mode": "mine",
+        "modes": ["mine", "friend"],
+        "previews": {
+            "mine": {
+                "title": "My Flight Alerts",
+                "desc": "Pick the notification types you receive for your flights."
+            },
+            "friend": {
+                "title": "Customize Alerts",
+                "desc": "Customize this per friend in Flighty Friends."
+            }
+        }
+    },
+    "gallery": {
+        "eyebrow": "COMPONENT GALLERY",
+        "title": "컴포넌트 모아보기",
+        "description": "공통 컴포넌트의 모양과 상태를 한곳에서 확인하세요. 긴 예시는 카드 안에서 스크롤할 수 있습니다.",
+        "category": "all",
+        "total": 27,
+        "tags": ["JSON 더미 데이터", "상태 미리보기"],
+        "categories": [
+            {
+                "id": "all",
+                "label": "전체",
+                "count": 27
+            },
+            {
+                "id": "basic",
+                "label": "기본 UI",
+                "count": 10
+            },
+            {
+                "id": "flight",
+                "label": "항공편",
+                "count": 5
+            },
+            {
+                "id": "stats",
+                "label": "통계",
+                "count": 9
+            },
+            {
+                "id": "settings",
+                "label": "설정",
+                "count": 3
+            }
+        ],
+        "catalog": {
+            "buttons": {
+                "category": "basic",
+                "title": "버튼",
+                "component": "BaseButton",
+                "description": "기본 · 아웃라인 · 강조 · 비활성 상태"
+            },
+            "input": {
+                "category": "basic",
+                "title": "입력창",
+                "component": "BaseInput",
+                "description": "입력 가능 상태와 비활성 상태"
+            },
+            "icons": {
+                "category": "basic",
+                "title": "아이콘",
+                "component": "FcIcon",
+                "description": "항공편과 설정에 사용하는 공통 아이콘"
+            },
+            "toggle": {
+                "category": "basic",
+                "title": "토글 스위치",
+                "component": "FcToggleSwitch",
+                "description": "켜짐 · 꺼짐 · 비활성 상태"
+            },
+            "choice": {
+                "category": "basic",
+                "title": "선택 칩",
+                "component": "FcChoiceChip",
+                "description": "좌석 위치 선택과 활성 상태"
+            },
+            "periods": {
+                "category": "basic",
+                "title": "기간 탭",
+                "component": "FcPeriodTabs",
+                "description": "기간별 선택 상태"
+            },
+            "badges": {
+                "category": "basic",
+                "title": "수량 배지",
+                "component": "FcCountBadge",
+                "description": "기본 · 채움 · 테두리 스타일"
+            },
+            "calendar": {
+                "category": "basic",
+                "title": "달력",
+                "component": "FcCalendarPicker",
+                "description": "선택일과 항공편이 있는 날짜"
+            },
+            "rows": {
+                "category": "basic",
+                "title": "목록 행",
+                "component": "FcListRow",
+                "description": "사용자 정보와 강조 액션"
+            },
+            "paste": {
+                "category": "basic",
+                "title": "붙여넣기 입력",
+                "component": "FcPasteField",
+                "description": "버튼을 누르면 예시 예약 코드 입력"
+            },
+            "flights": {
+                "category": "flight",
+                "title": "항공편 목록",
+                "component": "FcFlightListItem",
+                "description": "예정 · 지난 항공편 · 상세 헤더"
+            },
+            "search": {
+                "category": "flight",
+                "title": "항공편 검색",
+                "component": "FcAddFlightSearch",
+                "description": "검색어에 따른 더미 목록 필터"
+            },
+            "connection": {
+                "category": "flight",
+                "title": "연결편 상태",
+                "component": "FcConnectionStatus",
+                "description": "환승 시간과 여유 시간 안내"
+            },
+            "timeline": {
+                "category": "flight",
+                "title": "터미널 타임라인",
+                "component": "FcTerminalTimeline",
+                "description": "도착 · 터미널 이동 · 출발 정보"
+            },
+            "details": {
+                "category": "flight",
+                "title": "항공편 상세",
+                "component": "FcFlightDetails",
+                "description": "운항 일정과 비행 종료 상태"
+            },
+            "passport": {
+                "category": "stats",
+                "title": "패스포트 요약",
+                "component": "FcPassportOverview",
+                "description": "항공편 · 거리 · 시간 · 최근 기록"
+            },
+            "delays": {
+                "category": "stats",
+                "title": "지연 리포트",
+                "component": "FcDelayReport",
+                "description": "지연 비율과 누적 지연 시간"
+            },
+            "aircraft": {
+                "category": "stats",
+                "title": "항공기 통계",
+                "component": "FcAircraftStats",
+                "description": "기종별 요약과 항공기 연령"
+            },
+            "performance": {
+                "category": "stats",
+                "title": "운항 성과",
+                "component": "FcAirlinePerformance",
+                "description": "개인 · 지연 · 항공사 · 공항 통계"
+            },
+            "seats": {
+                "category": "stats",
+                "title": "좌석 통계",
+                "component": "FcSeatStats",
+                "description": "좌석 위치 · 등급 · 여행 목적"
+            },
+            "tails": {
+                "category": "stats",
+                "title": "자주 탑승한 항공기",
+                "component": "FcFrequentTails",
+                "description": "항공기 등록 번호와 탑승 횟수"
+            },
+            "countries": {
+                "category": "stats",
+                "title": "방문 국가",
+                "component": "FcCountriesStats",
+                "description": "국가 목록과 지역별 비행 횟수"
+            },
+            "airlines": {
+                "category": "stats",
+                "title": "주요 항공사",
+                "component": "FcTopAirlines",
+                "description": "비행 횟수와 거리 기준 비교"
+            },
+            "distance": {
+                "category": "stats",
+                "title": "비행 거리",
+                "component": "FcFlightDistanceStats",
+                "description": "요약과 상세 내역 전환"
+            },
+            "alerts": {
+                "category": "settings",
+                "title": "항공편 알림",
+                "component": "FcAlertSettings",
+                "description": "내 항공편과 친구 알림 선택 상태"
+            },
+            "sync": {
+                "category": "settings",
+                "title": "캘린더 동기화",
+                "component": "FcCalendarSync",
+                "description": "가져오기 · 내보내기 · 달력 선택"
+            },
+            "settings": {
+                "category": "settings",
+                "title": "설정 메뉴",
+                "component": "FcSettingsMenu",
+                "description": "멤버십과 설정 목록"
+            }
+        }
+    },
+    "buttons": [
+        {
+            "label": "Share",
+            "icon": "share-2",
+            "variant": "outline"
+        },
+        {
+            "label": "Show More",
+            "variant": "link"
+        },
+        {
+            "label": "Done",
+            "variant": "soft"
+        },
+        {
+            "label": "Disabled",
+            "variant": "outline",
+            "disabled": true
+        }
+    ],
+    "input": {
+        "value": "KE 24",
+        "label": "Flight number",
+        "placeholder": "Enter flight number",
+        "disabledLabel": "Disabled",
+        "disabledValue": "KE 9999"
+    },
+    "icons": [
+        {
+            "src": "plane",
+            "label": "plane"
+        },
+        {
+            "src": "route",
+            "label": "route"
+        },
+        {
+            "src": "bell",
+            "label": "bell"
+        },
+        {
+            "src": "calendar-days",
+            "label": "calendar"
+        },
+        {
+            "src": "users",
+            "label": "users"
+        },
+        {
+            "src": "earth",
+            "label": "earth"
+        }
+    ],
+    "badges": [
+        {
+            "value": 1,
+            "variant": "plain"
+        },
+        {
+            "value": 8,
+            "variant": "filled"
+        },
+        {
+            "value": 20,
+            "variant": "outline"
+        }
+    ],
+    "rows": [
+        {
+            "title": "김민지",
+            "subtitle": "friend@example.com",
+            "avatar": "M"
+        },
+        {
+            "title": "Invite a Friend",
+            "accent": true
+        }
+    ],
+    "flightVariants": [
+        {
+            "label": "Upcoming",
+            "variant": "upcoming"
+        },
+        {
+            "label": "History",
+            "variant": "history"
+        },
+        {
+            "label": "Header",
+            "variant": "header"
+        }
+    ],
+    "performanceSection": "mine",
+    "performanceSections": ["mine", "delays", "airline", "airport"],
+    "seatMode": "seat",
+    "seatModes": ["seat", "class", "reason"],
+    "secondaryEnabled": false
+};
+</script>

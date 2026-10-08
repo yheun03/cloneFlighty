@@ -1,6 +1,0 @@
-{
-    "speed": "km/h",
-    "altitude": "m",
-    "speedUnits": ["mph", "km/h", "kt"],
-    "altitudeUnits": ["ft", "km", "m", "FL"]
-}
