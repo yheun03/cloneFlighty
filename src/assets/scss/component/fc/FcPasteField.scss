@@ -1,10 +1,10 @@
 .fc-paste-field {
-    & label {
+    label {
         margin: 20px 0 10px;
         font-size: 20px;
     }
 
-    & > div {
+    > div {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -13,11 +13,11 @@
         background: var(--fc-control-bg, #303030);
     }
 
-    & > div > span {
+    > div > span {
         color: var(--fc-placeholder, #777);
     }
 
-    & input {
+    input {
         flex: 1;
         min-width: 0;
         border: 0;
@@ -25,7 +25,7 @@
         color: var(--fc-text-strong, white);
     }
 
-    & button {
+    button {
         border: 0;
         border-radius: 7px;
         padding: 4px 8px;
@@ -33,7 +33,7 @@
         color: var(--fc-text-strong, white);
     }
 
-    & small {
+    small {
         color: var(--fc-danger, #ff4d4d);
     }
 }

@@ -9,17 +9,17 @@
         justify-content: space-between;
         align-items: center;
 
-        & strong {
+        strong {
             font-size: 43px;
             line-height: 1.25;
         }
 
-        & sup {
+        sup {
             font-size: 18px;
             vertical-align: top;
         }
 
-        & b {
+        b {
             padding: 2px 8px;
             border-radius: 8px;
             background: #ffca2d;
@@ -41,16 +41,32 @@
         font-size: 14px;
         white-space: nowrap;
     }
+
+    &__actual {
+        display: flex;
+        align-items: baseline;
+        gap: 7px;
+
+        del {
+            color: var(--fc-placeholder, #777);
+            font-size: 13px;
+        }
+    }
+
+    &__gates {
+        display: flex;
+        gap: 4px;
+    }
 }
 
 .fc-details {
-    & .fc-schedule__time:nth-of-type(2) strong,
-    & .fc-schedule__detail:nth-of-type(3) span:first-child {
+    .fc-schedule__time:nth-of-type(2) strong,
+    .fc-schedule__detail:nth-of-type(3) span:first-child {
         color: var(--fc-danger, #ff5049);
     }
 
-    & .fc-schedule__time:nth-of-type(6) strong,
-    & .fc-schedule__detail:nth-of-type(7) span:first-child {
+    .fc-schedule__time:nth-of-type(6) strong,
+    .fc-schedule__detail:nth-of-type(7) span:first-child {
         color: var(--fc-success, #00ae70);
     }
 
@@ -61,28 +77,24 @@
 
     margin-top: 5px;
 
-    & > h2 {
+    > h2 {
         margin: 30px 0 12px;
         font-size: 20px;
     }
 
-    &__card,
-    &__features > div {
+    &__card {
         border: 1px solid var(--fc-card-border, #535353);
         border-radius: 12px;
         padding: 12px;
-    }
-
-    &__card {
         margin-top: 12px;
 
-        & h3 {
+        h3 {
             margin: 0;
             font-size: 19px;
         }
 
-        & p,
-        & small {
+        p,
+        small {
             margin: 2px 0 8px;
             color: var(--fc-text-secondary, #aaa);
             font-size: 14px;
@@ -94,21 +106,37 @@
         grid-template-columns: 1fr 1fr;
         gap: 8px;
 
-        & > div {
+        small {
+            color: var(--fc-text-secondary, #aaa);
+        }
+
+        > button {
+            position: relative;
             display: flex;
             flex-direction: column;
-        }
+            align-items: flex-start;
+            padding: 12px;
+            border: 1px solid var(--fc-border, #333);
+            border-radius: 12px;
+            background: transparent;
+            color: var(--fc-text-body, #ddd);
+            text-align: left;
 
-        & > div > span {
-            align-self: flex-end;
-            width: 42px;
-            height: 18px;
-            border-radius: 5px;
-            background: var(--fc-blue, #087bfa);
-        }
+            > span {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 3px 6px;
+                border-radius: 5px;
+                background: var(--fc-copy-bg, #0d2d4c);
+                color: var(--fc-blue, #087bfa);
+                font-size: 10px;
+            }
 
-        & small {
-            color: var(--fc-text-secondary, #aaa);
+            strong {
+                margin-top: 10px;
+                font-size: 14px;
+            }
         }
     }
 
@@ -124,14 +152,14 @@
         margin: 15px 0;
         gap: 6px;
 
-        & > span {
+        > span {
             display: flex;
             flex-direction: column;
             color: var(--fc-text-secondary, #aaa);
             font-size: 12px;
         }
 
-        & strong {
+        strong {
             color: var(--fc-text-strong, white);
             font-size: 15px;
         }
@@ -144,23 +172,23 @@
         margin: 6px 0;
         font-size: 13px;
 
-        & > span {
+        > span {
             width: 72px;
         }
 
-        & > div {
+        > div {
             flex: 1;
             height: 8px;
             background: var(--fc-meter-bg, #383838);
         }
 
-        & i {
+        i {
             display: block;
             height: 100%;
             border-radius: 2px;
         }
 
-        & b {
+        b {
             width: 35px;
             text-align: right;
         }
@@ -180,12 +208,23 @@
         gap: 6px;
         margin: 12px 0;
 
-        & span {
+        span {
             padding: 5px;
             border-radius: 4px;
             background: var(--fc-control-bg, #303030);
             text-align: center;
             font-size: 12px;
         }
+    }
+
+    &__connection {
+        width: 100%;
+        margin-top: 12px;
+        padding: 10px;
+        border: 1px solid var(--fc-border, #333);
+        border-radius: 9px;
+        background: none;
+        color: var(--fc-blue, #087bfa);
+        text-align: left;
     }
 }

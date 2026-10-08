@@ -1,7 +1,7 @@
 .fc-performance {
     margin-top: 20px;
 
-    & > .fc-stat-head:not(:first-child) {
+    > .fc-stat-head:not(:first-child) {
         margin-top: 40px;
     }
 
@@ -10,19 +10,19 @@
         align-items: baseline;
         gap: 8px;
 
-        & strong {
+        strong {
             font-size: 55px;
             line-height: 1.1;
         }
 
-        & span {
+        span {
             color: var(--fc-text-secondary, #aaa);
             font-size: 25px;
             font-weight: 700;
         }
     }
 
-    & > p {
+    > p {
         margin: 4px 0 20px;
         color: var(--fc-text-secondary, #aaa);
     }
@@ -30,34 +30,13 @@
     &__bar {
         margin: 10px 0;
 
-        & > div {
+        > div {
             display: flex;
             justify-content: space-between;
             font-size: 14px;
         }
     }
-}
 
-.fc-performance__bar i,
-.fc-performance__meter i,
-.fc-top-airlines__bar i {
-    display: block;
-    height: 13px;
-    overflow: hidden;
-    border-radius: 5px;
-    background: var(--fc-meter-bg, #363636);
-}
-
-.fc-performance__bar b,
-.fc-performance__meter b,
-.fc-top-airlines__bar b {
-    display: block;
-    height: 100%;
-    border-radius: inherit;
-    background: var(--fc-danger, #ff5049);
-}
-
-.fc-performance {
     &__meter {
         display: grid;
         grid-template-columns: 68px 1fr 33px;
@@ -75,7 +54,7 @@
         color: var(--fc-text-secondary, #aaa);
         font-size: 12px;
 
-        & b {
+        b {
             color: var(--fc-danger, #ff5049);
         }
     }

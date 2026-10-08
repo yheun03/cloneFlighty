@@ -1,0 +1,38 @@
+.units-page {
+    &__section {
+        margin-top: 36px;
+
+        h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        p {
+            margin: 4px 0 14px;
+            font-size: 16px;
+        }
+    }
+
+    .units-page__segments {
+        display: flex;
+        gap: 0;
+        padding: 2px;
+        border-radius: 20px;
+        background: var(--fc-control-bg, #2b2b2b);
+
+        button {
+            flex: 1;
+            padding: 4px 8px;
+            border: 0;
+            border-radius: 18px;
+            background: transparent;
+            color: var(--fc-text-strong, white);
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .is-active {
+            background: var(--fc-segment-selected, #666);
+        }
+    }
+}

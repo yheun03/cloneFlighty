@@ -1,0 +1,50 @@
+.aircraft-stats-page {
+    .fc-aircraft-stats__featured {
+        height: 160px;
+        padding: 0;
+        background: transparent;
+        color: #004465;
+    }
+
+    &__seat-summary {
+        margin: 24px 0;
+        font-size: 12px;
+
+        > div:first-child {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        p strong {
+            display: block;
+        }
+    }
+
+    &__seat-bar {
+        display: grid;
+        grid-template-columns: 19fr 1fr 1fr 1fr;
+        background: #9fc8e3;
+        color: var(--fc-blue, #087bfa);
+        text-align: right;
+
+        span {
+            padding-right: 4px;
+            border-right: 1px solid var(--fc-blue, #087bfa);
+        }
+    }
+
+    .fc-seat-stats:not(:first-of-type) {
+        margin-top: 32px;
+    }
+
+    &__age .fc-aircraft-stats > p {
+        font-size: 36px;
+        font-weight: 600;
+
+        small {
+            display: block;
+            font-size: 14px;
+            font-weight: 400;
+        }
+    }
+}

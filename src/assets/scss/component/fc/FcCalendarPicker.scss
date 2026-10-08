@@ -1,7 +1,7 @@
 .fc-calendar {
     max-width: 310px;
 
-    & h3 {
+    h3 {
         margin: 0 0 15px;
         font-size: 17px;
     }
@@ -11,15 +11,8 @@
         grid-template-columns: repeat(7, 1fr);
         gap: 7px 2px;
         text-align: center;
-    }
 
-    &__weekday {
-        color: var(--fc-text-secondary, #818181);
-        font-size: 12px;
-    }
-
-    &__grid {
-        & button {
+        button {
             width: 35px;
             height: 35px;
             border: 1px solid transparent;
@@ -29,13 +22,18 @@
             font-size: 16px;
         }
 
-        & button.is-marked {
+        button.is-marked {
             background: var(--fc-blue, #087bfa);
             color: white;
         }
 
-        & button.is-selected {
+        button.is-selected {
             border-color: var(--fc-blue, #087bfa);
         }
+    }
+
+    &__weekday {
+        color: var(--fc-text-secondary, #818181);
+        font-size: 12px;
     }
 }

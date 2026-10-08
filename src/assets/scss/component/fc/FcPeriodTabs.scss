@@ -4,7 +4,7 @@
     overflow-x: auto;
     padding-bottom: 5px;
 
-    & button {
+    button {
         flex: none;
         padding: 6px 10px;
         border: 0;
@@ -15,7 +15,7 @@
         font-weight: 700;
     }
 
-    & button.is-active {
+    button.is-active {
         background: var(--fc-selected-bg, #333);
     }
 }

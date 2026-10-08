@@ -12,12 +12,12 @@
         align-items: center;
         width: 54px;
 
-        & strong {
+        strong {
             font-size: 30px;
             line-height: 1;
         }
 
-        & small {
+        small {
             color: var(--fc-text-secondary, #aaa);
         }
     }
@@ -58,7 +58,7 @@
         color: var(--fc-text-secondary, #999);
         font-size: 14px;
 
-        & > span {
+        > span {
             display: inline-block;
             margin: 4px 5px 0 0;
             padding: 0 5px;
@@ -75,5 +75,13 @@
         background: none;
         color: var(--fc-text-strong, white);
         font-size: 24px;
+    }
+
+    &__avatar {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 7px;
+        border-radius: 50%;
+        background: #bcbec5;
     }
 }

@@ -1,7 +1,6 @@
 <script setup>
-import "../../assets/scss/FcGalleryBundle.scss";
-import chipIcon from "../../assets/icons/lucide/square.svg";
-import { ref } from "vue";
+import { computed, ref } from "vue";
+
 import BaseButton from "../base/BaseButton.vue";
 import BaseInput from "../base/BaseInput.vue";
 import FcIcon from "./FcIcon.vue";
@@ -30,7 +29,15 @@ import FcCountriesStats from "./FcCountriesStats.vue";
 import FcTopAirlines from "./FcTopAirlines.vue";
 import FcFlightDistanceStats from "./FcFlightDistanceStats.vue";
 
-const props = defineProps({ data: { type: Object, required: true } });
+import chipIcon from "../../assets/icons/lucide/square.svg";
+
+import "../../assets/scss/FcGalleryBundle.scss";
+
+const props = defineProps({
+    // ComponentPage.json의 갤러리 설명과 각 컴포넌트 미리보기 데이터입니다.
+    data: { type: Object, required: true },
+});
+
 const gallery = ref(null);
 const category = ref(props.data.gallery.category);
 const inputValue = ref(props.data.input.value);
@@ -45,6 +52,16 @@ const day = ref(props.data.day);
 const reason = ref(props.data.reason);
 const completed = ref(props.data.completed);
 
+const catalog = computed(() => props.data.gallery.catalog);
+const visibleSections = computed(() => {
+    const sections = {};
+    for (const [name, item] of Object.entries(catalog.value)) {
+        sections[name] =
+            category.value === "all" || category.value === item.category;
+    }
+    return sections;
+});
+
 function selectCategory(item) {
     category.value = item.id;
     gallery.value?.scrollIntoView({ block: "start" });
@@ -52,7 +69,10 @@ function selectCategory(item) {
 </script>
 
 <template>
-    <article ref="gallery" class="fc-gallery">
+    <article
+        ref="gallery"
+        class="fc-gallery"
+    >
         <header class="fc-gallery__intro">
             <div>
                 <p class="fc-gallery__eyebrow">{{ data.gallery.eyebrow }}</p>
@@ -61,12 +81,18 @@ function selectCategory(item) {
                     {{ data.gallery.description }}
                 </p>
             </div>
-            <ul class="fc-gallery__meta" aria-label="갤러리 구성">
-                <li>
-                    <strong>{{ data.gallery.total }}</strong
-                    >개 컴포넌트
+            <ul
+                class="fc-gallery__meta"
+                aria-label="갤러리 구성"
+            >
+                <!-- prettier-ignore -->
+                <li><strong>{{ data.gallery.total }}</strong>개 컴포넌트</li>
+                <li
+                    v-for="tag in data.gallery.tags"
+                    :key="tag"
+                >
+                    {{ tag }}
                 </li>
-                <li v-for="tag in data.gallery.tags" :key="tag">{{ tag }}</li>
             </ul>
         </header>
 
@@ -83,28 +109,26 @@ function selectCategory(item) {
                 :aria-pressed="category === item.id"
                 @click="selectCategory(item)"
             >
-                {{ item.label }} <span>{{ item.count }}</span>
+                {{ item.label }}
+                <span>{{ item.count }}</span>
             </button>
         </div>
 
         <div class="fc-gallery__grid">
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.buttons.category
-                "
+                v-show="visibleSections.buttons"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-buttons"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.buttons.component }}
+                        {{ catalog.buttons.component }}
                     </p>
                     <h2 id="gallery-buttons">
-                        {{ data.gallery.catalog.buttons.title }}
+                        {{ catalog.buttons.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.buttons.description }}
+                        {{ catalog.buttons.description }}
                     </p>
                 </header>
                 <div
@@ -123,22 +147,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.input.category
-                "
+                v-show="visibleSections.input"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-input"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.input.component }}
+                        {{ catalog.input.component }}
                     </p>
                     <h2 id="gallery-input">
-                        {{ data.gallery.catalog.input.title }}
+                        {{ catalog.input.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.input.description }}
+                        {{ catalog.input.description }}
                     </p>
                 </header>
                 <div
@@ -148,18 +169,18 @@ function selectCategory(item) {
                     tabindex="0"
                 >
                     <div class="fc-gallery__field">
-                        <label for="gallery-flight-number">{{
-                            data.input.label
-                        }}</label>
+                        <label for="gallery-flight-number">
+                            {{ data.input.label }}
+                        </label>
                         <BaseInput
                             id="gallery-flight-number"
                             v-model="inputValue"
                             class="fc-gallery__input"
                             :placeholder="data.input.placeholder"
                         />
-                        <label for="gallery-input-disabled">{{
-                            data.input.disabledLabel
-                        }}</label>
+                        <label for="gallery-input-disabled">
+                            {{ data.input.disabledLabel }}
+                        </label>
                         <BaseInput
                             id="gallery-input-disabled"
                             class="fc-gallery__input"
@@ -170,22 +191,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.icons.category
-                "
+                v-show="visibleSections.icons"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-icons"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.icons.component }}
+                        {{ catalog.icons.component }}
                     </p>
                     <h2 id="gallery-icons">
-                        {{ data.gallery.catalog.icons.title }}
+                        {{ catalog.icons.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.icons.description }}
+                        {{ catalog.icons.description }}
                     </p>
                 </header>
                 <div
@@ -195,7 +213,10 @@ function selectCategory(item) {
                     tabindex="0"
                 >
                     <div class="fc-gallery__icons">
-                        <div v-for="icon in data.icons" :key="icon.src">
+                        <div
+                            v-for="icon in data.icons"
+                            :key="icon.src"
+                        >
                             <FcIcon :src="icon.src" />
                             <small>{{ icon.label }}</small>
                         </div>
@@ -203,22 +224,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.toggle.category
-                "
+                v-show="visibleSections.toggle"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-toggle"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.toggle.component }}
+                        {{ catalog.toggle.component }}
                     </p>
                     <h2 id="gallery-toggle">
-                        {{ data.gallery.catalog.toggle.title }}
+                        {{ catalog.toggle.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.toggle.description }}
+                        {{ catalog.toggle.description }}
                     </p>
                 </header>
                 <div
@@ -228,7 +246,10 @@ function selectCategory(item) {
                     tabindex="0"
                 >
                     <div class="fc-gallery__row">
-                        <FcToggleSwitch v-model="enabled" label="알림" />
+                        <FcToggleSwitch
+                            v-model="enabled"
+                            label="알림"
+                        />
                         <FcToggleSwitch
                             v-model="secondaryEnabled"
                             label="꺼짐"
@@ -242,22 +263,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.choice.category
-                "
+                v-show="visibleSections.choice"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-choice"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.choice.component }}
+                        {{ catalog.choice.component }}
                     </p>
                     <h2 id="gallery-choice">
-                        {{ data.gallery.catalog.choice.title }}
+                        {{ catalog.choice.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.choice.description }}
+                        {{ catalog.choice.description }}
                     </p>
                 </header>
                 <div
@@ -280,22 +298,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.periods.category
-                "
+                v-show="visibleSections.periods"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-periods"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.periods.component }}
+                        {{ catalog.periods.component }}
                     </p>
                     <h2 id="gallery-periods">
-                        {{ data.gallery.catalog.periods.title }}
+                        {{ catalog.periods.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.periods.description }}
+                        {{ catalog.periods.description }}
                     </p>
                 </header>
                 <div
@@ -304,26 +319,26 @@ function selectCategory(item) {
                     aria-labelledby="gallery-periods"
                     tabindex="0"
                 >
-                    <FcPeriodTabs v-model="period" :items="data.periods" />
+                    <FcPeriodTabs
+                        v-model="period"
+                        :items="data.periods"
+                    />
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.badges.category
-                "
+                v-show="visibleSections.badges"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-badges"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.badges.component }}
+                        {{ catalog.badges.component }}
                     </p>
                     <h2 id="gallery-badges">
-                        {{ data.gallery.catalog.badges.title }}
+                        {{ catalog.badges.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.badges.description }}
+                        {{ catalog.badges.description }}
                     </p>
                 </header>
                 <div
@@ -342,22 +357,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.calendar.category
-                "
+                v-show="visibleSections.calendar"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-calendar"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.calendar.component }}
+                        {{ catalog.calendar.component }}
                     </p>
                     <h2 id="gallery-calendar">
-                        {{ data.gallery.catalog.calendar.title }}
+                        {{ catalog.calendar.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.calendar.description }}
+                        {{ catalog.calendar.description }}
                     </p>
                 </header>
                 <div
@@ -366,26 +378,26 @@ function selectCategory(item) {
                     aria-labelledby="gallery-calendar"
                     tabindex="0"
                 >
-                    <FcCalendarPicker v-model="day" v-bind="data.calendar" />
+                    <FcCalendarPicker
+                        v-model="day"
+                        v-bind="data.calendar"
+                    />
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.rows.category
-                "
+                v-show="visibleSections.rows"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-rows"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.rows.component }}
+                        {{ catalog.rows.component }}
                     </p>
                     <h2 id="gallery-rows">
-                        {{ data.gallery.catalog.rows.title }}
+                        {{ catalog.rows.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.rows.description }}
+                        {{ catalog.rows.description }}
                     </p>
                 </header>
                 <div
@@ -402,22 +414,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.paste.category
-                "
+                v-show="visibleSections.paste"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-paste"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.paste.component }}
+                        {{ catalog.paste.component }}
                     </p>
                     <h2 id="gallery-paste">
-                        {{ data.gallery.catalog.paste.title }}
+                        {{ catalog.paste.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.paste.description }}
+                        {{ catalog.paste.description }}
                     </p>
                 </header>
                 <div
@@ -434,22 +443,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.flights.category
-                "
+                v-show="visibleSections.flights"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-flights"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.flights.component }}
+                        {{ catalog.flights.component }}
                     </p>
                     <h2 id="gallery-flights">
-                        {{ data.gallery.catalog.flights.title }}
+                        {{ catalog.flights.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.flights.description }}
+                        {{ catalog.flights.description }}
                     </p>
                 </header>
                 <div
@@ -473,22 +479,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.search.category
-                "
+                v-show="visibleSections.search"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-search"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.search.component }}
+                        {{ catalog.search.component }}
                     </p>
                     <h2 id="gallery-search">
-                        {{ data.gallery.catalog.search.title }}
+                        {{ catalog.search.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.search.description }}
+                        {{ catalog.search.description }}
                     </p>
                 </header>
                 <div
@@ -501,22 +504,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.connection.category
-                "
+                v-show="visibleSections.connection"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-connection"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.connection.component }}
+                        {{ catalog.connection.component }}
                     </p>
                     <h2 id="gallery-connection">
-                        {{ data.gallery.catalog.connection.title }}
+                        {{ catalog.connection.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.connection.description }}
+                        {{ catalog.connection.description }}
                     </p>
                 </header>
                 <div
@@ -529,22 +529,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.timeline.category
-                "
+                v-show="visibleSections.timeline"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-timeline"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.timeline.component }}
+                        {{ catalog.timeline.component }}
                     </p>
                     <h2 id="gallery-timeline">
-                        {{ data.gallery.catalog.timeline.title }}
+                        {{ catalog.timeline.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.timeline.description }}
+                        {{ catalog.timeline.description }}
                     </p>
                 </header>
                 <div
@@ -557,22 +554,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.details.category
-                "
+                v-show="visibleSections.details"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-details"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.details.component }}
+                        {{ catalog.details.component }}
                     </p>
                     <h2 id="gallery-details">
-                        {{ data.gallery.catalog.details.title }}
+                        {{ catalog.details.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.details.description }}
+                        {{ catalog.details.description }}
                     </p>
                 </header>
                 <div
@@ -582,7 +576,10 @@ function selectCategory(item) {
                     tabindex="0"
                 >
                     <div class="fc-gallery__row fc-gallery__state-preview">
-                        <FcToggleSwitch v-model="completed" label="비행 종료" />
+                        <FcToggleSwitch
+                            v-model="completed"
+                            label="비행 종료"
+                        />
                     </div>
                     <FcFlightDetails
                         :details="data.details"
@@ -591,22 +588,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.passport.category
-                "
+                v-show="visibleSections.passport"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-passport"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.passport.component }}
+                        {{ catalog.passport.component }}
                     </p>
                     <h2 id="gallery-passport">
-                        {{ data.gallery.catalog.passport.title }}
+                        {{ catalog.passport.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.passport.description }}
+                        {{ catalog.passport.description }}
                     </p>
                 </header>
                 <div
@@ -623,22 +617,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.delays.category
-                "
+                v-show="visibleSections.delays"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-delays"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.delays.component }}
+                        {{ catalog.delays.component }}
                     </p>
                     <h2 id="gallery-delays">
-                        {{ data.gallery.catalog.delays.title }}
+                        {{ catalog.delays.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.delays.description }}
+                        {{ catalog.delays.description }}
                     </p>
                 </header>
                 <div
@@ -651,22 +642,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.aircraft.category
-                "
+                v-show="visibleSections.aircraft"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-aircraft"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.aircraft.component }}
+                        {{ catalog.aircraft.component }}
                     </p>
                     <h2 id="gallery-aircraft">
-                        {{ data.gallery.catalog.aircraft.title }}
+                        {{ catalog.aircraft.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.aircraft.description }}
+                        {{ catalog.aircraft.description }}
                     </p>
                 </header>
                 <div
@@ -682,22 +670,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.performance.category
-                "
+                v-show="visibleSections.performance"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-performance"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.performance.component }}
+                        {{ catalog.performance.component }}
                     </p>
                     <h2 id="gallery-performance">
-                        {{ data.gallery.catalog.performance.title }}
+                        {{ catalog.performance.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.performance.description }}
+                        {{ catalog.performance.description }}
                     </p>
                 </header>
                 <div
@@ -719,22 +704,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.seats.category
-                "
+                v-show="visibleSections.seats"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-seats"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.seats.component }}
+                        {{ catalog.seats.component }}
                     </p>
                     <h2 id="gallery-seats">
-                        {{ data.gallery.catalog.seats.title }}
+                        {{ catalog.seats.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.seats.description }}
+                        {{ catalog.seats.description }}
                     </p>
                 </header>
                 <div
@@ -755,22 +737,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.tails.category
-                "
+                v-show="visibleSections.tails"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-tails"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.tails.component }}
+                        {{ catalog.tails.component }}
                     </p>
                     <h2 id="gallery-tails">
-                        {{ data.gallery.catalog.tails.title }}
+                        {{ catalog.tails.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.tails.description }}
+                        {{ catalog.tails.description }}
                     </p>
                 </header>
                 <div
@@ -783,22 +762,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.countries.category
-                "
+                v-show="visibleSections.countries"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-countries"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.countries.component }}
+                        {{ catalog.countries.component }}
                     </p>
                     <h2 id="gallery-countries">
-                        {{ data.gallery.catalog.countries.title }}
+                        {{ catalog.countries.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.countries.description }}
+                        {{ catalog.countries.description }}
                     </p>
                 </header>
                 <div
@@ -811,22 +787,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.airlines.category
-                "
+                v-show="visibleSections.airlines"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-airlines"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.airlines.component }}
+                        {{ catalog.airlines.component }}
                     </p>
                     <h2 id="gallery-airlines">
-                        {{ data.gallery.catalog.airlines.title }}
+                        {{ catalog.airlines.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.airlines.description }}
+                        {{ catalog.airlines.description }}
                     </p>
                 </header>
                 <div
@@ -839,22 +812,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.distance.category
-                "
+                v-show="visibleSections.distance"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-distance"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.distance.component }}
+                        {{ catalog.distance.component }}
                     </p>
                     <h2 id="gallery-distance">
-                        {{ data.gallery.catalog.distance.title }}
+                        {{ catalog.distance.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.distance.description }}
+                        {{ catalog.distance.description }}
                     </p>
                 </header>
                 <div
@@ -867,22 +837,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.alerts.category
-                "
+                v-show="visibleSections.alerts"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-alerts"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.alerts.component }}
+                        {{ catalog.alerts.component }}
                     </p>
                     <h2 id="gallery-alerts">
-                        {{ data.gallery.catalog.alerts.title }}
+                        {{ catalog.alerts.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.alerts.description }}
+                        {{ catalog.alerts.description }}
                     </p>
                 </header>
                 <div
@@ -913,22 +880,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.sync.category
-                "
+                v-show="visibleSections.sync"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-sync"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.sync.component }}
+                        {{ catalog.sync.component }}
                     </p>
                     <h2 id="gallery-sync">
-                        {{ data.gallery.catalog.sync.title }}
+                        {{ catalog.sync.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.sync.description }}
+                        {{ catalog.sync.description }}
                     </p>
                 </header>
                 <div
@@ -944,22 +908,19 @@ function selectCategory(item) {
                 </div>
             </section>
             <section
-                v-show="
-                    category === 'all' ||
-                    category === data.gallery.catalog.settings.category
-                "
+                v-show="visibleSections.settings"
                 class="fc-gallery__group"
                 aria-labelledby="gallery-settings"
             >
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        {{ data.gallery.catalog.settings.component }}
+                        {{ catalog.settings.component }}
                     </p>
                     <h2 id="gallery-settings">
-                        {{ data.gallery.catalog.settings.title }}
+                        {{ catalog.settings.title }}
                     </h2>
                     <p class="fc-gallery__description">
-                        {{ data.gallery.catalog.settings.description }}
+                        {{ catalog.settings.description }}
                     </p>
                 </header>
                 <div

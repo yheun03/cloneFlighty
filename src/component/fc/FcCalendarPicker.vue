@@ -3,11 +3,20 @@ import { computed } from "vue";
 
 const props = defineProps({
     year: { type: Number, required: true },
-    month: { type: Number, required: true },
+    month: {
+        type: Number,
+        required: true,
+        validator: (value) =>
+            Number.isInteger(value) && value >= 1 && value <= 12,
+    },
+    // 날짜 숫자 목록입니다. marked는 채움, outlined는 테두리 상태입니다.
     marked: { type: Array, default: () => [] },
     outlined: { type: Array, default: () => [] },
 });
+
 const selected = defineModel({ type: Number, default: 20 });
+
+const weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 const title = computed(() =>
     new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(
         new Date(props.year, props.month - 1, 1),
@@ -32,13 +41,17 @@ const days = computed(() => {
             :aria-label="`${title} 날짜 선택`"
         >
             <span
-                v-for="day in ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']"
+                v-for="day in weekdays"
                 :key="day"
                 class="fc-calendar__weekday"
                 aria-hidden="true"
-                >{{ day }}</span
             >
-            <span v-for="(day, index) in days" :key="index">
+                {{ day }}
+            </span>
+            <span
+                v-for="(day, index) in days"
+                :key="index"
+            >
                 <button
                     v-if="day"
                     type="button"

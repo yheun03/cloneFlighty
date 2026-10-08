@@ -11,55 +11,55 @@
         border-radius: 50%;
         text-align: center;
 
-        & div {
+        div {
             display: flex;
             flex-direction: column;
         }
 
-        & small {
+        small {
             color: var(--fc-text-secondary, #aaa);
         }
 
-        & strong {
+        strong {
             font-size: 24px;
         }
     }
 
     &__list {
-        & > div {
+        > div {
             display: flex;
             align-items: center;
             gap: 9px;
             margin: 7px 0;
         }
 
-        & i {
+        i {
             width: 15px;
             height: 15px;
             border-radius: 4px;
         }
 
-        & strong {
+        strong {
             flex: 1;
         }
 
-        & b {
+        b {
             min-width: 20px;
             text-align: right;
         }
 
-        & span {
+        span {
             min-width: 42px;
             color: var(--fc-text-secondary, #aaa);
             text-align: right;
         }
     }
-}
 
-.fc-seat-stats--class {
-    --fc-seat-ring: var(--fc-economy-ring, #087bfa);
-}
+    &--class {
+        --fc-seat-ring: var(--fc-economy-ring, #087bfa);
+    }
 
-.fc-seat-stats--reason {
-    --fc-seat-ring: var(--fc-reason-ring, #087bfa);
+    &--reason {
+        --fc-seat-ring: var(--fc-reason-ring, #087bfa);
+    }
 }

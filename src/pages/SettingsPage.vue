@@ -1,8 +1,11 @@
 <script setup>
 import { computed, inject, ref } from "vue";
+
 import { useRoute, useRouter } from "vue-router";
+
 import FcSettingsMenu from "../component/fc/FcSettingsMenu.vue";
 import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
+
 import pageData from "./data/SettingsPage.json";
 
 const route = useRoute();
@@ -29,9 +32,13 @@ function selectSetting(item) {
             class="frame-page__close"
             :to="{ name: 'home', query: route.query }"
             aria-label="Close settings"
-            >×</RouterLink
         >
-        <FcSettingsMenu v-bind="pageData" @select="selectSetting" />
+            ×
+        </RouterLink>
+        <FcSettingsMenu
+            v-bind="pageData"
+            @select="selectSetting"
+        />
         <section
             class="settings-page__appearance"
             aria-labelledby="appearance-title"
@@ -45,7 +52,11 @@ function selectSetting(item) {
                 :items="pageData.appearance"
             />
         </section>
-        <p v-if="message" class="frame-page__note" role="status">
+        <p
+            v-if="message"
+            class="frame-page__note"
+            role="status"
+        >
             {{ message }}
         </p>
     </section>

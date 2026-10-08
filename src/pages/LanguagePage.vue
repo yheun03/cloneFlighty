@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from "vue";
+
 import FcListRow from "../component/fc/FcListRow.vue";
+
 import pageData from "./data/LanguagePage.json";
 
 const selected = ref(pageData.selected);
@@ -10,12 +12,16 @@ const selected = ref(pageData.selected);
     <section class="frame-page language-page">
         <h1 class="frame-page__title">Language</h1>
         <p class="frame-page__lead">
-            Choose the language used in Flighty.<br />Your flight details,
-            notifications, and settings will be displayed in the selected
-            language.
+            Choose the language used in Flighty.
+            <br />
+            Your flight details, notifications, and settings will be displayed
+            in the selected language.
         </p>
         <h2 class="frame-page__label">ALERTS</h2>
-        <div role="group" aria-label="Language">
+        <div
+            role="group"
+            aria-label="Language"
+        >
             <FcListRow
                 v-for="language in pageData.languages"
                 :key="language.id"
@@ -32,6 +38,11 @@ const selected = ref(pageData.selected);
             :aria-pressed="selected === 'device'"
             @click="selected = 'device'"
         />
-        <p class="sr-only" role="status">Selected language: {{ selected }}</p>
+        <p
+            class="sr-only"
+            role="status"
+        >
+            Selected language: {{ selected }}
+        </p>
     </section>
 </template>

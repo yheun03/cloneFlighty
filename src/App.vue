@@ -27,13 +27,20 @@ function focusMainContent() {
             class="skip-link"
             href="#main-content"
             @click.prevent="focusMainContent"
-            >본문 바로가기</a
         >
-        <header v-if="$route.name === 'intro'" class="app__header">
+            본문 바로가기
+        </a>
+        <header
+            v-if="$route.name === 'intro'"
+            class="app__header"
+        >
             <div class="app__identity">
-                <RouterLink class="app__brand" to="/"
-                    >Flighty UI Clone</RouterLink
+                <RouterLink
+                    class="app__brand"
+                    to="/"
                 >
+                    Flighty UI Clone
+                </RouterLink>
                 <span>비공식 개인 포트폴리오</span>
             </div>
             <nav aria-label="주요 메뉴">

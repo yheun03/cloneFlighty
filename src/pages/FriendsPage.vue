@@ -1,9 +1,12 @@
 <script setup>
 import { ref } from "vue";
+
 import { useRoute, useRouter } from "vue-router";
+
 import BaseInput from "../component/base/BaseInput.vue";
 import BaseButton from "../component/base/BaseButton.vue";
 import FcListRow from "../component/fc/FcListRow.vue";
+
 import pageData from "./data/FriendsPage.json";
 
 const route = useRoute();
@@ -11,6 +14,14 @@ const router = useRouter();
 const inviting = ref(false);
 const email = ref(pageData.email);
 const message = ref("");
+
+function openFriend(friend) {
+    router.push({
+        name: "friend-detail",
+        params: { id: friend.id },
+        query: route.query,
+    });
+}
 
 function inviteFriend() {
     message.value = pageData.invitationMessage;
@@ -31,13 +42,7 @@ function inviteFriend() {
                 v-for="friend in pageData.friends"
                 :key="friend.id"
                 :title="friend.title"
-                @click="
-                    router.push({
-                        name: 'friend-detail',
-                        params: { id: friend.id },
-                        query: route.query,
-                    })
-                "
+                @click="openFriend(friend)"
             />
             <FcListRow
                 title="Invite a Friend"
@@ -59,9 +64,16 @@ function inviteFriend() {
                 placeholder="friend@example.com"
                 required
             />
-            <BaseButton label="Prepare Invitation" @click="inviteFriend" />
+            <BaseButton
+                label="Prepare Invitation"
+                @click="inviteFriend"
+            />
         </form>
-        <p v-if="message" class="frame-page__note" role="status">
+        <p
+            v-if="message"
+            class="frame-page__note"
+            role="status"
+        >
             {{ message }}
         </p>
     </section>

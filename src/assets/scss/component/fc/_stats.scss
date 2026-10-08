@@ -5,12 +5,12 @@
     gap: 10px;
     margin: 0 0 16px;
 
-    & h2 {
+    h2 {
         margin: 0;
         font-size: 19px;
     }
 
-    & .fc-button {
+    .fc-button {
         flex: none;
         font-size: 14px;
     }
@@ -22,12 +22,12 @@
     gap: 10px;
     margin-bottom: 15px;
 
-    & strong {
+    strong {
         font-size: clamp(44px, 13vw, 70px);
         line-height: 1;
     }
 
-    & span {
+    span {
         color: var(--fc-text-secondary, #999);
         font-size: 24px;
         font-weight: 700;
@@ -41,4 +41,23 @@
     color: var(--fc-link, #1685ff);
     font-size: 17px;
     font-weight: 700;
+}
+
+.fc-performance__bar,
+.fc-performance__meter,
+.fc-top-airlines__bar {
+    i {
+        display: block;
+        height: 13px;
+        overflow: hidden;
+        border-radius: 5px;
+        background: var(--fc-meter-bg, #363636);
+    }
+
+    b {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--fc-danger, #ff5049);
+    }
 }

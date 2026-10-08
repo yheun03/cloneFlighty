@@ -1,0 +1,146 @@
+.passport-page {
+    &__card {
+        margin-top: 10px;
+        padding: 16px;
+        border-radius: 18px;
+
+        h2 {
+            margin: 0;
+            font-size: 23px;
+            line-height: 1.25;
+        }
+
+        p {
+            margin: 6px 0;
+            font-size: 14px;
+        }
+
+        &--passport {
+            background: #160748;
+            color: #f5f5f5;
+            --fc-passport-label: #a8afd9;
+        }
+
+        &--delays {
+            background: #800812;
+            color: #f5f5f5;
+
+            p {
+                color: #d9858b;
+            }
+        }
+
+        &--aircraft {
+            background: #d8d8f4;
+            color: #004465;
+        }
+    }
+
+    .fc-passport h2 {
+        margin: 0;
+        font-size: 22px;
+    }
+
+    .fc-passport__numbers {
+        margin: 18px 0;
+
+        strong {
+            font-size: 27px;
+            line-height: 1.4;
+        }
+
+        span {
+            font-size: 13px;
+        }
+    }
+
+    &__stats-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 14px;
+        padding: 10px 14px;
+        border: 1px solid #ffffff30;
+        border-radius: 8px;
+        background: #ffffff18;
+        color: inherit;
+        font-weight: 600;
+
+        span {
+            font-size: 22px;
+            line-height: 1;
+        }
+    }
+
+    &__card--aircraft .passport-page__stats-link {
+        background: #9cbbe3;
+    }
+
+    &__large {
+        display: block;
+        margin-bottom: 16px;
+        font-size: clamp(40px, 8vw, 56px);
+        line-height: 1.2;
+    }
+
+    &__plane {
+        margin: 24px 0;
+        color: #44a8d3;
+        text-align: center;
+        font-size: 90px;
+        line-height: 1;
+    }
+
+    &__past-title {
+        margin: 22px 0 10px;
+        color: var(--fc-text-heading, #ccc);
+        font-size: 24px;
+    }
+
+    &__history {
+        margin: 22px 0;
+
+        a {
+            display: block;
+            color: var(--fc-text-body, #d4d4d4);
+        }
+
+        h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0;
+            padding: 0 0 8px;
+            border-bottom: 1px solid var(--fc-border, #333);
+            color: var(--fc-text-heading, #ccc);
+            font-size: 17px;
+        }
+
+        h3 small {
+            color: var(--fc-text-secondary, #888);
+            font-size: 11px;
+            font-weight: 400;
+        }
+
+        .fc-flight-list__logo {
+            width: 32px;
+            height: 32px;
+            border: 0;
+            border-radius: 0;
+            background: var(--fc-control-bg, #444);
+            font-size: 18px;
+        }
+
+        .fc-flight-list__meta {
+            font-size: 11px;
+        }
+
+        .fc-flight-list__content > strong {
+            font-size: 14px;
+        }
+
+        .fc-flight-list__sub {
+            display: none;
+        }
+    }
+}

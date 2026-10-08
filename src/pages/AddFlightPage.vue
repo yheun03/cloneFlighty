@@ -1,10 +1,13 @@
 <script setup>
 import { computed, ref } from "vue";
+
 import { useRoute, useRouter } from "vue-router";
+
 import BaseInput from "../component/base/BaseInput.vue";
 import FcAddFlightSearch from "../component/fc/FcAddFlightSearch.vue";
 import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
 import FcListRow from "../component/fc/FcListRow.vue";
+
 import pageData from "./data/AddFlightPage.json";
 
 const route = useRoute();
@@ -18,6 +21,12 @@ const from = ref(pageData.from);
 const to = ref(pageData.to);
 const message = ref("");
 const mode = computed(() => route.meta.searchMode || "search");
+const calendarDate = computed(() => {
+    const year = pageData.calendar.year;
+    const month = String(pageData.calendar.month).padStart(2, "0");
+    const selectedDay = String(day.value).padStart(2, "0");
+    return `${year}-${month}-${selectedDay}`;
+});
 
 function openPage(name, extra = {}) {
     router.push({
@@ -61,8 +70,9 @@ function showFlights(selectedDate) {
                 query: { from: route.query.from, to: route.query.to },
             }"
             aria-label="Close Add Flight"
-            >×</RouterLink
         >
+            ×
+        </RouterLink>
         <template v-if="mode === 'search'">
             <FcAddFlightSearch
                 v-model="query"
@@ -77,8 +87,8 @@ function showFlights(selectedDate) {
                 @click="openPage(item.name)"
             />
             <div class="add-flight-page__report">
-                <span>Something missing?</span
-                ><button
+                <span>Something missing?</span>
+                <button
                     type="button"
                     class="frame-page__link"
                     @click="message = pageData.reportMessage"
@@ -86,7 +96,11 @@ function showFlights(selectedDate) {
                     Send Report
                 </button>
             </div>
-            <p v-if="message" class="frame-page__note" role="status">
+            <p
+                v-if="message"
+                class="frame-page__note"
+                role="status"
+            >
                 {{ message }}
             </p>
         </template>
@@ -118,7 +132,10 @@ function showFlights(selectedDate) {
                     maxlength="3"
                     required
                 />
-                <button type="submit" class="frame-page__primary">
+                <button
+                    type="submit"
+                    class="frame-page__primary"
+                >
                     Find Flights
                 </button>
             </form>
@@ -152,7 +169,10 @@ function showFlights(selectedDate) {
                         @keydown.enter.prevent="showFlights(date)"
                     />
                 </div>
-                <div v-if="mode === 'number'" class="add-flight-page__dates">
+                <div
+                    v-if="mode === 'number'"
+                    class="add-flight-page__dates"
+                >
                     <FcListRow
                         v-for="item in pageData.dates"
                         :key="item.date"
@@ -174,11 +194,7 @@ function showFlights(selectedDate) {
                     <button
                         type="button"
                         class="frame-page__link"
-                        @click="
-                            showFlights(
-                                `${pageData.calendar.year}-${String(pageData.calendar.month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
-                            )
-                        "
+                        @click="showFlights(calendarDate)"
                     >
                         Show flights on {{ pageData.calendarMonth }} {{ day }}
                     </button>

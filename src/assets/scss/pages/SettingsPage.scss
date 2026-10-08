@@ -1,0 +1,76 @@
+.settings-page {
+    .fc-settings {
+        margin: 0;
+
+        h2 {
+            margin-bottom: 24px;
+            font-size: 34px;
+        }
+    }
+
+    .fc-settings__pro {
+        padding: 20px 12px;
+
+        > span:not(.fc-icon) {
+            font-size: 24px;
+        }
+
+        small {
+            font-size: 16px;
+        }
+    }
+
+    .fc-settings__group {
+        margin-top: 36px;
+
+        h3 {
+            margin-left: 10px;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        button {
+            gap: 16px;
+            padding: 13px 12px;
+            color: var(--fc-text-body, #d4d4d4);
+        }
+
+        button:last-child {
+            border-bottom: 1px solid var(--fc-border, #363636);
+        }
+
+        button > span {
+            font-size: 20px;
+        }
+    }
+
+    &__appearance {
+        margin-top: 36px;
+
+        h2 {
+            margin: 0 0 4px;
+            font-size: 20px;
+        }
+
+        p {
+            margin: 0 0 14px;
+        }
+    }
+
+    .settings-page__theme-options {
+        gap: 6px;
+        padding: 4px;
+        border: 1px solid var(--fc-border, #363636);
+        border-radius: 10px;
+
+        button {
+            flex: 1;
+            min-height: 38px;
+        }
+
+        .is-active {
+            background: var(--fc-chip-bg, #1c3551);
+            color: var(--fc-link, #1685ff);
+        }
+    }
+}

@@ -1,10 +1,15 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
+
 import nextIcon from "../../assets/icons/lucide/chevron-right.svg";
+
 defineProps({
+    // 메뉴 그룹: { label, items: [{ name, title, icon }] }
     groups: { type: Array, required: true },
+    // 멤버십 안내: { title, status }
     membership: { type: Object, required: true },
 });
+
 defineEmits(["select"]);
 </script>
 
@@ -16,11 +21,11 @@ defineEmits(["select"]);
             type="button"
             @click="$emit('select', 'pro')"
         >
-            <b>PRO</b
-            ><span
-                ><strong>{{ membership.title }}</strong
-                ><small>{{ membership.status }}</small></span
-            >
+            <b>PRO</b>
+            <span>
+                <strong>{{ membership.title }}</strong>
+                <small>{{ membership.status }}</small>
+            </span>
             <FcIcon :src="nextIcon" />
         </button>
         <div
@@ -35,8 +40,9 @@ defineEmits(["select"]);
                 type="button"
                 @click="$emit('select', item)"
             >
-                <span> <FcIcon :src="item.icon" /> </span>{{ item.title
-                }}<b>
+                <span><FcIcon :src="item.icon" /></span>
+                {{ item.title }}
+                <b>
                     <FcIcon :src="nextIcon" />
                 </b>
             </button>

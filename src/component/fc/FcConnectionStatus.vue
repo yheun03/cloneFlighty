@@ -10,8 +10,9 @@ defineProps({
     <div class="fc-connection">
         <h2>{{ title }}</h2>
         <p>
-            You have <strong>{{ duration }} between flights.</strong> That's
-            {{ extra }} more than the suggested minimum.
+            You have
+            <strong>{{ duration }} between flights.</strong>
+            That's {{ extra }} more than the suggested minimum.
         </p>
     </div>
 </template>

@@ -1,8 +1,11 @@
 <script setup>
 import { computed } from "vue";
+
 import { useRoute } from "vue-router";
+
 import FcConnectionStatus from "../component/fc/FcConnectionStatus.vue";
 import FcTerminalTimeline from "../component/fc/FcTerminalTimeline.vue";
+
 import pageData from "./data/ConnectionPage.json";
 
 const route = useRoute();
@@ -32,9 +35,9 @@ const expanded = computed(() => route.name === "connection-details");
         >
             <span class="connection-page__minimum">{{ pageData.minimum }}</span>
             <span class="connection-page__track"><span></span></span>
-            <span class="connection-page__duration">{{
-                pageData.status.duration
-            }}</span>
+            <span class="connection-page__duration">
+                {{ pageData.status.duration }}
+            </span>
         </RouterLink>
         <FcTerminalTimeline v-bind="pageData.timeline" />
     </section>

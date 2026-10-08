@@ -34,25 +34,9 @@
         text-align: center;
     }
 
-    &__status {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-    }
-
     > .flight-map__error {
         margin: 0;
         color: var(--fc-text-strong, white);
-    }
-
-    > .flight-map__status {
-        margin: -1px;
     }
 
     &__sidebar {
@@ -170,146 +154,15 @@
         }
     }
 
-    &__title,
     &__collapse {
         border: 0;
         background: none;
         color: var(--fc-text-strong, white);
         font-weight: 700;
-    }
-
-    &__title {
-        align-self: flex-start;
-        margin: 0;
-        padding: 0 0 8px;
-        font-size: 13px;
-    }
-
-    &__collapse {
         flex: none;
         min-width: 36px;
         min-height: 36px;
         font-size: 20px;
-    }
-
-    &__body {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        min-height: 0;
-        padding: 0 9px 10px;
-
-        & > input {
-            width: 100%;
-            padding: 8px 10px;
-            border: 0;
-            border-radius: 7px;
-            background: var(--fc-control-bg, #333439);
-            color: var(--fc-text-strong, white);
-            font-size: 12px;
-        }
-
-        & > input::placeholder {
-            color: var(--fc-text-secondary, #aaa);
-        }
-    }
-
-    &__filters {
-        display: flex;
-        gap: 5px;
-        padding: 9px 0 6px;
-
-        & button {
-            padding: 4px 7px;
-            border: 0;
-            border-radius: 6px;
-            background: none;
-            color: var(--fc-text-secondary, #aaa);
-            font-size: 11px;
-        }
-
-        & button.active {
-            background: var(--fc-selected-bg, #3b3c40);
-            color: var(--fc-text-strong, white);
-        }
-    }
-
-    &__flights {
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
-    }
-
-    &__flight {
-        display: flex;
-        width: 100%;
-        gap: 9px;
-        padding: 9px 4px;
-        border: 0;
-        border-bottom: 1px solid var(--fc-border-subtle, #ffffff16);
-        background: none;
-        color: var(--fc-text-strong, white);
-        text-align: left;
-
-        &.active {
-            background: #ffffff0d;
-        }
-    }
-
-    &__days {
-        display: flex;
-        flex: none;
-        flex-direction: column;
-        align-items: center;
-        width: 28px;
-
-        & strong {
-            font-size: 17px;
-            line-height: 1.1;
-        }
-
-        & small {
-            color: var(--fc-text-secondary, #aaa);
-            font-size: 7px;
-        }
-    }
-
-    &__flight-info {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        min-width: 0;
-
-        & > span {
-            display: flex;
-            justify-content: space-between;
-            gap: 5px;
-        }
-
-        & small {
-            color: var(--fc-text-secondary, #a6a7aa);
-            font-size: 9px;
-        }
-
-        & strong {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-size: 11px;
-        }
-    }
-
-    &__empty {
-        color: var(--fc-text-secondary, #aaa);
-        font-size: 12px;
-    }
-
-    &__add {
-        display: block;
-        padding: 8px 3px 0;
-        border-top: 1px solid var(--fc-border-subtle, #ffffff20);
-        color: var(--fc-link, #8eb9ff);
-        font-size: 11px;
     }
 
     &__controls {
@@ -323,7 +176,7 @@
         background: var(--fc-map-control-bg, #1c1d20e8);
         box-shadow: 0 3px 12px #0005;
 
-        & button {
+        button {
             min-width: 34px;
             height: 34px;
             border: 0;
@@ -332,74 +185,58 @@
             font-size: 19px;
         }
 
-        & button + button {
+        button + button {
             border-top: 1px solid var(--fc-border-subtle, #ffffff25);
         }
 
-        & button:last-child {
+        button:last-child {
             padding: 0 8px;
             font-size: 12px;
         }
 
-        & button:disabled {
+        button:disabled {
             opacity: 0.5;
             cursor: default;
         }
     }
-}
 
-.flight-map__sidebar--wide ~ .flight-map__controls {
-    display: none;
+    &__sidebar--wide ~ .flight-map__controls {
+        display: none;
+    }
 }
 
 @media (max-width: 767px) {
     .flight-map {
         border-radius: 0;
-    }
 
-    .flight-map__sidebar {
-        inset: auto 0 0;
-        width: 100%;
-        height: 78dvh;
-        border-radius: 18px 18px 0 0;
-    }
+        &__sidebar {
+            inset: auto 0 0;
+            width: 100%;
+            height: 78dvh;
+            border-radius: 18px 18px 0 0;
+        }
 
-    .flight-map__sidebar--wide {
-        inset: 0;
-        height: 100%;
-        border-radius: 0;
-    }
+        &__sidebar--wide {
+            inset: 0;
+            height: 100%;
+            border-radius: 0;
+        }
 
-    .flight-map__sidebar.is-closed {
-        width: 100%;
-        height: auto;
-    }
+        &__sidebar.is-closed {
+            width: 100%;
+            height: auto;
+        }
 
-    .flight-map__heading {
-        padding: 11px 16px;
-    }
+        &__heading {
+            padding: 11px 16px;
+        }
 
-    .flight-map__body {
-        padding: 0 14px 10px;
-    }
+        .maplibregl-ctrl-bottom-right {
+            bottom: 78dvh;
+        }
 
-    .flight-map__flight {
-        padding: 12px 4px;
-    }
-
-    .flight-map__flight-info strong {
-        font-size: 13px;
-    }
-
-    .flight-map__flight-info small {
-        font-size: 10px;
-    }
-
-    .flight-map .maplibregl-ctrl-bottom-right {
-        bottom: 78dvh;
-    }
-
-    .flight-map.is-sidebar-closed .maplibregl-ctrl-bottom-right {
-        bottom: 50px;
+        &.is-sidebar-closed .maplibregl-ctrl-bottom-right {
+            bottom: 50px;
+        }
     }
 }

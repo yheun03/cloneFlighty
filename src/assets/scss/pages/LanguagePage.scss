@@ -1,0 +1,21 @@
+.language-page {
+    .fc-list-row {
+        padding: 16px 12px;
+
+        &__avatar {
+            width: 26px;
+            height: 26px;
+            background: transparent;
+        }
+    }
+
+    .frame-page__label {
+        margin-bottom: 0;
+        padding: 0 10px 6px;
+        border-bottom: 1px solid var(--fc-border, #363636);
+    }
+
+    &__device {
+        margin-top: 44px;
+    }
+}

@@ -1,0 +1,45 @@
+.flights-page {
+    &__list {
+        margin-top: 10px;
+    }
+
+    &__flight {
+        display: block;
+        color: var(--fc-text-body, #d4d4d4);
+    }
+
+    .fc-flight-list {
+        align-items: flex-start;
+        padding: 14px 0;
+        border-bottom: 0;
+    }
+
+    .fc-flight-list__content {
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--fc-border, #303030);
+    }
+
+    .fc-flight-list__days {
+        padding-top: 5px;
+
+        strong {
+            margin-bottom: 8px;
+            font-size: 32px;
+        }
+
+        small {
+            font-size: 13px;
+        }
+    }
+
+    .fc-flight-list__meta,
+    .fc-flight-list__sub {
+        font-size: 13px;
+    }
+
+    &__add {
+        display: inline-block;
+        margin-top: 24px;
+        font-size: 14px;
+    }
+}

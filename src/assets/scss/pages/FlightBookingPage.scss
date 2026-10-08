@@ -1,0 +1,66 @@
+.booking-dialog {
+    position: absolute;
+    z-index: 10;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overflow-y: auto;
+    background: #0008;
+    backdrop-filter: blur(3px);
+
+    &__panel {
+        position: relative;
+        width: 100%;
+        max-height: 100%;
+        padding: 24px 16px;
+        overflow-y: auto;
+        border: 1px solid var(--fc-border, #222);
+        border-radius: 16px;
+        background: var(--fc-dialog-bg, #111);
+        color: var(--fc-text-strong, white);
+        box-shadow: 0 10px 35px #0005;
+    }
+
+    &__close {
+        position: absolute;
+        top: 6px;
+        right: 10px;
+        padding: 0 6px;
+        border: 0;
+        background: none;
+        color: var(--fc-text-secondary, #aaa);
+        font-size: 24px;
+    }
+
+    &__label {
+        display: block;
+        margin: 24px 0 8px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    &__choices {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 8px;
+    }
+
+    .fc-chip {
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+
+    .fc-paste-field {
+        margin: 0;
+    }
+
+    .app[data-theme="light"] & {
+        .fc-chip:not(.is-active) {
+            background: transparent;
+            color: var(--fc-text);
+        }
+    }
+}

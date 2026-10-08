@@ -26,15 +26,15 @@
         flex: 1;
         flex-direction: column;
 
-        & strong {
+        strong {
             font-size: 19px;
         }
 
-        & strong.is-accent {
+        strong.is-accent {
             color: var(--fc-link, #1685ff);
         }
 
-        & small {
+        small {
             color: var(--fc-text-secondary, #858585);
             font-size: 14px;
         }

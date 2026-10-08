@@ -1,55 +1,73 @@
 <script setup>
+import { computed, ref } from "vue";
+
 import FcIcon from "./FcIcon.vue";
-import shareIcon from "../../assets/icons/lucide/share-2.svg";
-import airlineIcon from "../../assets/icons/lucide/circle.svg";
-import { ref } from "vue";
 import BaseButton from "../base/BaseButton.vue";
 
-defineProps({
-    section: { type: String, default: "all" },
+import shareIcon from "../../assets/icons/lucide/share-2.svg";
+import airlineIcon from "../../assets/icons/lucide/circle.svg";
+
+const props = defineProps({
+    section: {
+        type: String,
+        default: "all",
+        validator: (value) =>
+            ["all", "airline", "airport", "mine", "delays"].includes(value),
+    },
     report: { type: Object, required: true },
 });
+
 const showAll = ref(false);
 const showDelays = ref(false);
+
+const isAirport = computed(() => props.section === "airport");
+const performanceTitle = computed(() =>
+    isAirport.value ? "Airport Performance" : "Airline Performance",
+);
+const performanceHeadline = computed(() =>
+    isAirport.value
+        ? props.report.airportHeadline
+        : props.report.airlineHeadline,
+);
+const visiblePerformance = computed(() => {
+    const items = isAirport.value
+        ? props.report.airports
+        : props.report.airlines;
+    return showAll.value ? items : items.slice(0, 5);
+});
+const visibleDelays = computed(() =>
+    showDelays.value ? props.report.delays : props.report.delays.slice(0, 4),
+);
 </script>
 
 <template>
     <div class="fc-performance">
         <template v-if="['all', 'airline', 'airport'].includes(section)">
             <div class="fc-stat-head">
-                <h2>
-                    {{
-                        section === "airport"
-                            ? "Airport Performance"
-                            : "Airline Performance"
-                    }}
-                </h2>
-                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
+                <h2>{{ performanceTitle }}</h2>
+                <BaseButton
+                    label="Share"
+                    :icon="shareIcon"
+                    variant="outline"
+                />
             </div>
             <div class="fc-performance__headline">
-                <strong>{{
-                    section === "airport"
-                        ? report.airportHeadline
-                        : report.airlineHeadline
-                }}</strong
-                ><span>{{
-                    section === "airport" ? "late departures" : "late arrivals"
-                }}</span>
+                <strong>{{ performanceHeadline }}</strong>
+                <span>
+                    {{ isAirport ? "late departures" : "late arrivals" }}
+                </span>
             </div>
             <div
-                v-for="item in (section === 'airport'
-                    ? report.airports
-                    : report.airlines
-                ).slice(0, showAll ? undefined : 5)"
+                v-for="item in visiblePerformance"
                 :key="item.name"
                 class="fc-performance__bar"
             >
                 <div>
                     <span>
-                        <FcIcon :src="airlineIcon" /> &nbsp;{{
-                            item.name
-                        }} </span
-                    ><span>{{ item.percent }}% &nbsp;({{ item.count }})</span>
+                        <FcIcon :src="airlineIcon" />
+                        &nbsp;{{ item.name }}
+                    </span>
+                    <span>{{ item.percent }}% &nbsp;({{ item.count }})</span>
                 </div>
                 <i><b :style="{ width: `${item.percent}%` }"></b></i>
             </div>
@@ -65,11 +83,15 @@ const showDelays = ref(false);
         <template v-if="['all', 'mine'].includes(section)">
             <div class="fc-stat-head">
                 <h2>My Performance</h2>
-                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
+                <BaseButton
+                    label="Share"
+                    :icon="shareIcon"
+                    variant="outline"
+                />
             </div>
             <div class="fc-performance__headline">
-                <strong>{{ report.cumulative }}</strong
-                ><span>late</span>
+                <strong>{{ report.cumulative }}</strong>
+                <span>late</span>
             </div>
             <p>cumulative arrival performance</p>
             <div
@@ -77,38 +99,43 @@ const showDelays = ref(false);
                 :key="item.label"
                 class="fc-performance__meter"
             >
-                <span>{{ item.label }}</span
-                ><i
-                    ><b
+                <span>{{ item.label }}</span>
+                <i>
+                    <b
                         :style="{
                             width: `${item.value}%`,
                             background: item.color,
                         }"
-                    ></b></i
-                ><strong>{{ item.value }}%</strong>
+                    ></b>
+                </i>
+                <strong>{{ item.value }}%</strong>
             </div>
         </template>
         <template v-if="['all', 'delays'].includes(section)">
             <div class="fc-stat-head">
                 <h2>Arrival Delays</h2>
-                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
+                <BaseButton
+                    label="Share"
+                    :icon="shareIcon"
+                    variant="outline"
+                />
             </div>
             <div class="fc-stat-number">
-                <strong>{{ report.delayTotal }}</strong
-                ><span>total</span>
+                <strong>{{ report.delayTotal }}</strong>
+                <span>total</span>
             </div>
             <div
-                v-for="flight in report.delays.slice(
-                    0,
-                    showDelays ? undefined : 4,
-                )"
+                v-for="flight in visibleDelays"
                 :key="flight.flight"
                 class="fc-performance__delay"
             >
-                <span> <FcIcon :src="airlineIcon" /> {{ flight.flight }} </span
-                ><b>{{ flight.duration }}</b
-                ><span>{{ flight.route }}</span
-                ><small>{{ flight.date }}</small>
+                <span>
+                    <FcIcon :src="airlineIcon" />
+                    {{ flight.flight }}
+                </span>
+                <b>{{ flight.duration }}</b>
+                <span>{{ flight.route }}</span>
+                <small>{{ flight.date }}</small>
             </div>
             <button
                 type="button"

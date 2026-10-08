@@ -5,21 +5,21 @@
         gap: 6px;
         margin: 20px 0 28px;
 
-        & div {
+        div {
             display: flex;
             flex-direction: column;
             color: #2c75b0;
         }
 
-        & span {
+        span {
             font-size: 12px;
         }
 
-        & strong {
+        strong {
             font-size: 20px;
         }
 
-        & small {
+        small {
             align-self: flex-start;
             margin-top: 12px;
             border-radius: 4px;
@@ -30,7 +30,7 @@
         }
     }
 
-    & h3 {
+    h3 {
         margin: 26px 0 5px;
         font-size: 19px;
     }
@@ -43,24 +43,24 @@
         background: #fff;
         color: #12456c;
 
-        & strong {
+        strong {
             font-size: 30px;
             line-height: 1;
         }
 
-        & div {
+        div {
             margin-top: auto;
             text-align: right;
             font-size: 55px;
         }
     }
 
-    & > p {
+    > p {
         margin: 0;
         font-size: 21px;
     }
 
-    & > p small {
+    > p small {
         color: var(--fc-text-secondary, #aaa);
     }
 
@@ -71,14 +71,14 @@
         height: 170px;
         margin: 15px 0;
 
-        & div {
+        div {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
         }
 
-        & i {
+        i {
             width: 17px;
             border-radius: 8px;
             background: var(--fc-chart-blue);
@@ -90,7 +90,7 @@
         grid-template-columns: 1fr 1fr;
         gap: 8px;
 
-        & div {
+        div {
             display: flex;
             flex-direction: column;
             min-height: 100px;
@@ -99,11 +99,11 @@
             border-radius: 12px;
         }
 
-        & b {
+        b {
             font-size: 20px;
         }
 
-        & span {
+        span {
             color: var(--fc-text-secondary, #aaa);
         }
     }

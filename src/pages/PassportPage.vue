@@ -1,11 +1,15 @@
 <script setup>
 import { ref } from "vue";
+
 import { useRoute } from "vue-router";
+
 import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
 import FcPassportOverview from "../component/fc/FcPassportOverview.vue";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 import FcIcon from "../component/fc/FcIcon.vue";
+
 import planeIcon from "../assets/icons/lucide/plane.svg";
+
 import pageData from "./data/PassportPage.json";
 
 const route = useRoute();
@@ -15,7 +19,10 @@ const group = ref(pageData.group);
 
 <template>
     <section class="frame-page passport-page">
-        <FcPeriodTabs v-model="period" :items="pageData.periods" />
+        <FcPeriodTabs
+            v-model="period"
+            :items="pageData.periods"
+        />
         <div class="passport-page__card passport-page__card--passport">
             <FcPassportOverview
                 v-bind="pageData.overview"
@@ -29,26 +36,30 @@ const group = ref(pageData.group);
                     name: 'flight-stats',
                     query: { ...route.query, period },
                 }"
-                >All Flight Stats <span>›</span></RouterLink
             >
+                All Flight Stats
+                <span>›</span>
+            </RouterLink>
         </div>
         <div class="passport-page__card passport-page__card--delays">
-            <strong class="passport-page__large">{{
-                pageData.delays.hours
-            }}</strong>
+            <strong class="passport-page__large">
+                {{ pageData.delays.hours }}
+            </strong>
             <h2>hours lost from delays</h2>
             <p>Delayed flights averaged {{ pageData.delays.average }} late</p>
             <RouterLink
                 class="passport-page__stats-link"
                 :to="{ name: 'delay-stats', query: { ...route.query, period } }"
-                >All Flight Stats <span>›</span></RouterLink
             >
+                All Flight Stats
+                <span>›</span>
+            </RouterLink>
         </div>
         <div class="passport-page__card passport-page__card--aircraft">
             <h2>Most flown aircraft</h2>
-            <strong class="passport-page__large">{{
-                pageData.aircraft.model
-            }}</strong>
+            <strong class="passport-page__large">
+                {{ pageData.aircraft.model }}
+            </strong>
             <p>{{ pageData.aircraft.summary }}</p>
             <div class="passport-page__plane"><FcIcon :src="planeIcon" /></div>
             <RouterLink
@@ -57,8 +68,10 @@ const group = ref(pageData.group);
                     name: 'aircraft-stats',
                     query: { ...route.query, period },
                 }"
-                >All Flight Stats <span>›</span></RouterLink
             >
+                All Flight Stats
+                <span>›</span>
+            </RouterLink>
         </div>
         <h2 class="passport-page__past-title">Past Flights</h2>
         <FcPeriodTabs
@@ -72,7 +85,8 @@ const group = ref(pageData.group);
             class="passport-page__history"
         >
             <h3>
-                {{ history.labels[group] }} <small>{{ history.count }}</small>
+                {{ history.labels[group] }}
+                <small>{{ history.count }}</small>
             </h3>
             <RouterLink
                 v-for="flight in history.flights"
@@ -83,7 +97,10 @@ const group = ref(pageData.group);
                     query: { ...route.query, from: flight.from, to: flight.to },
                 }"
             >
-                <FcFlightListItem v-bind="flight" variant="history" />
+                <FcFlightListItem
+                    v-bind="flight"
+                    variant="history"
+                />
             </RouterLink>
         </div>
     </section>

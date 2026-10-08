@@ -1,0 +1,32 @@
+.flight-detail-page {
+    .fc-flight-list--header {
+        margin-bottom: 15px;
+        border: 0;
+
+        .fc-flight-list__logo {
+            width: 38px;
+            height: 38px;
+            border-width: 2px;
+            font-size: 24px;
+        }
+
+        .fc-flight-list__meta {
+            font-size: 11px;
+        }
+
+        .fc-flight-list__close {
+            flex: none;
+            width: 30px;
+            height: 30px;
+            border-color: var(--fc-border, #333);
+        }
+    }
+
+    .fc-details__card {
+        border-color: var(--fc-border, #303030);
+    }
+
+    &__background--blurred {
+        filter: blur(4px);
+    }
+}

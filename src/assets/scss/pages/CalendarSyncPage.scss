@@ -1,0 +1,38 @@
+.calendar-sync-page {
+    .fc-calendar-sync {
+        display: flex;
+        flex-direction: column;
+        min-height: 650px;
+
+        > strong {
+            margin: 12px 4px;
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        > p {
+            margin: 0 4px 20px;
+            font-size: 16px;
+        }
+    }
+
+    .fc-calendar-sync__item {
+        margin: 20px 0;
+
+        h3 {
+            font-size: 20px;
+        }
+    }
+
+    .fc-calendar-sync__notice {
+        align-items: center;
+        gap: 8px;
+        margin-top: auto;
+
+        > .fc-icon {
+            flex: none;
+            color: var(--fc-success, #00ae70);
+            font-size: 24px;
+        }
+    }
+}

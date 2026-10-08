@@ -1,10 +1,14 @@
 <script setup>
 import { computed, ref } from "vue";
+
 import { useRoute } from "vue-router";
+
 import FcAlertSettings from "../component/fc/FcAlertSettings.vue";
 import FcToggleSwitch from "../component/fc/FcToggleSwitch.vue";
 import FcIcon from "../component/fc/FcIcon.vue";
+
 import bellIcon from "../assets/icons/lucide/bell.svg";
+
 import pageData from "./data/AlertsPage.json";
 
 const route = useRoute();
@@ -33,16 +37,25 @@ function removeFriend() {
             :friend-email="friend.friendEmail"
             @remove="removeFriend"
         >
-            <template v-if="mode === 'friends'" #intro>
+            <template
+                v-if="mode === 'friends'"
+                #intro
+            >
                 <h3 class="alerts-page__intro">
                     Customize this per friend in Flighty Friends.
                 </h3>
             </template>
-            <template v-if="mode === 'friend'" #after-options>
+            <template
+                v-if="mode === 'friend'"
+                #after-options
+            >
                 <div class="alerts-page__new-flights">
                     <FcIcon :src="bellIcon" />
                     <strong>New Flights</strong>
-                    <FcToggleSwitch v-model="newFlights" label="New Flights" />
+                    <FcToggleSwitch
+                        v-model="newFlights"
+                        label="New Flights"
+                    />
                 </div>
                 <p class="frame-page__note">
                     Receive an alert when this friend adds new flights to
@@ -57,7 +70,11 @@ function removeFriend() {
             To adjust Live Activity preferences for Friends’ Flights, visit
             Setting &gt; Live Activities
         </p>
-        <p v-if="message" class="frame-page__note" role="status">
+        <p
+            v-if="message"
+            class="frame-page__note"
+            role="status"
+        >
             {{ message }}
         </p>
     </section>

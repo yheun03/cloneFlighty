@@ -1,0 +1,95 @@
+.add-flight-page {
+    .fc-search {
+        h2 {
+            margin: 0 36px 8px 4px;
+            font-size: 32px;
+        }
+
+        label {
+            margin: 8px 4px 14px;
+            font-size: 18px;
+        }
+
+        input {
+            margin-bottom: 24px;
+            background: var(--fc-control-bg, #2b2b2b);
+        }
+    }
+
+    .fc-search__result strong,
+    .fc-list-row__text strong {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .fc-search__section-label {
+        margin: 0 0 8px;
+        color: var(--fc-text-secondary, #888);
+        font-size: 15px;
+    }
+
+    .fc-list-row {
+        border: 0;
+    }
+
+    .fc-search__avatar,
+    .fc-list-row__avatar {
+        width: 26px;
+        height: 26px;
+        background: transparent;
+        color: var(--fc-text-strong, white);
+    }
+
+    &__hint {
+        margin-bottom: 14px;
+        color: var(--fc-placeholder, #777);
+    }
+
+    &__fields--number {
+        display: grid;
+        grid-template-columns: 60px 60px minmax(0, 1fr);
+        gap: 8px;
+    }
+
+    &__dates,
+    .fc-calendar {
+        margin-top: 28px;
+    }
+
+    .fc-calendar {
+        max-width: none;
+    }
+
+    .fc-calendar__grid button {
+        width: min(44px, 100%);
+        height: 44px;
+
+        &.is-marked {
+            background: var(--fc-calendar-marked-bg, #123e69);
+            color: var(--fc-link, white);
+        }
+
+        &.is-outlined {
+            border-color: var(--fc-blue, #087bfa);
+        }
+
+        &.is-selected {
+            background: var(--fc-blue, #087bfa);
+            color: white;
+        }
+    }
+
+    &__route {
+        display: grid;
+        gap: 8px;
+    }
+
+    &__report {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin-top: 14px;
+        color: var(--fc-text-secondary, #888);
+        font-size: 13px;
+    }
+}

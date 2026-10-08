@@ -1,0 +1,32 @@
+.delay-stats-page {
+    .fc-delay-report__brand {
+        display: none;
+    }
+
+    .fc-delay-report__stripe {
+        background: var(--fc-control-bg, #444);
+    }
+
+    .fc-performance__headline {
+        flex-wrap: wrap;
+
+        strong {
+            font-size: 48px;
+        }
+
+        span {
+            font-size: 22px;
+        }
+    }
+
+    .fc-performance__delay {
+        grid-template-columns: 78px 58px 62px minmax(0, 1fr);
+        gap: 3px;
+        font-size: 11px;
+
+        small {
+            font-size: 10px;
+            text-align: right;
+        }
+    }
+}

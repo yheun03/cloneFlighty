@@ -1,9 +1,10 @@
 <script setup>
-const checked = defineModel({ type: Boolean, default: false });
 defineProps({
     label: { type: String, default: "Toggle" },
     disabled: { type: Boolean, default: false },
 });
+
+const checked = defineModel({ type: Boolean, default: false });
 </script>
 
 <template>

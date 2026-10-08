@@ -7,24 +7,24 @@
         gap: 8px;
         font-size: 15px;
 
-        & b {
+        b {
             padding: 2px 5px;
             border-radius: 4px;
             background: #ffc832;
             color: #111;
         }
 
-        & > span {
+        > span {
             display: flex;
             flex-direction: column;
         }
 
-        & > span:last-child {
+        > span:last-child {
             margin-left: auto;
             text-align: right;
         }
 
-        & small {
+        small {
             color: var(--fc-text-secondary, #858585);
         }
     }

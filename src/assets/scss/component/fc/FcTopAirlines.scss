@@ -6,7 +6,7 @@
         gap: 8px;
         margin-bottom: 15px;
 
-        & button {
+        button {
             padding: 5px 10px;
             border: 0;
             border-radius: 8px;
@@ -14,7 +14,7 @@
             color: var(--fc-text-strong, white);
         }
 
-        & button.is-active {
+        button.is-active {
             background: var(--fc-selected-bg, #333);
         }
     }
@@ -26,11 +26,11 @@
         gap: 6px;
         margin: 10px 0;
 
-        & b {
+        b {
             background: var(--fc-chart-line);
         }
 
-        & small {
+        small {
             color: var(--fc-text-secondary, #aaa);
         }
     }

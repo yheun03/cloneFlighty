@@ -1,6 +1,7 @@
 <script setup>
-import FcIcon from "./FcIcon.vue";
 import { ref } from "vue";
+
+import FcIcon from "./FcIcon.vue";
 import BaseButton from "../base/BaseButton.vue";
 
 defineProps({
@@ -18,8 +19,14 @@ defineProps({
     breakdownLabel: { type: String, required: true },
     shortestFlight: { type: Object, required: true },
     longestFlight: { type: Object, required: true },
-    view: { type: String, default: "toggle" },
+    view: {
+        type: String,
+        default: "toggle",
+        validator: (value) =>
+            ["toggle", "summary", "breakdown"].includes(value),
+    },
 });
+
 const expanded = ref(false);
 </script>
 
@@ -34,23 +41,33 @@ const expanded = ref(false);
             />
         </div>
         <div class="fc-stat-number">
-            <strong>{{ distance }}</strong
-            ><span>{{ distanceUnit }}</span>
+            <strong>{{ distance }}</strong>
+            <span>{{ distanceUnit }}</span>
         </div>
         <p>{{ miles }} {{ milesUnit }}</p>
         <div
             v-if="view === 'breakdown' || expanded"
             class="fc-distance__breakdown"
         >
-            <div v-for="item in breakdown" :key="item.label">
-                <span>{{ item.label }}</span
-                ><strong>{{ item.value }}</strong>
+            <div
+                v-for="item in breakdown"
+                :key="item.label"
+            >
+                <span>{{ item.label }}</span>
+                <strong>{{ item.value }}</strong>
             </div>
         </div>
-        <div v-else class="fc-distance__comparisons">
+        <div
+            v-else
+            class="fc-distance__comparisons"
+        >
             <strong>{{ averageLabel }}</strong>
-            <span v-for="item in comparisons" :key="item.text">
-                <FcIcon :src="item.icon" /> <b>{{ item.text }}</b>
+            <span
+                v-for="item in comparisons"
+                :key="item.text"
+            >
+                <FcIcon :src="item.icon" />
+                <b>{{ item.text }}</b>
             </span>
         </div>
         <button
@@ -64,17 +81,19 @@ const expanded = ref(false);
         </button>
         <div class="fc-distance__flight">
             <h3>{{ shortestFlight.title }}</h3>
-            <strong
-                >{{ shortestFlight.route }}
-                <span>{{ shortestFlight.distance }}</span></strong
-            ><small>{{ shortestFlight.detail }}</small>
+            <strong>
+                {{ shortestFlight.route }}
+                <span>{{ shortestFlight.distance }}</span>
+            </strong>
+            <small>{{ shortestFlight.detail }}</small>
         </div>
         <div class="fc-distance__flight">
             <h3>{{ longestFlight.title }}</h3>
-            <strong
-                >{{ longestFlight.route }}
-                <span>{{ longestFlight.distance }}</span></strong
-            ><small>{{ longestFlight.detail }}</small>
+            <strong>
+                {{ longestFlight.route }}
+                <span>{{ longestFlight.distance }}</span>
+            </strong>
+            <small>{{ longestFlight.detail }}</small>
         </div>
     </div>
 </template>

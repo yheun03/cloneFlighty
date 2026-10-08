@@ -1,7 +1,7 @@
 .fc-settings {
     margin-top: 40px;
 
-    & h2 {
+    h2 {
         margin: 0 0 20px;
         font-size: 32px;
     }
@@ -19,7 +19,7 @@
         text-align: left;
         font-size: 24px;
 
-        & b {
+        b {
             padding: 6px;
             border-radius: 7px;
             background: #5d17ff;
@@ -27,7 +27,7 @@
             font-size: 12px;
         }
 
-        & > span:not(.fc-icon) {
+        > span:not(.fc-icon) {
             display: flex;
             flex: 1;
             flex-direction: column;
@@ -35,7 +35,7 @@
             font-size: 18px;
         }
 
-        & small {
+        small {
             font-size: 13px;
         }
     }
@@ -43,13 +43,13 @@
     &__group {
         margin-top: 28px;
 
-        & h3 {
+        h3 {
             margin: 0 0 5px;
             color: var(--fc-text-secondary, #aaa);
             font-size: 11px;
         }
 
-        & button {
+        button {
             display: flex;
             align-items: center;
             width: 100%;
@@ -62,11 +62,11 @@
             text-align: left;
         }
 
-        & button > span {
+        button > span {
             width: 25px;
         }
 
-        & button b {
+        button b {
             margin-left: auto;
             font-size: 23px;
         }

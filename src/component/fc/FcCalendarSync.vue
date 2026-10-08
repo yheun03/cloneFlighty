@@ -1,20 +1,29 @@
 <script setup>
+import { ref } from "vue";
+
 import FcIcon from "./FcIcon.vue";
+import FcToggleSwitch from "./FcToggleSwitch.vue";
+
 import calendarIcon from "../../assets/icons/lucide/calendar-days.svg";
 import nextIcon from "../../assets/icons/lucide/chevron-right.svg";
 import noticeIcon from "../../assets/icons/lucide/shield-check.svg";
-import { ref } from "vue";
-import FcToggleSwitch from "./FcToggleSwitch.vue";
 
 const props = defineProps({
+    // 표시할 캘린더 이름 목록입니다.
     calendars: { type: Array, required: true },
+    // 최초 상태: { importEnabled, exportEnabled, importCalendars, exportCalendar }
     settings: { type: Object, required: true },
 });
+
 const importEnabled = ref(props.settings.importEnabled);
 const exportEnabled = ref(props.settings.exportEnabled);
 const choosing = ref("");
 const importCalendars = ref([...props.settings.importCalendars]);
 const exportCalendar = ref(props.settings.exportCalendar);
+
+function toggleCalendarChoices(mode) {
+    choosing.value = choosing.value === mode ? "" : mode;
+}
 
 function selectCalendar(calendar) {
     if (choosing.value === "import") {
@@ -47,11 +56,12 @@ function selectCalendar(calendar) {
             <button
                 type="button"
                 :aria-expanded="choosing === 'import'"
-                @click="choosing = choosing === 'import' ? '' : 'import'"
+                @click="toggleCalendarChoices('import')"
             >
-                <FcIcon :src="calendarIcon" /> &nbsp;Choose Calendars
-                <span
-                    >{{ importCalendars.join(", ") || "Select" }}&nbsp;
+                <FcIcon :src="calendarIcon" />
+                &nbsp;Choose Calendars
+                <span>
+                    {{ importCalendars.join(", ") || "Select" }}&nbsp;
                     <FcIcon :src="nextIcon" />
                 </span>
             </button>
@@ -67,11 +77,12 @@ function selectCalendar(calendar) {
             <button
                 type="button"
                 :aria-expanded="choosing === 'export'"
-                @click="choosing = choosing === 'export' ? '' : 'export'"
+                @click="toggleCalendarChoices('export')"
             >
-                <FcIcon :src="calendarIcon" /> &nbsp;Choose Calendar
-                <span
-                    >{{ exportCalendar || "Select" }}&nbsp;
+                <FcIcon :src="calendarIcon" />
+                &nbsp;Choose Calendar
+                <span>
+                    {{ exportCalendar || "Select" }}&nbsp;
                     <FcIcon :src="nextIcon" />
                 </span>
             </button>
@@ -99,17 +110,26 @@ function selectCalendar(calendar) {
                         choosing === 'import' &&
                         importCalendars.includes(calendar)
                     "
-                    >✓</span
                 >
+                    ✓
+                </span>
             </button>
-            <button type="button" @click="choosing = ''">Done</button>
+            <button
+                type="button"
+                @click="choosing = ''"
+            >
+                Done
+            </button>
         </div>
         <div class="fc-calendar-sync__notice">
-            <FcIcon :src="noticeIcon" /> &nbsp;<span
-                ><strong>Flighty receives minimal data</strong><br />Calendar
-                processing is on device, and only events identified for flight
-                import are sent to Flighty.</span
-            >
+            <FcIcon :src="noticeIcon" />
+            &nbsp;
+            <span>
+                <strong>Flighty receives minimal data</strong>
+                <br />
+                Calendar processing is on device, and only events identified for
+                flight import are sent to Flighty.
+            </span>
         </div>
     </div>
 </template>

@@ -1,10 +1,14 @@
 <script setup>
 import { nextTick, onMounted, onUnmounted, ref } from "vue";
+
 import { useRoute, useRouter } from "vue-router";
+
 import BaseInput from "../component/base/BaseInput.vue";
 import FcPasteField from "../component/fc/FcPasteField.vue";
 import FcChoiceChip from "../component/fc/FcChoiceChip.vue";
+
 import chipIcon from "../assets/icons/lucide/square.svg";
+
 import pageData from "./data/FlightBookingPage.json";
 
 const booking = defineModel({ type: Object, required: true });
@@ -52,7 +56,10 @@ onUnmounted(() => previousFocus?.focus());
 </script>
 
 <template>
-    <Teleport defer to="#main-content">
+    <Teleport
+        defer
+        to="#main-content"
+    >
         <div
             class="booking-dialog"
             @click.self="close"
@@ -66,7 +73,10 @@ onUnmounted(() => previousFocus?.focus());
                 aria-labelledby="booking-title"
                 tabindex="-1"
             >
-                <h2 id="booking-title" class="sr-only">
+                <h2
+                    id="booking-title"
+                    class="sr-only"
+                >
                     Edit flight information
                 </h2>
                 <button
@@ -84,9 +94,12 @@ onUnmounted(() => previousFocus?.focus());
                     paste-label="PASTE"
                     :sample-value="pageData.bookingCode"
                 />
-                <label class="booking-dialog__label" for="flight-seat"
-                    >Seat</label
+                <label
+                    class="booking-dialog__label"
+                    for="flight-seat"
                 >
+                    Seat
+                </label>
                 <BaseInput
                     id="flight-seat"
                     v-model="booking.seat"

@@ -1,9 +1,13 @@
 <script setup>
 import { ref } from "vue";
+
 import { useRoute, useRouter } from "vue-router";
+
 import BaseInput from "../component/base/BaseInput.vue";
-import "../assets/scss/pages/IntroPage.scss";
+
 import pageData from "./data/IntroPage.json";
+
+import "../assets/scss/pages/IntroPage.scss";
 
 const airports = pageData.airports;
 const route = useRoute();
@@ -65,13 +69,20 @@ function showMap() {
     <article class="intro">
         <header class="intro__hero">
             <p class="intro__eyebrow">Vue 3 UI Clone Project</p>
-            <h1>항공편 사용자 경험을<br />Vue 3로 재구성했습니다.</h1>
+            <h1>
+                항공편 사용자 경험을
+                <br />
+                Vue 3로 재구성했습니다.
+            </h1>
             <p class="intro__lead">
                 Flighty의 화면을 Vue와 SCSS로 구성한 웹 퍼블리싱 프로젝트입니다.
                 각 페이지의 JSON 더미 데이터로 레이아웃과 다양한 UI 상태를
                 확인합니다.
             </p>
-            <ul class="intro__stack" aria-label="사용 기술">
+            <ul
+                class="intro__stack"
+                aria-label="사용 기술"
+            >
                 <li>Vue 3</li>
                 <li>Vue Router</li>
                 <li>Vite</li>
@@ -98,8 +109,9 @@ function showMap() {
                         query: route.query,
                         hash: '#interactive-demo',
                     }"
-                    >데모 실행하기</RouterLink
                 >
+                    데모 실행하기
+                </RouterLink>
                 <RouterLink to="/component">UI 컴포넌트 보기</RouterLink>
             </div>
             <p class="intro__notice">
@@ -108,7 +120,10 @@ function showMap() {
             </p>
         </header>
 
-        <section class="intro__highlights" aria-labelledby="highlights-title">
+        <section
+            class="intro__highlights"
+            aria-labelledby="highlights-title"
+        >
             <div class="intro__section-heading">
                 <p class="intro__eyebrow">Implementation</p>
                 <h2 id="highlights-title">핵심 구현 포인트</h2>
@@ -171,10 +186,18 @@ function showMap() {
                         "
                         @input="clearMessages"
                     />
-                    <button type="button" @click="paste('from')">
+                    <button
+                        type="button"
+                        @click="paste('from')"
+                    >
                         붙여넣기
                     </button>
-                    <button type="button" @click="copy(from)">복사</button>
+                    <button
+                        type="button"
+                        @click="copy(from)"
+                    >
+                        복사
+                    </button>
                 </div>
 
                 <label for="to">도착 공항</label>
@@ -195,16 +218,38 @@ function showMap() {
                         "
                         @input="clearMessages"
                     />
-                    <button type="button" @click="paste('to')">붙여넣기</button>
-                    <button type="button" @click="copy(to)">복사</button>
+                    <button
+                        type="button"
+                        @click="paste('to')"
+                    >
+                        붙여넣기
+                    </button>
+                    <button
+                        type="button"
+                        @click="copy(to)"
+                    >
+                        복사
+                    </button>
                 </div>
 
-                <button class="primary" type="submit">항로 지도 보기</button>
+                <button
+                    class="primary"
+                    type="submit"
+                >
+                    항로 지도 보기
+                </button>
             </form>
-            <p id="airport-help" class="hint">
+            <p
+                id="airport-help"
+                class="hint"
+            >
                 사용 가능한 공항 코드: {{ Object.keys(airports).join(", ") }}
             </p>
-            <p v-if="statusMessage" class="message" role="status">
+            <p
+                v-if="statusMessage"
+                class="message"
+                role="status"
+            >
                 {{ statusMessage }}
             </p>
             <p

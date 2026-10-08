@@ -8,8 +8,11 @@ import {
     ref,
     watch,
 } from "vue";
+
 import { useRoute } from "vue-router";
+
 import layoutData from "./data/MapLayout.json";
+
 import "../assets/scss/layout/MapLayout.scss";
 import "../assets/scss/pages/FramePages.scss";
 
@@ -319,7 +322,7 @@ onUnmounted(() => {
         ></div>
         <p
             id="flight-map-status"
-            class="flight-map__status"
+            class="flight-map__status sr-only"
             role="status"
             aria-live="polite"
         >
@@ -351,8 +354,8 @@ onUnmounted(() => {
                         id="flight-map-route-summary"
                         class="flight-map__route-summary"
                     >
-                        <strong>{{ from }} → {{ to }}</strong
-                        ><span>{{ routeSummary }} · 샘플 데이터</span>
+                        <strong>{{ from }} → {{ to }}</strong>
+                        <span>{{ routeSummary }} · 샘플 데이터</span>
                     </p>
                 </div>
                 <button
@@ -374,31 +377,36 @@ onUnmounted(() => {
                 <RouterLink
                     :to="{ name: 'home', query: route.query }"
                     :class="{ 'is-active': route.meta.section === 'flights' }"
-                    >Flights</RouterLink
                 >
+                    Flights
+                </RouterLink>
                 <RouterLink
                     :to="{ name: 'passport', query: route.query }"
                     :class="{ 'is-active': route.meta.section === 'passport' }"
-                    >Passport</RouterLink
                 >
+                    Passport
+                </RouterLink>
                 <RouterLink
                     :to="{ name: 'friends', query: route.query }"
                     :class="{ 'is-active': route.meta.section === 'friends' }"
-                    >Friends</RouterLink
                 >
+                    Friends
+                </RouterLink>
                 <RouterLink
                     :to="{ name: 'settings', query: route.query }"
                     :class="{ 'is-active': route.meta.section === 'settings' }"
-                    >Settings</RouterLink
                 >
+                    Settings
+                </RouterLink>
                 <RouterLink
                     :to="{ name: 'add-flight', query: route.query }"
                     aria-label="Add Flight"
-                    >＋</RouterLink
                 >
-                <RouterLink :to="{ name: 'component', query: route.query }"
-                    >UI</RouterLink
-                >
+                    ＋
+                </RouterLink>
+                <RouterLink :to="{ name: 'component', query: route.query }">
+                    UI
+                </RouterLink>
             </nav>
             <div
                 v-if="
@@ -420,20 +428,22 @@ onUnmounted(() => {
                                 : {},
                         query: route.query,
                     }"
-                    >‹ Back</RouterLink
                 >
+                    ‹ Back
+                </RouterLink>
                 <template
                     v-if="
                         route.name === 'home' || route.name === 'friend-flights'
                     "
                 >
-                    <RouterLink :to="{ name: 'home', query: route.query }"
-                        >My Flights</RouterLink
-                    >
+                    <RouterLink :to="{ name: 'home', query: route.query }">
+                        My Flights
+                    </RouterLink>
                     <RouterLink
                         :to="{ name: 'friend-flights', query: route.query }"
-                        >Friends’ Flights</RouterLink
                     >
+                        Friends’ Flights
+                    </RouterLink>
                 </template>
             </div>
             <div
@@ -448,22 +458,28 @@ onUnmounted(() => {
                 <RouterView />
             </div>
         </main>
-        <div class="flight-map__controls" role="group" aria-label="지도 조작">
+        <div
+            class="flight-map__controls"
+            role="group"
+            aria-label="지도 조작"
+        >
             <button
                 type="button"
                 aria-label="지도 확대"
                 :disabled="!ready"
                 @click="map?.zoomIn()"
             >
-                +</button
-            ><button
+                +
+            </button>
+            <button
                 type="button"
                 aria-label="지도 축소"
                 :disabled="!ready"
                 @click="map?.zoomOut()"
             >
-                −</button
-            ><button
+                −
+            </button>
+            <button
                 type="button"
                 :disabled="!ready"
                 :aria-pressed="isGlobe"

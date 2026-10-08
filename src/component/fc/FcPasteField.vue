@@ -1,8 +1,10 @@
 <script setup>
-import FcIcon from "./FcIcon.vue";
-import pasteIcon from "../../assets/icons/lucide/clipboard-paste.svg";
 import { useId } from "vue";
+
+import FcIcon from "./FcIcon.vue";
 import BaseInput from "../base/BaseInput.vue";
+
+import pasteIcon from "../../assets/icons/lucide/clipboard-paste.svg";
 
 const props = defineProps({
     sampleValue: { type: String, default: "" },
@@ -10,7 +12,9 @@ const props = defineProps({
     placeholder: { type: String, default: "PASTE" },
     pasteLabel: { type: String, default: "붙여넣기" },
 });
+
 const value = defineModel({ type: String, default: "" });
+
 const inputId = useId();
 
 function paste() {
@@ -29,7 +33,13 @@ function paste() {
                 :id="inputId"
                 v-model="value"
                 :placeholder="placeholder"
-            /><button type="button" @click="paste">{{ pasteLabel }}</button>
+            />
+            <button
+                type="button"
+                @click="paste"
+            >
+                {{ pasteLabel }}
+            </button>
         </div>
     </div>
 </template>

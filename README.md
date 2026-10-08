@@ -9,6 +9,10 @@
 - 화면 상태는 새로고침하면 초기화됩니다. API, 로그인, 실제 저장·전송 기능은 추가하지 않습니다.
 - 변경 전 유사한 Vue 파일을 확인하고 기존 마크업, 클래스명, SCSS, 공통 컴포넌트 사용 방식을 따릅니다.
 
+SCSS는 컴포넌트 기본 스타일을 `src/assets/scss/component/`, 페이지별 조정을 `src/assets/scss/pages/페이지명.scss`에서 수정합니다. `FramePages.scss`는 공통 프레임과 페이지 스타일을 모으는 진입점입니다.
+
+Vue 컴포넌트의 props 타입, 필수 여부, 기본값, 허용값, v-model, 이벤트와 데이터 구조는 [컴포넌트 속성 가이드](docs/components.md)를 참고합니다. `.prettierrc.json`으로 4칸 들여쓰기와 속성별 줄바꿈을 유지합니다.
+
 ```sh
 npm run dev
 npm run build

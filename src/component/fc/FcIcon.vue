@@ -1,7 +1,11 @@
 <script setup>
 import { computed } from "vue";
 
-const props = defineProps({ src: { type: String, required: true } });
+const props = defineProps({
+    // Lucide 아이콘 이름 또는 import한 SVG URL입니다.
+    src: { type: String, required: true },
+});
+
 const icons = import.meta.glob("../../assets/icons/lucide/*.svg", {
     eager: true,
     query: "?url",
