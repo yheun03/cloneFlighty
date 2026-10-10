@@ -1,3 +1,5 @@
+@use "../../common/typography" as typo;
+
 .fc-periods {
     display: flex;
     gap: 8px;
@@ -11,8 +13,7 @@
         border-radius: 10px;
         background: transparent;
         color: var(--fc-text-strong, white);
-        font-size: 17px;
-        font-weight: 700;
+        @include typo.font(btn1, sb);
     }
 
     button.is-active {

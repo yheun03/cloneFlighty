@@ -1,19 +1,21 @@
+@use "../../common/typography" as typo;
+
 .fc-calendar-sync {
-    > strong {
+    >strong {
         display: block;
-        font-size: 17px;
+        @include typo.font(t5, sb);
     }
 
-    > p {
+    >p {
         margin: 2px 0 26px;
         color: var(--fc-text-secondary, #aaa);
-        font-size: 14px;
+        @include typo.font(b3, rg);
     }
 
     &__item {
         margin: 25px 0;
 
-        > div {
+        >div {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -21,7 +23,7 @@
 
         h3 {
             margin: 0;
-            font-size: 20px;
+            @include typo.font(t4, sb);
         }
 
         button:not(.fc-switch) {
@@ -37,7 +39,7 @@
             text-align: left;
         }
 
-        button > span {
+        button>span {
             color: var(--fc-text-secondary, #aaa);
         }
     }
@@ -49,7 +51,7 @@
         border-radius: 9px;
         background: var(--fc-success-bg, #18342b);
         color: var(--fc-text-secondary, #aaa);
-        font-size: 12px;
+        @include typo.font(c2, rg);
 
         strong {
             color: #1fbb79;

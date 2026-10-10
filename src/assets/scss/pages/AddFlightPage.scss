@@ -1,13 +1,15 @@
+@use "../common/typography" as typo;
+
 .add-flight-page {
     .fc-search {
         h2 {
             margin: 0 36px 8px 4px;
-            font-size: 32px;
+            @include typo.font(h3, sb);
         }
 
         label {
             margin: 8px 4px 14px;
-            font-size: 18px;
+            @include typo.font(t5, rg);
         }
 
         input {
@@ -18,14 +20,13 @@
 
     .fc-search__result strong,
     .fc-list-row__text strong {
-        font-size: 16px;
-        font-weight: 600;
+        @include typo.font(b1, sb);
     }
 
     .fc-search__section-label {
         margin: 0 0 8px;
         color: var(--fc-text-secondary, #888);
-        font-size: 15px;
+        @include typo.font(b2, rg);
     }
 
     .fc-list-row {
@@ -90,6 +91,6 @@
         gap: 8px;
         margin-top: 14px;
         color: var(--fc-text-secondary, #888);
-        font-size: 13px;
+        @include typo.font(b4, rg);
     }
 }

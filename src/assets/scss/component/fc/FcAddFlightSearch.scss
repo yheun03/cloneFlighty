@@ -1,17 +1,19 @@
+@use "../../common/typography" as typo;
+
 .fc-search {
     h2 {
         margin: 0;
-        font-size: 28px;
+        @include typo.font(h4, sb);
     }
 
     label {
         display: block;
         margin: 0 0 12px;
         color: var(--fc-text-secondary, #999);
-        font-size: 15px;
+        @include typo.font(b2, rg);
     }
 
-    > input {
+    >input {
         width: 100%;
         padding: 12px;
         border: 0;
@@ -31,7 +33,7 @@
         color: var(--fc-text-strong, white);
         text-align: left;
 
-        > span:nth-child(2) {
+        >span:nth-child(2) {
             display: flex;
             flex: 1;
             flex-direction: column;

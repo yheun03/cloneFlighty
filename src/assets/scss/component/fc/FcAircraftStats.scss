@@ -1,3 +1,5 @@
+@use "../../common/typography" as typo;
+
 .fc-aircraft-stats {
     &__numbers {
         display: grid;
@@ -12,11 +14,11 @@
         }
 
         span {
-            font-size: 12px;
+            @include typo.font(c2, rg);
         }
 
         strong {
-            font-size: 20px;
+            @include typo.font(t4, sb);
         }
 
         small {
@@ -26,13 +28,13 @@
             padding: 2px 5px;
             background: #dce7ff;
             color: #697083;
-            font-size: 10px;
+            @include typo.font(c3, rg);
         }
     }
 
     h3 {
         margin: 26px 0 5px;
-        font-size: 19px;
+        @include typo.font(t5, sb);
     }
 
     &__featured {
@@ -44,23 +46,22 @@
         color: #12456c;
 
         strong {
-            font-size: 30px;
-            line-height: 1;
+            @include typo.font(h3, sb);
         }
 
         div {
             margin-top: auto;
             text-align: right;
-            font-size: 55px;
+            @include typo.font(d6, rg);
         }
     }
 
-    > p {
+    >p {
         margin: 0;
-        font-size: 21px;
+        @include typo.font(t4, rg);
     }
 
-    > p small {
+    >p small {
         color: var(--fc-text-secondary, #aaa);
     }
 
@@ -100,7 +101,7 @@
         }
 
         b {
-            font-size: 20px;
+            @include typo.font(t4, sb);
         }
 
         span {

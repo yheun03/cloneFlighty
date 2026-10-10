@@ -1,13 +1,13 @@
+@use "../common/typography" as typo;
+
 .connection-page {
     .fc-connection h2 {
-        font-size: 30px;
-        line-height: 1.2;
+        @include typo.font(h3, sb);
     }
 
     .fc-connection p {
         margin-top: 12px;
-        font-size: 18px;
-        font-weight: 400;
+        @include typo.font(t5, rg);
     }
 
     &__description {
@@ -15,8 +15,7 @@
         padding-top: 12px;
         border-top: 1px solid var(--fc-border, #333);
         color: var(--fc-text-secondary, #999);
-        font-size: 14px;
-        line-height: 1.45;
+        @include typo.font(b3, rg);
     }
 
     &__meter {
@@ -25,7 +24,7 @@
         margin-top: 20px;
         padding: 25px 12px;
         color: var(--fc-text-secondary, #999);
-        font-size: 12px;
+        @include typo.font(c2, rg);
     }
 
     &__track {
@@ -35,16 +34,14 @@
         border-radius: 20px;
         background: linear-gradient(90deg, #78312c, #246447);
 
-        > span {
+        >span {
             display: block;
             height: 7px;
             border-radius: 20px;
-            background: linear-gradient(
-                90deg,
-                #ff3b30,
-                #ffc832 28%,
-                #42d563 45%
-            );
+            background: linear-gradient(90deg,
+                    #ff3b30,
+                    #ffc832 28%,
+                    #42d563 45%);
         }
     }
 

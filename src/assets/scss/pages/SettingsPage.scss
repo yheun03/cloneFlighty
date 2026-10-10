@@ -1,22 +1,24 @@
+@use "../common/typography" as typo;
+
 .settings-page {
     .fc-settings {
         margin: 0;
 
         h2 {
             margin-bottom: 24px;
-            font-size: 34px;
+            @include typo.font(h3, sb);
         }
     }
 
     .fc-settings__pro {
         padding: 20px 12px;
 
-        > span:not(.fc-icon) {
-            font-size: 24px;
+        >span:not(.fc-icon) {
+            @include typo.font(h5, sb);
         }
 
         small {
-            font-size: 16px;
+            @include typo.font(b1, rg);
         }
     }
 
@@ -25,8 +27,7 @@
 
         h3 {
             margin-left: 10px;
-            font-size: 12px;
-            font-weight: 400;
+            @include typo.font(c2, rg);
         }
 
         button {
@@ -39,8 +40,8 @@
             border-bottom: 1px solid var(--fc-border, #363636);
         }
 
-        button > span {
-            font-size: 20px;
+        button>span {
+            @include typo.font(h6, rg);
         }
     }
 
@@ -49,7 +50,7 @@
 
         h2 {
             margin: 0 0 4px;
-            font-size: 20px;
+            @include typo.font(h6, sb);
         }
 
         p {

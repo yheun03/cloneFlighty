@@ -1,9 +1,11 @@
+@use "../../common/typography" as typo;
+
 .fc-calendar {
     max-width: 310px;
 
     h3 {
         margin: 0 0 15px;
-        font-size: 17px;
+        @include typo.font(t5, sb);
     }
 
     &__grid {
@@ -19,7 +21,7 @@
             border-radius: 50%;
             background: none;
             color: var(--fc-text-strong, white);
-            font-size: 16px;
+            @include typo.font(btn1, rg);
         }
 
         button.is-marked {
@@ -34,6 +36,6 @@
 
     &__weekday {
         color: var(--fc-text-secondary, #818181);
-        font-size: 12px;
+        @include typo.font(c2, rg);
     }
 }

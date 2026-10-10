@@ -1,7 +1,9 @@
+@use "../../common/typography" as typo;
+
 .fc-distance {
     margin: 25px 0;
 
-    > p {
+    >p {
         margin: 0 0 22px;
         color: var(--fc-text-secondary, #aaa);
     }
@@ -11,11 +13,11 @@
         flex-direction: column;
         gap: 10px;
 
-        > strong {
+        >strong {
             margin-bottom: 5px;
         }
 
-        > span {
+        >span {
             display: flex;
             justify-content: space-between;
         }
@@ -34,7 +36,7 @@
 
         strong {
             color: var(--fc-text-strong, white);
-            font-size: 23px;
+            @include typo.font(h5, sb);
         }
     }
 
@@ -44,17 +46,17 @@
 
         h3 {
             margin: 0 0 12px;
-            font-size: 18px;
+            @include typo.font(t5, sb);
         }
 
-        > strong {
+        >strong {
             display: flex;
             justify-content: space-between;
             gap: 6px;
-            font-size: 16px;
+            @include typo.font(b1, sb);
         }
 
-        > strong span {
+        >strong span {
             flex: none;
         }
 

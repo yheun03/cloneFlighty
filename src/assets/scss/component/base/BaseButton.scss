@@ -1,9 +1,10 @@
+@use "../../common/typography" as typo;
+
 .fc-button {
     border: 0;
     background: none;
     color: var(--fc-link, #1685ff);
-    font-size: 19px;
-    font-weight: 700;
+    @include typo.font(btn1, sb);
     padding: 11px 0;
 
     .fc-icon {

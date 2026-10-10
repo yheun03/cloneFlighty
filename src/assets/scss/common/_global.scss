@@ -1,3 +1,5 @@
+@use "./typography" as typo;
+
 * {
     box-sizing: border-box;
 }
@@ -11,10 +13,7 @@ body {
     margin: 0;
     background: #f5f6fa;
     color: #171b2b;
-    font:
-        16px/1.5 "Pretendard",
-        Arial,
-        sans-serif;
+    @include typo.font(b1, rg);
 }
 
 button,
@@ -33,7 +32,7 @@ a {
 
 h1 {
     margin: 0 0 8px;
-    font-size: 28px;
+    @include typo.font(h4, sb);
 }
 
 .sr-only {
@@ -49,6 +48,7 @@ h1 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {

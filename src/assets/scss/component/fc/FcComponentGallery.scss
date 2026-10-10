@@ -1,3 +1,5 @@
+@use "../../common/typography" as typo;
+
 .fc-gallery {
     padding-bottom: 40px;
 
@@ -11,18 +13,14 @@
         h1 {
             margin: 0;
             color: var(--fc-text-strong, white);
-            font-size: 30px;
-            line-height: 1.2;
-            letter-spacing: -0.04em;
+            @include typo.font(h3, sb, -0.04em);
         }
     }
 
     &__eyebrow {
         margin: 0 0 8px;
         color: var(--fc-link, #70acff);
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
+        @include typo.font(c3, sb, 0.1em);
     }
 
     &__meta {
@@ -40,13 +38,13 @@
             border: 1px solid var(--fc-border, #3b3b3b);
             border-radius: 7px;
             color: var(--fc-text-secondary, #aaa);
-            font-size: 11px;
+            @include typo.font(c3, rg);
         }
 
         strong {
             margin-right: 4px;
             color: var(--fc-text-strong, white);
-            font-size: 15px;
+            @include typo.font(b2, sb);
         }
     }
 
@@ -71,11 +69,11 @@
             border-radius: 8px;
             background: none;
             color: var(--fc-text-secondary, #aaa);
-            font-size: 13px;
+            @include typo.font(btn3, rg);
         }
 
         span {
-            font-size: 11px;
+            @include typo.font(c3, rg);
             opacity: 0.7;
         }
 
@@ -83,7 +81,7 @@
             border-color: var(--fc-blue, #087bfa);
             background: var(--fc-chip-bg, #13283f);
             color: var(--fc-link, #70acff);
-            font-weight: 700;
+            @include typo.font(btn3, sb);
         }
     }
 
@@ -110,28 +108,25 @@
         h2 {
             margin: 0;
             color: var(--fc-text-strong, white);
-            font-size: 17px;
-            line-height: 1.4;
+            @include typo.font(t5, sb);
         }
 
         .fc-gallery__description {
             margin: 6px 0 0;
-            font-size: 12px;
+            @include typo.font(c2, rg);
         }
     }
 
     &__component-name {
         margin: 0 0 5px;
         color: var(--fc-link, #70acff);
-        font-size: 11px;
-        line-height: 1.5;
+        @include typo.font(c3, rg);
     }
 
     &__description {
         margin: 10px 0 0;
         color: var(--fc-text-secondary, #999);
-        font-size: 13px;
-        line-height: 1.6;
+        @include typo.font(b4, rg);
     }
 
     &__preview {
@@ -161,7 +156,7 @@
 
         label {
             color: var(--fc-text-secondary, #aaa);
-            font-size: 12px;
+            @include typo.font(c2, rg);
         }
     }
 
@@ -186,24 +181,24 @@
         gap: 18px 12px;
         text-align: center;
 
-        > div {
+        >div {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            font-size: 24px;
+            @include typo.font(t3, rg);
         }
 
         small {
             color: var(--fc-text-secondary, #aaa);
-            font-size: 11px;
+            @include typo.font(c3, rg);
         }
     }
 
     &__sample-label {
         margin: 14px 0 4px;
         color: var(--fc-text-secondary, #aaa);
-        font-size: 11px;
+        @include typo.font(c3, rg);
     }
 
     &__state-preview {
@@ -230,7 +225,7 @@
             padding-top: 18px;
 
             h1 {
-                font-size: 26px;
+                @include typo.font(h4, sb, -0.04em);
             }
         }
 
@@ -239,7 +234,11 @@
 
             button {
                 padding: 7px 10px;
-                font-size: 12px;
+                @include typo.font(btn4, rg);
+            }
+
+            .is-active {
+                @include typo.font(btn4, sb);
             }
         }
 

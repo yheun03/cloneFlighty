@@ -22,13 +22,8 @@ defineEmits(["click"]);
 
 <template>
     <!-- prettier-ignore -->
-    <button
-        :type="type"
-        class="fc-button"
-        :class="`fc-button--${variant}`"
-        :disabled="disabled"
-        @click="$emit('click', $event)"
-    >
+    <button :type="type" class="fc-button" :class="`fc-button--${variant}`" :disabled="disabled"
+        @click="$emit('click', $event)">
         <FcIcon v-if="icon" :src="icon" />{{ label }}
     </button>
 </template>

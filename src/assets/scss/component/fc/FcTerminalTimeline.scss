@@ -1,3 +1,5 @@
+@use "../../common/typography" as typo;
+
 .fc-terminal {
     margin-top: 25px;
 
@@ -5,7 +7,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 15px;
+        @include typo.font(b2, rg);
 
         b {
             padding: 2px 5px;
@@ -14,12 +16,12 @@
             color: #111;
         }
 
-        > span {
+        >span {
             display: flex;
             flex-direction: column;
         }
 
-        > span:last-child {
+        >span:last-child {
             margin-left: auto;
             text-align: right;
         }
@@ -33,6 +35,6 @@
         margin: 12px 0 12px 16px;
         padding: 8px 0 8px 20px;
         border-left: 1px solid var(--fc-border, #4b4b4b);
-        font-weight: 700;
+        @include typo.font(b1, sb);
     }
 }

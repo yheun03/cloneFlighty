@@ -1,3 +1,5 @@
+@use "../common/typography" as typo;
+
 .flight-detail-page {
     .fc-flight-list--header {
         margin-bottom: 15px;
@@ -7,11 +9,11 @@
             width: 38px;
             height: 38px;
             border-width: 2px;
-            font-size: 24px;
+            @include typo.font(h5, rg);
         }
 
         .fc-flight-list__meta {
-            font-size: 11px;
+            @include typo.font(c3, rg);
         }
 
         .fc-flight-list__close {

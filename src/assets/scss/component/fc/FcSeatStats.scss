@@ -1,3 +1,5 @@
+@use "../../common/typography" as typo;
+
 .fc-seat-stats {
     margin: 25px 0;
 
@@ -21,12 +23,12 @@
         }
 
         strong {
-            font-size: 24px;
+            @include typo.font(t3, sb);
         }
     }
 
     &__list {
-        > div {
+        >div {
             display: flex;
             align-items: center;
             gap: 9px;

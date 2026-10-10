@@ -1,18 +1,19 @@
+@use "../common/typography" as typo;
+
 .calendar-sync-page {
     .fc-calendar-sync {
         display: flex;
         flex-direction: column;
         min-height: 650px;
 
-        > strong {
+        >strong {
             margin: 12px 4px;
-            font-size: 18px;
-            font-weight: 400;
+            @include typo.font(t5, rg);
         }
 
-        > p {
+        >p {
             margin: 0 4px 20px;
-            font-size: 16px;
+            @include typo.font(b1, rg);
         }
     }
 
@@ -20,7 +21,7 @@
         margin: 20px 0;
 
         h3 {
-            font-size: 20px;
+            @include typo.font(h6, sb);
         }
     }
 
@@ -29,10 +30,10 @@
         gap: 8px;
         margin-top: auto;
 
-        > .fc-icon {
+        >.fc-icon {
             flex: none;
             color: var(--fc-success, #00ae70);
-            font-size: 24px;
+            @include typo.font(h5, rg);
         }
     }
 }

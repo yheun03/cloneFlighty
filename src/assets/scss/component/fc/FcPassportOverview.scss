@@ -1,3 +1,5 @@
+@use "../../common/typography" as typo;
+
 .fc-passport {
     &__map {
         display: flex;
@@ -8,11 +10,11 @@
         padding: 10px;
         background: #f5f7fb;
         color: #111;
-        font-size: 13px;
+        @include typo.font(b4, rg);
 
         span:nth-child(2) {
             align-self: center;
-            font-size: 60px;
+            @include typo.font(d5, rg);
             opacity: 0.35;
         }
     }
@@ -22,18 +24,18 @@
         margin-top: -6px;
         text-align: right;
         white-space: nowrap;
-        font-size: 19px;
+        @include typo.font(t5, rg);
     }
 
     h2 {
         margin: 25px 0 0;
-        font-size: 21px;
+        @include typo.font(t4, sb);
     }
 
-    > small,
+    >small,
     &__numbers span {
         color: var(--fc-passport-label, #a8afd9);
-        font-size: 11px;
+        @include typo.font(c3, rg);
     }
 
     &__numbers {
@@ -52,7 +54,7 @@
         }
 
         strong {
-            font-size: 22px;
+            @include typo.font(t4, sb);
         }
     }
 
@@ -60,7 +62,7 @@
         display: flex;
         justify-content: space-between;
         margin: 25px 0 7px;
-        font-size: 15px;
+        @include typo.font(b2, sb);
     }
 
     h3 small {
@@ -79,12 +81,12 @@
         color: inherit;
         text-align: left;
 
-        > span {
+        >span {
             flex: none;
-            font-size: 20px;
+            @include typo.font(t4, rg);
         }
 
-        > div {
+        >div {
             display: flex;
             flex: 1;
             flex-direction: column;
@@ -93,14 +95,14 @@
 
         small {
             color: var(--fc-text-secondary, #999);
-            font-size: 10px;
+            @include typo.font(c3, rg);
         }
 
         strong {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            font-size: 13px;
+            @include typo.font(b4, sb);
         }
     }
 }

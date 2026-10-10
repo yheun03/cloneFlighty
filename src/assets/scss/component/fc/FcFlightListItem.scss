@@ -1,3 +1,5 @@
+@use "../../common/typography" as typo;
+
 .fc-flight-list {
     display: flex;
     align-items: center;
@@ -13,8 +15,7 @@
         width: 54px;
 
         strong {
-            font-size: 30px;
-            line-height: 1;
+            @include typo.font(h3, sb);
         }
 
         small {
@@ -30,7 +31,7 @@
         height: 54px;
         border: 3px solid var(--fc-border, white);
         border-radius: 50%;
-        font-size: 31px;
+        @include typo.font(h3, rg);
     }
 
     &__content {
@@ -43,22 +44,22 @@
         justify-content: space-between;
         gap: 8px;
         color: var(--fc-text-secondary, #aaa);
-        font-size: 14px;
+        @include typo.font(b3, rg);
     }
 
-    &__content > strong {
+    &__content>strong {
         display: block;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        font-size: 19px;
+        @include typo.font(t5, sb);
     }
 
     &__sub {
         color: var(--fc-text-secondary, #999);
-        font-size: 14px;
+        @include typo.font(b3, rg);
 
-        > span {
+        >span {
             display: inline-block;
             margin: 4px 5px 0 0;
             padding: 0 5px;
@@ -74,7 +75,7 @@
         height: 35px;
         background: none;
         color: var(--fc-text-strong, white);
-        font-size: 24px;
+        @include typo.font(t3, rg);
     }
 
     &__avatar {

@@ -1,3 +1,5 @@
+@use "../../common/typography" as typo;
+
 .fc-delay-report {
     &__brand {
         display: flex;
@@ -5,26 +7,24 @@
         align-items: center;
         padding-bottom: 8px;
         border-bottom: 2px solid #ffc832;
-        font-size: 18px;
-        font-weight: 800;
+        @include typo.font(t5, sb);
 
         strong {
             color: #ffc832;
-            font-size: 15px;
+            @include typo.font(b2, sb);
         }
     }
 
     &__percent {
         display: block;
         margin-top: 20px;
-        font-size: 55px;
-        line-height: 1;
+        @include typo.font(d6, sb);
     }
 
     h2,
     h3 {
         margin: 4px 0 0;
-        font-size: 23px;
+        @include typo.font(h5, sb);
     }
 
     h3 {
@@ -34,7 +34,7 @@
     p {
         margin: 0;
         color: #ed817c;
-        font-size: 14px;
+        @include typo.font(b3, rg);
     }
 
     &__stripe {
@@ -46,6 +46,6 @@
     &__big {
         display: block;
         margin-top: 8px;
-        font-size: 30px;
+        @include typo.font(h3, sb);
     }
 }

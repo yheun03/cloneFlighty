@@ -1,3 +1,5 @@
+@use "../common/typography" as typo;
+
 .passport-page {
     &__card {
         margin-top: 10px;
@@ -6,13 +8,12 @@
 
         h2 {
             margin: 0;
-            font-size: 23px;
-            line-height: 1.25;
+            @include typo.font(h5, sb);
         }
 
         p {
             margin: 6px 0;
-            font-size: 14px;
+            @include typo.font(b3, rg);
         }
 
         &--passport {
@@ -38,19 +39,18 @@
 
     .fc-passport h2 {
         margin: 0;
-        font-size: 22px;
+        @include typo.font(h5, sb);
     }
 
     .fc-passport__numbers {
         margin: 18px 0;
 
         strong {
-            font-size: 27px;
-            line-height: 1.4;
+            @include typo.font(h4, sb);
         }
 
         span {
-            font-size: 13px;
+            @include typo.font(c1, rg);
         }
     }
 
@@ -64,11 +64,10 @@
         border-radius: 8px;
         background: #ffffff18;
         color: inherit;
-        font-weight: 600;
+        @include typo.font(btn1, sb);
 
         span {
-            font-size: 22px;
-            line-height: 1;
+            @include typo.font(h6, rg);
         }
     }
 
@@ -79,22 +78,20 @@
     &__large {
         display: block;
         margin-bottom: 16px;
-        font-size: clamp(40px, 8vw, 56px);
-        line-height: 1.2;
+        @include typo.font(h1, sb);
     }
 
     &__plane {
         margin: 24px 0;
         color: #44a8d3;
         text-align: center;
-        font-size: 90px;
-        line-height: 1;
+        @include typo.font(d2, rg);
     }
 
     &__past-title {
         margin: 22px 0 10px;
         color: var(--fc-text-heading, #ccc);
-        font-size: 24px;
+        @include typo.font(h5, sb);
     }
 
     &__history {
@@ -113,13 +110,12 @@
             padding: 0 0 8px;
             border-bottom: 1px solid var(--fc-border, #333);
             color: var(--fc-text-heading, #ccc);
-            font-size: 17px;
+            @include typo.font(t5, sb);
         }
 
         h3 small {
             color: var(--fc-text-secondary, #888);
-            font-size: 11px;
-            font-weight: 400;
+            @include typo.font(c3, rg);
         }
 
         .fc-flight-list__logo {
@@ -128,15 +124,15 @@
             border: 0;
             border-radius: 0;
             background: var(--fc-control-bg, #444);
-            font-size: 18px;
+            @include typo.font(t5, rg);
         }
 
         .fc-flight-list__meta {
-            font-size: 11px;
+            @include typo.font(c3, rg);
         }
 
-        .fc-flight-list__content > strong {
-            font-size: 14px;
+        .fc-flight-list__content>strong {
+            @include typo.font(b3, sb);
         }
 
         .fc-flight-list__sub {
@@ -152,7 +148,7 @@
         }
 
         .fc-passport h2 {
-            font-size: 19px;
+            @include typo.font(h6, sb);
         }
     }
 }

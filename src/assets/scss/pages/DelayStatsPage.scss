@@ -1,3 +1,5 @@
+@use "../common/typography" as typo;
+
 .delay-stats-page {
     .fc-delay-report__brand {
         display: none;
@@ -11,21 +13,21 @@
         flex-wrap: wrap;
 
         strong {
-            font-size: 48px;
+            @include typo.font(h1, sb);
         }
 
         span {
-            font-size: 22px;
+            @include typo.font(h6, rg);
         }
     }
 
     .fc-performance__delay {
         grid-template-columns: 78px 58px 62px minmax(0, 1fr);
         gap: 3px;
-        font-size: 11px;
+        @include typo.font(c3, rg);
 
         small {
-            font-size: 10px;
+            @include typo.font(c3, rg);
             text-align: right;
         }
     }

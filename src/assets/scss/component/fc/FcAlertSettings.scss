@@ -1,16 +1,18 @@
+@use "../../common/typography" as typo;
+
 .fc-alerts {
     margin-top: 20px;
 
-    & + .fc-alerts {
+    &+.fc-alerts {
         margin-top: 45px;
     }
 
     h2 {
         margin: 0 0 6px;
-        font-size: 27px;
+        @include typo.font(h4, sb);
     }
 
-    > p {
+    >p {
         margin: 0 0 20px;
     }
 
@@ -25,19 +27,19 @@
             border-color: var(--fc-link, #1685ff);
         }
 
-        > div {
+        >div {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        > div > span {
-            font-size: 23px;
+        >div>span {
+            @include typo.font(h5, rg);
         }
 
         strong {
             flex: 1;
-            font-size: 17px;
+            @include typo.font(t5, sb);
         }
 
         .fc-switch {
@@ -48,7 +50,7 @@
         p {
             margin: 2px 0 0;
             color: var(--fc-text-secondary, #aaa);
-            font-size: 13px;
+            @include typo.font(b4, rg);
         }
     }
 
@@ -58,14 +60,14 @@
         gap: 12px;
         margin-bottom: 20px;
 
-        > span {
+        >span {
             width: 48px;
             height: 48px;
             border-radius: 50%;
             background: white;
         }
 
-        > div {
+        >div {
             display: flex;
             flex-direction: column;
         }
@@ -90,6 +92,6 @@
         border-radius: 9px;
         background: var(--fc-danger-bg, #3a2021);
         color: var(--fc-danger, #ff5049);
-        font-weight: 700;
+        @include typo.font(btn1, sb);
     }
 }

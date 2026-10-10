@@ -1,10 +1,12 @@
+@use "../../common/typography" as typo;
+
 .fc-paste-field {
     label {
         margin: 20px 0 10px;
-        font-size: 20px;
+        @include typo.font(t4, sb);
     }
 
-    > div {
+    >div {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -13,7 +15,7 @@
         background: var(--fc-control-bg, #303030);
     }
 
-    > div > span {
+    >div>span {
         color: var(--fc-placeholder, #777);
     }
 

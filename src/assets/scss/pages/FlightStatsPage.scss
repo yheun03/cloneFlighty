@@ -1,18 +1,20 @@
+@use "../common/typography" as typo;
+
 .stats-page {
     &__flight-tabs {
         display: flex;
         align-items: baseline;
         gap: 8px;
 
-        > span {
+        >span {
             color: var(--fc-text-secondary, #aaa);
-            font-size: 11px;
+            @include typo.font(c3, rg);
         }
 
         .fc-periods button {
             padding: 3px 7px;
             border-radius: 4px;
-            font-size: 12px;
+            @include typo.font(btn4, rg);
         }
     }
 

@@ -1,8 +1,10 @@
-.stats-page > .fc-distance,
-.stats-page > .fc-performance,
-.stats-page > .fc-top-airlines,
-.stats-page > .fc-countries,
-.stats-page > .fc-frequent-tails,
+@use "../common/typography" as typo;
+
+.stats-page>.fc-distance,
+.stats-page>.fc-performance,
+.stats-page>.fc-top-airlines,
+.stats-page>.fc-countries,
+.stats-page>.fc-frequent-tails,
 .stats-page__section {
     margin: 48px 0;
 }
@@ -13,14 +15,14 @@
 
         h2 {
             color: var(--fc-text-heading, #ccc);
-            font-size: 19px;
+            @include typo.font(h6, sb);
         }
 
         .fc-button {
             padding: 5px 8px;
             border-color: var(--fc-border, #444);
             border-radius: 6px;
-            font-size: 12px;
+            @include typo.font(btn4, sb);
         }
     }
 
@@ -30,21 +32,21 @@
         margin-bottom: 8px;
 
         strong {
-            font-size: 44px;
+            @include typo.font(h1, sb);
         }
 
         span {
-            font-size: 22px;
+            @include typo.font(h6, rg);
         }
     }
 
     .fc-top-airlines__bar {
         grid-template-columns: 54px minmax(0, 1fr) 28px;
-        font-size: 12px;
+        @include typo.font(c2, rg);
     }
 
     .fc-stat-more {
         padding: 8px 0;
-        font-size: 13px;
+        @include typo.font(b4, rg);
     }
 }

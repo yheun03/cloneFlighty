@@ -1,3 +1,5 @@
+@use "../common/typography" as typo;
+
 .aircraft-stats-page {
     .fc-aircraft-stats__featured {
         height: 160px;
@@ -8,9 +10,9 @@
 
     &__seat-summary {
         margin: 24px 0;
-        font-size: 12px;
+        @include typo.font(c2, rg);
 
-        > div:first-child {
+        >div:first-child {
             display: flex;
             justify-content: space-between;
         }
@@ -41,14 +43,12 @@
         margin: 48px 0;
     }
 
-    &__age .fc-aircraft-stats > p {
-        font-size: 36px;
-        font-weight: 600;
+    &__age .fc-aircraft-stats>p {
+        @include typo.font(h2, sb);
 
         small {
             display: block;
-            font-size: 14px;
-            font-weight: 400;
+            @include typo.font(b3, rg);
         }
     }
 }
