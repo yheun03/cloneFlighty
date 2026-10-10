@@ -10,7 +10,7 @@
             </div>
             <ul class="fc-gallery__meta" aria-label="갤러리 구성">
                 <!-- prettier-ignore -->
-                <li><strong>27</strong>개 컴포넌트</li>
+                <li><strong>26</strong>개 컴포넌트</li>
                 <li>JSON 더미 데이터</li>
                 <li>상태 미리보기</li>
             </ul>
@@ -118,52 +118,39 @@
                         토글 스위치
                     </h2>
                     <p class="fc-gallery__description">
-                        켜짐 · 꺼짐 · 비활성 상태
+                        버튼 · 체크박스 · 라디오 · 비활성 상태
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-toggle" tabindex="0">
                     <div class="fc-gallery__row">
                         <FcToggleSwitch v-model="enabled" label="알림" />
-                        <FcToggleSwitch v-model="secondaryEnabled" label="꺼짐" />
+                        <FcToggleSwitch v-model="secondaryEnabled" type="checkbox" label="체크박스" />
+                        <FcToggleSwitch v-model="switchRadio" type="radio" value="selected" label="라디오" />
                         <FcToggleSwitch :model-value="false" label="비활성 상태" disabled />
                     </div>
                 </div>
             </section>
             <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
-                aria-labelledby="gallery-choice">
+                aria-labelledby="gallery-tab-item">
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        FcChoiceChip
+                        FcTabItem
                     </p>
-                    <h2 id="gallery-choice">
-                        선택 칩
+                    <h2 id="gallery-tab-item">
+                        탭 아이템
                     </h2>
                     <p class="fc-gallery__description">
-                        좌석 위치 선택과 활성 상태
+                        MD · SM / Fill · Stroke / Tab · Checkbox · Radio
                     </p>
                 </header>
-                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-choice" tabindex="0">
-                    <div class="fc-gallery__row">
-                        <FcChoiceChip v-for="item in componentData.positions" :key="item" :label="item" :icon="chipIcon"
-                            :active="seat === item" :filled="seat === item" @click="seat = item" />
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-tab-item" tabindex="0">
+                    <div v-for="item in componentData.tabItems" :key="item.id">
+                        <p class="fc-gallery__sample-label">
+                            {{ item.label }}
+                        </p>
+                        <FcTabItem v-model="tabSelections[item.id]" :items="componentData.positions" :icon="item.icon"
+                            :size="item.size" :variant="item.variant" :type="item.type" :label="item.label" />
                     </div>
-                </div>
-            </section>
-            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
-                aria-labelledby="gallery-periods">
-                <header class="fc-gallery__group-heading">
-                    <p class="fc-gallery__component-name">
-                        FcPeriodTabs
-                    </p>
-                    <h2 id="gallery-periods">
-                        기간 탭
-                    </h2>
-                    <p class="fc-gallery__description">
-                        기간별 선택 상태
-                    </p>
-                </header>
-                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-periods" tabindex="0">
-                    <FcPeriodTabs v-model="period" :items="componentData.periods" />
                 </div>
             </section>
             <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
@@ -404,7 +391,7 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-performance" tabindex="0">
-                    <FcPeriodTabs v-model="performanceSection" :items="componentData.performanceSections"
+                    <FcTabItem v-model="performanceSection" :items="componentData.performanceSections"
                         label="운항 성과 예시" />
                     <FcAirlinePerformance :key="performanceSection" :report="componentData.performance"
                         :section="performanceSection" />
@@ -424,7 +411,7 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-seats" tabindex="0">
-                    <FcPeriodTabs v-model="seatMode" :items="componentData.seatModes" label="좌석 통계 예시" />
+                    <FcTabItem v-model="seatMode" :items="componentData.seatModes" label="좌석 통계 예시" />
                     <FcSeatStats :mode="componentData.seats[seatMode].mode"
                         :top-label="componentData.seats[seatMode].topLabel"
                         :top-value="componentData.seats[seatMode].topValue" :rows="componentData.seats[seatMode].rows"
@@ -520,7 +507,7 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-alerts" tabindex="0">
-                    <FcPeriodTabs v-model="alertMode" :items="componentData.alertModes" label="항공편 알림 예시" />
+                    <FcTabItem v-model="alertMode" :items="componentData.alertModes" label="항공편 알림 예시" />
                     <FcAlertSettings :key="alertMode" :mode="alertMode"
                         :title="alertMode === 'mine' ? 'My Flight Alerts' : 'Customize Alerts'" :desc="alertMode === 'mine'
                             ? 'Pick the notification types you receive for your flights.'
@@ -580,8 +567,7 @@ import BaseButton from "../component/base/BaseButton.vue";
 import BaseInput from "../component/base/BaseInput.vue";
 import FcIcon from "../component/fc/FcIcon.vue";
 import FcToggleSwitch from "../component/fc/FcToggleSwitch.vue";
-import FcChoiceChip from "../component/fc/FcChoiceChip.vue";
-import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
+import FcTabItem from "../component/fc/FcTabItem.vue";
 import FcCountBadge from "../component/fc/FcCountBadge.vue";
 import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
 import FcListRow from "../component/fc/FcListRow.vue";
@@ -604,8 +590,6 @@ import FcCountriesStats from "../component/fc/FcCountriesStats.vue";
 import FcTopAirlines from "../component/fc/FcTopAirlines.vue";
 import FcFlightDistanceStats from "../component/fc/FcFlightDistanceStats.vue";
 
-import chipIcon from "../assets/icons/lucide/square.svg";
-
 import airports from "../common/airports.js";
 import airlines from "../common/airlines.js";
 
@@ -614,8 +598,7 @@ import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcToggleSwitch.scss";
-import "../assets/scss/component/fc/FcChoiceChip.scss";
-import "../assets/scss/component/fc/FcPeriodTabs.scss";
+import "../assets/scss/component/fc/FcTabItem.scss";
 import "../assets/scss/component/fc/FcCountBadge.scss";
 import "../assets/scss/component/fc/FcCalendarPicker.scss";
 import "../assets/scss/component/fc/FcListRow.scss";
@@ -646,12 +629,12 @@ const componentData = {
         {
             "id": "all",
             "label": "전체",
-            "count": 27
+            "count": 26
         },
         {
             "id": "basic",
             "label": "기본 UI",
-            "count": 10
+            "count": 9
         },
         {
             "id": "flight",
@@ -735,6 +718,44 @@ const componentData = {
             "icon": "clipboard-paste",
             "actionLabel": "PASTE",
             "actionValue": "10/5 or Friday"
+        }
+    ],
+    "tabItems": [
+        {
+            "id": "md-stroke",
+            "label": "MD · Stroke · Icon",
+            "size": "md",
+            "variant": "stroke",
+            "type": "checkbox",
+            "icon": "square",
+            "selected": ["Aisle"]
+        },
+        {
+            "id": "md-fill",
+            "label": "MD · Fill",
+            "size": "md",
+            "variant": "fill",
+            "type": "tab",
+            "icon": "",
+            "selected": "Aisle"
+        },
+        {
+            "id": "sm-stroke",
+            "label": "SM · Stroke · Icon",
+            "size": "sm",
+            "variant": "stroke",
+            "type": "radio",
+            "icon": "square",
+            "selected": "Aisle"
+        },
+        {
+            "id": "sm-fill",
+            "label": "SM · Fill",
+            "size": "sm",
+            "variant": "fill",
+            "type": "tab",
+            "icon": "",
+            "selected": "Aisle"
         }
     ],
     "icons": [
@@ -1466,13 +1487,17 @@ const inputValues = ref(
         componentData.inputs.map((item) => [item.id, item.value]),
     ),
 );
+const tabSelections = ref(
+    Object.fromEntries(
+        componentData.tabItems.map((item) => [item.id, item.selected]),
+    ),
+);
 const performanceSection = ref("mine");
 const seatMode = ref("seat");
 const alertMode = ref("mine");
 const enabled = ref(true);
 const secondaryEnabled = ref(false);
-const seat = ref("Aisle");
-const period = ref("2024");
+const switchRadio = ref("");
 const day = ref(20);
 const reason = ref("");
 const completed = ref(false);

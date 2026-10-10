@@ -1,6 +1,6 @@
 <template>
     <section class="frame-page stats-page aircraft-stats-page" @click="share">
-        <FcPeriodTabs v-model="period" :items="pageData.periods" />
+        <FcTabItem v-model="period" :items="pageData.periods" />
         <FcAircraftStats :aircraft="pageData.aircraft" :show-period="false" :show-age="false" />
         <div class="aircraft-stats-page__seat-summary">
             <div>
@@ -49,7 +49,7 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 import BaseButton from "../component/base/BaseButton.vue";
-import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
+import FcTabItem from "../component/fc/FcTabItem.vue";
 import FcAircraftStats from "../component/fc/FcAircraftStats.vue";
 import FcTopAirlines from "../component/fc/FcTopAirlines.vue";
 import FcSeatStats from "../component/fc/FcSeatStats.vue";
@@ -61,7 +61,7 @@ import shareIcon from "../assets/icons/lucide/share-2.svg";
 
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcPeriodTabs.scss";
+import "../assets/scss/component/fc/FcTabItem.scss";
 import "../assets/scss/component/fc/_stats.scss";
 import "../assets/scss/component/fc/FcAircraftStats.scss";
 import "../assets/scss/component/fc/FcSeatStats.scss";

@@ -2,7 +2,7 @@
 import { ref } from "vue";
 
 import FcIcon from "./FcIcon.vue";
-import FcPeriodTabs from "./FcPeriodTabs.vue";
+import FcTabItem from "./FcTabItem.vue";
 
 import planeIcon from "../../assets/icons/lucide/plane.svg";
 import earthIcon from "../../assets/icons/lucide/earth.svg";
@@ -34,23 +34,15 @@ const period = ref(props.periods[0]);
 
 <template>
     <div class="fc-passport">
-        <FcPeriodTabs
-            v-if="showPeriod"
-            v-model="period"
-            :items="periods"
-        />
-        <div
-            v-if="showMap"
-            class="fc-passport__map"
-        >
+        <FcTabItem v-if="showPeriod" v-model="period" :items="periods" />
+        <div v-if="showMap" class="fc-passport__map">
             <span>{{ mapFrom }}</span>
-            <span><FcIcon :src="earthIcon" /></span>
+            <span>
+                <FcIcon :src="earthIcon" />
+            </span>
             <span>{{ mapTo }}</span>
         </div>
-        <div
-            v-if="showMap"
-            class="fc-passport__flags"
-        >
+        <div v-if="showMap" class="fc-passport__flags">
             {{ flags }}
         </div>
         <h2>MY FLIGHTY PASSPORT</h2>
@@ -82,13 +74,8 @@ const period = ref(props.periods[0]);
                 {{ historyTitle }}
                 <small>{{ historyCount }}</small>
             </h3>
-            <button
-                v-for="flight in recent"
-                :key="flight.id"
-                class="fc-passport__flight"
-                type="button"
-                @click="$emit('select', flight)"
-            >
+            <button v-for="flight in recent" :key="flight.id" class="fc-passport__flight" type="button"
+                @click="$emit('select', flight)">
                 <span>
                     <FcIcon :src="planeIcon" />
                 </span>

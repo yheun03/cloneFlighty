@@ -11,11 +11,6 @@
             @include typo.font(c3, rg);
         }
 
-        .fc-periods button {
-            padding: 3px 7px;
-            border-radius: 4px;
-            @include typo.font(btn4, rg);
-        }
     }
 
     &__line-chart {

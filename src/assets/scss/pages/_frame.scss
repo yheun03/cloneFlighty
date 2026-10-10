@@ -89,15 +89,8 @@
         @include typo.font(b3, rg);
     }
 
-    .fc-periods {
-        gap: 5px;
+    .fc-tab-items {
         margin-bottom: 10px;
-
-        button {
-            padding: 6px 9px;
-            border-radius: 7px;
-            @include typo.font(btn2, rg);
-        }
     }
 
     .fc-list-row__avatar {

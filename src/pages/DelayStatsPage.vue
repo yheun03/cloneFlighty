@@ -1,6 +1,6 @@
 <template>
     <section class="frame-page stats-page delay-stats-page" @click="share">
-        <FcPeriodTabs v-model="period" :items="pageData.periods" />
+        <FcTabItem v-model="period" :items="pageData.periods" />
         <FcDelayReport v-bind="pageData.report" />
         <FcAirlinePerformance :report="pageData.performance" section="mine" />
         <FcAirlinePerformance :report="pageData.performance" section="delays" />
@@ -17,7 +17,7 @@ import { ref } from "vue";
 
 import { useRoute } from "vue-router";
 
-import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
+import FcTabItem from "../component/fc/FcTabItem.vue";
 import FcDelayReport from "../component/fc/FcDelayReport.vue";
 import FcAirlinePerformance from "../component/fc/FcAirlinePerformance.vue";
 
@@ -25,7 +25,7 @@ import airlines from "../common/airlines.js";
 
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcPeriodTabs.scss";
+import "../assets/scss/component/fc/FcTabItem.scss";
 import "../assets/scss/component/fc/_stats.scss";
 import "../assets/scss/component/fc/FcDelayReport.scss";
 import "../assets/scss/component/fc/FcAirlinePerformance.scss";

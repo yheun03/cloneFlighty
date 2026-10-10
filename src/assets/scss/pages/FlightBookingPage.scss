@@ -49,19 +49,7 @@
         margin-top: 8px;
     }
 
-    .fc-chip {
-        padding: 6px 8px;
-        @include typo.font(btn3, rg);
-    }
-
     .fc-paste-field {
         margin: 0;
-    }
-
-    .app[data-theme="light"] & {
-        .fc-chip:not(.is-active) {
-            background: transparent;
-            color: var(--fc-text);
-        }
     }
 }

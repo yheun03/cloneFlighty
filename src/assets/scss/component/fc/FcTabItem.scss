@@ -1,0 +1,55 @@
+@use "../../common/typography" as typo;
+
+.fc-tab-items {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.fc-tab-item {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--fc-text-strong, white);
+
+    &--md {
+        min-height: 36px;
+        padding: 5px 13px;
+        border-radius: 10px;
+        @include typo.font(btn1, sb);
+
+        >.fc-icon {
+            @include typo.font(t4, rg);
+        }
+    }
+
+    &--sm {
+        min-height: 28px;
+        padding: 3px 10px;
+        border-radius: 8px;
+        @include typo.font(btn2, sb);
+
+        >.fc-icon {
+            @include typo.font(b1, rg);
+        }
+    }
+
+    &--stroke {
+        border-color: var(--fc-border, #4b4b4b);
+    }
+
+    &--stroke.is-active {
+        border-color: var(--fc-blue, #087bfa);
+        background: var(--fc-chip-bg, #1c3551);
+        color: var(--fc-link, #1685ff);
+    }
+
+    &--fill.is-active {
+        background: var(--fc-selected-bg, #333);
+    }
+}

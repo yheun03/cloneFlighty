@@ -5,26 +5,16 @@
             Set your preferred units for this device. Other units can be changed
             in your device settings.
         </p>
-        <section
-            class="units-page__section"
-            aria-labelledby="speed-title"
-        >
+        <section class="units-page__section" aria-labelledby="speed-title">
             <h2 id="speed-title">
                 <FcIcon :src="speedIcon" />
                 Aircraft Speed
             </h2>
             <p>Speed relative to the ground.</p>
-            <FcPeriodTabs
-                v-model="speed"
-                class="units-page__segments"
-                :items="pageData.speedUnits"
-                label="Aircraft speed unit"
-            />
+            <FcTabItem v-model="speed" class="units-page__segments" :items="pageData.speedUnits"
+                label="Aircraft speed unit" />
         </section>
-        <section
-            class="units-page__section"
-            aria-labelledby="altitude-title"
-        >
+        <section class="units-page__section" aria-labelledby="altitude-title">
             <h2 id="altitude-title">
                 <FcIcon :src="speedIcon" />
                 Altitude
@@ -33,12 +23,8 @@
                 Zero on the ground, and “Standard Pressure Setting” in flight to
                 ensure consistent flight levels worldwide.
             </p>
-            <FcPeriodTabs
-                v-model="altitude"
-                class="units-page__segments"
-                :items="pageData.altitudeUnits"
-                label="Altitude unit"
-            />
+            <FcTabItem v-model="altitude" class="units-page__segments" :items="pageData.altitudeUnits"
+                label="Altitude unit" />
         </section>
     </section>
 </template>
@@ -47,12 +33,12 @@
 import { ref } from "vue";
 
 import FcIcon from "../component/fc/FcIcon.vue";
-import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
+import FcTabItem from "../component/fc/FcTabItem.vue";
 
 import speedIcon from "../assets/icons/lucide/clock-3.svg";
 
 import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcPeriodTabs.scss";
+import "../assets/scss/component/fc/FcTabItem.scss";
 import "../assets/scss/pages/UnitsPage.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.

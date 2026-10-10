@@ -2,7 +2,7 @@
 import { ref } from "vue";
 
 import FcIcon from "./FcIcon.vue";
-import FcPeriodTabs from "./FcPeriodTabs.vue";
+import FcTabItem from "./FcTabItem.vue";
 
 import planeIcon from "../../assets/icons/lucide/plane.svg";
 
@@ -22,11 +22,7 @@ const period = ref(props.aircraft.periods[0]);
 
 <template>
     <div class="fc-aircraft-stats">
-        <FcPeriodTabs
-            v-if="showPeriod"
-            v-model="period"
-            :items="aircraft.periods"
-        />
+        <FcTabItem v-if="showPeriod" v-model="period" :items="aircraft.periods" />
         <template v-if="showOverview">
             <div class="fc-aircraft-stats__numbers">
                 <div>
@@ -61,10 +57,7 @@ const period = ref(props.aircraft.periods[0]);
                 <small>median age</small>
             </p>
             <div class="fc-aircraft-stats__ages">
-                <div
-                    v-for="age in aircraft.ages"
-                    :key="age.label"
-                >
+                <div v-for="age in aircraft.ages" :key="age.label">
                     <i :style="{ height: `${age.value * 5}px` }"></i>
                     <span>{{ age.label }}</span>
                 </div>

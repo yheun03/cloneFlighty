@@ -66,12 +66,6 @@
 
         button {
             flex: 1;
-            min-height: 38px;
-        }
-
-        .is-active {
-            background: var(--fc-chip-bg, #1c3551);
-            color: var(--fc-link, #1685ff);
         }
     }
 }

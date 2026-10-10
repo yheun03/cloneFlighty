@@ -24,16 +24,6 @@
 
         button {
             flex: 1;
-            padding: 4px 8px;
-            border: 0;
-            border-radius: 18px;
-            background: transparent;
-            color: var(--fc-text-strong, white);
-            @include typo.font(btn1, rg);
-        }
-
-        .is-active {
-            background: var(--fc-segment-selected, #666);
         }
     }
 }

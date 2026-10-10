@@ -1,6 +1,6 @@
 <template>
     <section class="frame-page stats-page" @click="share">
-        <FcPeriodTabs v-model="period" :items="pageData.periods" />
+        <FcTabItem v-model="period" :items="pageData.periods" />
         <FcPassportOverview v-bind="pageData.overview" :show-period="false" :show-history="false" />
         <section class="stats-page__section">
             <div class="fc-stat-head">
@@ -19,7 +19,7 @@
             </p>
             <div class="stats-page__flight-tabs">
                 <span>FLIGHTS PER</span>
-                <FcPeriodTabs v-model="metric" :items="pageData.metrics" />
+                <FcTabItem v-model="metric" :items="pageData.metrics" size="sm" />
             </div>
             <svg class="stats-page__line-chart" viewBox="0 0 280 170" role="img" :aria-label="`Flights per ${metric}`">
                 <polyline :points="pageData.points[metric]" fill="none" stroke="var(--fc-chart-line)"
@@ -46,7 +46,7 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
 import BaseButton from "../component/base/BaseButton.vue";
-import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
+import FcTabItem from "../component/fc/FcTabItem.vue";
 import FcPassportOverview from "../component/fc/FcPassportOverview.vue";
 import FcFlightDistanceStats from "../component/fc/FcFlightDistanceStats.vue";
 import FcTopAirlines from "../component/fc/FcTopAirlines.vue";
@@ -58,7 +58,7 @@ import shareIcon from "../assets/icons/lucide/share-2.svg";
 
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcPeriodTabs.scss";
+import "../assets/scss/component/fc/FcTabItem.scss";
 import "../assets/scss/component/fc/_stats.scss";
 import "../assets/scss/component/fc/FcPassportOverview.scss";
 import "../assets/scss/component/fc/FcCountriesStats.scss";

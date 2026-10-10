@@ -1,6 +1,6 @@
 <template>
     <section class="frame-page passport-page">
-        <FcPeriodTabs v-model="period" :items="pageData.periods" />
+        <FcTabItem v-model="period" :items="pageData.periods" />
         <div class="passport-page__card passport-page__card--passport">
             <FcPassportOverview v-bind="pageData.overview" :show-period="false" :show-map="false"
                 :show-history="false" />
@@ -42,7 +42,7 @@
             </RouterLink>
         </div>
         <h2 class="passport-page__past-title">Past Flights</h2>
-        <FcPeriodTabs v-model="group" :items="pageData.groups" label="Group past flights" />
+        <FcTabItem v-model="group" :items="pageData.groups" label="Group past flights" />
         <div v-for="history in pageData.historyGroups" :key="history.id" class="passport-page__history">
             <h3>
                 {{ history.labels[group] }}
@@ -64,7 +64,7 @@ import { ref } from "vue";
 
 import { useRoute } from "vue-router";
 
-import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
+import FcTabItem from "../component/fc/FcTabItem.vue";
 import FcPassportOverview from "../component/fc/FcPassportOverview.vue";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 import FcIcon from "../component/fc/FcIcon.vue";
@@ -74,7 +74,7 @@ import airlines from "../common/airlines.js";
 import planeIcon from "../assets/icons/lucide/plane.svg";
 
 import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcPeriodTabs.scss";
+import "../assets/scss/component/fc/FcTabItem.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
 import "../assets/scss/component/fc/FcPassportOverview.scss";
 import "../assets/scss/pages/PassportPage.scss";
