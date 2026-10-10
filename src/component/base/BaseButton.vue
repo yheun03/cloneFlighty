@@ -1,8 +1,10 @@
 <script setup>
+import { computed } from "vue";
+
 import FcIcon from "../fc/FcIcon.vue";
 
-defineProps({
-    label: { type: String, default: "Show More" },
+const props = defineProps({
+    label: { type: String, default: "" },
     size: {
         type: String,
         default: "md",
@@ -20,6 +22,7 @@ defineProps({
             ["default", "red", "gray", "primary"].includes(value),
     },
     icon: { type: String, default: "" },
+    iconSize: { type: [String, Number], default: "" },
     type: {
         type: String,
         default: "button",
@@ -29,13 +32,23 @@ defineProps({
 });
 
 defineEmits(["click"]);
+const isIconOnly = computed(() => Boolean(props.icon && !props.label));
+const iconStyle = computed(() => {
+    if (!props.iconSize) return undefined;
+
+    const size =
+        typeof props.iconSize === "number"
+            ? `${props.iconSize}px`
+            : props.iconSize;
+    return { width: size, height: size };
+});
 </script>
 
 <template>
     <!-- prettier-ignore -->
     <button :type="type" class="fc-button"
-        :class="[`fc-button--${size}`, `fc-button--${variant}`, `fc-button--${tone}`]" :disabled="disabled"
-        @click="$emit('click', $event)">
-        <FcIcon v-if="icon" :src="icon" />{{ label }}
+        :class="[`fc-button--${size}`, `fc-button--${variant}`, `fc-button--${tone}`, { 'fc-button--icon-only': isIconOnly }]"
+        :disabled="disabled" @click="$emit('click', $event)">
+        <FcIcon v-if="icon" :src="icon" :style="iconStyle" /><span v-if="label">{{ label }}</span>
     </button>
 </template>

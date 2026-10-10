@@ -10,7 +10,7 @@
             </div>
             <ul class="fc-gallery__meta" aria-label="갤러리 구성">
                 <!-- prettier-ignore -->
-                <li><strong>25</strong>개 컴포넌트</li>
+                <li><strong>24</strong>개 컴포넌트</li>
                 <li>JSON 더미 데이터</li>
                 <li>상태 미리보기</li>
             </ul>
@@ -56,6 +56,8 @@
                     </p>
                     <div class="fc-gallery__row">
                         <BaseButton label="Share" icon="share-2" size="md" variant="fill" tone="default" />
+                        <BaseButton aria-label="이전" icon="chevron-right" :icon-size="16" size="sm" variant="text"
+                            tone="default" />
                         <BaseButton label="Disabled" size="md" variant="fill" tone="default" disabled />
                     </div>
                 </div>
@@ -188,23 +190,6 @@
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-rows" tabindex="0">
                     <FcListRow title="김민지" subtitle="friend@example.com" avatar="M" />
                     <FcListRow title="Invite a Friend" accent />
-                </div>
-            </section>
-            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
-                aria-labelledby="gallery-paste">
-                <header class="fc-gallery__group-heading">
-                    <p class="fc-gallery__component-name">
-                        FcPasteField
-                    </p>
-                    <h2 id="gallery-paste">
-                        붙여넣기 입력
-                    </h2>
-                    <p class="fc-gallery__description">
-                        버튼을 누르면 예시 예약 코드 입력
-                    </p>
-                </header>
-                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-paste" tabindex="0">
-                    <FcPasteField v-model="reason" label="Booking Code" sample-value="ABC123" />
                 </div>
             </section>
             <section v-show="category === 'all' || category === 'flight'" class="fc-gallery__group"
@@ -551,7 +536,6 @@ import FcToggleSwitch from "../component/fc/FcToggleSwitch.vue";
 import FcTabItem from "../component/fc/FcTabItem.vue";
 import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
 import FcListRow from "../component/fc/FcListRow.vue";
-import FcPasteField from "../component/fc/FcPasteField.vue";
 import FcConnectionStatus from "../component/fc/FcConnectionStatus.vue";
 import FcTerminalTimeline from "../component/fc/FcTerminalTimeline.vue";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
@@ -581,7 +565,6 @@ import "../assets/scss/component/fc/FcToggleSwitch.scss";
 import "../assets/scss/component/fc/FcTabItem.scss";
 import "../assets/scss/component/fc/FcCalendarPicker.scss";
 import "../assets/scss/component/fc/FcListRow.scss";
-import "../assets/scss/component/fc/FcPasteField.scss";
 import "../assets/scss/component/fc/FcConnectionStatus.scss";
 import "../assets/scss/component/fc/FcTerminalTimeline.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
@@ -608,12 +591,12 @@ const componentData = {
         {
             "id": "all",
             "label": "전체",
-            "count": 25
+            "count": 24
         },
         {
             "id": "basic",
             "label": "기본 UI",
-            "count": 8
+            "count": 7
         },
         {
             "id": "flight",
@@ -1485,7 +1468,6 @@ const enabled = ref(true);
 const secondaryEnabled = ref(false);
 const switchRadio = ref("");
 const calendarDate = ref("2026-01-06");
-const reason = ref("");
 const completed = ref(false);
 const aircraft = {
     ...componentData.aircraft,

@@ -1,4 +1,5 @@
 .app {
+
     // 다크 모드의 세부 회색은 각 스타일의 var() fallback으로 기존 값을 유지합니다.
     &[data-theme] {
         color-scheme: dark;
@@ -44,7 +45,6 @@
         --fc-attribution-bg: #ffffffbb;
         --fc-chip-bg: #eff8ff;
         --fc-copy-bg: #eff8ff;
-        --fc-paste-bg: #e7e7e7;
         --fc-calendar-marked-bg: #eff8ff;
         --fc-switch-bg: #e5e5e5;
         --fc-success-bg: #edf8f3;

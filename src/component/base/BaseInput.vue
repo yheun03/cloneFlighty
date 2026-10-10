@@ -130,7 +130,7 @@ onBeforeUnmount(removeCalendarListeners);
                 :disabled="disabled" readonly aria-haspopup="dialog" :aria-expanded="isCalendarOpen"
                 @click="openCalendar" @focus="openCalendar" />
         </div>
-        <Teleport to="body">
+        <Teleport to=".app">
             <div v-if="isCalendarOpen" ref="calendarPopover" class="fc-input-calendar__popover"
                 :style="calendarPosition" role="dialog" :aria-label="`${placeholder || '날짜'} 선택`"
                 @keydown.esc="isCalendarOpen = false">

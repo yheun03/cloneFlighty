@@ -9,8 +9,11 @@
                 <button type="button" class="booking-dialog__close" aria-label="Close booking editor" @click="close">
                     ×
                 </button>
-                <FcPasteField v-model="booking.code" label="Booking Code" :placeholder="pageData.bookingCode"
-                    paste-label="PASTE" :sample-value="pageData.bookingCode" />
+                <label class="booking-dialog__label booking-dialog__label--first" for="booking-code">
+                    Booking Code
+                </label>
+                <BaseInput id="booking-code" v-model="booking.code" :placeholder="pageData.bookingCode"
+                    icon="clipboard-paste" action-label="PASTE" @action="booking.code = pageData.bookingCode" />
                 <label class="booking-dialog__label" for="flight-seat">
                     Seat
                 </label>
@@ -38,14 +41,12 @@ import { nextTick, onMounted, onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import BaseInput from "../component/base/BaseInput.vue";
-import FcPasteField from "../component/fc/FcPasteField.vue";
 import FcTabItem from "../component/fc/FcTabItem.vue";
 
 import chipIcon from "../assets/icons/lucide/square.svg";
 
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcTabItem.scss";
-import "../assets/scss/component/fc/FcPasteField.scss";
 import "../assets/scss/pages/FlightBookingPage.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.

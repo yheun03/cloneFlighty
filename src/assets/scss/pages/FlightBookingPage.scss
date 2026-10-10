@@ -40,6 +40,10 @@
         display: block;
         margin: 24px 0 8px;
         @include typo.font(t5, sb);
+
+        &--first {
+            margin-top: 0;
+        }
     }
 
     &__choices {
@@ -49,7 +53,4 @@
         margin-top: 8px;
     }
 
-    .fc-paste-field {
-        margin: 0;
-    }
 }

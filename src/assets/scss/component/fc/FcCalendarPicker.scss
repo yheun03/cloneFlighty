@@ -9,16 +9,11 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        margin-bottom: 15px;
+        margin-bottom: 4px;
     }
 
     &__period {
-        padding: 0;
-        border: 0;
-        background: none;
-        color: var(--fc-text-strong, white);
         text-align: left;
-        @include typo.font(t5, sb);
     }
 
     &__navigation {
@@ -26,21 +21,12 @@
         flex: none;
         gap: 4px;
 
-        button {
-            display: grid;
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            place-items: center;
-            border: 0;
-            border-radius: 8px;
-            background: transparent;
-            color: var(--fc-text-strong, white);
-            @include typo.font(b1, rg);
+        .fc-calendar__previous .fc-icon {
+            transform: rotate(180deg);
+        }
 
-            &:first-child .fc-icon {
-                transform: rotate(180deg);
-            }
+        .fc-icon {
+            @include typo.font(b1, rg);
         }
     }
 
@@ -104,6 +90,7 @@
 
     &__weekday {
         color: var(--fc-text-secondary, #818181);
-        @include typo.font(c2, rg);
+        @include typo.font(b3, rg);
+        min-height: unset !important;
     }
 }

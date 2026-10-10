@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 
-import FcIcon from "./FcIcon.vue";
+import BaseButton from "../base/BaseButton.vue";
 
 const props = defineProps({
     year: { type: Number, required: true },
@@ -76,17 +76,13 @@ watch(
 <template>
     <div class="fc-calendar">
         <header class="fc-calendar__header">
-            <button type="button" class="fc-calendar__period" :aria-expanded="isPeriodOpen"
-                @click="isPeriodOpen = !isPeriodOpen">
-                {{ title }}
-            </button>
+            <BaseButton class="fc-calendar__period" :label="title" size="md" variant="text" tone="default"
+                :aria-expanded="isPeriodOpen" @click="isPeriodOpen = !isPeriodOpen" />
             <div class="fc-calendar__navigation">
-                <button type="button" aria-label="이전 달" @click="moveMonth(-1)">
-                    <FcIcon src="chevron-right" />
-                </button>
-                <button type="button" aria-label="다음 달" @click="moveMonth(1)">
-                    <FcIcon src="chevron-right" />
-                </button>
+                <BaseButton class="fc-calendar__previous" aria-label="이전 달" icon="chevron-right" :icon-size="16"
+                    size="sm" variant="text" tone="default" @click="moveMonth(-1)" />
+                <BaseButton aria-label="다음 달" icon="chevron-right" :icon-size="16" size="sm" variant="text"
+                    tone="default" @click="moveMonth(1)" />
             </div>
         </header>
         <div v-if="isPeriodOpen" class="fc-calendar__period-picker">

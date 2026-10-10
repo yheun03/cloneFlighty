@@ -60,6 +60,22 @@
         color: var(--fc-button-text-color);
     }
 
+    &--icon-only {
+        flex: none;
+        padding: 0;
+
+        &.fc-button--sm {
+            width: 32px;
+            height: 32px;
+        }
+
+        &.fc-button--md,
+        &.fc-button--lg {
+            width: 46px;
+            height: 46px;
+        }
+    }
+
     &:disabled {
         opacity: 0.45;
         cursor: not-allowed;
