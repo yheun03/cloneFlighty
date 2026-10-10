@@ -22,38 +22,22 @@ const visibleCountries = computed(() =>
     <div class="fc-countries">
         <div class="fc-stat-head">
             <h2>Countries &amp; Territories</h2>
-            <BaseButton
-                label="Share"
-                :icon="shareIcon"
-                variant="outline"
-            />
+            <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
         </div>
         <div class="fc-stat-number">
             <strong>{{ total }}</strong>
             <span>total</span>
         </div>
-        <div
-            v-for="country in visibleCountries"
-            :key="country.name"
-            class="fc-countries__row"
-        >
+        <div v-for="country in visibleCountries" :key="country.name" class="fc-countries__row">
             <span>{{ country.flag }}</span>
             <strong>{{ country.name }}</strong>
             <small>{{ country.count }} flights</small>
         </div>
-        <button
-            type="button"
-            class="fc-stat-more"
-            :aria-expanded="expanded"
-            @click="expanded = !expanded"
-        >
+        <button type="button" class="fc-stat-more" :aria-expanded="expanded" @click="expanded = !expanded">
             {{ expanded ? "Show Less" : "Show More" }}
         </button>
         <div class="fc-countries__regions">
-            <div
-                v-for="region in regions"
-                :key="region.name"
-            >
+            <div v-for="region in regions" :key="region.name">
                 <strong>{{ region.name }}</strong>
                 <span>
                     {{ region.count }}

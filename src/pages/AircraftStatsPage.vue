@@ -22,7 +22,7 @@
         <section class="stats-page__section">
             <div class="fc-stat-head">
                 <h2>Class and Seat</h2>
-                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
+                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
             </div>
             <FcSeatStats v-bind="pageData.seats.class" :show-title="false" />
             <FcSeatStats v-bind="pageData.seats.seat" :show-title="false" />
@@ -32,7 +32,7 @@
         <div class="aircraft-stats-page__age">
             <div class="fc-stat-head">
                 <h2>Aircraft Age</h2>
-                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
+                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
             </div>
             <FcAircraftStats :aircraft="pageData.aircraft" :show-period="false" :show-tail="false"
                 :show-overview="false" :show-age-title="false" />

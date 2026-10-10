@@ -34,49 +34,28 @@ const expanded = ref(false);
     <div class="fc-distance">
         <div class="fc-stat-head">
             <h2>{{ title }}</h2>
-            <BaseButton
-                :label="shareLabel"
-                :icon="shareIcon"
-                variant="outline"
-            />
+            <BaseButton :label="shareLabel" :icon="shareIcon" size="sm" variant="fill" tone="default" />
         </div>
         <div class="fc-stat-number">
             <strong>{{ distance }}</strong>
             <span>{{ distanceUnit }}</span>
         </div>
         <p>{{ miles }} {{ milesUnit }}</p>
-        <div
-            v-if="view === 'breakdown' || expanded"
-            class="fc-distance__breakdown"
-        >
-            <div
-                v-for="item in breakdown"
-                :key="item.label"
-            >
+        <div v-if="view === 'breakdown' || expanded" class="fc-distance__breakdown">
+            <div v-for="item in breakdown" :key="item.label">
                 <span>{{ item.label }}</span>
                 <strong>{{ item.value }}</strong>
             </div>
         </div>
-        <div
-            v-else
-            class="fc-distance__comparisons"
-        >
+        <div v-else class="fc-distance__comparisons">
             <strong>{{ averageLabel }}</strong>
-            <span
-                v-for="item in comparisons"
-                :key="item.text"
-            >
+            <span v-for="item in comparisons" :key="item.text">
                 <FcIcon :src="item.icon" />
                 <b>{{ item.text }}</b>
             </span>
         </div>
-        <button
-            v-if="view === 'toggle'"
-            type="button"
-            class="fc-stat-more"
-            :aria-expanded="expanded"
-            @click="expanded = !expanded"
-        >
+        <button v-if="view === 'toggle'" type="button" class="fc-stat-more" :aria-expanded="expanded"
+            @click="expanded = !expanded">
             {{ expanded ? summaryLabel : breakdownLabel }}
         </button>
         <div class="fc-distance__flight">

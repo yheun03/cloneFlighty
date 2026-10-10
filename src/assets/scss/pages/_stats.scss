@@ -17,13 +17,6 @@
             color: var(--fc-text-heading, #ccc);
             @include typo.font(h6, sb);
         }
-
-        .fc-button {
-            padding: 5px 8px;
-            border-color: var(--fc-border, #444);
-            border-radius: 6px;
-            @include typo.font(btn4, sb);
-        }
     }
 
     .fc-stat-number {

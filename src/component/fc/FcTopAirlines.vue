@@ -53,7 +53,7 @@ const chartItems = computed(() => {
     <div class="fc-top-airlines">
         <div class="fc-stat-head">
             <h2>{{ title }}</h2>
-            <BaseButton label="Share" :icon="shareIcon" variant="outline" />
+            <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
         </div>
         <div class="fc-stat-number">
             <strong>{{ total }}</strong>

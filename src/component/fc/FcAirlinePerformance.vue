@@ -52,7 +52,7 @@ function airlineLogo(value) {
         <template v-if="['all', 'airline', 'airport'].includes(section)">
             <div class="fc-stat-head">
                 <h2>{{ performanceTitle }}</h2>
-                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
+                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
             </div>
             <div class="fc-performance__headline">
                 <strong>{{ performanceHeadline }}</strong>
@@ -77,7 +77,7 @@ function airlineLogo(value) {
         <template v-if="['all', 'mine'].includes(section)">
             <div class="fc-stat-head">
                 <h2>My Performance</h2>
-                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
+                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
             </div>
             <div class="fc-performance__headline">
                 <strong>{{ report.cumulative }}</strong>
@@ -98,7 +98,7 @@ function airlineLogo(value) {
         <template v-if="['all', 'delays'].includes(section)">
             <div class="fc-stat-head">
                 <h2>Arrival Delays</h2>
-                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
+                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
             </div>
             <div class="fc-stat-number">
                 <strong>{{ report.delayTotal }}</strong>

@@ -136,11 +136,6 @@
         padding: 18px 16px;
         scrollbar-width: thin;
         scrollbar-color: var(--fc-scrollbar, #454545) transparent;
-
-        .fc-button:disabled {
-            opacity: 0.45;
-            cursor: not-allowed;
-        }
     }
 
     &__row {

@@ -5,7 +5,7 @@
         <section class="stats-page__section">
             <div class="fc-stat-head">
                 <h2>Flights</h2>
-                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
+                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
             </div>
             <div class="fc-stat-number">
                 <strong>{{ pageData.flights.total }}</strong>

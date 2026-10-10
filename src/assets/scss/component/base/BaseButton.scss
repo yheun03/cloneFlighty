@@ -1,27 +1,76 @@
 @use "../../common/typography" as typo;
 
 .fc-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: 0;
     background: none;
-    color: var(--fc-link, #1685ff);
-    @include typo.font(btn1, sb);
-    padding: 11px 0;
 
     .fc-icon {
         margin-right: 8px;
     }
 
-    &--outline {
-        border: 1px solid var(--fc-border, #595959);
-        border-radius: 10px;
-        padding: 10px 16px;
-        color: var(--fc-text-strong, white);
+    &--sm {
+        @include typo.font(btn4, rg);
     }
 
-    &--soft {
-        border-radius: 12px;
-        background: var(--fc-danger-bg, #3a2021);
-        padding: 12px 18px;
-        color: var(--fc-danger, #ff4e48);
+    &--md,
+    &--lg {
+        @include typo.font(btn1, sb);
+    }
+
+    &--default {
+        --fc-button-fill-background: transparent;
+        --fc-button-fill-border: var(--fc-border, #595959);
+        --fc-button-fill-color: var(--fc-text-strong, white);
+        --fc-button-text-color: var(--fc-text-strong, white);
+    }
+
+    &--red {
+        --fc-button-fill-background: var(--fc-danger, #ff4e48);
+        --fc-button-fill-border: var(--fc-danger, #ff4e48);
+        --fc-button-fill-color: white;
+        --fc-button-text-color: var(--fc-danger, #ff4e48);
+    }
+
+    &--gray {
+        --fc-button-fill-background: var(--fc-control-bg, #303030);
+        --fc-button-fill-border: var(--fc-control-bg, #303030);
+        --fc-button-fill-color: var(--fc-text-strong, white);
+        --fc-button-text-color: var(--fc-text-secondary, #aaa);
+    }
+
+    &--primary {
+        --fc-button-fill-background: var(--fc-blue, #087bfa);
+        --fc-button-fill-border: var(--fc-blue, #087bfa);
+        --fc-button-fill-color: white;
+        --fc-button-text-color: var(--fc-link, #1685ff);
+    }
+
+    &--fill {
+        border: 1px solid var(--fc-button-fill-border);
+        border-radius: 10px;
+        background: var(--fc-button-fill-background);
+        color: var(--fc-button-fill-color);
+    }
+
+    &--fill.fc-button--sm {
+        padding: 4px 8px;
+    }
+
+    &--fill.fc-button--md,
+    &--fill.fc-button--lg {
+        padding: 11px 16px;
+    }
+
+    &--text {
+        padding: 0;
+        color: var(--fc-button-text-color);
+    }
+
+    &:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
     }
 }

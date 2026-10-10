@@ -6,42 +6,17 @@
             set custom alerts, and control access here.
         </p>
         <div class="friends-page__list">
-            <FcListRow
-                v-for="friend in pageData.friends"
-                :key="friend.id"
-                :title="friend.title"
-                @click="openFriend(friend)"
-            />
-            <FcListRow
-                title="Invite a Friend"
-                accent
-                @click="inviting = !inviting"
-            />
+            <FcListRow v-for="friend in pageData.friends" :key="friend.id" :title="friend.title"
+                @click="openFriend(friend)" />
+            <FcListRow title="Invite a Friend" accent @click="inviting = !inviting" />
         </div>
-        <form
-            v-if="inviting"
-            class="friends-page__invite"
-            @submit.prevent="inviteFriend"
-        >
+        <form v-if="inviting" class="friends-page__invite" @submit.prevent="inviteFriend">
             <label for="friend-email">Friend’s email</label>
-            <BaseInput
-                id="friend-email"
-                v-model="email"
-                class="frame-page__input"
-                type="email"
-                placeholder="friend@example.com"
-                required
-            />
-            <BaseButton
-                label="Prepare Invitation"
-                @click="inviteFriend"
-            />
+            <BaseInput id="friend-email" v-model="email" class="frame-page__input" type="email"
+                placeholder="friend@example.com" required />
+            <BaseButton label="Prepare Invitation" variant="text" tone="primary" @click="inviteFriend" />
         </form>
-        <p
-            v-if="message"
-            class="frame-page__note"
-            role="status"
-        >
+        <p v-if="message" class="frame-page__note" role="status">
             {{ message }}
         </p>
     </section>

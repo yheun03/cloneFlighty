@@ -36,15 +36,27 @@
                         버튼
                     </h2>
                     <p class="fc-gallery__description">
-                        기본 · 아웃라인 · 강조 · 비활성 상태
+                        사이즈 · 타입 · 톤 · 비활성 상태
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-buttons" tabindex="0">
+                    <template v-for="buttonType in componentData.buttons.types" :key="buttonType.id">
+                        <div v-for="size in componentData.buttons.sizes" :key="`${buttonType.id}-${size.id}`">
+                            <p class="fc-gallery__sample-label">
+                                {{ buttonType.label }} · {{ size.label }}
+                            </p>
+                            <div class="fc-gallery__row">
+                                <BaseButton v-for="tone in componentData.buttons.tones" :key="tone.id"
+                                    :label="tone.label" :size="size.id" :variant="buttonType.id" :tone="tone.id" />
+                            </div>
+                        </div>
+                    </template>
+                    <p class="fc-gallery__sample-label">
+                        상태
+                    </p>
                     <div class="fc-gallery__row">
-                        <BaseButton label="Share" icon="share-2" variant="outline" />
-                        <BaseButton label="Show More" variant="link" />
-                        <BaseButton label="Done" variant="soft" />
-                        <BaseButton label="Disabled" variant="outline" disabled />
+                        <BaseButton label="Share" icon="share-2" size="md" variant="fill" tone="default" />
+                        <BaseButton label="Disabled" size="md" variant="fill" tone="default" disabled />
                     </div>
                 </div>
             </section>
@@ -658,6 +670,50 @@ const componentData = {
             "count": 3
         }
     ],
+    "buttons": {
+        "sizes": [
+            {
+                "id": "sm",
+                "label": "SM"
+            },
+            {
+                "id": "md",
+                "label": "MD"
+            },
+            {
+                "id": "lg",
+                "label": "LG"
+            }
+        ],
+        "types": [
+            {
+                "id": "fill",
+                "label": "면"
+            },
+            {
+                "id": "text",
+                "label": "텍스트"
+            }
+        ],
+        "tones": [
+            {
+                "id": "default",
+                "label": "Default"
+            },
+            {
+                "id": "red",
+                "label": "Red"
+            },
+            {
+                "id": "gray",
+                "label": "Gray"
+            },
+            {
+                "id": "primary",
+                "label": "Primary"
+            }
+        ]
+    },
     "icons": [
         {
             "src": "plane",
