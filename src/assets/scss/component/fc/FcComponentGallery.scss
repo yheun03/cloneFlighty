@@ -147,26 +147,16 @@
 
     &__field {
         display: grid;
-        gap: 8px;
+        gap: 14px;
+
+        >div {
+            display: grid;
+            gap: 6px;
+        }
 
         label {
             color: var(--fc-text-secondary, #aaa);
             @include typo.font(c2, rg);
-        }
-    }
-
-    &__input {
-        width: 100%;
-        min-width: 0;
-        padding: 10px 12px;
-        border: 1px solid var(--fc-border, #3b3b3b);
-        border-radius: 8px;
-        background: var(--fc-control-bg, #303030);
-        color: var(--fc-text-body, #ddd);
-
-        &:disabled {
-            opacity: 0.45;
-            cursor: not-allowed;
         }
     }
 

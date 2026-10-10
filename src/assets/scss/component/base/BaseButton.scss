@@ -36,9 +36,9 @@
     }
 
     &--gray {
-        --fc-button-fill-background: var(--fc-control-bg, #303030);
-        --fc-button-fill-border: var(--fc-control-bg, #303030);
-        --fc-button-fill-color: var(--fc-text-strong, white);
+        --fc-button-fill-background: var(--fc-button-gray, #8e8e93);
+        --fc-button-fill-border: var(--fc-button-gray, #8e8e93);
+        --fc-button-fill-color: white;
         --fc-button-text-color: var(--fc-text-secondary, #aaa);
     }
 

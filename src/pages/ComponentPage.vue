@@ -70,21 +70,19 @@
                         입력창
                     </h2>
                     <p class="fc-gallery__description">
-                        입력 가능 상태와 비활성 상태
+                        단일 텍스트 · 아이콘 · SM 버튼 조합
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-input" tabindex="0">
                     <div class="fc-gallery__field">
-                        <label for="gallery-flight-number">
-                            Flight number
-                        </label>
-                        <BaseInput id="gallery-flight-number" v-model="inputValue" class="fc-gallery__input"
-                            placeholder="Enter flight number" />
-                        <label for="gallery-input-disabled">
-                            Disabled
-                        </label>
-                        <BaseInput id="gallery-input-disabled" class="fc-gallery__input" model-value="KE 9999"
-                            disabled />
+                        <div v-for="item in componentData.inputs" :key="item.id">
+                            <label :for="`gallery-input-${item.id}`">
+                                {{ item.label }}
+                            </label>
+                            <BaseInput :id="`gallery-input-${item.id}`" v-model="inputValues[item.id]"
+                                :placeholder="item.placeholder" :icon="item.icon" :action-label="item.actionLabel"
+                                @action="applyInputAction(item)" />
+                        </div>
                     </div>
                 </div>
             </section>
@@ -613,6 +611,7 @@ import airlines from "../common/airlines.js";
 
 import "../assets/scss/component/fc/FcComponentGallery.scss";
 import "../assets/scss/component/base/BaseButton.scss";
+import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcToggleSwitch.scss";
 import "../assets/scss/component/fc/FcChoiceChip.scss";
@@ -714,6 +713,30 @@ const componentData = {
             }
         ]
     },
+    "inputs": [
+        {
+            "id": "text",
+            "label": "단일 텍스트",
+            "placeholder": "10/5 or Friday",
+            "value": ""
+        },
+        {
+            "id": "icon",
+            "label": "아이콘 + 단일 텍스트",
+            "placeholder": "10/5 or Friday",
+            "value": "10/5 or Friday",
+            "icon": "calendar-days"
+        },
+        {
+            "id": "action",
+            "label": "아이콘 + 텍스트 + SM 버튼",
+            "placeholder": "10/5 or Friday",
+            "value": "10/5 or Friday",
+            "icon": "clipboard-paste",
+            "actionLabel": "PASTE",
+            "actionValue": "10/5 or Friday"
+        }
+    ],
     "icons": [
         {
             "src": "plane",
@@ -1438,7 +1461,11 @@ const componentData = {
 
 const gallery = ref(null);
 const category = ref("all");
-const inputValue = ref("KE 24");
+const inputValues = ref(
+    Object.fromEntries(
+        componentData.inputs.map((item) => [item.id, item.value]),
+    ),
+);
 const performanceSection = ref("mine");
 const seatMode = ref("seat");
 const alertMode = ref("mine");
@@ -1457,5 +1484,9 @@ const aircraft = {
 function selectCategory(item) {
     category.value = item.id;
     gallery.value?.scrollIntoView({ block: "start" });
+}
+
+function applyInputAction(item) {
+    inputValues.value[item.id] = item.actionValue;
 }
 </script>
