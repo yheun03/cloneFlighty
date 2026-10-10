@@ -4,20 +4,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 10px;
     border: 0;
     background: none;
 
-    .fc-icon {
-        margin-right: 8px;
-    }
-
     &--sm {
         @include typo.font(btn4, rg);
+        border-radius: 6px;
+        padding: 4px 8px;
     }
 
     &--md,
     &--lg {
         @include typo.font(btn1, sb);
+        border-radius: 8px;
+        padding: 11px 16px;
     }
 
     &--default {
@@ -50,18 +51,8 @@
 
     &--fill {
         border: 1px solid var(--fc-button-fill-border);
-        border-radius: 10px;
         background: var(--fc-button-fill-background);
         color: var(--fc-button-fill-color);
-    }
-
-    &--fill.fc-button--sm {
-        padding: 4px 8px;
-    }
-
-    &--fill.fc-button--md,
-    &--fill.fc-button--lg {
-        padding: 11px 16px;
     }
 
     &--text {
