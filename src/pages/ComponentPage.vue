@@ -10,7 +10,7 @@
             </div>
             <ul class="fc-gallery__meta" aria-label="갤러리 구성">
                 <!-- prettier-ignore -->
-                <li><strong>26</strong>개 컴포넌트</li>
+                <li><strong>25</strong>개 컴포넌트</li>
                 <li>JSON 더미 데이터</li>
                 <li>상태 미리보기</li>
             </ul>
@@ -70,7 +70,7 @@
                         입력창
                     </h2>
                     <p class="fc-gallery__description">
-                        단일 텍스트 · 아이콘 · SM 버튼 조합
+                        단일 텍스트 · 아이콘 · SM 버튼 · 캘린더 Datepicker
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-input" tabindex="0">
@@ -81,6 +81,7 @@
                             </label>
                             <BaseInput :id="`gallery-input-${item.id}`" v-model="inputValues[item.id]"
                                 :placeholder="item.placeholder" :icon="item.icon" :action-label="item.actionLabel"
+                                :calendar="item.calendar" :calendar-options="componentData.calendar"
                                 @action="applyInputAction(item)" />
                         </div>
                     </div>
@@ -154,27 +155,6 @@
                 </div>
             </section>
             <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
-                aria-labelledby="gallery-badges">
-                <header class="fc-gallery__group-heading">
-                    <p class="fc-gallery__component-name">
-                        FcCountBadge
-                    </p>
-                    <h2 id="gallery-badges">
-                        수량 배지
-                    </h2>
-                    <p class="fc-gallery__description">
-                        기본 · 채움 · 테두리 스타일
-                    </p>
-                </header>
-                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-badges" tabindex="0">
-                    <div class="fc-gallery__row">
-                        <FcCountBadge :value="1" variant="plain" />
-                        <FcCountBadge :value="8" variant="filled" />
-                        <FcCountBadge :value="20" variant="outline" />
-                    </div>
-                </div>
-            </section>
-            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
                 aria-labelledby="gallery-calendar">
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
@@ -188,7 +168,8 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-calendar" tabindex="0">
-                    <FcCalendarPicker v-model="day" :year="2026" :month="1" :marked="componentData.calendar.marked" />
+                    <FcCalendarPicker v-model="calendarDate" :year="2026" :month="1"
+                        :marked="componentData.calendar.marked" />
                 </div>
             </section>
             <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
@@ -568,7 +549,6 @@ import BaseInput from "../component/base/BaseInput.vue";
 import FcIcon from "../component/fc/FcIcon.vue";
 import FcToggleSwitch from "../component/fc/FcToggleSwitch.vue";
 import FcTabItem from "../component/fc/FcTabItem.vue";
-import FcCountBadge from "../component/fc/FcCountBadge.vue";
 import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
 import FcListRow from "../component/fc/FcListRow.vue";
 import FcPasteField from "../component/fc/FcPasteField.vue";
@@ -599,7 +579,6 @@ import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcToggleSwitch.scss";
 import "../assets/scss/component/fc/FcTabItem.scss";
-import "../assets/scss/component/fc/FcCountBadge.scss";
 import "../assets/scss/component/fc/FcCalendarPicker.scss";
 import "../assets/scss/component/fc/FcListRow.scss";
 import "../assets/scss/component/fc/FcPasteField.scss";
@@ -629,12 +608,12 @@ const componentData = {
         {
             "id": "all",
             "label": "전체",
-            "count": 26
+            "count": 25
         },
         {
             "id": "basic",
             "label": "기본 UI",
-            "count": 9
+            "count": 8
         },
         {
             "id": "flight",
@@ -718,6 +697,13 @@ const componentData = {
             "icon": "clipboard-paste",
             "actionLabel": "PASTE",
             "actionValue": "10/5 or Friday"
+        },
+        {
+            "id": "calendar",
+            "label": "캘린더 Datepicker",
+            "placeholder": "날짜 선택",
+            "value": "2026-01-06",
+            "calendar": true
         }
     ],
     "tabItems": [
@@ -790,7 +776,7 @@ const componentData = {
     "seatModes": ["seat", "class", "reason"],
     "alertModes": ["mine", "friend"],
     "calendar": {
-        "marked": [11, 13]
+        "marked": [16, 17]
     },
     "flightVariants": [
         {
@@ -1498,7 +1484,7 @@ const alertMode = ref("mine");
 const enabled = ref(true);
 const secondaryEnabled = ref(false);
 const switchRadio = ref("");
-const day = ref(20);
+const calendarDate = ref("2026-01-06");
 const reason = ref("");
 const completed = ref(false);
 const aircraft = {

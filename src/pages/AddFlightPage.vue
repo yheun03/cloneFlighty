@@ -44,8 +44,9 @@
                         aria-label="Airline code" maxlength="3" />
                     <BaseInput v-if="mode === 'number'" v-model="flight" class="frame-page__input"
                         aria-label="Flight number" inputmode="numeric" maxlength="4" />
-                    <BaseInput v-model="date" class="frame-page__input" placeholder="10/5 or Friday"
-                        aria-label="Flight date" @keydown.enter.prevent="showFlights(date)" />
+                    <BaseInput v-model="date" placeholder="10/5 or Friday" calendar
+                        :calendar-options="pageData.calendar" aria-label="Flight date"
+                        @keydown.enter.prevent="showFlights(date)" />
                 </div>
                 <div v-if="mode === 'number'" class="add-flight-page__dates">
                     <FcListRow v-for="item in pageData.dates" :key="item.date" v-bind="item" avatar="✈"
@@ -53,9 +54,9 @@
                     <FcListRow title="Pick from Calendar" avatar="✈" @click="openPage('add-flight-calendar')" />
                 </div>
                 <template v-else>
-                    <FcCalendarPicker v-model="day" v-bind="pageData.calendar" />
+                    <FcCalendarPicker v-model="calendarDate" v-bind="pageData.calendar" />
                     <button type="button" class="frame-page__link" @click="showFlights(calendarDate)">
-                        Show flights on {{ pageData.calendarMonth }} {{ day }}
+                        Show flights on {{ selectedDateLabel }}
                     </button>
                 </template>
             </template>
@@ -89,7 +90,7 @@ const pageData = {
     "airline": airlines.KE.iata,
     "flight": "9999",
     "date": "",
-    "day": 17,
+    "calendarDate": "2026-01-17",
     "from": "SFO",
     "to": "ICN",
     "search": {
@@ -168,7 +169,6 @@ const pageData = {
         "marked": [16],
         "outlined": [6]
     },
-    "calendarMonth": "January",
     "reportMessage": "Report preview opened."
 };
 
@@ -178,17 +178,16 @@ const query = ref(pageData.query);
 const airline = ref(pageData.airline);
 const flight = ref(pageData.flight);
 const date = ref(pageData.date);
-const day = ref(pageData.day);
+const calendarDate = ref(pageData.calendarDate);
 const from = ref(pageData.from);
 const to = ref(pageData.to);
 const message = ref("");
 const mode = computed(() => route.meta.searchMode || "search");
-const calendarDate = computed(() => {
-    const year = pageData.calendar.year;
-    const month = String(pageData.calendar.month).padStart(2, "0");
-    const selectedDay = String(day.value).padStart(2, "0");
-    return `${year}-${month}-${selectedDay}`;
-});
+const selectedDateLabel = computed(() =>
+    new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric" }).format(
+        new Date(`${calendarDate.value}T00:00:00`),
+    ),
+);
 
 function openPage(name, extra = {}) {
     router.push({

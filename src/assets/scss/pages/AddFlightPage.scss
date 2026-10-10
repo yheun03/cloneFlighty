@@ -64,20 +64,6 @@
     .fc-calendar__grid button {
         width: min(44px, 100%);
         height: 44px;
-
-        &.is-marked {
-            background: var(--fc-calendar-marked-bg, #123e69);
-            color: var(--fc-link, white);
-        }
-
-        &.is-outlined {
-            border-color: var(--fc-blue, #087bfa);
-        }
-
-        &.is-selected {
-            background: var(--fc-blue, #087bfa);
-            color: white;
-        }
     }
 
     &__route {

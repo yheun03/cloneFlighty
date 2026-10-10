@@ -1,27 +1,94 @@
 @use "../../common/typography" as typo;
 
 .fc-calendar {
-    max-width: 310px;
+    width: 100%;
+    max-width: 360px;
 
-    h3 {
-        margin: 0 0 15px;
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+    &__period {
+        padding: 0;
+        border: 0;
+        background: none;
+        color: var(--fc-text-strong, white);
+        text-align: left;
         @include typo.font(t5, sb);
+    }
+
+    &__navigation {
+        display: flex;
+        flex: none;
+        gap: 4px;
+
+        button {
+            display: grid;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            place-items: center;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--fc-text-strong, white);
+            @include typo.font(b1, rg);
+
+            &:first-child .fc-icon {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    &__period-picker {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-bottom: 12px;
+
+        label {
+            display: grid;
+            gap: 4px;
+            color: var(--fc-text-secondary, #818181);
+            @include typo.font(c2, rg);
+        }
+
+        select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--fc-border, #494949);
+            border-radius: 8px;
+            background: var(--fc-control-bg, #303030);
+            color: var(--fc-text-strong, white);
+            @include typo.font(btn2, sb);
+        }
     }
 
     &__grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        gap: 7px 2px;
+        gap: 2px;
         text-align: center;
 
+        >span {
+            display: grid;
+
+            min-height: 44px;
+            place-items: center;
+        }
+
         button {
-            width: 35px;
-            height: 35px;
+            width: 44px;
+            height: 44px;
             border: 1px solid transparent;
             border-radius: 50%;
             background: none;
             color: var(--fc-text-strong, white);
-            @include typo.font(btn1, rg);
+            @include typo.font(btn1, sb);
         }
 
         button.is-marked {
@@ -29,7 +96,8 @@
             color: white;
         }
 
-        button.is-selected {
+        button.is-selected,
+        button.is-outlined {
             border-color: var(--fc-blue, #087bfa);
         }
     }
