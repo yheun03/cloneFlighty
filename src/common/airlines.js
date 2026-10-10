@@ -1,4 +1,9 @@
 import defaultAirlineLogo from "../assets/icons/lucide/circle.svg";
+import koreanAirLogo from "../assets/Airlines/Logo-KE.svg";
+import asianaLogo from "../assets/Airlines/Logo-OZ.svg";
+import finnairLogo from "../assets/Airlines/Logo-AY.svg";
+import alaskaLogo from "../assets/Airlines/Logo-AS.svg";
+import singaporeAirlinesLogo from "../assets/Airlines/Logo-SQ.svg";
 
 const airlines = {
     KE: {
@@ -7,12 +12,12 @@ const airlines = {
         icao: "KAL",
         callsign: "KOREANAIR",
         alliance: "SkyTeam",
-        logo: defaultAirlineLogo,
+        logo: koreanAirLogo,
     },
     OZ: {
         name: "Asiana",
         iata: "OZ",
-        logo: defaultAirlineLogo,
+        logo: asianaLogo,
     },
     KL: {
         name: "KLM",
@@ -22,17 +27,17 @@ const airlines = {
     AY: {
         name: "Finnair",
         iata: "AY",
-        logo: defaultAirlineLogo,
+        logo: finnairLogo,
     },
     AS: {
         name: "Alaska",
         iata: "AS",
-        logo: defaultAirlineLogo,
+        logo: alaskaLogo,
     },
     SQ: {
         name: "Singapore Airlines",
         iata: "SQ",
-        logo: defaultAirlineLogo,
+        logo: singaporeAirlinesLogo,
     },
 };
 
