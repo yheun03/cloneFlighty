@@ -1,43 +1,22 @@
 <template>
     <section class="frame-page add-flight-page">
-        <RouterLink
-            class="frame-page__close"
-            :to="{
-                name: 'home',
-                query: { from: route.query.from, to: route.query.to },
-            }"
-            aria-label="Close Add Flight"
-        >
+        <RouterLink class="frame-page__close" :to="{
+            name: 'home',
+            query: { from: route.query.from, to: route.query.to },
+        }" aria-label="Close Add Flight">
             ×
         </RouterLink>
         <template v-if="mode === 'search'">
-            <FcAddFlightSearch
-                v-model="query"
-                v-bind="pageData.search"
-                @select="selectResult"
-            />
+            <FcAddFlightSearch v-model="query" v-bind="pageData.search" @select="selectResult" />
             <h2 class="frame-page__label">MORE</h2>
-            <FcListRow
-                v-for="item in pageData.more"
-                :key="item.name"
-                v-bind="item"
-                @click="openPage(item.name)"
-            />
+            <FcListRow v-for="item in pageData.more" :key="item.name" v-bind="item" @click="openPage(item.name)" />
             <div class="add-flight-page__report">
                 <span>Something missing?</span>
-                <button
-                    type="button"
-                    class="frame-page__link"
-                    @click="message = pageData.reportMessage"
-                >
+                <button type="button" class="frame-page__link" @click="message = pageData.reportMessage">
                     Send Report
                 </button>
             </div>
-            <p
-                v-if="message"
-                class="frame-page__note"
-                role="status"
-            >
+            <p v-if="message" class="frame-page__note" role="status">
                 {{ message }}
             </p>
         </template>
@@ -46,93 +25,36 @@
             <p class="frame-page__lead add-flight-page__hint">
                 Enter airline, airport, or flight
             </p>
-            <form
-                v-if="mode === 'route'"
-                class="add-flight-page__route"
-                @submit.prevent="showFlights(date)"
-            >
+            <form v-if="mode === 'route'" class="add-flight-page__route" @submit.prevent="showFlights(date)">
                 <label for="flight-from">From</label>
-                <BaseInput
-                    id="flight-from"
-                    v-model="from"
-                    class="frame-page__input"
-                    placeholder="SFO"
-                    maxlength="3"
-                    required
-                />
+                <BaseInput id="flight-from" v-model="from" class="frame-page__input" placeholder="SFO" maxlength="3"
+                    required />
                 <label for="flight-to">To</label>
-                <BaseInput
-                    id="flight-to"
-                    v-model="to"
-                    class="frame-page__input"
-                    placeholder="ICN"
-                    maxlength="3"
-                    required
-                />
-                <button
-                    type="submit"
-                    class="frame-page__primary"
-                >
+                <BaseInput id="flight-to" v-model="to" class="frame-page__input" placeholder="ICN" maxlength="3"
+                    required />
+                <button type="submit" class="frame-page__primary">
                     Find Flights
                 </button>
             </form>
             <template v-else>
-                <div
-                    class="add-flight-page__fields"
-                    :class="{
-                        'add-flight-page__fields--number': mode === 'number',
-                    }"
-                >
-                    <BaseInput
-                        v-if="mode === 'number'"
-                        v-model="airline"
-                        class="frame-page__input"
-                        aria-label="Airline code"
-                        maxlength="3"
-                    />
-                    <BaseInput
-                        v-if="mode === 'number'"
-                        v-model="flight"
-                        class="frame-page__input"
-                        aria-label="Flight number"
-                        inputmode="numeric"
-                        maxlength="4"
-                    />
-                    <BaseInput
-                        v-model="date"
-                        class="frame-page__input"
-                        placeholder="10/5 or Friday"
-                        aria-label="Flight date"
-                        @keydown.enter.prevent="showFlights(date)"
-                    />
+                <div class="add-flight-page__fields" :class="{
+                    'add-flight-page__fields--number': mode === 'number',
+                }">
+                    <BaseInput v-if="mode === 'number'" v-model="airline" class="frame-page__input"
+                        aria-label="Airline code" maxlength="3" />
+                    <BaseInput v-if="mode === 'number'" v-model="flight" class="frame-page__input"
+                        aria-label="Flight number" inputmode="numeric" maxlength="4" />
+                    <BaseInput v-model="date" class="frame-page__input" placeholder="10/5 or Friday"
+                        aria-label="Flight date" @keydown.enter.prevent="showFlights(date)" />
                 </div>
-                <div
-                    v-if="mode === 'number'"
-                    class="add-flight-page__dates"
-                >
-                    <FcListRow
-                        v-for="item in pageData.dates"
-                        :key="item.date"
-                        v-bind="item"
-                        avatar="✈"
-                        @click="showFlights(item.date)"
-                    />
-                    <FcListRow
-                        title="Pick from Calendar"
-                        avatar="✈"
-                        @click="openPage('add-flight-calendar')"
-                    />
+                <div v-if="mode === 'number'" class="add-flight-page__dates">
+                    <FcListRow v-for="item in pageData.dates" :key="item.date" v-bind="item" avatar="✈"
+                        @click="showFlights(item.date)" />
+                    <FcListRow title="Pick from Calendar" avatar="✈" @click="openPage('add-flight-calendar')" />
                 </div>
                 <template v-else>
-                    <FcCalendarPicker
-                        v-model="day"
-                        v-bind="pageData.calendar"
-                    />
-                    <button
-                        type="button"
-                        class="frame-page__link"
-                        @click="showFlights(calendarDate)"
-                    >
+                    <FcCalendarPicker v-model="day" v-bind="pageData.calendar" />
+                    <button type="button" class="frame-page__link" @click="showFlights(calendarDate)">
                         Show flights on {{ pageData.calendarMonth }} {{ day }}
                     </button>
                 </template>
@@ -151,17 +73,20 @@ import FcAddFlightSearch from "../component/fc/FcAddFlightSearch.vue";
 import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
 import FcListRow from "../component/fc/FcListRow.vue";
 
+import airports from "../common/airports.js";
+import airlines from "../common/airlines.js";
+
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcCalendarPicker.scss";
 import "../assets/scss/component/fc/FcListRow.scss";
 import "../assets/scss/component/fc/FcAddFlightSearch.scss";
 import "../assets/scss/pages/AddFlightPage.scss";
 
-// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
 const pageData = {
     "query": "",
-    "airline": "KE",
+    "airline": airlines.KE.iata,
     "flight": "9999",
     "date": "",
     "day": 17,
@@ -172,32 +97,32 @@ const pageData = {
         "sectionLabel": "FREQUENTLY USED",
         "items": [
             {
-                "title": "Korean Air",
-                "subtitle": "KE  ·  KAL",
-                "avatar": "circle",
+                "title": airlines.KE.name,
+                "subtitle": `${airlines.KE.iata}  ·  ${airlines.KE.icao}`,
+                "avatar": airlines.KE.logo,
                 "type": "airline",
-                "code": "KE"
+                "code": airlines.KE.iata
             },
             {
-                "title": "John F Kennedy Intl.",
-                "subtitle": "JFK  ·  KJFK  ·  New York",
+                "title": airports.JFK.fullName,
+                "subtitle": `${airports.JFK.iata}  ·  ${airports.JFK.icao}  ·  ${airports.JFK.city}`,
                 "avatar": "plane",
                 "type": "airport",
-                "code": "JFK"
+                "code": airports.JFK.iata
             },
             {
-                "title": "Newark Liberty Intl.",
-                "subtitle": "EWR  ·  KEWR  ·  Newark",
+                "title": airports.EWR.fullName,
+                "subtitle": `${airports.EWR.iata}  ·  ${airports.EWR.icao}  ·  ${airports.EWR.city}`,
                 "avatar": "plane",
                 "type": "airport",
-                "code": "EWR"
+                "code": airports.EWR.iata
             },
             {
-                "title": "Kempegowda Intl.",
-                "subtitle": "BLR  ·  VOBL  ·  Bengaluru",
+                "title": airports.BLR.fullName,
+                "subtitle": `${airports.BLR.iata}  ·  ${airports.BLR.icao}  ·  ${airports.BLR.city}`,
                 "avatar": "plane",
                 "type": "airport",
-                "code": "BLR"
+                "code": airports.BLR.iata
             }
         ]
     },

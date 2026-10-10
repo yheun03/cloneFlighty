@@ -1,8 +1,9 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import layoutData from "../layout/data/MapLayout.json";
 
 const HomePage = () => import("../pages/HomePage.vue");
 
+const defaultFrom = "SFO";
+const defaultTo = "ICN";
 const defaultTitle = "Flighty UI Clone | Vue 3 프론트엔드 포트폴리오";
 const defaultDescription =
     "Vue 3, Vue Router, SCSS, MapLibre로 공항 검색, 항로 지도, 재사용 UI를 구현한 비공식 Flighty 클론 프론트엔드 포트폴리오입니다.";
@@ -314,11 +315,11 @@ router.afterEach((to) => {
         const from =
             typeof to.query.from === "string"
                 ? to.query.from.trim().toUpperCase().slice(0, 3)
-                : layoutData.from;
+                : defaultFrom;
         const destination =
             typeof to.query.to === "string"
                 ? to.query.to.trim().toUpperCase().slice(0, 3)
-                : layoutData.to;
+                : defaultTo;
 
         if (/^[A-Z]{3}$/.test(from) && /^[A-Z]{3}$/.test(destination)) {
             title = `${from} → ${destination} 비행 경로 | Flighty UI Clone`;

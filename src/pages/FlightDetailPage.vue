@@ -1,27 +1,12 @@
 <template>
     <section class="frame-page flight-detail-page">
-        <div
-            :inert="editing || undefined"
-            :class="{ 'flight-detail-page__background--blurred': editing }"
-        >
-            <FcFlightListItem
-                variant="header"
-                v-bind="flight"
-                @remove="closeFlight"
-            />
-            <FcFlightDetails
-                :details="details"
-                :booking-code="booking.code"
-                :seat="booking.seat"
-                @edit="editBooking"
-                @connection="openConnection"
-            />
+        <div :inert="editing || undefined" :class="{ 'flight-detail-page__background--blurred': editing }">
+            <FcFlightListItem variant="header" v-bind="flight" @remove="closeFlight" />
+            <FcFlightDetails :details="details" :booking-code="booking.code" :seat="booking.seat" @edit="editBooking"
+                @connection="openConnection" />
         </div>
         <RouterView v-slot="{ Component }">
-            <component
-                :is="Component"
-                v-model="booking"
-            />
+            <component :is="Component" v-model="booking" />
         </RouterView>
     </section>
 </template>
@@ -34,16 +19,19 @@ import { useRoute, useRouter } from "vue-router";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 import FcFlightDetails from "../component/fc/FcFlightDetails.vue";
 
+import airports from "../common/airports.js";
+import airlines from "../common/airlines.js";
+
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
 import "../assets/scss/component/fc/FcFlightDetails.scss";
 import "../assets/scss/pages/FlightDetailPage.scss";
 
-// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
 const pageData = {
     "flight": {
-        "airline": "KE",
+        "airline": airlines.KE.iata,
         "flight": "24",
         "title": "San Francisco to Seoul",
         "date": "Wed, 28 Jan",
@@ -55,14 +43,14 @@ const pageData = {
         "flightTime": "13h"
     },
     "details": {
-        "airline": "Korean Air",
+        "airline": airlines.KE.name,
         "plane": "Airbus A330-300",
         "from": "SFO",
         "to": "ICN",
         "departure": "11:40",
         "arrival": "17:40",
-        "departureAirport": "San Francisco Intl.",
-        "arrivalAirport": "Incheon Intl.",
+        "departureAirport": airports.SFO.fullName,
+        "arrivalAirport": airports.ICN.fullName,
         "scheduledDeparture": "11:40",
         "scheduledArrival": "18:00",
         "departureGate": "F4",
@@ -135,10 +123,10 @@ const pageData = {
         "tail": "HL-7587",
         "firstFlight": "Nov 8, 2000",
         "age": "25 years old",
-        "alliance": "SkyTeam",
-        "callsign": "KOREANAIR",
-        "icao": "KAL",
-        "iata": "KE",
+        "alliance": airlines.KE.alliance,
+        "callsign": airlines.KE.callsign,
+        "icao": airlines.KE.icao,
+        "iata": airlines.KE.iata,
         "historyStats": [
             {
                 "label": "Flights",
@@ -156,7 +144,7 @@ const pageData = {
         "recentFlight": "20 Aug 2025 · KE 647"
     },
     "pastFlight": {
-        "airline": "KE",
+        "airline": airlines.KE.iata,
         "flight": "5926",
         "title": "Amsterdam to Seoul",
         "date": "Dec 29, 2025",
@@ -168,14 +156,14 @@ const pageData = {
         "flightTime": "11h 25m"
     },
     "pastDetails": {
-        "airline": "Korean Air",
+        "airline": airlines.KE.name,
         "plane": "Airbus A330-300",
         "from": "AMS",
         "to": "ICN",
         "departure": "09:25",
         "arrival": "10:50",
-        "departureAirport": "Amsterdam Schiphol",
-        "arrivalAirport": "Incheon Intl.",
+        "departureAirport": airports.AMS.fullName,
+        "arrivalAirport": airports.ICN.fullName,
         "scheduledDeparture": "09:05",
         "scheduledArrival": "11:10",
         "departureGate": "F4",
@@ -248,10 +236,10 @@ const pageData = {
         "tail": "HL-7587",
         "firstFlight": "Nov 8, 2000",
         "age": "25 years old",
-        "alliance": "SkyTeam",
-        "callsign": "KOREANAIR",
-        "icao": "KAL",
-        "iata": "KE",
+        "alliance": airlines.KE.alliance,
+        "callsign": airlines.KE.callsign,
+        "icao": airlines.KE.icao,
+        "iata": airlines.KE.iata,
         "historyStats": [
             {
                 "label": "Flights",

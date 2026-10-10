@@ -1,34 +1,12 @@
 <template>
-    <section
-        class="frame-page stats-page delay-stats-page"
-        @click="share"
-    >
-        <FcPeriodTabs
-            v-model="period"
-            :items="pageData.periods"
-        />
+    <section class="frame-page stats-page delay-stats-page" @click="share">
+        <FcPeriodTabs v-model="period" :items="pageData.periods" />
         <FcDelayReport v-bind="pageData.report" />
-        <FcAirlinePerformance
-            :report="pageData.performance"
-            section="mine"
-        />
-        <FcAirlinePerformance
-            :report="pageData.performance"
-            section="delays"
-        />
-        <FcAirlinePerformance
-            :report="pageData.performance"
-            section="airline"
-        />
-        <FcAirlinePerformance
-            :report="pageData.performance"
-            section="airport"
-        />
-        <p
-            v-if="message"
-            class="frame-page__feedback"
-            role="status"
-        >
+        <FcAirlinePerformance :report="pageData.performance" section="mine" />
+        <FcAirlinePerformance :report="pageData.performance" section="delays" />
+        <FcAirlinePerformance :report="pageData.performance" section="airline" />
+        <FcAirlinePerformance :report="pageData.performance" section="airport" />
+        <p v-if="message" class="frame-page__feedback" role="status">
             {{ message }}
         </p>
     </section>
@@ -43,6 +21,8 @@ import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
 import FcDelayReport from "../component/fc/FcDelayReport.vue";
 import FcAirlinePerformance from "../component/fc/FcAirlinePerformance.vue";
 
+import airlines from "../common/airlines.js";
+
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcPeriodTabs.scss";
@@ -52,7 +32,7 @@ import "../assets/scss/component/fc/FcAirlinePerformance.scss";
 import "../assets/scss/pages/_stats.scss";
 import "../assets/scss/pages/DelayStatsPage.scss";
 
-// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
 const pageData = {
     "period": "ALL-TIME",
@@ -62,7 +42,7 @@ const pageData = {
         "total": 20,
         "lostMinutes": 160,
         "worstDelay": "KE 24 · 1h 05m late",
-        "worstAirline": "Korean Air · 2h 10m late in total"
+        "worstAirline": `${airlines.KE.name} · 2h 10m late in total`
     },
     "performance": {
         "airports": [
@@ -99,32 +79,32 @@ const pageData = {
         ],
         "airlines": [
             {
-                "name": "Finnair",
+                "name": airlines.AY.name,
                 "percent": 100,
                 "count": "1/1"
             },
             {
-                "name": "KLM",
+                "name": airlines.KL.name,
                 "percent": 50,
                 "count": "1/2"
             },
             {
-                "name": "Asiana",
+                "name": airlines.OZ.name,
                 "percent": 33,
                 "count": "1/3"
             },
             {
-                "name": "Korean Air",
+                "name": airlines.KE.name,
                 "percent": 25,
                 "count": "1/4"
             },
             {
-                "name": "Alaska",
+                "name": airlines.AS.name,
                 "percent": 10,
                 "count": "1/1"
             },
             {
-                "name": "Singapore Airlines",
+                "name": airlines.SQ.name,
                 "percent": 10,
                 "count": "1/1"
             }

@@ -4,8 +4,11 @@ import { computed, ref } from "vue";
 import FcIcon from "./FcIcon.vue";
 import BaseButton from "../base/BaseButton.vue";
 
+import {
+    defaultAirlineLogo,
+    getAirline,
+} from "../../common/airlines.js";
 import shareIcon from "../../assets/icons/lucide/share-2.svg";
-import airlineIcon from "../../assets/icons/lucide/circle.svg";
 
 const props = defineProps({
     title: { type: String, default: "Top Airlines" },
@@ -35,6 +38,8 @@ const chartItems = computed(() => {
         : props.items.slice(0, props.limit);
     return items.map((item) => ({
         ...item,
+        logo:
+            getAirline(item.iata || item.name)?.logo || defaultAirlineLogo,
         width: `${(item[metricKey.value] / maximum.value) * 100}%`,
         label:
             metric.value === "Flights"
@@ -48,61 +53,32 @@ const chartItems = computed(() => {
     <div class="fc-top-airlines">
         <div class="fc-stat-head">
             <h2>{{ title }}</h2>
-            <BaseButton
-                label="Share"
-                :icon="shareIcon"
-                variant="outline"
-            />
+            <BaseButton label="Share" :icon="shareIcon" variant="outline" />
         </div>
         <div class="fc-stat-number">
             <strong>{{ total }}</strong>
             <span>{{ unit }}</span>
         </div>
-        <div
-            v-if="showTabs"
-            class="fc-top-airlines__tabs"
-            role="group"
-            aria-label="항공사 통계 기준"
-        >
-            <button
-                v-for="tab in metrics"
-                :key="tab"
-                type="button"
-                :class="{ 'is-active': metric === tab }"
-                :aria-pressed="metric === tab"
-                @click="metric = tab"
-            >
+        <div v-if="showTabs" class="fc-top-airlines__tabs" role="group" aria-label="항공사 통계 기준">
+            <button v-for="tab in metrics" :key="tab" type="button" :class="{ 'is-active': metric === tab }"
+                :aria-pressed="metric === tab" @click="metric = tab">
                 {{ tab }}
             </button>
         </div>
-        <div
-            v-for="item in chartItems"
-            :key="item.name"
-            class="fc-top-airlines__bar"
-        >
+        <div v-for="item in chartItems" :key="item.name" class="fc-top-airlines__bar">
             <span>
                 <template v-if="showNames">{{ item.name }}</template>
-                <FcIcon
-                    v-else
-                    :src="airlineIcon"
-                />
+                <FcIcon v-else :src="item.logo" />
             </span>
             <i>
-                <b
-                    :style="{
-                        width: item.width,
-                        background: color,
-                    }"
-                ></b>
+                <b :style="{
+                    width: item.width,
+                    background: color,
+                }"></b>
             </i>
             <small>{{ item.label }}</small>
         </div>
-        <button
-            type="button"
-            class="fc-stat-more"
-            :aria-expanded="expanded"
-            @click="expanded = !expanded"
-        >
+        <button type="button" class="fc-stat-more" :aria-expanded="expanded" @click="expanded = !expanded">
             {{ expanded ? "Show Less" : "Show More" }}
         </button>
     </div>

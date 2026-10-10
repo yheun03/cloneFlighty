@@ -12,10 +12,7 @@
                 각 페이지의 JSON 더미 데이터로 레이아웃과 다양한 UI 상태를
                 확인합니다.
             </p>
-            <ul
-                class="intro__stack"
-                aria-label="사용 기술"
-            >
+            <ul class="intro__stack" aria-label="사용 기술">
                 <li>Vue 3</li>
                 <li>Vue Router</li>
                 <li>Vite</li>
@@ -35,14 +32,11 @@
                 </div>
             </dl>
             <div class="intro__actions">
-                <RouterLink
-                    class="intro__action-primary"
-                    :to="{
-                        name: 'intro',
-                        query: route.query,
-                        hash: '#interactive-demo',
-                    }"
-                >
+                <RouterLink class="intro__action-primary" :to="{
+                    name: 'intro',
+                    query: route.query,
+                    hash: '#interactive-demo',
+                }">
                     데모 실행하기
                 </RouterLink>
                 <RouterLink to="/component">UI 컴포넌트 보기</RouterLink>
@@ -53,10 +47,7 @@
             </p>
         </header>
 
-        <section
-            class="intro__highlights"
-            aria-labelledby="highlights-title"
-        >
+        <section class="intro__highlights" aria-labelledby="highlights-title">
             <div class="intro__section-heading">
                 <p class="intro__eyebrow">Implementation</p>
                 <h2 id="highlights-title">핵심 구현 포인트</h2>
@@ -86,11 +77,7 @@
             </ul>
         </section>
 
-        <section
-            id="interactive-demo"
-            class="intro__search"
-            aria-labelledby="search-title"
-        >
+        <section id="interactive-demo" class="intro__search" aria-labelledby="search-title">
             <div class="intro__section-heading">
                 <p class="intro__eyebrow">Interactive Demo</p>
                 <h2 id="search-title">공항 코드로 경로 찾기</h2>
@@ -103,94 +90,47 @@
             <form @submit.prevent="showMap">
                 <label for="from">출발 공항</label>
                 <div class="field">
-                    <BaseInput
-                        id="from"
-                        v-model="from"
-                        maxlength="3"
-                        placeholder="ICN"
-                        autocomplete="off"
-                        autocapitalize="characters"
-                        spellcheck="false"
-                        :aria-invalid="invalidFields.includes('from')"
-                        :aria-describedby="
-                            invalidFields.includes('from')
+                    <BaseInput id="from" v-model="from" maxlength="3" placeholder="ICN" autocomplete="off"
+                        autocapitalize="characters" spellcheck="false" :aria-invalid="invalidFields.includes('from')"
+                        :aria-describedby="invalidFields.includes('from')
                                 ? 'route-error airport-help'
                                 : 'airport-help'
-                        "
-                        @input="clearMessages"
-                    />
-                    <button
-                        type="button"
-                        @click="paste('from')"
-                    >
+                            " @input="clearMessages" />
+                    <button type="button" @click="paste('from')">
                         붙여넣기
                     </button>
-                    <button
-                        type="button"
-                        @click="copy(from)"
-                    >
+                    <button type="button" @click="copy(from)">
                         복사
                     </button>
                 </div>
 
                 <label for="to">도착 공항</label>
                 <div class="field">
-                    <BaseInput
-                        id="to"
-                        v-model="to"
-                        maxlength="3"
-                        placeholder="SFO"
-                        autocomplete="off"
-                        autocapitalize="characters"
-                        spellcheck="false"
-                        :aria-invalid="invalidFields.includes('to')"
-                        :aria-describedby="
-                            invalidFields.includes('to')
+                    <BaseInput id="to" v-model="to" maxlength="3" placeholder="SFO" autocomplete="off"
+                        autocapitalize="characters" spellcheck="false" :aria-invalid="invalidFields.includes('to')"
+                        :aria-describedby="invalidFields.includes('to')
                                 ? 'route-error airport-help'
                                 : 'airport-help'
-                        "
-                        @input="clearMessages"
-                    />
-                    <button
-                        type="button"
-                        @click="paste('to')"
-                    >
+                            " @input="clearMessages" />
+                    <button type="button" @click="paste('to')">
                         붙여넣기
                     </button>
-                    <button
-                        type="button"
-                        @click="copy(to)"
-                    >
+                    <button type="button" @click="copy(to)">
                         복사
                     </button>
                 </div>
 
-                <button
-                    class="primary"
-                    type="submit"
-                >
+                <button class="primary" type="submit">
                     항로 지도 보기
                 </button>
             </form>
-            <p
-                id="airport-help"
-                class="hint"
-            >
+            <p id="airport-help" class="hint">
                 사용 가능한 공항 코드: {{ Object.keys(airports).join(", ") }}
             </p>
-            <p
-                v-if="statusMessage"
-                class="message"
-                role="status"
-            >
+            <p v-if="statusMessage" class="message" role="status">
                 {{ statusMessage }}
             </p>
-            <p
-                v-if="errorMessage"
-                id="route-error"
-                class="message is-error"
-                role="alert"
-            >
+            <p v-if="errorMessage" id="route-error" class="message is-error" role="alert">
                 {{ errorMessage }}
             </p>
         </section>
@@ -204,84 +144,18 @@ import { useRoute, useRouter } from "vue-router";
 
 import BaseInput from "../component/base/BaseInput.vue";
 
+import airports from "../common/airports.js";
+
 import "../assets/scss/pages/IntroPage.scss";
 
-// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
 const pageData = {
     "from": "ICN",
     "to": "SFO",
-    "airports": {
-        "ICN": {
-            "name": "인천",
-            "lat": 37.4602,
-            "lng": 126.4407
-        },
-        "SFO": {
-            "name": "샌프란시스코",
-            "lat": 37.6213,
-            "lng": -122.379
-        },
-        "LAX": {
-            "name": "로스앤젤레스",
-            "lat": 33.9416,
-            "lng": -118.4085
-        },
-        "JFK": {
-            "name": "뉴욕",
-            "lat": 40.6413,
-            "lng": -73.7781
-        },
-        "NRT": {
-            "name": "도쿄 나리타",
-            "lat": 35.772,
-            "lng": 140.3929
-        },
-        "HND": {
-            "name": "도쿄 하네다",
-            "lat": 35.5494,
-            "lng": 139.7798
-        },
-        "LHR": {
-            "name": "런던 히스로",
-            "lat": 51.47,
-            "lng": -0.4543
-        },
-        "CDG": {
-            "name": "파리 샤를드골",
-            "lat": 49.0097,
-            "lng": 2.5479
-        },
-        "SIN": {
-            "name": "싱가포르",
-            "lat": 1.3644,
-            "lng": 103.9915
-        },
-        "AMS": {
-            "name": "암스테르담",
-            "lat": 52.3105,
-            "lng": 4.7683
-        },
-        "HEL": {
-            "name": "헬싱키",
-            "lat": 60.3172,
-            "lng": 24.9633
-        },
-        "EWR": {
-            "name": "뉴어크",
-            "lat": 40.6895,
-            "lng": -74.1745
-        },
-        "BLR": {
-            "name": "벵갈루루",
-            "lat": 13.1986,
-            "lng": 77.7066
-        }
-    },
     "copiedMessage": "공항 코드 복사 상태 미리보기입니다."
 };
 
-const airports = pageData.airports;
 const route = useRoute();
 const router = useRouter();
 const normalize = (value) => value.trim().toUpperCase();

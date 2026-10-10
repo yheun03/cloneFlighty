@@ -1,31 +1,15 @@
 <template>
-    <section
-        class="frame-page stats-page aircraft-stats-page"
-        @click="share"
-    >
-        <FcPeriodTabs
-            v-model="period"
-            :items="pageData.periods"
-        />
-        <FcAircraftStats
-            :aircraft="pageData.aircraft"
-            :show-period="false"
-            :show-age="false"
-        />
+    <section class="frame-page stats-page aircraft-stats-page" @click="share">
+        <FcPeriodTabs v-model="period" :items="pageData.periods" />
+        <FcAircraftStats :aircraft="pageData.aircraft" :show-period="false" :show-age="false" />
         <div class="aircraft-stats-page__seat-summary">
             <div>
-                <span
-                    v-for="label in pageData.seatSummary.labels"
-                    :key="label"
-                >
+                <span v-for="label in pageData.seatSummary.labels" :key="label">
                     {{ label }}
                 </span>
             </div>
             <div class="aircraft-stats-page__seat-bar">
-                <span
-                    v-for="(count, index) in pageData.seatSummary.counts"
-                    :key="index"
-                >
+                <span v-for="(count, index) in pageData.seatSummary.counts" :key="index">
                     {{ count }}
                 </span>
             </div>
@@ -38,48 +22,22 @@
         <section class="stats-page__section">
             <div class="fc-stat-head">
                 <h2>Class and Seat</h2>
-                <BaseButton
-                    label="Share"
-                    :icon="shareIcon"
-                    variant="outline"
-                />
+                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
             </div>
-            <FcSeatStats
-                v-bind="pageData.seats.class"
-                :show-title="false"
-            />
-            <FcSeatStats
-                v-bind="pageData.seats.seat"
-                :show-title="false"
-            />
-            <FcSeatStats
-                v-bind="pageData.seats.reason"
-                :show-title="false"
-            />
+            <FcSeatStats v-bind="pageData.seats.class" :show-title="false" />
+            <FcSeatStats v-bind="pageData.seats.seat" :show-title="false" />
+            <FcSeatStats v-bind="pageData.seats.reason" :show-title="false" />
         </section>
         <FcFrequentTails v-bind="pageData.tails" />
         <div class="aircraft-stats-page__age">
             <div class="fc-stat-head">
                 <h2>Aircraft Age</h2>
-                <BaseButton
-                    label="Share"
-                    :icon="shareIcon"
-                    variant="outline"
-                />
+                <BaseButton label="Share" :icon="shareIcon" variant="outline" />
             </div>
-            <FcAircraftStats
-                :aircraft="pageData.aircraft"
-                :show-period="false"
-                :show-tail="false"
-                :show-overview="false"
-                :show-age-title="false"
-            />
+            <FcAircraftStats :aircraft="pageData.aircraft" :show-period="false" :show-tail="false"
+                :show-overview="false" :show-age-title="false" />
         </div>
-        <p
-            v-if="message"
-            class="frame-page__feedback"
-            role="status"
-        >
+        <p v-if="message" class="frame-page__feedback" role="status">
             {{ message }}
         </p>
     </section>
@@ -97,6 +55,8 @@ import FcTopAirlines from "../component/fc/FcTopAirlines.vue";
 import FcSeatStats from "../component/fc/FcSeatStats.vue";
 import FcFrequentTails from "../component/fc/FcFrequentTails.vue";
 
+import airlines from "../common/airlines.js";
+
 import shareIcon from "../assets/icons/lucide/share-2.svg";
 
 import "../assets/scss/component/base/BaseButton.scss";
@@ -110,7 +70,7 @@ import "../assets/scss/component/fc/FcTopAirlines.scss";
 import "../assets/scss/pages/_stats.scss";
 import "../assets/scss/pages/AircraftStatsPage.scss";
 
-// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
 const pageData = {
     "period": "ALL-TIME",
@@ -301,7 +261,7 @@ const pageData = {
         "tail": "HL-8078",
         "flights": 2,
         "model": "A359",
-        "airline": "OZ",
+        "airline": airlines.OZ.iata,
         "flag": "🇰🇷"
     },
     "shareMessage": "Share preview ready."

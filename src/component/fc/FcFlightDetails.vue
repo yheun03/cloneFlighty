@@ -1,17 +1,22 @@
 <script setup>
+import { computed } from "vue";
+
 import FcIcon from "./FcIcon.vue";
 
+import {
+    defaultAirlineLogo,
+    getAirline,
+} from "../../common/airlines.js";
 import bookingIcon from "../../assets/icons/lucide/ticket.svg";
 import planeIcon from "../../assets/icons/lucide/plane.svg";
-import airlineIcon from "../../assets/icons/lucide/circle.svg";
 import departureIcon from "../../assets/icons/lucide/plane-takeoff.svg";
 import arrivalIcon from "../../assets/icons/lucide/plane-landing.svg";
 import durationIcon from "../../assets/icons/lucide/clock-3.svg";
 import overnightIcon from "../../assets/icons/lucide/moon.svg";
 import routeIcon from "../../assets/icons/lucide/arrow-right.svg";
 
-defineProps({
-    // FlightDetailPage.vue의 예제 JSON에서 details 또는 pastDetails를 전달합니다.
+const props = defineProps({
+    // FlightDetailPage.vue의 샘플 데이터에서 details 또는 pastDetails를 전달합니다.
     details: { type: Object, required: true },
     completed: { type: Boolean, default: false },
     bookingCode: { type: String, default: "" },
@@ -19,13 +24,17 @@ defineProps({
 });
 
 defineEmits(["edit", "connection"]);
+
+const airlineIcon = computed(
+    () =>
+        props.details.logo ||
+        getAirline(props.details.iata || props.details.airline)?.logo ||
+        defaultAirlineLogo,
+);
 </script>
 
 <template>
-    <div
-        class="fc-details"
-        :class="{ 'is-completed': completed }"
-    >
+    <div class="fc-details" :class="{ 'is-completed': completed }">
         <div class="fc-schedule">
             <div class="fc-schedule__airport">
                 <FcIcon :src="departureIcon" />
@@ -70,7 +79,9 @@ defineEmits(["edit", "connection"]);
                 </span>
                 <span class="fc-schedule__gates">
                     <!-- prettier-ignore -->
-                    <b><FcIcon :src="bookingIcon" />{{ details.baggage }}</b>
+                    <b>
+                        <FcIcon :src="bookingIcon" />{{ details.baggage }}
+                    </b>
                     <b>
                         <FcIcon :src="arrivalIcon" />
                         {{ details.arrivalGate }}
@@ -84,19 +95,11 @@ defineEmits(["edit", "connection"]);
         </div>
         <h2>Enable popular features:</h2>
         <div class="fc-details__features">
-            <button
-                v-for="feature in details.features"
-                :key="feature.title"
-                type="button"
-                @click="$emit('edit')"
-            >
-                <FcIcon
-                    :src="
-                        feature.field === 'bookingCode'
-                            ? bookingIcon
-                            : planeIcon
-                    "
-                />
+            <button v-for="feature in details.features" :key="feature.title" type="button" @click="$emit('edit')">
+                <FcIcon :src="feature.field === 'bookingCode'
+                    ? bookingIcon
+                    : planeIcon
+                    " />
                 <span>PASTE</span>
                 <strong>{{ feature.title }}</strong>
                 <small>
@@ -108,11 +111,7 @@ defineEmits(["edit", "connection"]);
                 </small>
             </button>
         </div>
-        <button
-            class="fc-details__connection"
-            type="button"
-            @click="$emit('connection')"
-        >
+        <button class="fc-details__connection" type="button" @click="$emit('connection')">
             Connection information
             <FcIcon :src="routeIcon" />
         </button>
@@ -125,10 +124,7 @@ defineEmits(["edit", "connection"]);
             <h3>Arrival Forecast</h3>
             <p>{{ details.forecastDescription }}</p>
             <div class="fc-details__stats">
-                <span
-                    v-for="stat in details.forecastStats"
-                    :key="stat.label"
-                >
+                <span v-for="stat in details.forecastStats" :key="stat.label">
                     {{ stat.label }}
                     <strong>
                         <FcIcon :src="durationIcon" />
@@ -136,19 +132,13 @@ defineEmits(["edit", "connection"]);
                     </strong>
                 </span>
             </div>
-            <div
-                v-for="item in details.forecast"
-                :key="item.label"
-                class="fc-details__bar"
-            >
+            <div v-for="item in details.forecast" :key="item.label" class="fc-details__bar">
                 <span>{{ item.label }}</span>
                 <div>
-                    <i
-                        :style="{
-                            width: `${item.value}%`,
-                            background: item.color,
-                        }"
-                    ></i>
+                    <i :style="{
+                        width: `${item.value}%`,
+                        background: item.color,
+                    }"></i>
                 </div>
                 <b>{{ item.value }}%</b>
             </div>
@@ -190,10 +180,7 @@ defineEmits(["edit", "connection"]);
                 {{ details.to }}
             </p>
             <div class="fc-details__stats">
-                <span
-                    v-for="stat in details.historyStats"
-                    :key="stat.label"
-                >
+                <span v-for="stat in details.historyStats" :key="stat.label">
                     {{ stat.label }}
                     <strong>
                         <FcIcon :src="durationIcon" />

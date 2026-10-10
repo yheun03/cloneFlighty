@@ -1,9 +1,603 @@
 <template>
-    <FcComponentGallery :data="pageData" />
+    <article ref="gallery" class="fc-gallery">
+        <header class="fc-gallery__intro">
+            <div>
+                <p class="fc-gallery__eyebrow">COMPONENT GALLERY</p>
+                <h1>컴포넌트 모아보기</h1>
+                <p class="fc-gallery__description">
+                    공통 컴포넌트의 모양과 상태를 한곳에서 확인하세요. 긴 예시는 카드 안에서 스크롤할 수 있습니다.
+                </p>
+            </div>
+            <ul class="fc-gallery__meta" aria-label="갤러리 구성">
+                <!-- prettier-ignore -->
+                <li><strong>27</strong>개 컴포넌트</li>
+                <li>JSON 더미 데이터</li>
+                <li>상태 미리보기</li>
+            </ul>
+        </header>
+
+        <div class="fc-gallery__filters" role="group" aria-label="컴포넌트 분류">
+            <button v-for="item in componentData.categories" :key="item.id" type="button"
+                :class="{ 'is-active': category === item.id }" :aria-pressed="category === item.id"
+                @click="selectCategory(item)">
+                {{ item.label }}
+                <span>{{ item.count }}</span>
+            </button>
+        </div>
+
+        <div class="fc-gallery__grid">
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-buttons">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        BaseButton
+                    </p>
+                    <h2 id="gallery-buttons">
+                        버튼
+                    </h2>
+                    <p class="fc-gallery__description">
+                        기본 · 아웃라인 · 강조 · 비활성 상태
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-buttons" tabindex="0">
+                    <div class="fc-gallery__row">
+                        <BaseButton label="Share" icon="share-2" variant="outline" />
+                        <BaseButton label="Show More" variant="link" />
+                        <BaseButton label="Done" variant="soft" />
+                        <BaseButton label="Disabled" variant="outline" disabled />
+                    </div>
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-input">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        BaseInput
+                    </p>
+                    <h2 id="gallery-input">
+                        입력창
+                    </h2>
+                    <p class="fc-gallery__description">
+                        입력 가능 상태와 비활성 상태
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-input" tabindex="0">
+                    <div class="fc-gallery__field">
+                        <label for="gallery-flight-number">
+                            Flight number
+                        </label>
+                        <BaseInput id="gallery-flight-number" v-model="inputValue" class="fc-gallery__input"
+                            placeholder="Enter flight number" />
+                        <label for="gallery-input-disabled">
+                            Disabled
+                        </label>
+                        <BaseInput id="gallery-input-disabled" class="fc-gallery__input" model-value="KE 9999"
+                            disabled />
+                    </div>
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-icons">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcIcon
+                    </p>
+                    <h2 id="gallery-icons">
+                        아이콘
+                    </h2>
+                    <p class="fc-gallery__description">
+                        항공편과 설정에 사용하는 공통 아이콘
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-icons" tabindex="0">
+                    <div class="fc-gallery__icons">
+                        <div v-for="icon in componentData.icons" :key="icon.src">
+                            <FcIcon :src="icon.src" />
+                            <small>{{ icon.label }}</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-toggle">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcToggleSwitch
+                    </p>
+                    <h2 id="gallery-toggle">
+                        토글 스위치
+                    </h2>
+                    <p class="fc-gallery__description">
+                        켜짐 · 꺼짐 · 비활성 상태
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-toggle" tabindex="0">
+                    <div class="fc-gallery__row">
+                        <FcToggleSwitch v-model="enabled" label="알림" />
+                        <FcToggleSwitch v-model="secondaryEnabled" label="꺼짐" />
+                        <FcToggleSwitch :model-value="false" label="비활성 상태" disabled />
+                    </div>
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-choice">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcChoiceChip
+                    </p>
+                    <h2 id="gallery-choice">
+                        선택 칩
+                    </h2>
+                    <p class="fc-gallery__description">
+                        좌석 위치 선택과 활성 상태
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-choice" tabindex="0">
+                    <div class="fc-gallery__row">
+                        <FcChoiceChip v-for="item in componentData.positions" :key="item" :label="item" :icon="chipIcon"
+                            :active="seat === item" :filled="seat === item" @click="seat = item" />
+                    </div>
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-periods">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcPeriodTabs
+                    </p>
+                    <h2 id="gallery-periods">
+                        기간 탭
+                    </h2>
+                    <p class="fc-gallery__description">
+                        기간별 선택 상태
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-periods" tabindex="0">
+                    <FcPeriodTabs v-model="period" :items="componentData.periods" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-badges">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcCountBadge
+                    </p>
+                    <h2 id="gallery-badges">
+                        수량 배지
+                    </h2>
+                    <p class="fc-gallery__description">
+                        기본 · 채움 · 테두리 스타일
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-badges" tabindex="0">
+                    <div class="fc-gallery__row">
+                        <FcCountBadge :value="1" variant="plain" />
+                        <FcCountBadge :value="8" variant="filled" />
+                        <FcCountBadge :value="20" variant="outline" />
+                    </div>
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-calendar">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcCalendarPicker
+                    </p>
+                    <h2 id="gallery-calendar">
+                        달력
+                    </h2>
+                    <p class="fc-gallery__description">
+                        선택일과 항공편이 있는 날짜
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-calendar" tabindex="0">
+                    <FcCalendarPicker v-model="day" :year="2026" :month="1" :marked="componentData.calendar.marked" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-rows">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcListRow
+                    </p>
+                    <h2 id="gallery-rows">
+                        목록 행
+                    </h2>
+                    <p class="fc-gallery__description">
+                        사용자 정보와 강조 액션
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-rows" tabindex="0">
+                    <FcListRow title="김민지" subtitle="friend@example.com" avatar="M" />
+                    <FcListRow title="Invite a Friend" accent />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-paste">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcPasteField
+                    </p>
+                    <h2 id="gallery-paste">
+                        붙여넣기 입력
+                    </h2>
+                    <p class="fc-gallery__description">
+                        버튼을 누르면 예시 예약 코드 입력
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-paste" tabindex="0">
+                    <FcPasteField v-model="reason" label="Booking Code" sample-value="ABC123" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'flight'" class="fc-gallery__group"
+                aria-labelledby="gallery-flights">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcFlightListItem
+                    </p>
+                    <h2 id="gallery-flights">
+                        항공편 목록
+                    </h2>
+                    <p class="fc-gallery__description">
+                        예정 · 지난 항공편 · 상세 헤더
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-flights" tabindex="0">
+                    <div v-for="sample in componentData.flightVariants" :key="sample.variant">
+                        <p class="fc-gallery__sample-label">
+                            {{ sample.label }}
+                        </p>
+                        <FcFlightListItem :airline="airlines.KE.iata" flight="24" title="San Francisco to Seoul"
+                            date="Sat, 20 Jun" departure="SFO 11:40" arrival="ICN 17:40⁺¹" :days="21" :avatar="false"
+                            duration="2h 50m" flight-time="2h 50m" :variant="sample.variant" />
+                    </div>
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'flight'" class="fc-gallery__group"
+                aria-labelledby="gallery-search">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcAddFlightSearch
+                    </p>
+                    <h2 id="gallery-search">
+                        항공편 검색
+                    </h2>
+                    <p class="fc-gallery__description">
+                        검색어에 따른 더미 목록 필터
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-search" tabindex="0">
+                    <FcAddFlightSearch placeholder="Korean Air, ICN, or KE123" :items="componentData.searchItems" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'flight'" class="fc-gallery__group"
+                aria-labelledby="gallery-connection">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcConnectionStatus
+                    </p>
+                    <h2 id="gallery-connection">
+                        연결편 상태
+                    </h2>
+                    <p class="fc-gallery__description">
+                        환승 시간과 여유 시간 안내
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-connection" tabindex="0">
+                    <FcConnectionStatus title="Relaxed Connection" duration="4h 30m" extra="3h 10m" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'flight'" class="fc-gallery__group"
+                aria-labelledby="gallery-timeline">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcTerminalTimeline
+                    </p>
+                    <h2 id="gallery-timeline">
+                        터미널 타임라인
+                    </h2>
+                    <p class="fc-gallery__description">
+                        도착 · 터미널 이동 · 출발 정보
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-timeline" tabindex="0">
+                    <FcTerminalTimeline arrival="05:20" departure="09:50" terminal="Terminal Main" gate="A4" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'flight'" class="fc-gallery__group"
+                aria-labelledby="gallery-details">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcFlightDetails
+                    </p>
+                    <h2 id="gallery-details">
+                        항공편 상세
+                    </h2>
+                    <p class="fc-gallery__description">
+                        운항 일정과 비행 종료 상태
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-details" tabindex="0">
+                    <div class="fc-gallery__row fc-gallery__state-preview">
+                        <FcToggleSwitch v-model="completed" label="비행 종료" />
+                    </div>
+                    <FcFlightDetails :details="componentData.details" :completed="completed" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'stats'" class="fc-gallery__group"
+                aria-labelledby="gallery-passport">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcPassportOverview
+                    </p>
+                    <h2 id="gallery-passport">
+                        패스포트 요약
+                    </h2>
+                    <p class="fc-gallery__description">
+                        항공편 · 거리 · 시간 · 최근 기록
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-passport" tabindex="0">
+                    <FcPassportOverview :flights="20" distance="73,650 km" flight-time="4d 13h" :airports="16"
+                        :airlines="5" :periods="componentData.periods" map-from="ICN" map-to="ICN"
+                        flags="🇰🇷 🇲🇾 🇯🇵 🇩🇪 🇨🇳 🇸🇬 🇳🇱 🇫🇮 🇩🇰 🇸🇪 🇲🇳" history-title="2025"
+                        history-count="9 FLIGHTS" :recent="componentData.overview.recent" :show-period="false"
+                        :show-map="false" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'stats'" class="fc-gallery__group"
+                aria-labelledby="gallery-delays">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcDelayReport
+                    </p>
+                    <h2 id="gallery-delays">
+                        지연 리포트
+                    </h2>
+                    <p class="fc-gallery__description">
+                        지연 비율과 누적 지연 시간
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-delays" tabindex="0">
+                    <FcDelayReport :delayed="8" :total="20" :lost-minutes="180" worst-delay="KE 24 · 1h 05m late"
+                        :worst-airline="`${airlines.KE.name} · 2h 10m late in total`" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'stats'" class="fc-gallery__group"
+                aria-labelledby="gallery-aircraft">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcAircraftStats
+                    </p>
+                    <h2 id="gallery-aircraft">
+                        항공기 통계
+                    </h2>
+                    <p class="fc-gallery__description">
+                        기종별 요약과 항공기 연령
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-aircraft" tabindex="0">
+                    <FcAircraftStats :aircraft="aircraft" :show-period="false" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'stats'" class="fc-gallery__group"
+                aria-labelledby="gallery-performance">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcAirlinePerformance
+                    </p>
+                    <h2 id="gallery-performance">
+                        운항 성과
+                    </h2>
+                    <p class="fc-gallery__description">
+                        개인 · 지연 · 항공사 · 공항 통계
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-performance" tabindex="0">
+                    <FcPeriodTabs v-model="performanceSection" :items="componentData.performanceSections"
+                        label="운항 성과 예시" />
+                    <FcAirlinePerformance :key="performanceSection" :report="componentData.performance"
+                        :section="performanceSection" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'stats'" class="fc-gallery__group"
+                aria-labelledby="gallery-seats">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcSeatStats
+                    </p>
+                    <h2 id="gallery-seats">
+                        좌석 통계
+                    </h2>
+                    <p class="fc-gallery__description">
+                        좌석 위치 · 등급 · 여행 목적
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-seats" tabindex="0">
+                    <FcPeriodTabs v-model="seatMode" :items="componentData.seatModes" label="좌석 통계 예시" />
+                    <FcSeatStats :mode="componentData.seats[seatMode].mode"
+                        :top-label="componentData.seats[seatMode].topLabel"
+                        :top-value="componentData.seats[seatMode].topValue" :rows="componentData.seats[seatMode].rows"
+                        :show-title="false" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'stats'" class="fc-gallery__group"
+                aria-labelledby="gallery-tails">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcFrequentTails
+                    </p>
+                    <h2 id="gallery-tails">
+                        자주 탑승한 항공기
+                    </h2>
+                    <p class="fc-gallery__description">
+                        항공기 등록 번호와 탑승 횟수
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-tails" tabindex="0">
+                    <FcFrequentTails tail="HL-8078" :flights="2" model="A359" :airline="airlines.OZ.iata" flag="🇰🇷" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'stats'" class="fc-gallery__group"
+                aria-labelledby="gallery-countries">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcCountriesStats
+                    </p>
+                    <h2 id="gallery-countries">
+                        방문 국가
+                    </h2>
+                    <p class="fc-gallery__description">
+                        국가 목록과 지역별 비행 횟수
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-countries" tabindex="0">
+                    <FcCountriesStats :total="11" :countries="componentData.countries.countries"
+                        :regions="componentData.countries.regions" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'stats'" class="fc-gallery__group"
+                aria-labelledby="gallery-airlines">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcTopAirlines
+                    </p>
+                    <h2 id="gallery-airlines">
+                        주요 항공사
+                    </h2>
+                    <p class="fc-gallery__description">
+                        비행 횟수와 거리 기준 비교
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-airlines" tabindex="0">
+                    <FcTopAirlines title="Top Airlines" :total="9" unit="total airlines"
+                        :items="componentData.airlineItems" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'stats'" class="fc-gallery__group"
+                aria-labelledby="gallery-distance">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcFlightDistanceStats
+                    </p>
+                    <h2 id="gallery-distance">
+                        비행 거리
+                    </h2>
+                    <p class="fc-gallery__description">
+                        요약과 상세 내역 전환
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-distance" tabindex="0">
+                    <FcFlightDistanceStats title="Flight Distance" share-label="Share" share-icon="share-2"
+                        distance="73,650" distance-unit="km" miles="45,764" miles-unit="mi"
+                        :breakdown="componentData.distance.breakdown" average-label="Average distance: 3,682 km"
+                        :comparisons="componentData.distance.comparisons" summary-label="Show Summary"
+                        breakdown-label="Show Breakdown" :shortest-flight="componentData.distance.shortestFlight"
+                        :longest-flight="componentData.distance.longestFlight" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'settings'" class="fc-gallery__group"
+                aria-labelledby="gallery-alerts">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcAlertSettings
+                    </p>
+                    <h2 id="gallery-alerts">
+                        항공편 알림
+                    </h2>
+                    <p class="fc-gallery__description">
+                        내 항공편과 친구 알림 선택 상태
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-alerts" tabindex="0">
+                    <FcPeriodTabs v-model="alertMode" :items="componentData.alertModes" label="항공편 알림 예시" />
+                    <FcAlertSettings :key="alertMode" :mode="alertMode"
+                        :title="alertMode === 'mine' ? 'My Flight Alerts' : 'Customize Alerts'" :desc="alertMode === 'mine'
+                            ? 'Pick the notification types you receive for your flights.'
+                            : 'Customize this per friend in Flighty Friends.'
+                            " :options="componentData.alertOptions[alertMode]" friend-name="김민지"
+                        friend-email="friend@example.com" initial-shared initial-selected="Basics" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'settings'" class="fc-gallery__group"
+                aria-labelledby="gallery-sync">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcCalendarSync
+                    </p>
+                    <h2 id="gallery-sync">
+                        캘린더 동기화
+                    </h2>
+                    <p class="fc-gallery__description">
+                        가져오기 · 내보내기 · 달력 선택
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-sync" tabindex="0">
+                    <FcCalendarSync :calendars="componentData.calendars" :settings="{
+                        importEnabled: false,
+                        exportEnabled: false,
+                        importCalendars: [],
+                        exportCalendar: '',
+                    }" />
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'settings'" class="fc-gallery__group"
+                aria-labelledby="gallery-settings">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcSettingsMenu
+                    </p>
+                    <h2 id="gallery-settings">
+                        설정 메뉴
+                    </h2>
+                    <p class="fc-gallery__description">
+                        멤버십과 설정 목록
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-settings" tabindex="0">
+                    <FcSettingsMenu :groups="componentData.settingsGroups"
+                        :membership="{ title: 'Flighty Pro', status: 'Member' }" />
+                </div>
+            </section>
+        </div>
+    </article>
 </template>
 
 <script setup>
-import FcComponentGallery from "../component/fc/FcComponentGallery.vue";
+import { ref } from "vue";
+
+import BaseButton from "../component/base/BaseButton.vue";
+import BaseInput from "../component/base/BaseInput.vue";
+import FcIcon from "../component/fc/FcIcon.vue";
+import FcToggleSwitch from "../component/fc/FcToggleSwitch.vue";
+import FcChoiceChip from "../component/fc/FcChoiceChip.vue";
+import FcPeriodTabs from "../component/fc/FcPeriodTabs.vue";
+import FcCountBadge from "../component/fc/FcCountBadge.vue";
+import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
+import FcListRow from "../component/fc/FcListRow.vue";
+import FcPasteField from "../component/fc/FcPasteField.vue";
+import FcConnectionStatus from "../component/fc/FcConnectionStatus.vue";
+import FcTerminalTimeline from "../component/fc/FcTerminalTimeline.vue";
+import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
+import FcAddFlightSearch from "../component/fc/FcAddFlightSearch.vue";
+import FcFlightDetails from "../component/fc/FcFlightDetails.vue";
+import FcPassportOverview from "../component/fc/FcPassportOverview.vue";
+import FcDelayReport from "../component/fc/FcDelayReport.vue";
+import FcAircraftStats from "../component/fc/FcAircraftStats.vue";
+import FcAlertSettings from "../component/fc/FcAlertSettings.vue";
+import FcCalendarSync from "../component/fc/FcCalendarSync.vue";
+import FcSettingsMenu from "../component/fc/FcSettingsMenu.vue";
+import FcAirlinePerformance from "../component/fc/FcAirlinePerformance.vue";
+import FcSeatStats from "../component/fc/FcSeatStats.vue";
+import FcFrequentTails from "../component/fc/FcFrequentTails.vue";
+import FcCountriesStats from "../component/fc/FcCountriesStats.vue";
+import FcTopAirlines from "../component/fc/FcTopAirlines.vue";
+import FcFlightDistanceStats from "../component/fc/FcFlightDistanceStats.vue";
+
+import chipIcon from "../assets/icons/lucide/square.svg";
+
+import airports from "../common/airports.js";
+import airlines from "../common/airlines.js";
 
 import "../assets/scss/component/fc/FcComponentGallery.scss";
 import "../assets/scss/component/base/BaseButton.scss";
@@ -34,86 +628,115 @@ import "../assets/scss/component/fc/FcCountriesStats.scss";
 import "../assets/scss/component/fc/FcTopAirlines.scss";
 import "../assets/scss/component/fc/FcFlightDistanceStats.scss";
 
-// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
+// 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
-const pageData = {
-    "enabled": true,
-    "seat": "Aisle",
-    "period": "2024",
-    "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
-    "day": 20,
-    "reason": "",
-    "completed": false,
-    "bookingCode": "ABC123",
+const componentData = {
+    "categories": [
+        {
+            "id": "all",
+            "label": "전체",
+            "count": 27
+        },
+        {
+            "id": "basic",
+            "label": "기본 UI",
+            "count": 10
+        },
+        {
+            "id": "flight",
+            "label": "항공편",
+            "count": 5
+        },
+        {
+            "id": "stats",
+            "label": "통계",
+            "count": 9
+        },
+        {
+            "id": "settings",
+            "label": "설정",
+            "count": 3
+        }
+    ],
+    "icons": [
+        {
+            "src": "plane",
+            "label": "plane"
+        },
+        {
+            "src": "route",
+            "label": "route"
+        },
+        {
+            "src": "bell",
+            "label": "bell"
+        },
+        {
+            "src": "calendar-days",
+            "label": "calendar"
+        },
+        {
+            "src": "users",
+            "label": "users"
+        },
+        {
+            "src": "earth",
+            "label": "earth"
+        }
+    ],
     "positions": ["Aisle", "Middle", "Window", "Pilot", "Captain", "Jumpseat"],
+    "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
+    "performanceSections": ["mine", "delays", "airline", "airport"],
+    "seatModes": ["seat", "class", "reason"],
+    "alertModes": ["mine", "friend"],
     "calendar": {
-        "year": 2026,
-        "month": 1,
-        "marked": [11, 13],
-        "outlined": []
+        "marked": [11, 13]
     },
-    "friend": {
-        "title": "김민지",
-        "friendName": "김민지",
-        "friendEmail": "friend@example.com"
-    },
-    "connection": {
-        "title": "Relaxed Connection",
-        "duration": "4h 30m",
-        "extra": "3h 10m"
-    },
-    "timeline": {
-        "arrival": "05:20",
-        "departure": "09:50",
-        "terminal": "Terminal Main",
-        "gate": "A4"
-    },
-    "flight": {
-        "airline": "KE",
-        "flight": "24",
-        "title": "San Francisco to Seoul",
-        "date": "Sat, 20 Jun",
-        "departure": "SFO 11:40",
-        "arrival": "ICN 17:40⁺¹",
-        "days": 21,
-        "avatar": false,
-        "duration": "2h 50m",
-        "flightTime": "2h 50m"
-    },
-    "search": {
-        "placeholder": "Korean Air, ICN, or KE123",
-        "items": [
-            {
-                "title": "Korean Air",
-                "subtitle": "KE  ·  KAL",
-                "avatar": "circle"
-            },
-            {
-                "title": "John F Kennedy Intl.",
-                "subtitle": "JFK  ·  KJFK  ·  New York",
-                "avatar": "plane"
-            },
-            {
-                "title": "Newark Liberty Intl.",
-                "subtitle": "EWR  ·  KEWR  ·  Newark",
-                "avatar": "plane"
-            },
-            {
-                "title": "Kempegowda Intl.",
-                "subtitle": "BLR  ·  VOBL  ·  Bengaluru",
-                "avatar": "plane"
-            }
-        ]
-    },
+    "flightVariants": [
+        {
+            "label": "Upcoming",
+            "variant": "upcoming"
+        },
+        {
+            "label": "History",
+            "variant": "history"
+        },
+        {
+            "label": "Header",
+            "variant": "header"
+        }
+    ],
+    "searchItems": [
+        {
+            "title": airlines.KE.name,
+            "subtitle": `${airlines.KE.iata}  ·  ${airlines.KE.icao}`,
+            "avatar": airlines.KE.logo
+        },
+        {
+            "title": airports.JFK.fullName,
+            "subtitle": `${airports.JFK.iata}  ·  ${airports.JFK.icao}  ·  ${airports.JFK.city}`,
+            "avatar": "plane"
+        },
+        {
+            "title": airports.EWR.fullName,
+            "subtitle": `${airports.EWR.iata}  ·  ${airports.EWR.icao}  ·  ${airports.EWR.city}`,
+            "avatar": "plane"
+        },
+        {
+            "title": airports.BLR.fullName,
+            "subtitle": `${airports.BLR.iata}  ·  ${airports.BLR.icao}  ·  ${airports.BLR.city}`,
+            "avatar": "plane"
+        }
+    ],
     "details": {
-        "airline": "Korean Air",
+        "airline": airlines.KE.name,
         "plane": "Airbus A330-300",
         "from": "SFO",
         "to": "ICN",
         "departure": "11:40",
         "arrival": "17:40",
-        "departureAirport": "San Francisco Intl.",
-        "arrivalAirport": "Incheon Intl.",
+        "departureAirport": airports.SFO.fullName,
+        "arrivalAirport": airports.ICN.fullName,
         "scheduledDeparture": "11:40",
         "scheduledArrival": "18:00",
         "departureGate": "F4",
@@ -186,10 +809,10 @@ const pageData = {
         "tail": "HL-7587",
         "firstFlight": "Nov 8, 2000",
         "age": "25 years old",
-        "alliance": "SkyTeam",
-        "callsign": "KOREANAIR",
-        "icao": "KAL",
-        "iata": "KE",
+        "alliance": airlines.KE.alliance,
+        "callsign": airlines.KE.callsign,
+        "icao": airlines.KE.icao,
+        "iata": airlines.KE.iata,
         "historyStats": [
             {
                 "label": "Flights",
@@ -207,17 +830,6 @@ const pageData = {
         "recentFlight": "20 Aug 2025 · KE 647"
     },
     "overview": {
-        "flights": 20,
-        "distance": "73,650 km",
-        "flightTime": "4d 13h",
-        "airports": 16,
-        "airlines": 5,
-        "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
-        "mapFrom": "ICN",
-        "mapTo": "ICN",
-        "flags": "🇰🇷 🇲🇾 🇯🇵 🇩🇪 🇨🇳 🇸🇬 🇳🇱 🇫🇮 🇩🇰 🇸🇪 🇲🇳",
-        "historyTitle": "2025",
-        "historyCount": "9 FLIGHTS",
         "recent": [
             {
                 "id": 1,
@@ -256,18 +868,10 @@ const pageData = {
             }
         ]
     },
-    "delayReport": {
-        "delayed": 8,
-        "total": 20,
-        "lostMinutes": 180,
-        "worstDelay": "KE 24 · 1h 05m late",
-        "worstAirline": "Korean Air · 2h 10m late in total"
-    },
     "aircraft": {
         "total": 12,
         "mostFlown": "A330-300",
         "tail": "HL-8078",
-        "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
         "manufacturer": "55% Airbus",
         "newest": {
             "age": "2 years",
@@ -297,124 +901,107 @@ const pageData = {
         ],
         "tailFlights": 2
     },
-    "tails": {
-        "tail": "HL-8078",
-        "flights": 2,
-        "model": "A359",
-        "airline": "OZ",
-        "flag": "🇰🇷"
-    },
-    "myAlertOptions": [
-        {
-            "icon": "bell",
-            "title": "Basics",
-            "desc": "The most critical alerts like gate changes, delays, & Cancellations.",
-            "color": "var(--fc-link, #1685ff)",
-            "enabled": true
-        },
-        {
-            "icon": "circle-check",
-            "title": "Above & Beyond",
-            "desc": "Get alerts on inbound aircraft status, connection assistance, and aircraft changes",
-            "color": "var(--fc-success, #00ae70)",
-            "enabled": false
-        },
-        {
-            "icon": "route",
-            "title": "Flight Plans",
-            "desc": "Get a map of the flight path when the pilot files it with authorities.",
-            "color": "#ffca2d",
-            "enabled": false
-        },
-        {
-            "icon": "plane-landing",
-            "title": "Arrival Information",
-            "desc": "Get alerts for landing, gate arrival, and baggage claim.",
-            "color": "#ff9d20",
-            "enabled": false
-        }
-    ],
-    "friendAlertOptions": [
-        {
-            "icon": "users",
-            "title": "None",
-            "desc": "No alerts please. I’ll just view their flights in the app.",
-            "color": "var(--fc-danger, #ff5049)"
-        },
-        {
-            "icon": "plane-landing",
-            "title": "Just Landed",
-            "desc": "Only notify me when they land.",
-            "color": "var(--fc-success, #00ae70)"
-        },
-        {
-            "icon": "users",
-            "title": "Basics",
-            "desc": "Add alerts for major disruptions, takeoff, 1h until arrival, and on morning of travel.",
-            "color": "var(--fc-link, #1685ff)"
-        },
-        {
-            "icon": "users",
-            "title": "Everything",
-            "desc": "Every alert. Check-in, gate change, disruptions, landing, baggage, etc",
-            "color": "#ff9d20"
-        }
-    ],
-    "calendarSync": {
-        "calendars": ["Personal", "Work", "Flighty"],
-        "importEnabled": false,
-        "exportEnabled": false,
-        "importCalendars": [],
-        "exportCalendar": ""
-    },
-    "settings": {
-        "groups": [
+    "alertOptions": {
+        "mine": [
             {
-                "label": "ALERTS",
-                "items": [
-                    {
-                        "icon": "plane",
-                        "title": "My Flights",
-                        "name": "my-flight-alerts"
-                    },
-                    {
-                        "icon": "users",
-                        "title": "Friends’ Flights",
-                        "name": "friends-flight-alerts"
-                    }
-                ]
+                "icon": "bell",
+                "title": "Basics",
+                "desc": "The most critical alerts like gate changes, delays, & Cancellations.",
+                "color": "var(--fc-link, #1685ff)",
+                "enabled": true
             },
             {
-                "label": "AUTOMATIONS",
-                "items": [
-                    {
-                        "icon": "calendar-days",
-                        "title": "Calendar Sync",
-                        "name": "calendar-sync"
-                    }
-                ]
+                "icon": "circle-check",
+                "title": "Above & Beyond",
+                "desc": "Get alerts on inbound aircraft status, connection assistance, and aircraft changes",
+                "color": "var(--fc-success, #00ae70)",
+                "enabled": false
             },
             {
-                "label": "CUSTOMIZE",
-                "items": [
-                    {
-                        "icon": "earth",
-                        "title": "Language",
-                        "name": "language"
-                    },
-                    {
-                        "icon": "settings",
-                        "title": "Unit",
-                        "name": "units"
-                    }
-                ]
+                "icon": "route",
+                "title": "Flight Plans",
+                "desc": "Get a map of the flight path when the pilot files it with authorities.",
+                "color": "#ffca2d",
+                "enabled": false
+            },
+            {
+                "icon": "plane-landing",
+                "title": "Arrival Information",
+                "desc": "Get alerts for landing, gate arrival, and baggage claim.",
+                "color": "#ff9d20",
+                "enabled": false
             }
         ],
-        "membership": {
-            "title": "Flighty Pro",
-            "status": "Member"
-        }
+        "friend": [
+            {
+                "icon": "users",
+                "title": "None",
+                "desc": "No alerts please. I’ll just view their flights in the app.",
+                "color": "var(--fc-danger, #ff5049)"
+            },
+            {
+                "icon": "plane-landing",
+                "title": "Just Landed",
+                "desc": "Only notify me when they land.",
+                "color": "var(--fc-success, #00ae70)"
+            },
+            {
+                "icon": "users",
+                "title": "Basics",
+                "desc": "Add alerts for major disruptions, takeoff, 1h until arrival, and on morning of travel.",
+                "color": "var(--fc-link, #1685ff)"
+            },
+            {
+                "icon": "users",
+                "title": "Everything",
+                "desc": "Every alert. Check-in, gate change, disruptions, landing, baggage, etc",
+                "color": "#ff9d20"
+            }
+        ]
     },
+    "calendars": ["Personal", "Work", "Flighty"],
+    "settingsGroups": [
+        {
+            "label": "ALERTS",
+            "items": [
+                {
+                    "icon": "plane",
+                    "title": "My Flights",
+                    "name": "my-flight-alerts"
+                },
+                {
+                    "icon": "users",
+                    "title": "Friends’ Flights",
+                    "name": "friends-flight-alerts"
+                }
+            ]
+        },
+        {
+            "label": "AUTOMATIONS",
+            "items": [
+                {
+                    "icon": "calendar-days",
+                    "title": "Calendar Sync",
+                    "name": "calendar-sync"
+                }
+            ]
+        },
+        {
+            "label": "CUSTOMIZE",
+            "items": [
+                {
+                    "icon": "earth",
+                    "title": "Language",
+                    "name": "language"
+                },
+                {
+                    "icon": "settings",
+                    "title": "Unit",
+                    "name": "units"
+                }
+            ]
+        }
+    ],
     "performance": {
         "airports": [
             {
@@ -450,32 +1037,32 @@ const pageData = {
         ],
         "airlines": [
             {
-                "name": "Finnair",
+                "name": airlines.AY.name,
                 "percent": 100,
                 "count": "1/1"
             },
             {
-                "name": "KLM",
+                "name": airlines.KL.name,
                 "percent": 50,
                 "count": "1/2"
             },
             {
-                "name": "Asiana",
+                "name": airlines.OZ.name,
                 "percent": 33,
                 "count": "1/3"
             },
             {
-                "name": "Korean Air",
+                "name": airlines.KE.name,
                 "percent": 25,
                 "count": "1/4"
             },
             {
-                "name": "Alaska",
+                "name": airlines.AS.name,
                 "percent": 10,
                 "count": "1/1"
             },
             {
-                "name": "Singapore Airlines",
+                "name": airlines.SQ.name,
                 "percent": 10,
                 "count": "1/1"
             }
@@ -640,7 +1227,6 @@ const pageData = {
         }
     },
     "countries": {
-        "total": 11,
         "countries": [
             {
                 "flag": "🇰🇷",
@@ -716,41 +1302,29 @@ const pageData = {
             }
         ]
     },
-    "airlines": {
-        "title": "Top Airlines",
-        "total": 9,
-        "unit": "total airlines",
-        "items": [
-            {
-                "name": "Korean Air",
-                "flights": 13,
-                "distance": 48600
-            },
-            {
-                "name": "Asiana",
-                "flights": 3,
-                "distance": 12000
-            },
-            {
-                "name": "KLM",
-                "flights": 2,
-                "distance": 7800
-            },
-            {
-                "name": "Finnair",
-                "flights": 2,
-                "distance": 5250
-            }
-        ]
-    },
+    "airlineItems": [
+        {
+            "name": airlines.KE.name,
+            "flights": 13,
+            "distance": 48600
+        },
+        {
+            "name": airlines.OZ.name,
+            "flights": 3,
+            "distance": 12000
+        },
+        {
+            "name": airlines.KL.name,
+            "flights": 2,
+            "distance": 7800
+        },
+        {
+            "name": airlines.AY.name,
+            "flights": 2,
+            "distance": 5250
+        }
+    ],
     "distance": {
-        "title": "Flight Distance",
-        "shareLabel": "Share",
-        "shareIcon": "share-2",
-        "distance": "73,650",
-        "distanceUnit": "km",
-        "miles": "45,764",
-        "milesUnit": "mi",
         "breakdown": [
             {
                 "label": "Days",
@@ -777,7 +1351,6 @@ const pageData = {
                 "value": "0.8%"
             }
         ],
-        "averageLabel": "Average distance: 3,682 km",
         "comparisons": [
             {
                 "icon": "earth",
@@ -792,8 +1365,6 @@ const pageData = {
                 "text": "0.02x Around the Sun"
             }
         ],
-        "summaryLabel": "Show Summary",
-        "breakdownLabel": "Show Breakdown",
         "shortestFlight": {
             "title": "Shortest flight",
             "route": "Jeju → Seoul",
@@ -806,318 +1377,29 @@ const pageData = {
             "distance": "9,647 km",
             "detail": "OZ 202 · 2 Jun 2017"
         }
-    },
-    "alerts": {
-        "shared": true,
-        "selected": "Basics",
-        "mode": "mine",
-        "modes": ["mine", "friend"],
-        "previews": {
-            "mine": {
-                "title": "My Flight Alerts",
-                "desc": "Pick the notification types you receive for your flights."
-            },
-            "friend": {
-                "title": "Customize Alerts",
-                "desc": "Customize this per friend in Flighty Friends."
-            }
-        }
-    },
-    "gallery": {
-        "eyebrow": "COMPONENT GALLERY",
-        "title": "컴포넌트 모아보기",
-        "description": "공통 컴포넌트의 모양과 상태를 한곳에서 확인하세요. 긴 예시는 카드 안에서 스크롤할 수 있습니다.",
-        "category": "all",
-        "total": 27,
-        "tags": ["JSON 더미 데이터", "상태 미리보기"],
-        "categories": [
-            {
-                "id": "all",
-                "label": "전체",
-                "count": 27
-            },
-            {
-                "id": "basic",
-                "label": "기본 UI",
-                "count": 10
-            },
-            {
-                "id": "flight",
-                "label": "항공편",
-                "count": 5
-            },
-            {
-                "id": "stats",
-                "label": "통계",
-                "count": 9
-            },
-            {
-                "id": "settings",
-                "label": "설정",
-                "count": 3
-            }
-        ],
-        "catalog": {
-            "buttons": {
-                "category": "basic",
-                "title": "버튼",
-                "component": "BaseButton",
-                "description": "기본 · 아웃라인 · 강조 · 비활성 상태"
-            },
-            "input": {
-                "category": "basic",
-                "title": "입력창",
-                "component": "BaseInput",
-                "description": "입력 가능 상태와 비활성 상태"
-            },
-            "icons": {
-                "category": "basic",
-                "title": "아이콘",
-                "component": "FcIcon",
-                "description": "항공편과 설정에 사용하는 공통 아이콘"
-            },
-            "toggle": {
-                "category": "basic",
-                "title": "토글 스위치",
-                "component": "FcToggleSwitch",
-                "description": "켜짐 · 꺼짐 · 비활성 상태"
-            },
-            "choice": {
-                "category": "basic",
-                "title": "선택 칩",
-                "component": "FcChoiceChip",
-                "description": "좌석 위치 선택과 활성 상태"
-            },
-            "periods": {
-                "category": "basic",
-                "title": "기간 탭",
-                "component": "FcPeriodTabs",
-                "description": "기간별 선택 상태"
-            },
-            "badges": {
-                "category": "basic",
-                "title": "수량 배지",
-                "component": "FcCountBadge",
-                "description": "기본 · 채움 · 테두리 스타일"
-            },
-            "calendar": {
-                "category": "basic",
-                "title": "달력",
-                "component": "FcCalendarPicker",
-                "description": "선택일과 항공편이 있는 날짜"
-            },
-            "rows": {
-                "category": "basic",
-                "title": "목록 행",
-                "component": "FcListRow",
-                "description": "사용자 정보와 강조 액션"
-            },
-            "paste": {
-                "category": "basic",
-                "title": "붙여넣기 입력",
-                "component": "FcPasteField",
-                "description": "버튼을 누르면 예시 예약 코드 입력"
-            },
-            "flights": {
-                "category": "flight",
-                "title": "항공편 목록",
-                "component": "FcFlightListItem",
-                "description": "예정 · 지난 항공편 · 상세 헤더"
-            },
-            "search": {
-                "category": "flight",
-                "title": "항공편 검색",
-                "component": "FcAddFlightSearch",
-                "description": "검색어에 따른 더미 목록 필터"
-            },
-            "connection": {
-                "category": "flight",
-                "title": "연결편 상태",
-                "component": "FcConnectionStatus",
-                "description": "환승 시간과 여유 시간 안내"
-            },
-            "timeline": {
-                "category": "flight",
-                "title": "터미널 타임라인",
-                "component": "FcTerminalTimeline",
-                "description": "도착 · 터미널 이동 · 출발 정보"
-            },
-            "details": {
-                "category": "flight",
-                "title": "항공편 상세",
-                "component": "FcFlightDetails",
-                "description": "운항 일정과 비행 종료 상태"
-            },
-            "passport": {
-                "category": "stats",
-                "title": "패스포트 요약",
-                "component": "FcPassportOverview",
-                "description": "항공편 · 거리 · 시간 · 최근 기록"
-            },
-            "delays": {
-                "category": "stats",
-                "title": "지연 리포트",
-                "component": "FcDelayReport",
-                "description": "지연 비율과 누적 지연 시간"
-            },
-            "aircraft": {
-                "category": "stats",
-                "title": "항공기 통계",
-                "component": "FcAircraftStats",
-                "description": "기종별 요약과 항공기 연령"
-            },
-            "performance": {
-                "category": "stats",
-                "title": "운항 성과",
-                "component": "FcAirlinePerformance",
-                "description": "개인 · 지연 · 항공사 · 공항 통계"
-            },
-            "seats": {
-                "category": "stats",
-                "title": "좌석 통계",
-                "component": "FcSeatStats",
-                "description": "좌석 위치 · 등급 · 여행 목적"
-            },
-            "tails": {
-                "category": "stats",
-                "title": "자주 탑승한 항공기",
-                "component": "FcFrequentTails",
-                "description": "항공기 등록 번호와 탑승 횟수"
-            },
-            "countries": {
-                "category": "stats",
-                "title": "방문 국가",
-                "component": "FcCountriesStats",
-                "description": "국가 목록과 지역별 비행 횟수"
-            },
-            "airlines": {
-                "category": "stats",
-                "title": "주요 항공사",
-                "component": "FcTopAirlines",
-                "description": "비행 횟수와 거리 기준 비교"
-            },
-            "distance": {
-                "category": "stats",
-                "title": "비행 거리",
-                "component": "FcFlightDistanceStats",
-                "description": "요약과 상세 내역 전환"
-            },
-            "alerts": {
-                "category": "settings",
-                "title": "항공편 알림",
-                "component": "FcAlertSettings",
-                "description": "내 항공편과 친구 알림 선택 상태"
-            },
-            "sync": {
-                "category": "settings",
-                "title": "캘린더 동기화",
-                "component": "FcCalendarSync",
-                "description": "가져오기 · 내보내기 · 달력 선택"
-            },
-            "settings": {
-                "category": "settings",
-                "title": "설정 메뉴",
-                "component": "FcSettingsMenu",
-                "description": "멤버십과 설정 목록"
-            }
-        }
-    },
-    "buttons": [
-        {
-            "label": "Share",
-            "icon": "share-2",
-            "variant": "outline"
-        },
-        {
-            "label": "Show More",
-            "variant": "link"
-        },
-        {
-            "label": "Done",
-            "variant": "soft"
-        },
-        {
-            "label": "Disabled",
-            "variant": "outline",
-            "disabled": true
-        }
-    ],
-    "input": {
-        "value": "KE 24",
-        "label": "Flight number",
-        "placeholder": "Enter flight number",
-        "disabledLabel": "Disabled",
-        "disabledValue": "KE 9999"
-    },
-    "icons": [
-        {
-            "src": "plane",
-            "label": "plane"
-        },
-        {
-            "src": "route",
-            "label": "route"
-        },
-        {
-            "src": "bell",
-            "label": "bell"
-        },
-        {
-            "src": "calendar-days",
-            "label": "calendar"
-        },
-        {
-            "src": "users",
-            "label": "users"
-        },
-        {
-            "src": "earth",
-            "label": "earth"
-        }
-    ],
-    "badges": [
-        {
-            "value": 1,
-            "variant": "plain"
-        },
-        {
-            "value": 8,
-            "variant": "filled"
-        },
-        {
-            "value": 20,
-            "variant": "outline"
-        }
-    ],
-    "rows": [
-        {
-            "title": "김민지",
-            "subtitle": "friend@example.com",
-            "avatar": "M"
-        },
-        {
-            "title": "Invite a Friend",
-            "accent": true
-        }
-    ],
-    "flightVariants": [
-        {
-            "label": "Upcoming",
-            "variant": "upcoming"
-        },
-        {
-            "label": "History",
-            "variant": "history"
-        },
-        {
-            "label": "Header",
-            "variant": "header"
-        }
-    ],
-    "performanceSection": "mine",
-    "performanceSections": ["mine", "delays", "airline", "airport"],
-    "seatMode": "seat",
-    "seatModes": ["seat", "class", "reason"],
-    "secondaryEnabled": false
+    }
 };
+
+const gallery = ref(null);
+const category = ref("all");
+const inputValue = ref("KE 24");
+const performanceSection = ref("mine");
+const seatMode = ref("seat");
+const alertMode = ref("mine");
+const enabled = ref(true);
+const secondaryEnabled = ref(false);
+const seat = ref("Aisle");
+const period = ref("2024");
+const day = ref(20);
+const reason = ref("");
+const completed = ref(false);
+const aircraft = {
+    ...componentData.aircraft,
+    periods: componentData.periods,
+};
+
+function selectCategory(item) {
+    category.value = item.id;
+    gallery.value?.scrollIntoView({ block: "start" });
+}
 </script>
