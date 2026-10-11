@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from "vue";
 
+import FcChip from "./FcChip.vue";
 import FcIcon from "./FcIcon.vue";
 
 import {
@@ -10,6 +11,8 @@ import {
 import departureIcon from "../../assets/icons/lucide/plane-takeoff.svg";
 import arrivalIcon from "../../assets/icons/lucide/plane-landing.svg";
 import routeIcon from "../../assets/icons/lucide/arrow-right.svg";
+import durationIcon from "../../assets/icons/lucide/clock-3.svg";
+import flightTimeIcon from "../../assets/icons/lucide/plane.svg";
 
 const props = defineProps({
     variant: {
@@ -67,15 +70,12 @@ const airlineIcon = computed(
             </div>
             <strong>{{ title }}</strong>
             <div v-if="variant === 'upcoming'" class="fc-flight-list__sub">
-                <FcIcon :src="departureIcon" />
-                {{ departure }}
-                &nbsp;&nbsp;
-                <FcIcon :src="arrivalIcon" />
-                {{ arrival }}
+                <FcChip :label="departure" :icon="departureIcon" />
+                <FcChip :label="arrival" :icon="arrivalIcon" />
             </div>
             <div v-else-if="variant === 'history'" class="fc-flight-list__sub">
-                <span>{{ duration }}</span>
-                <span>{{ flightTime }}</span>
+                <FcChip v-if="duration" :label="duration" :icon="durationIcon" />
+                <FcChip v-if="flightTime" :label="flightTime" :icon="flightTimeIcon" />
             </div>
         </div>
         <button v-if="variant === 'header'" type="button" class="fc-flight-list__close" aria-label="항공편 닫기"

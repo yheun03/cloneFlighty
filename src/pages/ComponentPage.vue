@@ -10,7 +10,7 @@
             </div>
             <ul class="fc-gallery__meta" aria-label="갤러리 구성">
                 <!-- prettier-ignore -->
-                <li><strong>24</strong>개 컴포넌트</li>
+                <li><strong>25</strong>개 컴포넌트</li>
                 <li>JSON 더미 데이터</li>
                 <li>상태 미리보기</li>
             </ul>
@@ -108,6 +108,26 @@
                             <FcIcon :src="icon.src" />
                             <small>{{ icon.label }}</small>
                         </div>
+                    </div>
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-chip">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">
+                        FcChip
+                    </p>
+                    <h2 id="gallery-chip">
+                        칩
+                    </h2>
+                    <p class="fc-gallery__description">
+                        기본 · 활성 상태
+                    </p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-chip" tabindex="0">
+                    <div class="fc-gallery__row">
+                        <FcChip label="1h 41m" icon="clock-3" />
+                        <FcChip label="1h 41m" icon="clock-3" active />
                     </div>
                 </div>
             </section>
@@ -535,6 +555,7 @@ import { ref } from "vue";
 import BaseButton from "../component/base/BaseButton.vue";
 import BaseInput from "../component/base/BaseInput.vue";
 import FcIcon from "../component/fc/FcIcon.vue";
+import FcChip from "../component/fc/FcChip.vue";
 import FcToggleSwitch from "../component/fc/FcToggleSwitch.vue";
 import FcTabItem from "../component/fc/FcTabItem.vue";
 import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
@@ -564,6 +585,7 @@ import "../assets/scss/component/fc/FcComponentGallery.scss";
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
+import "../assets/scss/component/fc/FcChip.scss";
 import "../assets/scss/component/fc/FcToggleSwitch.scss";
 import "../assets/scss/component/fc/FcTabItem.scss";
 import "../assets/scss/component/fc/FcCalendarPicker.scss";
@@ -594,12 +616,12 @@ const componentData = {
         {
             "id": "all",
             "label": "전체",
-            "count": 24
+            "count": 25
         },
         {
             "id": "basic",
             "label": "기본 UI",
-            "count": 7
+            "count": 8
         },
         {
             "id": "flight",
