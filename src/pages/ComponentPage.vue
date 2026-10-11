@@ -225,17 +225,17 @@
                         항공편 목록
                     </h2>
                     <p class="fc-gallery__description">
-                        예정 · 지난 항공편 · 상세 헤더
+                        기본 · 친구 · 지난 항공편 · 상세 헤더
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-flights" tabindex="0">
-                    <div v-for="sample in componentData.flightVariants" :key="sample.variant">
+                    <div v-for="sample in componentData.flightVariants" :key="`${sample.variant}-${sample.type}`">
                         <p class="fc-gallery__sample-label">
                             {{ sample.label }}
                         </p>
                         <FcFlightListItem :airline="airlines.KE.iata" flight="24" title="San Francisco to Seoul"
-                            date="Sat, 20 Jun" departure="SFO 11:40" arrival="ICN 17:40⁺¹" :days="21" :avatar="false"
-                            duration="2h 50m" flight-time="2h 50m" :variant="sample.variant" />
+                            date="Sat, 20 Jun" departure="ICN 09:25" arrival="YNJ 10:50⁺¹" :days="21" duration="2h 50m"
+                            flight-time="2h 50m" :variant="sample.variant" :type="sample.type" />
                     </div>
                 </div>
             </section>
@@ -788,16 +788,24 @@ const componentData = {
     },
     "flightVariants": [
         {
-            "label": "Upcoming",
-            "variant": "upcoming"
+            "label": "Default",
+            "variant": "upcoming",
+            "type": "default"
+        },
+        {
+            "label": "Friend",
+            "variant": "upcoming",
+            "type": "friend"
         },
         {
             "label": "History",
-            "variant": "history"
+            "variant": "history",
+            "type": "default"
         },
         {
             "label": "Header",
-            "variant": "header"
+            "variant": "header",
+            "type": "default"
         }
     ],
     "searchItems": [

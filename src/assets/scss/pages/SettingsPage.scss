@@ -1,40 +1,47 @@
 @use "../common/typography" as typo;
 
 .settings-page {
-    &__pro {
-        border-top: 1px solid #6722ff;
-        border-bottom-color: #6722ff;
+    .fc-settings {
+        margin: 0;
 
-        &.fc-list-row--profile .fc-list-row__visual {
-            background: #5d17ff;
-            color: white;
-            @include typo.font(btn4, sb);
-        }
-
-        .fc-list-row__text {
-            color: #9b5bff;
-
-            small {
-                color: inherit;
-            }
+        h2 {
+            margin-bottom: 24px;
+            @include typo.font(h3, sb);
         }
     }
 
-    &__group {
+    .fc-settings__pro {
+        padding: 20px 12px;
+
+        >span:not(.fc-icon) {
+            @include typo.font(h5, sb);
+        }
+
+        small {
+            @include typo.font(b1, rg);
+        }
+    }
+
+    .fc-settings__group {
         margin-top: 36px;
 
-        .frame-page__label {
-            margin: 0 0 5px 10px;
+        h3 {
+            margin-left: 10px;
             @include typo.font(c2, rg);
         }
 
-        .fc-list-row {
+        button {
+            gap: 16px;
             padding: 13px 12px;
             color: var(--fc-text-body, #d4d4d4);
         }
 
-        .fc-list-row:last-child {
+        button:last-child {
             border-bottom: 1px solid var(--fc-border, #363636);
+        }
+
+        button>span {
+            @include typo.font(h6, rg);
         }
     }
 

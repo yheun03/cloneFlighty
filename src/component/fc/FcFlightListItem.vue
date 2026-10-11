@@ -15,6 +15,11 @@ import durationIcon from "../../assets/icons/lucide/clock-3.svg";
 import flightTimeIcon from "../../assets/icons/lucide/plane.svg";
 
 const props = defineProps({
+    type: {
+        type: String,
+        default: "default",
+        validator: (value) => ["default", "friend"].includes(value),
+    },
     variant: {
         type: String,
         default: "upcoming",
@@ -30,6 +35,7 @@ const props = defineProps({
     flightTime: { type: String, default: "" },
     days: { type: Number, default: 0 },
     avatar: { type: Boolean, default: false },
+    profile: { type: String, default: "" },
 });
 
 defineEmits(["remove"]);
@@ -39,15 +45,18 @@ const arrivalCode = computed(() => props.arrival.split(" ")[0]);
 const airlineIcon = computed(
     () => getAirline(props.airline)?.logo || defaultAirlineLogo,
 );
+const isFriend = computed(() => props.type === "friend" || props.avatar);
 </script>
 
 <template>
-    <div class="fc-flight-list" :class="`fc-flight-list--${variant}`">
+    <div class="fc-flight-list" :class="[`fc-flight-list--${variant}`, { 'fc-flight-list--friend': isFriend }]">
         <div v-if="variant === 'upcoming'" class="fc-flight-list__days">
-            <span v-if="avatar" class="fc-flight-list__avatar"></span>
+            <span v-if="isFriend" class="fc-flight-list__avatar">
+                <img v-if="profile" :src="profile" alt="" />
+            </span>
             <strong v-else>{{ days }}</strong>
             <small>
-                <template v-if="avatar">{{ days }}</template>
+                <template v-if="isFriend">{{ days }} </template>
                 DAYS
             </small>
         </div>

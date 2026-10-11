@@ -3,17 +3,7 @@
         <RouterLink class="frame-page__close" :to="{ name: 'home', query: route.query }" aria-label="Close settings">
             ×
         </RouterLink>
-        <h1 class="frame-page__title">Settings</h1>
-        <FcListRow class="settings-page__pro" :title="pageData.membership.title" :subtitle="pageData.membership.status"
-            avatar="PRO" shape="double" type="profile" @click="selectSetting('pro')" />
-        <section v-for="group in pageData.groups" :key="group.label" class="settings-page__group"
-            :aria-labelledby="`settings-${group.label.toLowerCase()}`">
-            <h2 :id="`settings-${group.label.toLowerCase()}`" class="frame-page__label">
-                {{ group.label }}
-            </h2>
-            <FcListRow v-for="item in group.items" :key="item.name" :title="item.title" :icon="item.icon" shape="single"
-                type="icon" @click="selectSetting(item)" />
-        </section>
+        <FcSettingsMenu v-bind="pageData" @select="selectSetting" />
         <section class="settings-page__appearance" aria-labelledby="appearance-title">
             <h2 id="appearance-title">Appearance</h2>
             <p class="frame-page__note">Choose how Flighty looks.</p>
@@ -31,12 +21,12 @@ import { computed, inject, ref } from "vue";
 
 import { useRoute, useRouter } from "vue-router";
 
-import FcListRow from "../component/fc/FcListRow.vue";
+import FcSettingsMenu from "../component/fc/FcSettingsMenu.vue";
 import FcTabItem from "../component/fc/FcTabItem.vue";
 
 import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcListRow.scss";
 import "../assets/scss/component/fc/FcTabItem.scss";
+import "../assets/scss/component/fc/FcSettingsMenu.scss";
 import "../assets/scss/pages/SettingsPage.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.
