@@ -1,44 +1,57 @@
 @use "../../common/typography" as typo;
+@use "../../common/variables" as *;
 
 .fc-list-row {
     display: flex;
     align-items: center;
     width: 100%;
     gap: 12px;
-    padding: 10px 0;
+    padding-inline: 0 12px;
     border: 0;
-    border-bottom: 1px solid var(--fc-border, #363636);
     background: none;
     color: var(--fc-text-strong, white);
     text-align: left;
 
-    &__avatar {
+    &__visual {
         display: grid;
         flex: none;
         place-items: center;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background: white;
-        color: #222;
+        width: 36px;
+        height: 36px;
+    }
+
+    &--icon &__visual {
+        color: var(--fc-text-strong, white);
+        @include typo.font(h5, rg);
+    }
+
+    &__wrap {
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        padding-block: 14px;
+        border-bottom: 1px solid $gray-900;
+    }
+
+    &--profile &__wrap {
+        padding-block: 7px;
     }
 
     &__text {
         display: flex;
         flex: 1;
         flex-direction: column;
+        gap: 2px;
 
-        strong {
-            @include typo.font(t5, sb);
+        strong,
+        small {
+            @include typo.font(b1, rg);
         }
 
         strong.is-accent {
             color: var(--fc-link, #1685ff);
-        }
-
-        small {
-            color: var(--fc-text-secondary, #858585);
-            @include typo.font(b3, rg);
+            @include typo.font(b1, sb);
         }
     }
 

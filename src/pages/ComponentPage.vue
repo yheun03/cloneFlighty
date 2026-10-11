@@ -184,12 +184,15 @@
                         목록 행
                     </h2>
                     <p class="fc-gallery__description">
-                        사용자 정보와 강조 액션
+                        싱글·더블 모양과 아이콘·프로필 타입
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-rows" tabindex="0">
-                    <FcListRow title="김민지" subtitle="friend@example.com" avatar="M" />
-                    <FcListRow title="Invite a Friend" accent />
+                    <FcListRow title="한국어" shape="single" type="icon" icon="earth" />
+                    <FcListRow title="한국어" subtitle="Korean" shape="double" type="icon" icon="earth" />
+                    <FcListRow title="한국어" shape="single" type="profile" />
+                    <FcListRow title="한국어" subtitle="Korean" shape="double" type="profile" />
+                    <FcListRow title="Invite a Friend" type="icon" accent />
                 </div>
             </section>
             <section v-show="category === 'all' || category === 'flight'" class="fc-gallery__group"
