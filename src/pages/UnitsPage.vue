@@ -16,7 +16,8 @@
             <p>Speed relative to the ground.</p>
             <FcTabItem
                 v-model="speed"
-                class="units-page__segments"
+                variant="segment"
+                type="radio"
                 :items="pageData.speedUnits"
                 label="Aircraft speed unit"
             />
@@ -35,7 +36,8 @@
             </p>
             <FcTabItem
                 v-model="altitude"
-                class="units-page__segments"
+                variant="segment"
+                type="radio"
                 :items="pageData.altitudeUnits"
                 label="Altitude unit"
             />

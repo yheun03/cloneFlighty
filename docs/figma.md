@@ -14,6 +14,8 @@
 - `DetailTitle`, `Graph` → 통계 공통 SCSS와 기존 통계 컴포넌트
 - `SectionTitle`, `SectionSubTitle` → 페이지 공통 제목과 각 화면의 섹션 제목
 
+`Units`의 둥근 단위 선택은 `FcTabItem`에 `variant="segment"`, `type="radio"`를 전달합니다. 형태는 공통 `FcTabItem.scss`에서 관리하며, `/component`의 **단위 선택 라디오 (Units)** 예시에서도 같은 컴포넌트를 사용합니다.
+
 ## 스타일 수정 위치
 
 - 색상은 `src/assets/scss/common/_theme.scss`의 CSS 변수를 사용합니다. 기본 다크 색상은 배경 `#18181b`, 컨트롤 `#2c2c2c`, 강조색 `#007aff`입니다.

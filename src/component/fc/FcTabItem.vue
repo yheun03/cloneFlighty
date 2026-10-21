@@ -13,7 +13,7 @@ const props = defineProps({
     variant: {
         type: String,
         default: "fill",
-        validator: (value) => ["fill", "stroke"].includes(value),
+        validator: (value) => ["fill", "stroke", "segment"].includes(value),
     },
     type: {
         type: String,
@@ -56,13 +56,30 @@ function itemAria(item) {
 </script>
 
 <template>
-    <div class="fc-tab-items" :role="groupRole[type]" :aria-label="label">
-        <button v-for="item in items" :key="item" type="button" class="fc-tab-item" :class="[
-            `fc-tab-item--${size}`,
-            `fc-tab-item--${variant}`,
-            { 'is-active': isSelected(item) },
-        ]" :role="type" v-bind="itemAria(item)" @click="selectItem(item)">
-            <FcIcon v-if="icon" :src="icon" />
+    <div
+        class="fc-tab-items"
+        :class="{ 'fc-tab-items--segment': variant === 'segment' }"
+        :role="groupRole[type]"
+        :aria-label="label"
+    >
+        <button
+            v-for="item in items"
+            :key="item"
+            type="button"
+            class="fc-tab-item"
+            :class="[
+                `fc-tab-item--${size}`,
+                `fc-tab-item--${variant}`,
+                { 'is-active': isSelected(item) },
+            ]"
+            :role="type"
+            v-bind="itemAria(item)"
+            @click="selectItem(item)"
+        >
+            <FcIcon
+                v-if="icon"
+                :src="icon"
+            />
             {{ item }}
         </button>
     </div>

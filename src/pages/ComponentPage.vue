@@ -11,7 +11,7 @@
             <ul class="fc-gallery__meta" aria-label="갤러리 구성">
                 <!-- prettier-ignore -->
                 <li><strong>25</strong>개 컴포넌트</li>
-                <li>JSON 더미 데이터</li>
+                <li>{{ componentData.categories[0].count }}개 예시 그룹</li>
                 <li>상태 미리보기</li>
             </ul>
         </header>
@@ -72,7 +72,7 @@
                         입력창
                     </h2>
                     <p class="fc-gallery__description">
-                        단일 텍스트 · 아이콘 · SM 버튼 · 캘린더 Datepicker
+                        텍스트 · 검색 · 아이콘 · 버튼 · 날짜 선택 · 비활성 상태
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-input" tabindex="0">
@@ -83,6 +83,7 @@
                             </label>
                             <BaseInput :id="`gallery-input-${item.id}`" v-model="inputValues[item.id]"
                                 :placeholder="item.placeholder" :icon="item.icon" :action-label="item.actionLabel"
+                                :type="item.type || 'text'" :disabled="item.disabled"
                                 :calendar="item.calendar" :calendar-options="componentData.calendar"
                                 @action="applyInputAction(item)" />
                         </div>
@@ -103,10 +104,13 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-icons" tabindex="0">
-                    <div class="fc-gallery__icons">
-                        <div v-for="icon in componentData.icons" :key="icon.src">
-                            <FcIcon :src="icon.src" />
-                            <small>{{ icon.label }}</small>
+                    <div v-for="group in iconGroups" :key="group.label" class="fc-gallery__icon-group">
+                        <p class="fc-gallery__sample-label">{{ group.label }} · {{ group.items.length }}개</p>
+                        <div class="fc-gallery__icons">
+                            <div v-for="icon in group.items" :key="icon.name">
+                                <FcIcon :src="icon.src" />
+                                <small>{{ icon.name }}</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,13 +125,15 @@
                         칩
                     </h2>
                     <p class="fc-gallery__description">
-                        기본 · 활성 상태
+                        텍스트 · 아이콘 · 활성 · 비활성 상태
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-chip" tabindex="0">
                     <div class="fc-gallery__row">
                         <FcChip label="1h 41m" icon="clock-3" />
                         <FcChip label="1h 41m" icon="clock-3" active />
+                        <FcChip label="텍스트 칩" />
+                        <FcChip label="비활성" icon="clock-3" disabled />
                     </div>
                 </div>
             </section>
@@ -150,6 +156,30 @@
                         <FcToggleSwitch v-model="secondaryEnabled" type="checkbox" label="체크박스" />
                         <FcToggleSwitch v-model="switchRadio" type="radio" value="selected" label="라디오" />
                         <FcToggleSwitch :model-value="false" label="비활성 상태" disabled />
+                    </div>
+                </div>
+            </section>
+            <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
+                aria-labelledby="gallery-unit-radio">
+                <header class="fc-gallery__group-heading">
+                    <p class="fc-gallery__component-name">FcTabItem · Segment · Radio</p>
+                    <h2 id="gallery-unit-radio">단위 선택 라디오 (Units)</h2>
+                    <p class="fc-gallery__description">속도 3개 · 고도 4개 옵션 / Units 화면과 동일한 형태</p>
+                </header>
+                <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-unit-radio" tabindex="0">
+                    <div v-for="unit in componentData.units" :key="unit.id" class="fc-gallery__unit">
+                        <h3>
+                            <FcIcon src="speed" />
+                            {{ unit.title }}
+                        </h3>
+                        <FcTabItem
+                            v-model="unitSelections[unit.id]"
+                            :items="unit.items"
+                            :label="unit.label"
+                            variant="segment"
+                            type="radio"
+                        />
+                        <p class="fc-gallery__selection" role="status">선택값: {{ unitSelections[unit.id] }}</p>
                     </div>
                 </div>
             </section>
@@ -186,12 +216,12 @@
                         달력
                     </h2>
                     <p class="fc-gallery__description">
-                        선택일과 항공편이 있는 날짜
+                        기본 · 선택일 · 항공편 표시 · 오늘 테두리 상태
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-calendar" tabindex="0">
                     <FcCalendarPicker v-model="calendarDate" :year="2026" :month="1"
-                        :marked="componentData.calendar.marked" />
+                        :marked="componentData.calendar.marked" :outlined="componentData.calendar.outlined" />
                 </div>
             </section>
             <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
@@ -210,6 +240,7 @@
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-rows" tabindex="0">
                     <FcListRow title="한국어" shape="single" type="icon" icon="earth" />
                     <FcListRow title="한국어" subtitle="Korean" shape="double" type="icon" icon="earth" />
+                    <FcListRow title="한국어" subtitle="Korean" :image="koreanFlag" />
                     <FcListRow title="한국어" shape="single" type="profile" />
                     <FcListRow title="한국어" subtitle="Korean" shape="double" type="profile" />
                     <FcListRow title="Invite a Friend" type="icon" accent />
@@ -324,11 +355,14 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-passport" tabindex="0">
+                    <FcTabItem v-model="passportView" :items="componentData.passportViews" size="sm"
+                        label="패스포트 표시 예시" />
                     <FcPassportOverview :flights="20" distance="73,650 km" flight-time="4d 13h" :airports="16"
                         :airlines="5" :periods="componentData.periods" map-from="ICN" map-to="ICN"
                         flags="🇰🇷 🇲🇾 🇯🇵 🇩🇪 🇨🇳 🇸🇬 🇳🇱 🇫🇮 🇩🇰 🇸🇪 🇲🇳" history-title="2025"
-                        history-count="9 FLIGHTS" :recent="componentData.overview.recent" :show-period="false"
-                        :show-map="false" />
+                        history-count="9 FLIGHTS" :recent="componentData.overview.recent"
+                        :show-period="passportView === '지도·기간'" :show-map="passportView === '지도·기간'"
+                        :show-history="passportView === '최근 기록'" />
                 </div>
             </section>
             <section v-show="category === 'all' || category === 'stats'" class="fc-gallery__group"
@@ -498,10 +532,10 @@
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-alerts" tabindex="0">
                     <FcTabItem v-model="alertMode" :items="componentData.alertModes" label="항공편 알림 예시" />
                     <FcAlertSettings :key="alertMode" :mode="alertMode"
-                        :title="alertMode === 'mine' ? 'My Flight Alerts' : 'Customize Alerts'" :desc="alertMode === 'mine'
+                        :title="componentData.alertTitles[alertMode]" :desc="alertMode === 'mine'
                             ? 'Pick the notification types you receive for your flights.'
                             : 'Customize this per friend in Flighty Friends.'
-                            " :options="componentData.alertOptions[alertMode]" friend-name="김민지"
+                            " :options="componentData.alertOptions[alertMode === 'mine' ? 'mine' : 'friend']" friend-name="김민지"
                         friend-email="friend@example.com" initial-shared initial-selected="Basics" />
                 </div>
             </section>
@@ -582,6 +616,7 @@ import airports from "../common/airports.js";
 import airlines from "../common/airlines.js";
 import aircraftImage from "../assets/figma/aircraft-passport.png";
 import detailAircraftImage from "../assets/figma/aircraft-detail.png";
+import koreanFlag from "../assets/figma/flag-ko.svg";
 
 import "../assets/scss/component/fc/FcComponentGallery.scss";
 import "../assets/scss/component/base/BaseButton.scss";
@@ -618,12 +653,12 @@ const componentData = {
         {
             "id": "all",
             "label": "전체",
-            "count": 25
+            "count": 26
         },
         {
             "id": "basic",
             "label": "기본 UI",
-            "count": 8
+            "count": 9
         },
         {
             "id": "flight",
@@ -709,6 +744,20 @@ const componentData = {
             "actionValue": "10/5 or Friday"
         },
         {
+            "id": "search",
+            "label": "검색 입력",
+            "type": "search",
+            "placeholder": "항공편 검색",
+            "value": ""
+        },
+        {
+            "id": "disabled",
+            "label": "비활성 입력",
+            "placeholder": "입력할 수 없습니다",
+            "disabled": true,
+            "value": ""
+        },
+        {
             "id": "calendar",
             "label": "캘린더 Datepicker",
             "placeholder": "날짜 선택",
@@ -754,39 +803,36 @@ const componentData = {
             "selected": "Aisle"
         }
     ],
-    "icons": [
+    "units": [
         {
-            "src": "plane",
-            "label": "plane"
+            "id": "speed",
+            "title": "Aircraft Speed",
+            "label": "갤러리 항공기 속도 단위",
+            "items": ["mph", "km/h", "kt"],
+            "selected": "km/h"
         },
         {
-            "src": "route",
-            "label": "route"
-        },
-        {
-            "src": "bell",
-            "label": "bell"
-        },
-        {
-            "src": "calendar-days",
-            "label": "calendar"
-        },
-        {
-            "src": "users",
-            "label": "users"
-        },
-        {
-            "src": "earth",
-            "label": "earth"
+            "id": "altitude",
+            "title": "Altitude",
+            "label": "갤러리 고도 단위",
+            "items": ["ft", "km", "m", "FL"],
+            "selected": "m"
         }
     ],
     "positions": ["Aisle", "Middle", "Window", "Pilot", "Captain", "Jumpseat"],
     "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
     "performanceSections": ["mine", "delays", "airline", "airport"],
     "seatModes": ["seat", "class", "reason"],
-    "alertModes": ["mine", "friend"],
+    "alertModes": ["mine", "friends", "friend"],
+    "alertTitles": {
+        "mine": "My Flight Alerts",
+        "friends": "Friends’ Flight Alerts",
+        "friend": "Customize Alerts"
+    },
+    "passportViews": ["요약", "지도·기간", "최근 기록"],
     "calendar": {
-        "marked": [16, 17]
+        "marked": [16, 17],
+        "outlined": [6]
     },
     "flightVariants": [
         {
@@ -1489,6 +1535,30 @@ const componentData = {
 };
 
 const gallery = ref(null);
+const iconGroups = [
+    {
+        label: "Lucide",
+        items: Object.entries(import.meta.glob("../assets/icons/lucide/*.svg", {
+            eager: true,
+            query: "?url",
+            import: "default",
+        })).map(([path, src]) => ({
+            name: path.split("/").pop().replace(".svg", ""),
+            src,
+        })),
+    },
+    {
+        label: "Figma",
+        items: Object.entries(import.meta.glob("../assets/figma/*.svg", {
+            eager: true,
+            query: "?url",
+            import: "default",
+        })).map(([path, src]) => ({
+            name: path.split("/").pop().replace(".svg", ""),
+            src,
+        })),
+    },
+];
 const category = ref("all");
 const inputValues = ref(
     Object.fromEntries(
@@ -1501,12 +1571,16 @@ const tabSelections = ref(
     ),
 );
 const performanceSection = ref("mine");
+const unitSelections = ref(
+    Object.fromEntries(componentData.units.map((unit) => [unit.id, unit.selected])),
+);
+const passportView = ref("요약");
 const seatMode = ref("seat");
 const alertMode = ref("mine");
 const enabled = ref(true);
 const secondaryEnabled = ref(false);
 const switchRadio = ref("");
-const calendarDate = ref("2026-01-06");
+const calendarDate = ref("2026-01-17");
 const completed = ref(false);
 const aircraft = {
     ...componentData.aircraft,

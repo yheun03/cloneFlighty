@@ -5,6 +5,13 @@
     gap: 4px;
     overflow-x: auto;
     padding-bottom: 5px;
+
+    &--segment {
+        gap: 0;
+        padding: 2px;
+        border-radius: 20px;
+        background: var(--fc-control-bg, #2b2b2b);
+    }
 }
 
 .fc-tab-item {
@@ -54,6 +61,20 @@
 
     &--fill.is-active {
         background: var(--fc-selected-bg, #333);
+    }
+
+    &--segment {
+        flex: 1;
+        min-width: 0;
+        min-height: 30px;
+        padding: 2px 2px 4px;
+        border: 0;
+        border-radius: 999px;
+        @include typo.font(btn1, rg);
+
+        &.is-active {
+            background: var(--fc-segment-selected, #666);
+        }
     }
 
     @media (hover: hover) {

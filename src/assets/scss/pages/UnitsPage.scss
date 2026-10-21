@@ -22,25 +22,4 @@
             @include typo.font(b2, rg);
         }
     }
-
-    .units-page__segments {
-        display: flex;
-        gap: 0;
-        padding: 2px;
-        border-radius: 20px;
-        background: var(--fc-control-bg, #2b2b2b);
-
-        button {
-            flex: 1;
-            min-height: 30px;
-            padding: 2px 2px 4px;
-            border: 0;
-            border-radius: 999px;
-            @include typo.font(btn1, rg);
-
-            &.is-active {
-                background: var(--fc-segment-selected, #666);
-            }
-        }
-    }
 }
