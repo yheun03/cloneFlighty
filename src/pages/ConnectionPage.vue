@@ -37,10 +37,10 @@ import FcConnectionStatus from "../component/fc/FcConnectionStatus.vue";
 import FcTerminalTimeline from "../component/fc/FcTerminalTimeline.vue";
 import connectionImage from "../assets/figma/connection.png";
 
-import "../assets/scss/component/fc/FcIcon.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/fc/FcConnectionStatus.scss";
 import "../assets/scss/component/fc/FcTerminalTimeline.scss";
-import "../assets/scss/pages/ConnectionPage.scss";
+import "../assets/scss/pages/page_connection.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.
 // prettier-ignore

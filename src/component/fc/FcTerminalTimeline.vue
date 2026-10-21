@@ -1,5 +1,5 @@
 <script setup>
-import FcIcon from "./FcIcon.vue";
+import BaseIcon from "../base/BaseIcon.vue";
 
 import terminalIcon from "../../assets/icons/lucide/circle-check.svg";
 
@@ -25,7 +25,7 @@ defineProps({
             </span>
         </div>
         <div class="fc-terminal__change">
-            <FcIcon :src="terminalIcon" />
+            <BaseIcon :src="terminalIcon" />
             &nbsp;No Terminal Change
         </div>
         <div class="fc-terminal__stop">

@@ -84,7 +84,7 @@
                             <BaseInput :id="`gallery-input-${item.id}`" v-model="inputValues[item.id]"
                                 :placeholder="item.placeholder" :icon="item.icon" :action-label="item.actionLabel"
                                 :type="item.type || 'text'" :disabled="item.disabled"
-                                :calendar="item.calendar" :calendar-options="componentData.calendar"
+                                :calendar-options="componentData.calendar"
                                 @action="applyInputAction(item)" />
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                 aria-labelledby="gallery-icons">
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        FcIcon
+                        BaseIcon
                     </p>
                     <h2 id="gallery-icons">
                         아이콘
@@ -108,7 +108,7 @@
                         <p class="fc-gallery__sample-label">{{ group.label }} · {{ group.items.length }}개</p>
                         <div class="fc-gallery__icons">
                             <div v-for="icon in group.items" :key="icon.name">
-                                <FcIcon :src="icon.src" />
+                                <BaseIcon :src="icon.src" />
                                 <small>{{ icon.name }}</small>
                             </div>
                         </div>
@@ -119,7 +119,7 @@
                 aria-labelledby="gallery-chip">
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        FcChip
+                        BaseChip
                     </p>
                     <h2 id="gallery-chip">
                         칩
@@ -130,10 +130,10 @@
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-chip" tabindex="0">
                     <div class="fc-gallery__row">
-                        <FcChip label="1h 41m" icon="clock-3" />
-                        <FcChip label="1h 41m" icon="clock-3" active />
-                        <FcChip label="텍스트 칩" />
-                        <FcChip label="비활성" icon="clock-3" disabled />
+                        <BaseChip label="1h 41m" icon="clock-3" />
+                        <BaseChip label="1h 41m" icon="clock-3" active />
+                        <BaseChip label="텍스트 칩" />
+                        <BaseChip label="비활성" icon="clock-3" disabled />
                     </div>
                 </div>
             </section>
@@ -141,7 +141,7 @@
                 aria-labelledby="gallery-toggle">
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        FcToggleSwitch
+                        BaseToggleSwitch
                     </p>
                     <h2 id="gallery-toggle">
                         토글 스위치
@@ -152,27 +152,27 @@
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-toggle" tabindex="0">
                     <div class="fc-gallery__row">
-                        <FcToggleSwitch v-model="enabled" label="알림" />
-                        <FcToggleSwitch v-model="secondaryEnabled" type="checkbox" label="체크박스" />
-                        <FcToggleSwitch v-model="switchRadio" type="radio" value="selected" label="라디오" />
-                        <FcToggleSwitch :model-value="false" label="비활성 상태" disabled />
+                        <BaseToggleSwitch v-model="enabled" label="알림" />
+                        <BaseToggleSwitch v-model="secondaryEnabled" type="checkbox" label="체크박스" />
+                        <BaseToggleSwitch v-model="switchRadio" type="radio" value="selected" label="라디오" />
+                        <BaseToggleSwitch :model-value="false" label="비활성 상태" disabled />
                     </div>
                 </div>
             </section>
             <section v-show="category === 'all' || category === 'basic'" class="fc-gallery__group"
                 aria-labelledby="gallery-unit-radio">
                 <header class="fc-gallery__group-heading">
-                    <p class="fc-gallery__component-name">FcTabItem · Segment · Radio</p>
+                    <p class="fc-gallery__component-name">BaseTabItem · Segment · Radio</p>
                     <h2 id="gallery-unit-radio">단위 선택 라디오 (Units)</h2>
                     <p class="fc-gallery__description">속도 3개 · 고도 4개 옵션 / Units 화면과 동일한 형태</p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-unit-radio" tabindex="0">
                     <div v-for="unit in componentData.units" :key="unit.id" class="fc-gallery__unit">
                         <h3>
-                            <FcIcon src="speed" />
+                            <BaseIcon src="speed" />
                             {{ unit.title }}
                         </h3>
-                        <FcTabItem
+                        <BaseTabItem
                             v-model="unitSelections[unit.id]"
                             :items="unit.items"
                             :label="unit.label"
@@ -187,7 +187,7 @@
                 aria-labelledby="gallery-tab-item">
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        FcTabItem
+                        BaseTabItem
                     </p>
                     <h2 id="gallery-tab-item">
                         탭 아이템
@@ -201,7 +201,7 @@
                         <p class="fc-gallery__sample-label">
                             {{ item.label }}
                         </p>
-                        <FcTabItem v-model="tabSelections[item.id]" :items="componentData.positions" :icon="item.icon"
+                        <BaseTabItem v-model="tabSelections[item.id]" :items="componentData.positions" :icon="item.icon"
                             :size="item.size" :variant="item.variant" :type="item.type" :label="item.label" />
                     </div>
                 </div>
@@ -210,7 +210,7 @@
                 aria-labelledby="gallery-calendar">
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        FcCalendarPicker
+                        BaseCalendarPicker
                     </p>
                     <h2 id="gallery-calendar">
                         달력
@@ -220,7 +220,7 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-calendar" tabindex="0">
-                    <FcCalendarPicker v-model="calendarDate" :year="2026" :month="1"
+                    <BaseCalendarPicker v-model="calendarDate" :year="2026" :month="1"
                         :marked="componentData.calendar.marked" :outlined="componentData.calendar.outlined" />
                 </div>
             </section>
@@ -228,22 +228,24 @@
                 aria-labelledby="gallery-rows">
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        FcListRow
+                        BaseListRow
                     </p>
                     <h2 id="gallery-rows">
                         목록 행
                     </h2>
                     <p class="fc-gallery__description">
-                        싱글·더블 모양과 아이콘·프로필 타입
+                        싱글·더블 모양, 아이콘·프로필 타입, 기본·검색 형태
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-rows" tabindex="0">
-                    <FcListRow title="한국어" shape="single" type="icon" icon="earth" />
-                    <FcListRow title="한국어" subtitle="Korean" shape="double" type="icon" icon="earth" />
-                    <FcListRow title="한국어" subtitle="Korean" :image="koreanFlag" />
-                    <FcListRow title="한국어" shape="single" type="profile" />
-                    <FcListRow title="한국어" subtitle="Korean" shape="double" type="profile" />
-                    <FcListRow title="Invite a Friend" type="icon" accent />
+                    <BaseListRow title="한국어" shape="single" type="icon" icon="earth" />
+                    <BaseListRow title="한국어" subtitle="Korean" shape="double" type="icon" icon="earth" />
+                    <BaseListRow title="한국어" subtitle="Korean" :image="koreanFlag" />
+                    <BaseListRow title="한국어" shape="single" type="profile" />
+                    <BaseListRow title="한국어" subtitle="Korean" shape="double" type="profile" />
+                    <BaseListRow title="Invite a Friend" type="icon" accent />
+                    <BaseListRow title="Korean Air" subtitle="Airline · KE" variant="search" icon="plane"
+                        arrow-icon="arrow-right" />
                 </div>
             </section>
             <section v-show="category === 'all' || category === 'flight'" class="fc-gallery__group"
@@ -336,7 +338,7 @@
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-details" tabindex="0">
                     <div class="fc-gallery__row fc-gallery__state-preview">
-                        <FcToggleSwitch v-model="completed" label="비행 종료" />
+                        <BaseToggleSwitch v-model="completed" label="비행 종료" />
                     </div>
                     <FcFlightDetails :details="componentData.details" :completed="completed" />
                 </div>
@@ -355,7 +357,7 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-passport" tabindex="0">
-                    <FcTabItem v-model="passportView" :items="componentData.passportViews" size="sm"
+                    <BaseTabItem v-model="passportView" :items="componentData.passportViews" size="sm"
                         label="패스포트 표시 예시" />
                     <FcPassportOverview :flights="20" distance="73,650 km" flight-time="4d 13h" :airports="16"
                         :airlines="5" :periods="componentData.periods" map-from="ICN" map-to="ICN"
@@ -414,7 +416,7 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-performance" tabindex="0">
-                    <FcTabItem v-model="performanceSection" :items="componentData.performanceSections"
+                    <BaseTabItem v-model="performanceSection" :items="componentData.performanceSections"
                         label="운항 성과 예시" />
                     <FcAirlinePerformance :key="performanceSection" :report="componentData.performance"
                         :section="performanceSection" />
@@ -434,7 +436,7 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-seats" tabindex="0">
-                    <FcTabItem v-model="seatMode" :items="componentData.seatModes" label="좌석 통계 예시" />
+                    <BaseTabItem v-model="seatMode" :items="componentData.seatModes" label="좌석 통계 예시" />
                     <FcSeatStats :mode="componentData.seats[seatMode].mode"
                         :top-label="componentData.seats[seatMode].topLabel"
                         :top-value="componentData.seats[seatMode].topValue" :rows="componentData.seats[seatMode].rows"
@@ -480,17 +482,17 @@
                 aria-labelledby="gallery-airlines">
                 <header class="fc-gallery__group-heading">
                     <p class="fc-gallery__component-name">
-                        FcTopAirlines
+                        FcRankingStats
                     </p>
                     <h2 id="gallery-airlines">
                         주요 항공사
                     </h2>
                     <p class="fc-gallery__description">
-                        비행 횟수와 거리 기준 비교
+                        항공사·공항·노선·기종을 type으로 구분하는 공통 순위 차트
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-airlines" tabindex="0">
-                    <FcTopAirlines title="Top Airlines" :total="9" unit="total airlines"
+                    <FcRankingStats title="Top Airlines" :total="9" unit="total airlines"
                         :items="componentData.airlineItems" />
                 </div>
             </section>
@@ -530,7 +532,7 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-alerts" tabindex="0">
-                    <FcTabItem v-model="alertMode" :items="componentData.alertModes" label="항공편 알림 예시" />
+                    <BaseTabItem v-model="alertMode" :items="componentData.alertModes" label="항공편 알림 예시" />
                     <FcAlertSettings :key="alertMode" :mode="alertMode"
                         :title="componentData.alertTitles[alertMode]" :desc="alertMode === 'mine'
                             ? 'Pick the notification types you receive for your flights.'
@@ -588,12 +590,12 @@ import { ref } from "vue";
 
 import BaseButton from "../component/base/BaseButton.vue";
 import BaseInput from "../component/base/BaseInput.vue";
-import FcIcon from "../component/fc/FcIcon.vue";
-import FcChip from "../component/fc/FcChip.vue";
-import FcToggleSwitch from "../component/fc/FcToggleSwitch.vue";
-import FcTabItem from "../component/fc/FcTabItem.vue";
-import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
-import FcListRow from "../component/fc/FcListRow.vue";
+import BaseIcon from "../component/base/BaseIcon.vue";
+import BaseChip from "../component/base/BaseChip.vue";
+import BaseToggleSwitch from "../component/base/BaseToggleSwitch.vue";
+import BaseTabItem from "../component/base/BaseTabItem.vue";
+import BaseCalendarPicker from "../component/base/BaseCalendarPicker.vue";
+import BaseListRow from "../component/base/BaseListRow.vue";
 import FcConnectionStatus from "../component/fc/FcConnectionStatus.vue";
 import FcTerminalTimeline from "../component/fc/FcTerminalTimeline.vue";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
@@ -609,7 +611,7 @@ import FcAirlinePerformance from "../component/fc/FcAirlinePerformance.vue";
 import FcSeatStats from "../component/fc/FcSeatStats.vue";
 import FcFrequentTails from "../component/fc/FcFrequentTails.vue";
 import FcCountriesStats from "../component/fc/FcCountriesStats.vue";
-import FcTopAirlines from "../component/fc/FcTopAirlines.vue";
+import FcRankingStats from "../component/fc/FcRankingStats.vue";
 import FcFlightDistanceStats from "../component/fc/FcFlightDistanceStats.vue";
 
 import airports from "../common/airports.js";
@@ -618,15 +620,14 @@ import aircraftImage from "../assets/figma/aircraft-passport.png";
 import detailAircraftImage from "../assets/figma/aircraft-detail.png";
 import koreanFlag from "../assets/figma/flag-ko.svg";
 
-import "../assets/scss/component/fc/FcComponentGallery.scss";
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/base/BaseInput.scss";
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcChip.scss";
-import "../assets/scss/component/fc/FcToggleSwitch.scss";
-import "../assets/scss/component/fc/FcTabItem.scss";
-import "../assets/scss/component/fc/FcCalendarPicker.scss";
-import "../assets/scss/component/fc/FcListRow.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseChip.scss";
+import "../assets/scss/component/base/BaseToggleSwitch.scss";
+import "../assets/scss/component/base/BaseTabItem.scss";
+import "../assets/scss/component/base/BaseCalendarPicker.scss";
+import "../assets/scss/component/base/BaseListRow.scss";
 import "../assets/scss/component/fc/FcConnectionStatus.scss";
 import "../assets/scss/component/fc/FcTerminalTimeline.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
@@ -643,8 +644,9 @@ import "../assets/scss/component/fc/FcAirlinePerformance.scss";
 import "../assets/scss/component/fc/FcSeatStats.scss";
 import "../assets/scss/component/fc/FcFrequentTails.scss";
 import "../assets/scss/component/fc/FcCountriesStats.scss";
-import "../assets/scss/component/fc/FcTopAirlines.scss";
+import "../assets/scss/component/fc/FcRankingStats.scss";
 import "../assets/scss/component/fc/FcFlightDistanceStats.scss";
+import "../assets/scss/pages/page_component.scss";
 
 // 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
@@ -762,7 +764,7 @@ const componentData = {
             "label": "캘린더 Datepicker",
             "placeholder": "날짜 선택",
             "value": "2026-01-06",
-            "calendar": true
+            "type": "calendar"
         }
     ],
     "tabItems": [

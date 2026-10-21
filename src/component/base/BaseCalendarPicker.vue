@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 
-import BaseButton from "../base/BaseButton.vue";
+import BaseButton from "./BaseButton.vue";
 
 const props = defineProps({
     year: { type: Number, required: true },
@@ -76,20 +76,49 @@ watch(
 <template>
     <div class="fc-calendar">
         <header class="fc-calendar__header">
-            <BaseButton class="fc-calendar__period" :label="title" size="md" variant="text" tone="default"
-                :aria-expanded="isPeriodOpen" @click="isPeriodOpen = !isPeriodOpen" />
+            <BaseButton
+                class="fc-calendar__period"
+                :label="title"
+                size="md"
+                variant="text"
+                tone="default"
+                :aria-expanded="isPeriodOpen"
+                @click="isPeriodOpen = !isPeriodOpen"
+            />
             <div class="fc-calendar__navigation">
-                <BaseButton class="fc-calendar__previous" aria-label="이전 달" icon="chevron-right" :icon-size="16"
-                    size="sm" variant="text" tone="default" @click="moveMonth(-1)" />
-                <BaseButton aria-label="다음 달" icon="chevron-right" :icon-size="16" size="sm" variant="text"
-                    tone="default" @click="moveMonth(1)" />
+                <BaseButton
+                    class="fc-calendar__previous"
+                    aria-label="이전 달"
+                    icon="chevron-right"
+                    :icon-size="16"
+                    size="sm"
+                    variant="text"
+                    tone="default"
+                    @click="moveMonth(-1)"
+                />
+                <BaseButton
+                    aria-label="다음 달"
+                    icon="chevron-right"
+                    :icon-size="16"
+                    size="sm"
+                    variant="text"
+                    tone="default"
+                    @click="moveMonth(1)"
+                />
             </div>
         </header>
-        <div v-if="isPeriodOpen" class="fc-calendar__period-picker">
+        <div
+            v-if="isPeriodOpen"
+            class="fc-calendar__period-picker"
+        >
             <label>
                 <span>연도</span>
                 <select v-model.number="viewYear">
-                    <option v-for="year in years" :key="year" :value="year">
+                    <option
+                        v-for="year in years"
+                        :key="year"
+                        :value="year"
+                    >
                         {{ year }}
                     </option>
                 </select>
@@ -97,24 +126,47 @@ watch(
             <label>
                 <span>월</span>
                 <select v-model.number="viewMonth">
-                    <option v-for="month in months" :key="month.value" :value="month.value">
+                    <option
+                        v-for="month in months"
+                        :key="month.value"
+                        :value="month.value"
+                    >
                         {{ month.label }}
                     </option>
                 </select>
             </label>
         </div>
-        <div class="fc-calendar__grid" role="grid" :aria-label="`${title} 날짜 선택`">
-            <span v-for="day in weekdays" :key="day" class="fc-calendar__weekday" role="columnheader"
-                aria-hidden="true">
+        <div
+            class="fc-calendar__grid"
+            role="grid"
+            :aria-label="`${title} 날짜 선택`"
+        >
+            <span
+                v-for="day in weekdays"
+                :key="day"
+                class="fc-calendar__weekday"
+                role="columnheader"
+                aria-hidden="true"
+            >
                 {{ day }}
             </span>
-            <span v-for="(day, index) in days" :key="index" role="gridcell">
-                <button v-if="day" type="button" :class="{
-                    'is-marked': marked.includes(day),
-                    'is-selected': selectedDay === day,
-                    'is-outlined': outlined.includes(day),
-                }" :aria-label="`${title} ${day}일${marked.includes(day) ? ', 항공편 있음' : ''}`"
-                    :aria-pressed="selectedDay === day" @click="selectDay(day)">
+            <span
+                v-for="(day, index) in days"
+                :key="index"
+                role="gridcell"
+            >
+                <button
+                    v-if="day"
+                    type="button"
+                    :class="{
+                        'is-marked': marked.includes(day),
+                        'is-selected': selectedDay === day,
+                        'is-outlined': outlined.includes(day),
+                    }"
+                    :aria-label="`${title} ${day}일${marked.includes(day) ? ', 항공편 있음' : ''}`"
+                    :aria-pressed="selectedDay === day"
+                    @click="selectDay(day)"
+                >
                     {{ day }}
                 </button>
             </span>

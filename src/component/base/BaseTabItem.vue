@@ -1,5 +1,5 @@
 <script setup>
-import FcIcon from "./FcIcon.vue";
+import BaseIcon from "./BaseIcon.vue";
 
 const props = defineProps({
     label: { type: String, default: "탭 선택" },
@@ -76,7 +76,7 @@ function itemAria(item) {
             v-bind="itemAria(item)"
             @click="selectItem(item)"
         >
-            <FcIcon
+            <BaseIcon
                 v-if="icon"
                 :src="icon"
             />

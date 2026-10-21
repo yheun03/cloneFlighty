@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 
-import FcIcon from "./FcIcon.vue";
+import BaseIcon from "./BaseIcon.vue";
 
 import nextIcon from "../../assets/figma/chevron-right.svg";
 
@@ -11,6 +11,12 @@ const props = defineProps({
     avatar: { type: String, default: "" },
     image: { type: String, default: "" },
     icon: { type: String, default: "" },
+    arrowIcon: { type: String, default: nextIcon },
+    variant: {
+        type: String,
+        default: "default",
+        validator: (value) => ["default", "search"].includes(value),
+    },
     shape: {
         type: String,
         default: "",
@@ -32,20 +38,43 @@ const rowShape = computed(
 </script>
 
 <template>
-    <button type="button" class="fc-list-row" :class="[`fc-list-row--${rowShape}`, `fc-list-row--${type}`]"
-        @click="$emit('click')">
-        <span class="fc-list-row__visual" aria-hidden="true">
-            <img v-if="image" :src="image" alt="" />
-            <FcIcon v-else-if="type === 'icon' && icon" :src="icon" />
+    <button
+        type="button"
+        class="fc-list-row"
+        :class="[
+            `fc-list-row--${rowShape}`,
+            `fc-list-row--${type}`,
+            `fc-list-row--${variant}`,
+        ]"
+        @click="$emit('click')"
+    >
+        <span
+            class="fc-list-row__visual"
+            aria-hidden="true"
+        >
+            <img
+                v-if="image"
+                :src="image"
+                alt=""
+            />
+            <BaseIcon
+                v-else-if="type === 'icon' && icon"
+                :src="icon"
+            />
             <span v-else-if="avatar">{{ avatar }}</span>
         </span>
         <span class="fc-list-row__wrap">
             <span class="fc-list-row__text">
                 <strong :class="{ 'is-accent': accent }">{{ title }}</strong>
-                <small v-if="rowShape === 'double' && subtitle">{{ subtitle }}</small>
+                <small v-if="rowShape === 'double' && subtitle">
+                    {{ subtitle }}
+                </small>
             </span>
-            <span class="fc-list-row__arrow" aria-hidden="true">
-                <FcIcon :src="nextIcon" />
+            <span
+                class="fc-list-row__arrow"
+                aria-hidden="true"
+            >
+                <BaseIcon :src="arrowIcon" />
             </span>
         </span>
     </button>

@@ -2,8 +2,8 @@
 import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
 
 import BaseButton from "./BaseButton.vue";
-import FcCalendarPicker from "../fc/FcCalendarPicker.vue";
-import FcIcon from "../fc/FcIcon.vue";
+import BaseCalendarPicker from "./BaseCalendarPicker.vue";
+import BaseIcon from "./BaseIcon.vue";
 
 defineOptions({ inheritAttrs: false });
 
@@ -13,7 +13,6 @@ const props = defineProps({
     icon: { type: String, default: "" },
     actionLabel: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
-    calendar: { type: Boolean, default: false },
     calendarOptions: { type: Object, default: () => ({}) },
 });
 
@@ -121,33 +120,87 @@ onBeforeUnmount(removeCalendarListeners);
 </script>
 
 <template>
-    <div v-if="calendar" ref="calendarAnchor" class="fc-input-calendar" @keydown.esc="isCalendarOpen = false">
-        <div class="fc-input fc-input--composed" :class="{ 'is-disabled': disabled }">
+    <div
+        v-if="type === 'calendar'"
+        ref="calendarAnchor"
+        class="fc-input-calendar"
+        @keydown.esc="isCalendarOpen = false"
+    >
+        <div
+            class="fc-input fc-input--composed"
+            :class="{ 'is-disabled': disabled }"
+        >
             <span class="fc-input__icon">
-                <FcIcon :src="calendarIcon" />
+                <BaseIcon :src="calendarIcon" />
             </span>
-            <input v-model="value" v-bind="$attrs" class="fc-input__control" type="text" :placeholder="placeholder"
-                :disabled="disabled" readonly aria-haspopup="dialog" :aria-expanded="isCalendarOpen"
-                @click="openCalendar" @focus="openCalendar" />
+            <input
+                v-model="value"
+                v-bind="$attrs"
+                class="fc-input__control"
+                type="text"
+                :placeholder="placeholder"
+                :disabled="disabled"
+                readonly
+                aria-haspopup="dialog"
+                :aria-expanded="isCalendarOpen"
+                @click="openCalendar"
+                @focus="openCalendar"
+            />
         </div>
         <Teleport to=".app">
-            <div v-if="isCalendarOpen" ref="calendarPopover" class="fc-input-calendar__popover"
-                :style="calendarPosition" role="dialog" :aria-label="`${placeholder || '날짜'} 선택`"
-                @keydown.esc="isCalendarOpen = false">
-                <FcCalendarPicker :model-value="value" v-bind="resolvedCalendarOptions"
-                    @update:model-value="selectCalendarDate" />
+            <div
+                v-if="isCalendarOpen"
+                ref="calendarPopover"
+                class="fc-input-calendar__popover"
+                :style="calendarPosition"
+                role="dialog"
+                :aria-label="`${placeholder || '날짜'} 선택`"
+                @keydown.esc="isCalendarOpen = false"
+            >
+                <BaseCalendarPicker
+                    :model-value="value"
+                    v-bind="resolvedCalendarOptions"
+                    @update:model-value="selectCalendarDate"
+                />
             </div>
         </Teleport>
     </div>
-    <input v-else-if="!isComposed" v-model="value" v-bind="$attrs" class="fc-input fc-input--plain" :type="type"
-        :placeholder="placeholder" :disabled="disabled" />
-    <div v-else class="fc-input fc-input--composed" :class="{ 'is-disabled': disabled }">
-        <span v-if="icon" class="fc-input__icon">
-            <FcIcon :src="icon" />
+    <input
+        v-else-if="!isComposed"
+        v-model="value"
+        v-bind="$attrs"
+        class="fc-input fc-input--plain"
+        :type="type"
+        :placeholder="placeholder"
+        :disabled="disabled"
+    />
+    <div
+        v-else
+        class="fc-input fc-input--composed"
+        :class="{ 'is-disabled': disabled }"
+    >
+        <span
+            v-if="icon"
+            class="fc-input__icon"
+        >
+            <BaseIcon :src="icon" />
         </span>
-        <input v-model="value" v-bind="$attrs" class="fc-input__control" :type="type" :placeholder="placeholder"
-            :disabled="disabled" />
-        <BaseButton v-if="actionLabel" :label="actionLabel" size="sm" variant="fill" tone="gray" :disabled="disabled"
-            @click="emit('action')" />
+        <input
+            v-model="value"
+            v-bind="$attrs"
+            class="fc-input__control"
+            :type="type"
+            :placeholder="placeholder"
+            :disabled="disabled"
+        />
+        <BaseButton
+            v-if="actionLabel"
+            :label="actionLabel"
+            size="sm"
+            variant="fill"
+            tone="gray"
+            :disabled="disabled"
+            @click="emit('action')"
+        />
     </div>
 </template>

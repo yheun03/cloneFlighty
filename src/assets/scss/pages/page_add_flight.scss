@@ -29,7 +29,7 @@
         @include typo.font(b2, rg);
     }
 
-    .fc-list-row {
+    .fc-list-row:not(.fc-list-row--search) {
         border: 0;
         min-height: 46px;
         padding: 4px 0;
@@ -53,7 +53,7 @@
         }
     }
 
-    .fc-search__avatar,
+    .fc-search__result .fc-list-row__visual,
     .fc-list-row__avatar {
         width: 26px;
         height: 26px;

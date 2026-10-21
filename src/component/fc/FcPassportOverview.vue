@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from "vue";
 
-import FcIcon from "./FcIcon.vue";
-import FcTabItem from "./FcTabItem.vue";
+import BaseIcon from "../base/BaseIcon.vue";
+import BaseTabItem from "../base/BaseTabItem.vue";
 
 import planeIcon from "../../assets/icons/lucide/plane.svg";
 import earthIcon from "../../assets/icons/lucide/earth.svg";
@@ -34,15 +34,25 @@ const period = ref(props.periods[0]);
 
 <template>
     <div class="fc-passport">
-        <FcTabItem v-if="showPeriod" v-model="period" :items="periods" />
-        <div v-if="showMap" class="fc-passport__map">
+        <BaseTabItem
+            v-if="showPeriod"
+            v-model="period"
+            :items="periods"
+        />
+        <div
+            v-if="showMap"
+            class="fc-passport__map"
+        >
             <span>{{ mapFrom }}</span>
             <span>
-                <FcIcon :src="earthIcon" />
+                <BaseIcon :src="earthIcon" />
             </span>
             <span>{{ mapTo }}</span>
         </div>
-        <div v-if="showMap" class="fc-passport__flags">
+        <div
+            v-if="showMap"
+            class="fc-passport__flags"
+        >
             {{ flags }}
         </div>
         <h2>MY FLIGHTY PASSPORT</h2>
@@ -74,10 +84,15 @@ const period = ref(props.periods[0]);
                 {{ historyTitle }}
                 <small>{{ historyCount }}</small>
             </h3>
-            <button v-for="flight in recent" :key="flight.id" class="fc-passport__flight" type="button"
-                @click="$emit('select', flight)">
+            <button
+                v-for="flight in recent"
+                :key="flight.id"
+                class="fc-passport__flight"
+                type="button"
+                @click="$emit('select', flight)"
+            >
                 <span>
-                    <FcIcon :src="planeIcon" />
+                    <BaseIcon :src="planeIcon" />
                 </span>
                 <div>
                     <small>{{ flight.code }} &nbsp;{{ flight.route }}</small>

@@ -1,6 +1,6 @@
 # Vue 컴포넌트 속성 가이드
 
-컴포넌트는 src/component/base, src/component/fc에 있습니다. 타입·필수 여부·기본값은 각 Vue 파일의 defineProps가 기준입니다. 정해진 상태 값은 validator로 확인합니다. 아래 속성명은 script 기준 camelCase이며 템플릿에서는 show-period, initial-selected처럼 kebab-case로 작성합니다.
+기본 UI는 `src/component/base/`에, 항공편·통계·설정 등 플라이티 전용 조합은 `src/component/fc/`에 있습니다. 같은 기능은 컴포넌트 파일을 나누지 않고 `type`, `variant`, `size` 등의 props로 구분합니다. 타입·필수 여부·기본값은 각 Vue 파일의 defineProps가 기준입니다. 정해진 상태 값은 validator로 확인합니다. 아래 속성명은 script 기준 camelCase이며 템플릿에서는 show-period, initial-selected처럼 kebab-case로 작성합니다.
 
 객체·배열은 각 페이지 Vue 파일 하단의 `<script setup>`에 있는 `pageData` 샘플 데이터 객체에서 props로 전달합니다. 공항·항공사 기준 정보만 `src/common/`에서 관리합니다. 페이지는 사용하는 공통 컴포넌트를 직접 import합니다. 공통 컴포넌트에 화면 샘플 데이터를 추가하지 않습니다. 선언하지 않은 일반 HTML 속성은 단일 루트 요소에 전달됩니다.
 
@@ -8,7 +8,7 @@
 
 공통 컴포넌트의 Vue는 import → defineProps → defineModel → defineEmits → 화면 상태 → computed → 이벤트 함수 → 생명주기 순서로 정리합니다. 페이지는 template을 먼저 두고 하단의 `<script setup>`에서 import → 샘플 데이터 → 화면 상태 → computed → 이벤트 함수 순서로 정리합니다. 템플릿에는 표시 구조를 두고 긴 계산과 여러 동작이 섞인 이벤트 식은 script에서 처리합니다.
 
-SCSS는 기본 모양을 component/, 페이지별 조정을 pages/페이지명.scss에 둡니다. 각 페이지에서 필요한 컴포넌트 SCSS를 먼저 import하고 페이지 SCSS를 마지막에 import합니다. 공통 프레임은 MapLayout.vue에서 pages/\_frame.scss를 불러옵니다. 통계 컴포넌트 공통은 component/fc/\_stats.scss, 통계 페이지 공통은 pages/\_stats.scss, 테마 색상은 common/\_theme.scss를 사용합니다.
+SCSS는 기본 UI를 `src/assets/scss/component/base/`, 플라이티 전용 컴포넌트를 `src/assets/scss/component/fc/`, 페이지별 배치를 `src/assets/scss/pages/page_페이지명.scss`에 둡니다. 예를 들어 `HomePage.vue`는 `page_home.scss`, `FlightStatsPage.vue`는 `page_flight_stats.scss`를 사용합니다. 각 페이지는 필요한 컴포넌트 SCSS를 먼저 import하고 페이지 SCSS를 마지막에 import합니다. 공통 프레임은 `MapLayout.vue`에서 `layout/_frame.scss`를 불러옵니다. 통계 컴포넌트 공통은 `component/fc/_stats.scss`, 통계 페이지 공통은 `layout/_stats.scss`, 테마 색상은 `common/_theme.scss`를 사용합니다.
 
 .prettierrc.json은 기존 4칸 들여쓰기와 속성별 줄바꿈을 유지합니다. 샘플 데이터 객체의 prettier-ignore는 현재 형식을 유지하고, 인라인 아이콘·날짜 등의 prettier-ignore는 자동 줄바꿈으로 텍스트 공백과 너비가 바뀌는 것을 막기 위한 것입니다.
 
@@ -26,31 +26,28 @@ SCSS는 기본 모양을 component/, 페이지별 조정을 pages/페이지명.s
 
 ## BaseButton
 
-공통 버튼. click은 원래 MouseEvent를 전달합니다. type으로 button·submit·reset을 지정합니다.
+공통 버튼입니다. `click`은 원래 MouseEvent를 전달합니다.
 
-| 속성       | 타입    | 필수 | 기본값·허용값                                  |
-| ---------- | ------- | ---- | ---------------------------------------------- |
-| `label`    | String  | 선택 | `"Show More"`                                  |
-| `variant`  | String  | 선택 | `"link" / 허용: "link", "outline", "soft"`     |
-| `icon`     | String  | 선택 | `""`                                           |
-| `type`     | String  | 선택 | `"button" / 허용: "button", "submit", "reset"` |
-| `disabled` | Boolean | 선택 | `false`                                        |
-
-- 이벤트: `click`.
+- `label`: String, 기본값 `""`. 아이콘만 있으면 아이콘 버튼이 됩니다.
+- `size`: `"sm" | "md" | "lg"`, 기본값 `"md"`.
+- `variant`: `"fill" | "text"`, 기본값 `"fill"`.
+- `tone`: `"default" | "red" | "gray" | "primary"`, 기본값 `"default"`.
+- `icon`: String, 기본값 `""`. `iconSize`: String 또는 Number, 기본값 `""`.
+- `type`: `"button" | "submit" | "reset"`, 기본값 `"button"`.
+- `disabled`: Boolean, 기본값 `false`.
 
 ## BaseInput
 
-공통 입력창. 값은 문자열입니다. id, class, required, maxlength, autocomplete, aria-\*와 입력 이벤트는 루트 input에 전달됩니다.
+문자열 입력창입니다. 텍스트·검색·날짜 선택은 `type`으로 구분합니다. `id`, `class`, `required`, `maxlength`, `autocomplete`, `aria-*`와 입력 이벤트는 실제 input에 전달됩니다.
 
-| 속성          | 타입    | 필수 | 기본값·허용값 |
-| ------------- | ------- | ---- | ------------- |
-| `type`        | String  | 선택 | `"text"`      |
-| `placeholder` | String  | 선택 | `""`          |
-| `disabled`    | Boolean | 선택 | `false`       |
+- `type`: String, 기본값 `"text"`. 일반 HTML input 타입과 `"calendar"`를 지원합니다.
+- `placeholder`, `icon`, `actionLabel`: String, 기본값 `""`.
+- `disabled`: Boolean, 기본값 `false`.
+- `calendarOptions`: Object, 기본값 `{}`. `type="calendar"`일 때 달력의 `year`, `month`, `marked`, `outlined`를 전달합니다. 입력값이 `YYYY-MM-DD`이면 그 연월이 먼저 표시됩니다.
+- `v-model`: String, 기본값 `""`. 날짜 선택은 `YYYY-MM-DD` 문자열입니다.
+- 이벤트: `action`. `actionLabel` 버튼을 누르면 발생하고, 샘플 값 적용 등의 처리는 부모 페이지가 담당합니다.
 
-- `v-model`: String, 기본값 `""`.
-
-## FcIcon
+## BaseIcon
 
 src는 Lucide 아이콘 이름(예: plane) 또는 import한 SVG URL입니다. 장식용으로 aria-hidden을 사용합니다.
 
@@ -58,88 +55,52 @@ src는 Lucide 아이콘 이름(예: plane) 또는 import한 SVG URL입니다. �
 | ----- | ------ | ---- | ------------- |
 | `src` | String | 필수 | —             |
 
-## FcToggleSwitch
+## BaseToggleSwitch
 
-v-model은 켜짐 여부입니다. label은 접근성 이름이며 disabled이면 선택할 수 없습니다.
+토글·체크박스·라디오는 `type`으로 구분합니다. `label`은 접근성 이름입니다.
 
-| 속성       | 타입    | 필수 | 기본값·허용값 |
-| ---------- | ------- | ---- | ------------- |
-| `label`    | String  | 선택 | `"Toggle"`    |
-| `disabled` | Boolean | 선택 | `false`       |
+- `type`: `"button" | "checkbox" | "radio"`, 기본값 `"button"`. button은 switch 역할로 표시합니다.
+- `label`: String, 기본값 `"Toggle"`. `disabled`: Boolean, 기본값 `false`.
+- `value`: String / Number / Boolean, 기본값 `true`.
+- `v-model`: 기본값 `false`. 토글은 Boolean, 체크박스는 Boolean 또는 선택값 배열, 라디오는 `value`에 해당하는 단일 값입니다.
 
-- `v-model`: Boolean, 기본값 `false`.
+## BaseChip
 
-## FcChoiceChip
+텍스트·아이콘 칩과 선택 상태를 표시합니다.
 
-active는 선택 상태, filled는 채움 스타일입니다. click은 전달값 없이 발생하며 실제 선택값은 부모에서 변경합니다.
+- `label`: String, 필수. `icon`: String, 기본값 `""`.
+- `active`, `disabled`: Boolean, 기본값 `false`.
+- 이벤트: `click(MouseEvent)`. 실제 선택 상태는 부모에서 변경합니다.
 
-| 속성     | 타입    | 필수 | 기본값·허용값 |
-| -------- | ------- | ---- | ------------- |
-| `label`  | String  | 필수 | —             |
-| `icon`   | String  | 선택 | `""`          |
-| `active` | Boolean | 선택 | `false`       |
-| `filled` | Boolean | 선택 | `false`       |
+## BaseTabItem
 
-- 이벤트: `click`.
+기간 선택, 단위 선택, 체크박스·라디오 그룹이 같은 컴포넌트를 사용합니다.
 
-## FcPeriodTabs
+- `items`: 문자열 Array, 필수. `label`: String, 기본값 `"탭 선택"`.
+- `type`: `"tab" | "checkbox" | "radio"`, 기본값 `"tab"`.
+- `variant`: `"fill" | "stroke" | "segment"`, 기본값 `"fill"`.
+- `size`: `"md" | "sm"`, 기본값 `"md"`. `icon`: String, 기본값 `""`.
+- `v-model`: 기본값 `""`. tab·radio는 단일 값, checkbox는 선택값 배열입니다.
 
-items는 문자열 배열, v-model은 선택한 항목과 같은 문자열입니다.
+## BaseCalendarPicker
 
-| 속성    | 타입   | 필수 | 기본값·허용값 |
-| ------- | ------ | ---- | ------------- |
-| `label` | String | 선택 | `"조회 기간"` |
-| `items` | Array  | 필수 | —             |
+월 이동, 연월 선택, 날짜 선택을 지원합니다. 표시 스타일도 컴포넌트 SCSS에서 관리합니다.
 
-- `v-model`: String, 기본값 `"ALL-TIME"`.
+- `year`: Number, 필수. `month`: Number, 필수, 1~12 정수.
+- `marked`, `outlined`: 날짜 숫자 Array, 기본값 `[]`. 각각 채움·테두리 표시입니다.
+- `v-model`: String, 기본값 `""`. `YYYY-MM-DD` 문자열을 전달합니다.
 
-## FcCountBadge
+## BaseListRow
 
-value는 숫자 또는 문자열, variant는 표시 방식입니다.
+설정·친구 목록과 검색 결과가 같은 마크업을 사용합니다.
 
-| 속성      | 타입            | 필수 | 기본값·허용값                                  |
-| --------- | --------------- | ---- | ---------------------------------------------- |
-| `value`   | String / Number | 선택 | `1`                                            |
-| `variant` | String          | 선택 | `"plain" / 허용: "plain", "filled", "outline"` |
-
-## FcCalendarPicker
-
-month는 1~12, v-model은 날짜 숫자입니다. marked·outlined는 날짜 숫자 배열입니다. outlined 스타일은 항공편 추가 페이지에 있습니다.
-
-| 속성       | 타입   | 필수 | 기본값·허용값   |
-| ---------- | ------ | ---- | --------------- |
-| `year`     | Number | 필수 | —               |
-| `month`    | Number | 필수 | `— / 1~12 정수` |
-| `marked`   | Array  | 선택 | `[]`            |
-| `outlined` | Array  | 선택 | `[]`            |
-
-- `v-model`: Number, 기본값 `20`.
-
-## FcListRow
-
-avatar는 문자·이모지, accent는 제목 강조입니다. click은 전달값 없이 발생합니다.
-
-| 속성       | 타입    | 필수 | 기본값·허용값 |
-| ---------- | ------- | ---- | ------------- |
-| `title`    | String  | 필수 | —             |
-| `subtitle` | String  | 선택 | `""`          |
-| `avatar`   | String  | 선택 | `""`          |
-| `accent`   | Boolean | 선택 | `false`       |
-
-- 이벤트: `click`.
-
-## FcPasteField
-
-버튼을 누르면 sampleValue를 v-model에 넣습니다. label은 입력창 라벨, pasteLabel은 버튼 문구입니다.
-
-| 속성          | 타입   | 필수 | 기본값·허용값 |
-| ------------- | ------ | ---- | ------------- |
-| `sampleValue` | String | 선택 | `""`          |
-| `label`       | String | 선택 | `"Reason"`    |
-| `placeholder` | String | 선택 | `"PASTE"`     |
-| `pasteLabel`  | String | 선택 | `"붙여넣기"`  |
-
-- `v-model`: String, 기본값 `""`.
+- `title`: String, 필수. `subtitle`, `avatar`, `image`, `icon`: String, 기본값 `""`.
+- `type`: `"icon" | "profile"`, 기본값 `"icon"`. 왼쪽 시각 요소를 구분합니다.
+- `shape`: `"" | "single" | "double"`, 기본값 `""`. 미지정 시 subtitle 유무로 결정합니다.
+- `variant`: `"default" | "search"`, 기본값 `"default"`. search는 검색 결과의 간격과 화살표 테두리를 표시합니다.
+- `arrowIcon`: String, 기본값은 프로젝트의 chevron-right SVG입니다. 검색 결과는 `"arrow-right"`를 전달합니다.
+- `accent`: Boolean, 기본값 `false`.
+- 이벤트: `click`. 선택 데이터는 부모에서 전달합니다.
 
 ## FcConnectionStatus
 
@@ -164,21 +125,20 @@ duration은 실제 환승 시간, extra는 권장 최소 시간보다 여유 있
 
 ## FcFlightListItem
 
-upcoming은 예정 항공편, history는 지난 항공편, header는 상세 헤더입니다. days·avatar는 예정 항공편, duration·flightTime은 지난 항공편에 사용합니다. remove는 상세 헤더의 닫기 버튼에서 전달값 없이 발생합니다.
+upcoming은 예정 항공편, history는 지난 항공편, header는 상세 헤더입니다. 기본·친구 항공편은 `type="default" | "friend"`로 구분하며 기본값은 `"default"`입니다. `profile`은 친구 이미지 URL이며 기본값은 `""`입니다. days·profile은 예정 항공편, duration·flightTime은 지난 항공편에 사용합니다. remove는 상세 헤더의 닫기 버튼에서 전달값 없이 발생합니다.
 
-| 속성         | 타입    | 필수 | 기본값·허용값                                        |
-| ------------ | ------- | ---- | ---------------------------------------------------- |
-| `variant`    | String  | 선택 | `"upcoming" / 허용: "upcoming", "history", "header"` |
-| `airline`    | String  | 필수 | —                                                    |
-| `flight`     | String  | 필수 | —                                                    |
-| `title`      | String  | 필수 | —                                                    |
-| `date`       | String  | 필수 | —                                                    |
-| `departure`  | String  | 필수 | —                                                    |
-| `arrival`    | String  | 필수 | —                                                    |
-| `duration`   | String  | 선택 | `""`                                                 |
-| `flightTime` | String  | 선택 | `""`                                                 |
-| `days`       | Number  | 선택 | `0`                                                  |
-| `avatar`     | Boolean | 선택 | `false`                                              |
+| 속성         | 타입   | 필수 | 기본값·허용값                                        |
+| ------------ | ------ | ---- | ---------------------------------------------------- |
+| `variant`    | String | 선택 | `"upcoming" / 허용: "upcoming", "history", "header"` |
+| `airline`    | String | 필수 | —                                                    |
+| `flight`     | String | 필수 | —                                                    |
+| `title`      | String | 필수 | —                                                    |
+| `date`       | String | 필수 | —                                                    |
+| `departure`  | String | 필수 | —                                                    |
+| `arrival`    | String | 필수 | —                                                    |
+| `duration`   | String | 선택 | `""`                                                 |
+| `flightTime` | String | 선택 | `""`                                                 |
+| `days`       | Number | 선택 | `0`                                                  |
 
 - 이벤트: `remove`.
 
@@ -300,20 +260,23 @@ countries는 { name, flag, count }, regions는 { name, count, percent } 목록�
 | `countries` | Array  | 필수 | —             |
 | `regions`   | Array  | 필수 | —             |
 
-## FcTopAirlines
+## FcRankingStats
 
-items는 { name, flights, distance } 목록이며 distance는 km 숫자입니다. limit는 접힌 목록 개수, showNames는 아이콘 대신 이름 표시, showTabs는 횟수·거리 전환 표시입니다.
+항공사·공항·노선·기종 순위가 같은 막대 차트 컴포넌트를 사용합니다. 기존 `FcTopAirlines`의 호출부를 이 컴포넌트로 변경했습니다. 기존 `fc-top-airlines` 클래스는 디자인 일관성을 위해 유지합니다.
 
-| 속성        | 타입            | 필수 | 기본값·허용값              |
-| ----------- | --------------- | ---- | -------------------------- |
-| `title`     | String          | 선택 | `"Top Airlines"`           |
-| `total`     | Number / String | 선택 | `0`                        |
-| `unit`      | String          | 선택 | `"total airlines"`         |
-| `showNames` | Boolean         | 선택 | `false`                    |
-| `showTabs`  | Boolean         | 선택 | `true`                     |
-| `color`     | String          | 선택 | `"var(--fc-chart-purple)"` |
-| `limit`     | Number          | 선택 | `3`                        |
-| `items`     | Array           | 필수 | —                          |
+- `type`: `"airline" | "airport" | "route" | "aircraft"`, 기본값 `"airline"`. airline은 로고, 나머지는 이름을 표시합니다.
+- `title`: String, 기본값 `"Top Airlines"`. `unit`: String, 기본값 `"total airlines"`.
+- `total`: Number / String, 기본값 `0`.
+- `items`: Array, 필수. 항목은 `{ name, iata?, flights, distance }`이며 distance 단위는 km입니다.
+- `showTabs`: Boolean, 미지정 시 airline·route는 표시하고 airport·aircraft는 숨깁니다. 선택은 `BaseTabItem`의 radio 타입을 사용합니다.
+- `color`: String, 기본값 `"var(--fc-chart-purple)"`. `limit`: Number, 기본값 `3`.
+
+```vue
+<FcRankingStats v-bind="pageData.airlines" type="airline" />
+<FcRankingStats v-bind="pageData.airports" type="airport" />
+<FcRankingStats v-bind="pageData.routes" type="route" />
+<FcRankingStats v-bind="pageData.types" type="aircraft" />
+```
 
 ## FcFlightDistanceStats
 

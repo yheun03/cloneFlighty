@@ -73,4 +73,56 @@
             height: 20px;
         }
     }
+
+    &--search {
+        min-height: 46px;
+        padding: 4px 0;
+        color: var(--fc-text-strong, white);
+    }
+
+    &--search &__visual {
+        border-radius: 50%;
+
+        .fc-icon {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    &--search &__wrap {
+        gap: 12px;
+        padding: 0;
+        border: 0;
+    }
+
+    &--search &__text {
+        gap: 0;
+        padding-left: 0;
+
+        strong {
+            color: inherit;
+            @include typo.font(b2, sb);
+        }
+
+        small {
+            color: var(--fc-text-secondary, #888);
+            @include typo.font(b4, rg);
+        }
+    }
+
+    &--search &__arrow {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 36px;
+        height: 20px;
+        margin-left: 0;
+        border: 1px solid var(--fc-border, #505050);
+        border-radius: 3px;
+
+        .fc-icon {
+            width: 16px;
+            height: 16px;
+        }
+    }
 }

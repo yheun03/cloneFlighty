@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 
-import FcIcon from "./FcIcon.vue";
+import BaseIcon from "../base/BaseIcon.vue";
 
 import brandIcon from "../../assets/icons/lucide/square.svg";
 
@@ -27,7 +27,7 @@ const lostTime = computed(
 <template>
     <div class="fc-delay-report">
         <div class="fc-delay-report__brand">
-            <FcIcon :src="brandIcon" />
+            <BaseIcon :src="brandIcon" />
             Flighty
             <strong>All-Time Delay Report</strong>
         </div>

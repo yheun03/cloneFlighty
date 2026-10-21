@@ -39,8 +39,16 @@ function toggle() {
 </script>
 
 <template>
-    <button type="button" class="fc-switch" :class="{ 'is-on': checked }" :role="type === 'button' ? 'switch' : type"
-        :aria-label="label" :aria-checked="checked" :disabled="disabled" @click="toggle">
+    <button
+        type="button"
+        class="fc-switch"
+        :class="{ 'is-on': checked }"
+        :role="type === 'button' ? 'switch' : type"
+        :aria-label="label"
+        :aria-checked="checked"
+        :disabled="disabled"
+        @click="toggle"
+    >
         <span></span>
     </button>
 </template>

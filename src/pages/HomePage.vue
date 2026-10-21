@@ -51,9 +51,9 @@ import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 import airlines from "../common/airlines.js";
 
 import "../assets/scss/component/base/BaseInput.scss";
-import "../assets/scss/component/fc/FcIcon.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
-import "../assets/scss/pages/HomePage.scss";
+import "../assets/scss/pages/page_home.scss";
 
 // 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
@@ -70,7 +70,6 @@ const pageData = {
             "departure": "SFO 11:40",
             "arrival": "ICN 17:40⁺¹",
             "days": 21,
-            "avatar": false,
             "duration": "13h",
             "flightTime": "13h",
             "id": "ke-24",
@@ -85,7 +84,6 @@ const pageData = {
             "departure": "SFO 11:40",
             "arrival": "ICN 17:40⁺¹",
             "days": 999,
-            "avatar": false,
             "duration": "13h",
             "flightTime": "13h",
             "id": "ke-24-2",
@@ -134,7 +132,6 @@ const pageData = {
             "departure": "SFO 11:40",
             "arrival": "ICN 17:40⁺¹",
             "days": 21,
-            "avatar": false,
             "duration": "13h",
             "flightTime": "13h",
             "id": "ke-24",
@@ -149,7 +146,6 @@ const pageData = {
             "departure": "SFO 11:40",
             "arrival": "ICN 17:40⁺¹",
             "days": 999,
-            "avatar": false,
             "duration": "13h",
             "flightTime": "13h",
             "id": "ke-24-2",

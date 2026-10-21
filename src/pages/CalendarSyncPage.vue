@@ -11,10 +11,10 @@
 <script setup>
 import FcCalendarSync from "../component/fc/FcCalendarSync.vue";
 
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcToggleSwitch.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseToggleSwitch.scss";
 import "../assets/scss/component/fc/FcCalendarSync.scss";
-import "../assets/scss/pages/CalendarSyncPage.scss";
+import "../assets/scss/pages/page_calendar_sync.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.
 // prettier-ignore

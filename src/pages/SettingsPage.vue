@@ -17,7 +17,7 @@
         >
             <h2 id="appearance-title">Appearance</h2>
             <p class="frame-page__note">Choose how Flighty looks.</p>
-            <FcTabItem
+            <BaseTabItem
                 v-model="appearance"
                 class="settings-page__theme-options"
                 label="색상 모드"
@@ -40,12 +40,12 @@ import { computed, inject, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import FcSettingsMenu from "../component/fc/FcSettingsMenu.vue";
-import FcTabItem from "../component/fc/FcTabItem.vue";
+import BaseTabItem from "../component/base/BaseTabItem.vue";
 
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcTabItem.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseTabItem.scss";
 import "../assets/scss/component/fc/FcSettingsMenu.scss";
-import "../assets/scss/pages/SettingsPage.scss";
+import "../assets/scss/pages/page_settings.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.
 // prettier-ignore

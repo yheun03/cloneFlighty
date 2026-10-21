@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref, useId } from "vue";
 
-import FcIcon from "./FcIcon.vue";
 import BaseInput from "../base/BaseInput.vue";
+import BaseListRow from "../base/BaseListRow.vue";
 
 import nextIcon from "../../assets/icons/lucide/arrow-right.svg";
 
@@ -50,25 +50,18 @@ function selectItem(item) {
         >
             {{ sectionLabel }}
         </h3>
-        <button
+        <BaseListRow
             v-for="item in filteredItems"
             :key="item.title"
-            type="button"
             class="fc-search__result"
+            variant="search"
+            :title="item.title"
+            :subtitle="item.subtitle"
+            :image="item.image"
+            :icon="item.avatar"
+            :arrow-icon="nextIcon"
             @click="selectItem(item)"
-        >
-            <span class="fc-search__avatar">
-                <img v-if="item.image" :src="item.image" alt="" />
-                <FcIcon v-else :src="item.avatar" />
-            </span>
-            <span>
-                <strong>{{ item.title }}</strong>
-                <small>{{ item.subtitle }}</small>
-            </span>
-            <span class="fc-search__arrow">
-                <FcIcon :src="nextIcon" />
-            </span>
-        </button>
+        />
         <small
             v-if="selected"
             class="fc-search__selected"

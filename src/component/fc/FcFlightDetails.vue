@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 
-import FcIcon from "./FcIcon.vue";
+import BaseIcon from "../base/BaseIcon.vue";
 
 import {
     defaultAirlineLogo,
@@ -39,7 +39,7 @@ const airlineIcon = computed(
     <div class="fc-details" :class="{ 'is-completed': completed }">
         <div class="fc-schedule">
             <div class="fc-schedule__airport">
-                <FcIcon :src="departureIcon" />
+                <BaseIcon :src="departureIcon" />
                 &nbsp;{{ details.from }}
                 &nbsp;·&nbsp;
                 {{ details.departureAirport }}
@@ -59,16 +59,16 @@ const airlineIcon = computed(
                 <span>{{ details.departureTerminal }}</span>
             </div>
             <div class="fc-schedule__divider">
-                <FcIcon :src="durationIcon" />
+                <BaseIcon :src="durationIcon" />
                 &nbsp;·&nbsp; {{ details.duration }} &nbsp;·&nbsp;
                 {{ details.distance }} &nbsp;·&nbsp;
                 <template v-if="details.overnight">
-                    <FcIcon :src="overnightIcon" />
+                    <BaseIcon :src="overnightIcon" />
                     &nbsp;Overnight
                 </template>
             </div>
             <div class="fc-schedule__airport">
-                <FcIcon :src="arrivalIcon" />
+                <BaseIcon :src="arrivalIcon" />
                 &nbsp;{{ details.to }}
                 &nbsp;·&nbsp;
                 {{ details.arrivalAirport }}
@@ -98,7 +98,7 @@ const airlineIcon = computed(
         <h2>Enable popular features:</h2>
         <div class="fc-details__features">
             <button v-for="feature in details.features" :key="feature.title" type="button" @click="$emit('edit')">
-                <FcIcon :src="feature.field === 'bookingCode'
+                <BaseIcon :src="feature.field === 'bookingCode'
                     ? bookingIcon
                     : planeIcon
                     " />
@@ -115,11 +115,11 @@ const airlineIcon = computed(
         </div>
         <button class="fc-details__connection" type="button" @click="$emit('connection')">
             Connection information
-            <FcIcon :src="routeIcon" />
+            <BaseIcon :src="routeIcon" />
         </button>
         <h2>Good to Know</h2>
         <div class="fc-details__card fc-details__timezone">
-            <FcIcon :src="durationIcon" />
+            <BaseIcon :src="durationIcon" />
             <div>
                 <strong>{{ details.timezoneTitle }}</strong>
                 <span>{{ details.timezoneDescription }}</span>
@@ -132,7 +132,7 @@ const airlineIcon = computed(
                 <span v-for="stat in details.forecastStats" :key="stat.label">
                     {{ stat.label }}
                     <strong>
-                        <FcIcon :src="durationIcon" />
+                        <BaseIcon :src="durationIcon" />
                         {{ stat.value }}
                     </strong>
                 </span>
@@ -157,12 +157,12 @@ const airlineIcon = computed(
             </small>
             <div class="fc-details__plane">
                 <img v-if="details.image" :src="details.image" :alt="details.plane" />
-                <FcIcon v-else :src="planeIcon" />
+                <BaseIcon v-else :src="planeIcon" />
             </div>
         </div>
         <div class="fc-details__card">
             <h3>
-                <FcIcon :src="airlineIcon" />
+                <BaseIcon :src="airlineIcon" />
                 &nbsp;{{ details.airline }}
             </h3>
             <p>{{ details.alliance }}</p>
@@ -191,21 +191,21 @@ const airlineIcon = computed(
             <h3>My History on This Route</h3>
             <p>
                 {{ details.from }}
-                <FcIcon :src="routeIcon" />
+                <BaseIcon :src="routeIcon" />
                 {{ details.to }}
             </p>
             <div class="fc-details__stats">
                 <span v-for="stat in details.historyStats" :key="stat.label">
                     {{ stat.label }}
                     <strong>
-                        <FcIcon :src="durationIcon" />
+                        <BaseIcon :src="durationIcon" />
                         {{ stat.value }}
                     </strong>
                 </span>
             </div>
             <p>Most recent flights</p>
             <strong>
-                <FcIcon :src="airlineIcon" />
+                <BaseIcon :src="airlineIcon" />
                 &nbsp;{{ details.recentFlight }}
             </strong>
         </div>

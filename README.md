@@ -9,7 +9,9 @@
 - 화면 상태는 새로고침하면 초기화됩니다. API, 로그인, 실제 저장·전송 기능은 추가하지 않습니다.
 - 변경 전 유사한 Vue 파일을 확인하고 기존 마크업, 클래스명, SCSS, 공통 컴포넌트 사용 방식을 따릅니다.
 
-SCSS는 컴포넌트 기본 스타일을 `src/assets/scss/component/`, 페이지별 조정을 `src/assets/scss/pages/페이지명.scss`에서 수정합니다. 각 페이지는 사용하는 컴포넌트 SCSS와 자신의 페이지 SCSS를 직접 import합니다. 공통 프레임은 `MapLayout.vue`에서 `pages/_frame.scss`를 불러오고, 통계 페이지는 `pages/_stats.scss`를 함께 사용합니다. UI 컴포넌트 갤러리는 미리보기 화면으로 유지합니다.
+공통 UI는 `src/component/base/`, 플라이티 전용 조합은 `src/component/fc/`에서 관리합니다. 같은 기능은 별도 파일 대신 `type`, `variant`, `size` 등의 props로 구분합니다. 검색 결과와 설정 목록은 `BaseListRow`, 항공사·공항·노선·기종 순위는 `FcRankingStats`를 함께 사용합니다.
+
+SCSS도 `src/assets/scss/component/base/`와 `src/assets/scss/component/fc/`로 구분합니다. 페이지 전용 스타일은 `src/assets/scss/pages/page_페이지명.scss`로 작성합니다(예: `page_home.scss`, `page_flight_detail.scss`). 각 페이지는 사용하는 컴포넌트 SCSS를 먼저, 페이지 SCSS를 마지막에 import합니다. 공통 프레임과 통계 페이지 배치는 `layout/_frame.scss`, `layout/_stats.scss`에서 관리합니다. UI 갤러리의 스타일은 `pages/page_component.scss`에 있습니다.
 
 Vue 컴포넌트의 props 타입, 필수 여부, 기본값, 허용값, v-model, 이벤트와 데이터 구조는 [컴포넌트 속성 가이드](docs/components.md)를 참고합니다. `.prettierrc.json`으로 4칸 들여쓰기와 속성별 줄바꿈을 유지합니다.
 

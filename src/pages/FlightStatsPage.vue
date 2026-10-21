@@ -3,7 +3,7 @@
         class="frame-page stats-page"
         @click="share"
     >
-        <FcTabItem
+        <BaseTabItem
             v-model="period"
             :items="pageData.periods"
         />
@@ -35,7 +35,7 @@
             </p>
             <div class="stats-page__flight-tabs">
                 <span>FLIGHTS PER</span>
-                <FcTabItem
+                <BaseTabItem
                     v-model="metric"
                     :items="pageData.metrics"
                     size="sm"
@@ -71,9 +71,18 @@
             v-bind="pageData.distance"
             view="breakdown"
         />
-        <FcTopAirlines v-bind="pageData.airports" />
-        <FcTopAirlines v-bind="pageData.airlines" />
-        <FcTopAirlines v-bind="pageData.routes" />
+        <FcRankingStats
+            v-bind="pageData.airports"
+            type="airport"
+        />
+        <FcRankingStats
+            v-bind="pageData.airlines"
+            type="airline"
+        />
+        <FcRankingStats
+            v-bind="pageData.routes"
+            type="route"
+        />
         <FcCountriesStats v-bind="pageData.countries" />
         <p
             v-if="message"
@@ -91,10 +100,10 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
 import BaseButton from "../component/base/BaseButton.vue";
-import FcTabItem from "../component/fc/FcTabItem.vue";
+import BaseTabItem from "../component/base/BaseTabItem.vue";
 import FcPassportOverview from "../component/fc/FcPassportOverview.vue";
 import FcFlightDistanceStats from "../component/fc/FcFlightDistanceStats.vue";
-import FcTopAirlines from "../component/fc/FcTopAirlines.vue";
+import FcRankingStats from "../component/fc/FcRankingStats.vue";
 import FcCountriesStats from "../component/fc/FcCountriesStats.vue";
 
 import airlines from "../common/airlines.js";
@@ -102,15 +111,15 @@ import airlines from "../common/airlines.js";
 import shareIcon from "../assets/figma/share.svg";
 
 import "../assets/scss/component/base/BaseButton.scss";
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcTabItem.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseTabItem.scss";
 import "../assets/scss/component/fc/_stats.scss";
 import "../assets/scss/component/fc/FcPassportOverview.scss";
 import "../assets/scss/component/fc/FcCountriesStats.scss";
-import "../assets/scss/component/fc/FcTopAirlines.scss";
+import "../assets/scss/component/fc/FcRankingStats.scss";
 import "../assets/scss/component/fc/FcFlightDistanceStats.scss";
-import "../assets/scss/pages/_stats.scss";
-import "../assets/scss/pages/FlightStatsPage.scss";
+import "../assets/scss/layout/_stats.scss";
+import "../assets/scss/pages/page_flight_stats.scss";
 
 // 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
@@ -309,9 +318,7 @@ const pageData = {
                 "distance": 5250
             }
         ],
-        "limit": 8,
-        "showNames": true,
-        "showTabs": false
+        "limit": 8
     },
     "airlines": {
         "title": "Top Airlines",
@@ -376,8 +383,7 @@ const pageData = {
             }
         ],
         "limit": 4,
-        "unit": "total routes",
-        "showNames": true
+        "unit": "total routes"
     },
     "countries": {
         "total": 11,

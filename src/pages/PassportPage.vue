@@ -1,6 +1,6 @@
 <template>
     <section class="frame-page passport-page">
-        <FcTabItem
+        <BaseTabItem
             v-model="period"
             :items="pageData.periods"
         />
@@ -60,7 +60,7 @@
             </RouterLink>
         </div>
         <h2 class="passport-page__past-title">Past Flights</h2>
-        <FcTabItem
+        <BaseTabItem
             v-model="group"
             :items="pageData.groups"
             label="Group past flights"
@@ -97,7 +97,7 @@ import { ref } from "vue";
 
 import { useRoute } from "vue-router";
 
-import FcTabItem from "../component/fc/FcTabItem.vue";
+import BaseTabItem from "../component/base/BaseTabItem.vue";
 import FcPassportOverview from "../component/fc/FcPassportOverview.vue";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 
@@ -105,11 +105,11 @@ import airlines from "../common/airlines.js";
 
 import aircraftImage from "../assets/figma/aircraft-passport.png";
 
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcTabItem.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseTabItem.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
 import "../assets/scss/component/fc/FcPassportOverview.scss";
-import "../assets/scss/pages/PassportPage.scss";
+import "../assets/scss/pages/page_passport.scss";
 
 // 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
@@ -198,7 +198,6 @@ const pageData = {
                     "departure": "AMS 09:25",
                     "arrival": "ICN 10:50",
                     "days": 21,
-                    "avatar": false,
                     "duration": "11h 25m",
                     "flightTime": "11h 25m",
                     "id": "past-1-1",
@@ -213,7 +212,6 @@ const pageData = {
                     "departure": "AMS 09:25",
                     "arrival": "ICN 10:50",
                     "days": 21,
-                    "avatar": false,
                     "duration": "11h 25m",
                     "flightTime": "11h 25m",
                     "id": "past-1-2",
@@ -228,7 +226,6 @@ const pageData = {
                     "departure": "AMS 09:25",
                     "arrival": "ICN 10:50",
                     "days": 21,
-                    "avatar": false,
                     "duration": "11h 25m",
                     "flightTime": "11h 25m",
                     "id": "past-1-3",
@@ -257,7 +254,6 @@ const pageData = {
                     "departure": "AMS 09:25",
                     "arrival": "ICN 10:50",
                     "days": 21,
-                    "avatar": false,
                     "duration": "11h 25m",
                     "flightTime": "11h 25m",
                     "id": "past-2-1",
@@ -272,7 +268,6 @@ const pageData = {
                     "departure": "AMS 09:25",
                     "arrival": "ICN 10:50",
                     "days": 21,
-                    "avatar": false,
                     "duration": "11h 25m",
                     "flightTime": "11h 25m",
                     "id": "past-2-2",
@@ -287,7 +282,6 @@ const pageData = {
                     "departure": "AMS 09:25",
                     "arrival": "ICN 10:50",
                     "days": 21,
-                    "avatar": false,
                     "duration": "11h 25m",
                     "flightTime": "11h 25m",
                     "id": "past-2-3",

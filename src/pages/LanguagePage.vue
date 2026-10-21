@@ -12,7 +12,7 @@
             role="group"
             aria-label="Language"
         >
-            <FcListRow
+            <BaseListRow
                 v-for="language in pageData.languages"
                 :key="language.id"
                 v-bind="language"
@@ -22,7 +22,7 @@
             />
         </div>
         <h2 class="frame-page__label language-page__device">Device Language</h2>
-        <FcListRow
+        <BaseListRow
             v-bind="pageData.device"
             :accent="selected === 'device'"
             :aria-pressed="selected === 'device'"
@@ -40,15 +40,15 @@
 <script setup>
 import { ref } from "vue";
 
-import FcListRow from "../component/fc/FcListRow.vue";
+import BaseListRow from "../component/base/BaseListRow.vue";
 import koreanFlag from "../assets/figma/flag-ko.svg";
 import englishFlag from "../assets/figma/flag-en.svg";
 import japaneseFlag from "../assets/figma/flag-ja.svg";
 import deviceIcon from "../assets/figma/language-device.svg";
 
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcListRow.scss";
-import "../assets/scss/pages/LanguagePage.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseListRow.scss";
+import "../assets/scss/pages/page_language.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.
 // prettier-ignore

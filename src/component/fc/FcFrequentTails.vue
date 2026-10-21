@@ -16,7 +16,13 @@ defineProps({
     <div class="fc-frequent-tails">
         <div class="fc-stat-head">
             <h2>Most Frequent Tails</h2>
-            <BaseButton label="Share" :icon="shareIcon" size="md" variant="fill" tone="gray" />
+            <BaseButton
+                label="Share"
+                :icon="shareIcon"
+                size="md"
+                variant="fill"
+                tone="gray"
+            />
         </div>
         <strong>{{ tail }}</strong>
         <p>{{ flights }} flights</p>

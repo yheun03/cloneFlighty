@@ -6,13 +6,13 @@
             set custom alerts, and control access here.
         </p>
         <div class="friends-page__list">
-            <FcListRow
+            <BaseListRow
                 v-for="friend in pageData.friends"
                 :key="friend.id"
                 :title="friend.title"
                 @click="openFriend(friend)"
             />
-            <FcListRow
+            <BaseListRow
                 title="Invite a Friend"
                 accent
                 @click="inviting = !inviting"
@@ -56,12 +56,12 @@ import { useRoute, useRouter } from "vue-router";
 
 import BaseInput from "../component/base/BaseInput.vue";
 import BaseButton from "../component/base/BaseButton.vue";
-import FcListRow from "../component/fc/FcListRow.vue";
+import BaseListRow from "../component/base/BaseListRow.vue";
 
 import "../assets/scss/component/base/BaseButton.scss";
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcListRow.scss";
-import "../assets/scss/pages/FriendsPage.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseListRow.scss";
+import "../assets/scss/pages/page_friends.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.
 // prettier-ignore

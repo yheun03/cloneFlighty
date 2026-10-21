@@ -38,10 +38,10 @@ import airports from "../common/airports.js";
 import airlines from "../common/airlines.js";
 import aircraftImage from "../assets/figma/aircraft-detail.png";
 
-import "../assets/scss/component/fc/FcIcon.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
 import "../assets/scss/component/fc/FcFlightDetails.scss";
-import "../assets/scss/pages/FlightDetailPage.scss";
+import "../assets/scss/pages/page_flight_detail.scss";
 
 // 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
@@ -54,7 +54,6 @@ const pageData = {
         "departure": "SFO 11:40",
         "arrival": "ICN 17:40⁺¹",
         "days": 21,
-        "avatar": false,
         "duration": "13h",
         "flightTime": "13h"
     },
@@ -168,7 +167,6 @@ const pageData = {
         "departure": "AMS 09:25",
         "arrival": "ICN 10:50",
         "days": 21,
-        "avatar": false,
         "duration": "11h 25m",
         "flightTime": "11h 25m"
     },

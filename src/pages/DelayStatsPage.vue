@@ -3,7 +3,7 @@
         class="frame-page stats-page delay-stats-page"
         @click="share"
     >
-        <FcTabItem
+        <BaseTabItem
             v-model="period"
             :items="pageData.periods"
         />
@@ -39,20 +39,20 @@ import { ref } from "vue";
 
 import { useRoute } from "vue-router";
 
-import FcTabItem from "../component/fc/FcTabItem.vue";
+import BaseTabItem from "../component/base/BaseTabItem.vue";
 import FcDelayReport from "../component/fc/FcDelayReport.vue";
 import FcAirlinePerformance from "../component/fc/FcAirlinePerformance.vue";
 
 import airlines from "../common/airlines.js";
 
 import "../assets/scss/component/base/BaseButton.scss";
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcTabItem.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseTabItem.scss";
 import "../assets/scss/component/fc/_stats.scss";
 import "../assets/scss/component/fc/FcDelayReport.scss";
 import "../assets/scss/component/fc/FcAirlinePerformance.scss";
-import "../assets/scss/pages/_stats.scss";
-import "../assets/scss/pages/DelayStatsPage.scss";
+import "../assets/scss/layout/_stats.scss";
+import "../assets/scss/pages/page_delay_stats.scss";
 
 // 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore

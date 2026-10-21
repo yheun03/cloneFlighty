@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from "vue";
 
-import FcIcon from "./FcIcon.vue";
-import FcTabItem from "./FcTabItem.vue";
+import BaseIcon from "../base/BaseIcon.vue";
+import BaseTabItem from "../base/BaseTabItem.vue";
 
 import planeIcon from "../../assets/icons/lucide/plane.svg";
 
@@ -22,7 +22,11 @@ const period = ref(props.aircraft.periods[0]);
 
 <template>
     <div class="fc-aircraft-stats">
-        <FcTabItem v-if="showPeriod" v-model="period" :items="aircraft.periods" />
+        <BaseTabItem
+            v-if="showPeriod"
+            v-model="period"
+            :items="aircraft.periods"
+        />
         <template v-if="showOverview">
             <div class="fc-aircraft-stats__numbers">
                 <div>
@@ -46,8 +50,15 @@ const period = ref(props.aircraft.periods[0]);
                 <strong>{{ aircraft.mostFlown }}</strong>
                 <span>{{ aircraft.summary }}</span>
                 <div>
-                    <img v-if="aircraft.image" :src="aircraft.image" :alt="aircraft.mostFlown" />
-                    <FcIcon v-else :src="planeIcon" />
+                    <img
+                        v-if="aircraft.image"
+                        :src="aircraft.image"
+                        :alt="aircraft.mostFlown"
+                    />
+                    <BaseIcon
+                        v-else
+                        :src="planeIcon"
+                    />
                 </div>
             </div>
         </template>
@@ -58,7 +69,10 @@ const period = ref(props.aircraft.periods[0]);
                 <small>median age</small>
             </p>
             <div class="fc-aircraft-stats__ages">
-                <div v-for="age in aircraft.ages" :key="age.label">
+                <div
+                    v-for="age in aircraft.ages"
+                    :key="age.label"
+                >
                     <i :style="{ height: `${age.value * 5}px` }"></i>
                     <span>{{ age.label }}</span>
                 </div>
@@ -68,8 +82,14 @@ const period = ref(props.aircraft.periods[0]);
                     <strong>Newest Aircraft</strong>
                     <b>{{ aircraft.newest.age }} old</b>
                     <span>{{ aircraft.newest.date }}</span>
-                    <div v-if="aircraft.newest.image" class="fc-aircraft-stats__card-image">
-                        <img :src="aircraft.newest.image" :alt="aircraft.newest.model" />
+                    <div
+                        v-if="aircraft.newest.image"
+                        class="fc-aircraft-stats__card-image"
+                    >
+                        <img
+                            :src="aircraft.newest.image"
+                            :alt="aircraft.newest.model"
+                        />
                     </div>
                     <small>{{ aircraft.newest.model }}</small>
                 </div>
@@ -77,8 +97,14 @@ const period = ref(props.aircraft.periods[0]);
                     <strong>Oldest Aircraft</strong>
                     <b>{{ aircraft.oldest.age }} old</b>
                     <span>{{ aircraft.oldest.date }}</span>
-                    <div v-if="aircraft.oldest.image" class="fc-aircraft-stats__card-image">
-                        <img :src="aircraft.oldest.image" :alt="aircraft.oldest.model" />
+                    <div
+                        v-if="aircraft.oldest.image"
+                        class="fc-aircraft-stats__card-image"
+                    >
+                        <img
+                            :src="aircraft.oldest.image"
+                            :alt="aircraft.oldest.model"
+                        />
                     </div>
                     <small>{{ aircraft.oldest.model }}</small>
                 </div>

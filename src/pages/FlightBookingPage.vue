@@ -56,7 +56,7 @@
                     class="frame-page__input"
                     :placeholder="pageData.seatPlaceholder"
                 />
-                <FcTabItem
+                <BaseTabItem
                     v-model="booking.position"
                     class="booking-dialog__choices"
                     label="Seat position"
@@ -66,7 +66,7 @@
                     variant="stroke"
                 />
                 <h3 class="booking-dialog__label">Class</h3>
-                <FcTabItem
+                <BaseTabItem
                     v-model="booking.cabin"
                     class="booking-dialog__choices"
                     label="Travel class"
@@ -76,7 +76,7 @@
                     variant="stroke"
                 />
                 <h3 class="booking-dialog__label">Reason</h3>
-                <FcTabItem
+                <BaseTabItem
                     v-model="booking.reason"
                     class="booking-dialog__choices"
                     label="Travel reason"
@@ -103,15 +103,15 @@ import { nextTick, onMounted, onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import BaseInput from "../component/base/BaseInput.vue";
-import FcTabItem from "../component/fc/FcTabItem.vue";
+import BaseTabItem from "../component/base/BaseTabItem.vue";
 
 import chipIcon from "../assets/icons/lucide/square.svg";
 
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/base/BaseButton.scss";
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcTabItem.scss";
-import "../assets/scss/pages/FlightBookingPage.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseTabItem.scss";
+import "../assets/scss/pages/page_flight_booking.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.
 // prettier-ignore

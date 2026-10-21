@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 
-import FcIcon from "../fc/FcIcon.vue";
+import BaseIcon from "./BaseIcon.vue";
 
 const props = defineProps({
     label: { type: String, default: "" },
@@ -49,6 +49,6 @@ const iconStyle = computed(() => {
     <button :type="type" class="fc-button"
         :class="[`fc-button--${size}`, `fc-button--${variant}`, `fc-button--${tone}`, { 'fc-button--icon-only': isIconOnly }]"
         :disabled="disabled" @click="$emit('click', $event)">
-        <FcIcon v-if="icon" :src="icon" :style="iconStyle" /><span v-if="label">{{ label }}</span>
+        <BaseIcon v-if="icon" :src="icon" :style="iconStyle" /><span v-if="label">{{ label }}</span>
     </button>
 </template>

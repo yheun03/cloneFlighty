@@ -17,7 +17,7 @@
                 @select="selectResult"
             />
             <h2 class="frame-page__label">MORE</h2>
-            <FcListRow
+            <BaseListRow
                 v-for="item in pageData.more"
                 :key="item.name"
                 v-bind="item"
@@ -101,7 +101,7 @@
                     <BaseInput
                         v-model="date"
                         placeholder="10/5 or Friday"
-                        calendar
+                        type="calendar"
                         :calendar-options="pageData.calendar"
                         aria-label="Flight date"
                         @keydown.enter.prevent="showFlights(date)"
@@ -111,21 +111,21 @@
                     v-if="mode === 'number'"
                     class="add-flight-page__dates"
                 >
-                    <FcListRow
+                    <BaseListRow
                         v-for="item in pageData.dates"
                         :key="item.date"
                         v-bind="item"
                         :icon="airlines.KE.logo"
                         @click="showFlights(item.date)"
                     />
-                    <FcListRow
+                    <BaseListRow
                         title="Pick from Calendar"
                         :icon="airlines.KE.logo"
                         @click="openPage('add-flight-calendar')"
                     />
                 </div>
                 <template v-else>
-                    <FcCalendarPicker
+                    <BaseCalendarPicker
                         v-model="calendarDate"
                         v-bind="pageData.calendar"
                     />
@@ -149,8 +149,8 @@ import { useRoute, useRouter } from "vue-router";
 
 import BaseInput from "../component/base/BaseInput.vue";
 import FcAddFlightSearch from "../component/fc/FcAddFlightSearch.vue";
-import FcCalendarPicker from "../component/fc/FcCalendarPicker.vue";
-import FcListRow from "../component/fc/FcListRow.vue";
+import BaseCalendarPicker from "../component/base/BaseCalendarPicker.vue";
+import BaseListRow from "../component/base/BaseListRow.vue";
 
 import airports from "../common/airports.js";
 import airlines from "../common/airlines.js";
@@ -158,11 +158,11 @@ import koreanFlag from "../assets/figma/flag-ko.svg";
 
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/base/BaseButton.scss";
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcCalendarPicker.scss";
-import "../assets/scss/component/fc/FcListRow.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseCalendarPicker.scss";
+import "../assets/scss/component/base/BaseListRow.scss";
 import "../assets/scss/component/fc/FcAddFlightSearch.scss";
-import "../assets/scss/pages/AddFlightPage.scss";
+import "../assets/scss/pages/page_add_flight.scss";
 
 // 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore

@@ -1,8 +1,8 @@
 <script setup>
 import { computed, reactive, ref } from "vue";
 
-import FcIcon from "./FcIcon.vue";
-import FcToggleSwitch from "./FcToggleSwitch.vue";
+import BaseIcon from "../base/BaseIcon.vue";
+import BaseToggleSwitch from "../base/BaseToggleSwitch.vue";
 
 const props = defineProps({
     mode: {
@@ -46,7 +46,7 @@ function selectOption(option) {
             </div>
             <div class="fc-alerts__share">
                 Share My Flights
-                <FcToggleSwitch
+                <BaseToggleSwitch
                     v-model="shared"
                     label="Share My Flights"
                 />
@@ -78,13 +78,13 @@ function selectOption(option) {
                 <div class="fc-alerts__content">
                     <div class="fc-alerts__option-heading">
                         <span :style="{ color: option.color }">
-                            <FcIcon :src="option.icon" />
+                            <BaseIcon :src="option.icon" />
                         </span>
                         <strong>{{ option.title }}</strong>
                     </div>
                     <p>{{ option.desc }}</p>
                 </div>
-                <FcToggleSwitch
+                <BaseToggleSwitch
                     v-if="mode === 'mine'"
                     v-model="option.enabled"
                     :label="option.title"

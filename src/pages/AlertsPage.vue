@@ -23,9 +23,9 @@
                 #after-options
             >
                 <div class="alerts-page__new-flights">
-                    <FcIcon :src="bellIcon" />
+                    <BaseIcon :src="bellIcon" />
                     <strong>New Flights</strong>
-                    <FcToggleSwitch
+                    <BaseToggleSwitch
                         v-model="newFlights"
                         label="New Flights"
                     />
@@ -59,15 +59,15 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
 import FcAlertSettings from "../component/fc/FcAlertSettings.vue";
-import FcToggleSwitch from "../component/fc/FcToggleSwitch.vue";
-import FcIcon from "../component/fc/FcIcon.vue";
+import BaseToggleSwitch from "../component/base/BaseToggleSwitch.vue";
+import BaseIcon from "../component/base/BaseIcon.vue";
 
 import bellIcon from "../assets/figma/alert-off.svg";
 
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcToggleSwitch.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseToggleSwitch.scss";
 import "../assets/scss/component/fc/FcAlertSettings.scss";
-import "../assets/scss/pages/AlertsPage.scss";
+import "../assets/scss/pages/page_alerts.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.
 // prettier-ignore

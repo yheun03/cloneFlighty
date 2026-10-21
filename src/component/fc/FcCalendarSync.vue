@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from "vue";
 
-import FcIcon from "./FcIcon.vue";
-import FcToggleSwitch from "./FcToggleSwitch.vue";
+import BaseIcon from "../base/BaseIcon.vue";
+import BaseToggleSwitch from "../base/BaseToggleSwitch.vue";
 
 import calendarIcon from "../../assets/figma/calendar-import.svg";
 import calendarExportIcon from "../../assets/figma/calendar-export.svg";
@@ -49,7 +49,7 @@ function selectCalendar(calendar) {
         <div class="fc-calendar-sync__item">
             <div>
                 <h3>Import Flights</h3>
-                <FcToggleSwitch
+                <BaseToggleSwitch
                     v-model="importEnabled"
                     label="Import Flights"
                 />
@@ -60,19 +60,19 @@ function selectCalendar(calendar) {
                 @click="toggleCalendarChoices('import')"
             >
                 <span class="fc-calendar-sync__label">
-                    <FcIcon :src="calendarIcon" />
+                    <BaseIcon :src="calendarIcon" />
                     Choose Calendars
                 </span>
                 <span>
                     {{ importCalendars.join(", ") || "Select" }}&nbsp;
-                    <FcIcon :src="nextIcon" />
+                    <BaseIcon :src="nextIcon" />
                 </span>
             </button>
         </div>
         <div class="fc-calendar-sync__item">
             <div>
                 <h3>Export Flights</h3>
-                <FcToggleSwitch
+                <BaseToggleSwitch
                     v-model="exportEnabled"
                     label="Export Flights"
                 />
@@ -83,12 +83,12 @@ function selectCalendar(calendar) {
                 @click="toggleCalendarChoices('export')"
             >
                 <span class="fc-calendar-sync__label">
-                    <FcIcon :src="calendarExportIcon" />
+                    <BaseIcon :src="calendarExportIcon" />
                     Choose Calendar
                 </span>
                 <span>
                     {{ exportCalendar || "Select" }}&nbsp;
-                    <FcIcon :src="nextIcon" />
+                    <BaseIcon :src="nextIcon" />
                 </span>
             </button>
         </div>
@@ -127,7 +127,7 @@ function selectCalendar(calendar) {
             </button>
         </div>
         <div class="fc-calendar-sync__notice">
-            <FcIcon :src="noticeIcon" />
+            <BaseIcon :src="noticeIcon" />
             &nbsp;
             <span>
                 <strong>Flighty receives minimal data</strong>

@@ -206,7 +206,7 @@ import BaseInput from "../component/base/BaseInput.vue";
 
 import airports from "../common/airports.js";
 
-import "../assets/scss/pages/IntroPage.scss";
+import "../assets/scss/pages/page_intro.scss";
 
 // 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore

@@ -10,11 +10,11 @@
             aria-labelledby="speed-title"
         >
             <h2 id="speed-title">
-                <FcIcon :src="speedIcon" />
+                <BaseIcon :src="speedIcon" />
                 Aircraft Speed
             </h2>
             <p>Speed relative to the ground.</p>
-            <FcTabItem
+            <BaseTabItem
                 v-model="speed"
                 variant="segment"
                 type="radio"
@@ -27,14 +27,14 @@
             aria-labelledby="altitude-title"
         >
             <h2 id="altitude-title">
-                <FcIcon :src="speedIcon" />
+                <BaseIcon :src="speedIcon" />
                 Altitude
             </h2>
             <p>
                 Zero on the ground, and “Standard Pressure Setting” in flight to
                 ensure consistent flight levels worldwide.
             </p>
-            <FcTabItem
+            <BaseTabItem
                 v-model="altitude"
                 variant="segment"
                 type="radio"
@@ -48,14 +48,14 @@
 <script setup>
 import { ref } from "vue";
 
-import FcIcon from "../component/fc/FcIcon.vue";
-import FcTabItem from "../component/fc/FcTabItem.vue";
+import BaseIcon from "../component/base/BaseIcon.vue";
+import BaseTabItem from "../component/base/BaseTabItem.vue";
 
 import speedIcon from "../assets/figma/speed.svg";
 
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcTabItem.scss";
-import "../assets/scss/pages/UnitsPage.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseTabItem.scss";
+import "../assets/scss/pages/page_units.scss";
 
 // 이 페이지에서 사용하는 예제 JSON 데이터입니다.
 // prettier-ignore

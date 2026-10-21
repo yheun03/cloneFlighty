@@ -3,7 +3,7 @@
         class="frame-page stats-page aircraft-stats-page"
         @click="share"
     >
-        <FcTabItem
+        <BaseTabItem
             v-model="period"
             :items="pageData.periods"
         />
@@ -34,7 +34,10 @@
                 <strong>{{ pageData.seatSummary.favorite }}</strong>
             </p>
         </div>
-        <FcTopAirlines v-bind="pageData.types" />
+        <FcRankingStats
+            v-bind="pageData.types"
+            type="aircraft"
+        />
         <section class="stats-page__section">
             <div class="fc-stat-head">
                 <h2>Class and Seat</h2>
@@ -95,9 +98,9 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 import BaseButton from "../component/base/BaseButton.vue";
-import FcTabItem from "../component/fc/FcTabItem.vue";
+import BaseTabItem from "../component/base/BaseTabItem.vue";
 import FcAircraftStats from "../component/fc/FcAircraftStats.vue";
-import FcTopAirlines from "../component/fc/FcTopAirlines.vue";
+import FcRankingStats from "../component/fc/FcRankingStats.vue";
 import FcSeatStats from "../component/fc/FcSeatStats.vue";
 import FcFrequentTails from "../component/fc/FcFrequentTails.vue";
 
@@ -108,15 +111,15 @@ import detailAircraftImage from "../assets/figma/aircraft-detail.png";
 import shareIcon from "../assets/figma/share.svg";
 
 import "../assets/scss/component/base/BaseButton.scss";
-import "../assets/scss/component/fc/FcIcon.scss";
-import "../assets/scss/component/fc/FcTabItem.scss";
+import "../assets/scss/component/base/BaseIcon.scss";
+import "../assets/scss/component/base/BaseTabItem.scss";
 import "../assets/scss/component/fc/_stats.scss";
 import "../assets/scss/component/fc/FcAircraftStats.scss";
 import "../assets/scss/component/fc/FcSeatStats.scss";
 import "../assets/scss/component/fc/FcFrequentTails.scss";
-import "../assets/scss/component/fc/FcTopAirlines.scss";
-import "../assets/scss/pages/_stats.scss";
-import "../assets/scss/pages/AircraftStatsPage.scss";
+import "../assets/scss/component/fc/FcRankingStats.scss";
+import "../assets/scss/layout/_stats.scss";
+import "../assets/scss/pages/page_aircraft_stats.scss";
 
 // 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
@@ -227,8 +230,6 @@ const pageData = {
             }
         ],
         "limit": 8,
-        "showNames": true,
-        "showTabs": false,
         "color": "var(--fc-chart-aircraft)"
     },
     "seats": {

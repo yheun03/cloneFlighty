@@ -1,6 +1,6 @@
 <script setup>
-import FcIcon from "./FcIcon.vue";
-import FcListRow from "./FcListRow.vue";
+import BaseIcon from "../base/BaseIcon.vue";
+import BaseListRow from "../base/BaseListRow.vue";
 
 import nextIcon from "../../assets/icons/lucide/chevron-right.svg";
 
@@ -27,7 +27,7 @@ defineEmits(["select"]);
                 <strong>{{ membership.title }}</strong>
                 <small>{{ membership.status }}</small>
             </span>
-            <FcIcon :src="nextIcon" />
+            <BaseIcon :src="nextIcon" />
         </button>
         <div
             v-for="group in groups"
@@ -36,7 +36,7 @@ defineEmits(["select"]);
         >
             <h3>{{ group.label }}</h3>
             <div class="fc-settings__items">
-                <FcListRow
+                <BaseListRow
                     v-for="item in group.items"
                     :key="item.title"
                     :title="item.title"
