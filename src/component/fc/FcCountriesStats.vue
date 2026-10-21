@@ -3,7 +3,7 @@ import { computed, ref } from "vue";
 
 import BaseButton from "../base/BaseButton.vue";
 
-import shareIcon from "../../assets/icons/lucide/share-2.svg";
+import shareIcon from "../../assets/figma/share.svg";
 
 const props = defineProps({
     total: { type: Number, required: true },
@@ -22,7 +22,7 @@ const visibleCountries = computed(() =>
     <div class="fc-countries">
         <div class="fc-stat-head">
             <h2>Countries &amp; Territories</h2>
-            <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
+            <BaseButton label="Share" :icon="shareIcon" size="md" variant="fill" tone="gray" />
         </div>
         <div class="fc-stat-number">
             <strong>{{ total }}</strong>

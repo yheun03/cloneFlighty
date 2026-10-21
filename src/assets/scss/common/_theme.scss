@@ -1,18 +1,40 @@
 .app {
-
-    // 다크 모드의 세부 회색은 각 스타일의 var() fallback으로 기존 값을 유지합니다.
+    // Figma 최종본의 공통 색상입니다. 라이트 모드는 아래에서 덮어씁니다.
     &[data-theme] {
         color-scheme: dark;
         --fc-app-bg: #08090b;
-        --fc-surface: #18191b;
-        --fc-sidebar-bg: #18191bf5;
+        --fc-surface: #18181b;
+        --fc-sidebar-bg: #18181bf5;
         --fc-map-control-bg: #1c1d20e8;
-        --fc-text: #f5f5f5;
-        --fc-blue: #087bfa;
-        --fc-chart-blue: #087bfa;
-        --fc-chart-aircraft: #123e69;
-        --fc-chart-purple: #593586;
-        --fc-chart-line: #8952ff;
+        --fc-text: #ffffff;
+        --fc-text-strong: #ffffff;
+        --fc-text-body: #d9d9d9;
+        --fc-text-heading: #d9d9d9;
+        --fc-text-secondary: #979797;
+        --fc-placeholder: #767676;
+        --fc-control-bg: #2c2c2c;
+        --fc-selected-bg: #2c2c2c;
+        --fc-border: #333333;
+        --fc-border-subtle: #2c2c2c;
+        --fc-card-border: #333333;
+        --fc-meter-bg: #333333;
+        --fc-chip-bg: #202e40;
+        --fc-chip-text: #bbbbbb;
+        --fc-copy-bg: #007aff33;
+        --fc-switch-bg: #979797;
+        --fc-button-gray: #979797;
+        --fc-button-large-bg: #ffffff1a;
+        --fc-button-large-border: #ffffff33;
+        --fc-danger-bg: #371719;
+        --fc-success-bg: #143c2b;
+        --fc-blue: #007aff;
+        --fc-link: #007aff;
+        --fc-danger: #ff3b30;
+        --fc-success: #00ae57;
+        --fc-chart-blue: #007aff;
+        --fc-chart-aircraft: #007aff;
+        --fc-chart-purple: #8855ff;
+        --fc-chart-line: #8855ff;
         --fc-economy: #a6b3e8;
         --fc-premium-economy: #6276c4;
         --fc-business: #495ba8;
@@ -44,9 +66,12 @@
         --fc-scrollbar: #c1c1c1;
         --fc-attribution-bg: #ffffffbb;
         --fc-chip-bg: #eff8ff;
+        --fc-chip-text: #808080;
         --fc-copy-bg: #eff8ff;
         --fc-calendar-marked-bg: #eff8ff;
         --fc-switch-bg: #e5e5e5;
+        --fc-button-large-bg: #f5f5f5;
+        --fc-button-large-border: #dddddd;
         --fc-success-bg: #edf8f3;
         --fc-danger-bg: #fff0f0;
         --fc-panel-shadow: 0 8px 24px #0000001a;

@@ -2,7 +2,6 @@
 
 .aircraft-stats-page {
     .fc-aircraft-stats__featured {
-        height: 160px;
         padding: 0;
         background: transparent;
         color: #004465;
@@ -12,7 +11,7 @@
         margin: 24px 0;
         @include typo.font(c2, rg);
 
-        >div:first-child {
+        > div:first-child {
             display: flex;
             justify-content: space-between;
         }
@@ -43,7 +42,7 @@
         margin: 48px 0;
     }
 
-    &__age .fc-aircraft-stats>p {
+    &__age .fc-aircraft-stats > p {
         @include typo.font(h2, sb);
 
         small {

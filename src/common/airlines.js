@@ -1,5 +1,5 @@
 import defaultAirlineLogo from "../assets/icons/lucide/circle.svg";
-import koreanAirLogo from "../assets/Airlines/Logo-KE.svg";
+import koreanAirLogo from "../assets/figma/korean-air.svg";
 import asianaLogo from "../assets/Airlines/Logo-OZ.svg";
 import finnairLogo from "../assets/Airlines/Logo-AY.svg";
 import alaskaLogo from "../assets/Airlines/Logo-AS.svg";

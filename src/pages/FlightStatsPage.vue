@@ -1,11 +1,27 @@
 <template>
-    <section class="frame-page stats-page" @click="share">
-        <FcTabItem v-model="period" :items="pageData.periods" />
-        <FcPassportOverview v-bind="pageData.overview" :show-period="false" :show-history="false" />
+    <section
+        class="frame-page stats-page"
+        @click="share"
+    >
+        <FcTabItem
+            v-model="period"
+            :items="pageData.periods"
+        />
+        <FcPassportOverview
+            v-bind="pageData.overview"
+            :show-period="false"
+            :show-history="false"
+        />
         <section class="stats-page__section">
             <div class="fc-stat-head">
                 <h2>Flights</h2>
-                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
+                <BaseButton
+                    label="Share"
+                    :icon="shareIcon"
+                    size="md"
+                    variant="fill"
+                    tone="gray"
+                />
             </div>
             <div class="fc-stat-number">
                 <strong>{{ pageData.flights.total }}</strong>
@@ -19,22 +35,51 @@
             </p>
             <div class="stats-page__flight-tabs">
                 <span>FLIGHTS PER</span>
-                <FcTabItem v-model="metric" :items="pageData.metrics" size="sm" />
+                <FcTabItem
+                    v-model="metric"
+                    :items="pageData.metrics"
+                    size="sm"
+                />
             </div>
-            <svg class="stats-page__line-chart" viewBox="0 0 280 170" role="img" :aria-label="`Flights per ${metric}`">
-                <polyline :points="pageData.points[metric]" fill="none" stroke="var(--fc-chart-line)"
-                    stroke-width="2" />
-                <circle v-for="point in chartPoints" :key="point.point" :cx="point.x" :cy="point.y" r="3"
-                    fill="var(--fc-chart-line)" />
+            <svg
+                class="stats-page__line-chart"
+                viewBox="0 0 280 170"
+                role="img"
+                :aria-label="`Flights per ${metric}`"
+            >
+                <polyline
+                    :points="pageData.points[metric]"
+                    fill="none"
+                    stroke="var(--fc-chart-line)"
+                    stroke-width="2"
+                />
+                <circle
+                    v-for="point in chartPoints"
+                    :key="point.point"
+                    :cx="point.x"
+                    :cy="point.y"
+                    r="3"
+                    fill="var(--fc-chart-line)"
+                />
             </svg>
         </section>
-        <FcFlightDistanceStats v-bind="pageData.distance" view="summary" />
-        <FcFlightDistanceStats v-bind="pageData.distance" view="breakdown" />
+        <FcFlightDistanceStats
+            v-bind="pageData.distance"
+            view="summary"
+        />
+        <FcFlightDistanceStats
+            v-bind="pageData.distance"
+            view="breakdown"
+        />
         <FcTopAirlines v-bind="pageData.airports" />
         <FcTopAirlines v-bind="pageData.airlines" />
         <FcTopAirlines v-bind="pageData.routes" />
         <FcCountriesStats v-bind="pageData.countries" />
-        <p v-if="message" class="frame-page__feedback" role="status">
+        <p
+            v-if="message"
+            class="frame-page__feedback"
+            role="status"
+        >
             {{ message }}
         </p>
     </section>
@@ -54,7 +99,7 @@ import FcCountriesStats from "../component/fc/FcCountriesStats.vue";
 
 import airlines from "../common/airlines.js";
 
-import shareIcon from "../assets/icons/lucide/share-2.svg";
+import shareIcon from "../assets/figma/share.svg";
 
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
@@ -138,7 +183,7 @@ const pageData = {
     "distance": {
         "title": "Flight Distance",
         "shareLabel": "Share",
-        "shareIcon": "share-2",
+        "shareIcon": "share",
         "distance": "73,650",
         "distanceUnit": "km",
         "miles": "45,764",
@@ -426,7 +471,7 @@ const chartPoints = computed(() =>
 );
 
 function share(event) {
-    if (event.target.closest(".fc-button--outline")) {
+    if (event.target.closest(".fc-stat-head .fc-button")) {
         message.value = pageData.shareMessage;
     }
 }

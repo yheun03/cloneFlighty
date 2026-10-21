@@ -1,4 +1,5 @@
 @use "../../common/typography" as typo;
+@use "./FcListRow";
 
 .fc-settings {
     margin-top: 40px;
@@ -13,8 +14,8 @@
         align-items: center;
         width: 100%;
         gap: 12px;
-        padding: 14px 8px;
-        border: 1px solid #6722ff;
+        padding: 15px 12px;
+        border: 1px solid #2a008c;
         border-width: 1px 0;
         background: none;
         color: var(--fc-text-strong, white);
@@ -22,55 +23,41 @@
         @include typo.font(t3, rg);
 
         b {
-            padding: 6px;
-            border-radius: 7px;
-            background: #5d17ff;
-            color: white;
+            padding: 4px 8px;
+            border-radius: 5px;
+            background: #2a008c;
+            color: #8855ff;
             @include typo.font(btn4, sb);
         }
 
-        >span:not(.fc-icon) {
+        > span:not(.fc-icon) {
             display: flex;
             flex: 1;
             flex-direction: column;
-            color: #9b5bff;
-            @include typo.font(t5, rg);
+            color: #8855ff;
+            @include typo.font(t3, sb);
         }
 
         small {
-            @include typo.font(c1, rg);
+            @include typo.font(b2, rg);
         }
     }
 
     &__group {
-        margin-top: 28px;
+        margin-top: 45px;
 
         h3 {
-            margin: 0 0 5px;
+            margin: 0 0 4px 10px;
             color: var(--fc-text-secondary, #aaa);
-            @include typo.font(c3, sb);
+            @include typo.font(c2, rg);
         }
+    }
 
-        button {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            gap: 10px;
-            padding: 12px 5px;
-            border: 0;
-            border-top: 1px solid var(--fc-border, #424242);
-            background: none;
-            color: var(--fc-text-strong, white);
-            text-align: left;
-        }
+    &__items {
+        border-block: 1px solid var(--fc-border, #333);
 
-        button>span {
-            width: 25px;
-        }
-
-        button b {
-            margin-left: auto;
-            @include typo.font(t3, sb);
+        .fc-list-row:last-child .fc-list-row__wrap {
+            border-bottom: 0;
         }
     }
 }

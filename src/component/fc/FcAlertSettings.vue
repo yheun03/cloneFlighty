@@ -75,19 +75,21 @@ function selectOption(option) {
                 @keydown.space.prevent="selectOption(option)"
                 @click="selectOption(option)"
             >
-                <div>
-                    <span :style="{ color: option.color }">
-                        <FcIcon :src="option.icon" />
-                    </span>
-                    <strong>{{ option.title }}</strong>
-                    <FcToggleSwitch
-                        v-if="mode === 'mine'"
-                        v-model="option.enabled"
-                        :label="option.title"
-                        @click.stop
-                    />
+                <div class="fc-alerts__content">
+                    <div class="fc-alerts__option-heading">
+                        <span :style="{ color: option.color }">
+                            <FcIcon :src="option.icon" />
+                        </span>
+                        <strong>{{ option.title }}</strong>
+                    </div>
+                    <p>{{ option.desc }}</p>
                 </div>
-                <p>{{ option.desc }}</p>
+                <FcToggleSwitch
+                    v-if="mode === 'mine'"
+                    v-model="option.enabled"
+                    :label="option.title"
+                    @click.stop
+                />
             </div>
         </div>
         <slot name="after-options"></slot>

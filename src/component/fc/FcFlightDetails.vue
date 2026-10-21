@@ -14,6 +14,8 @@ import arrivalIcon from "../../assets/icons/lucide/plane-landing.svg";
 import durationIcon from "../../assets/icons/lucide/clock-3.svg";
 import overnightIcon from "../../assets/icons/lucide/moon.svg";
 import routeIcon from "../../assets/icons/lucide/arrow-right.svg";
+import gateIcon from "../../assets/figma/gate.svg";
+import baggageIcon from "../../assets/figma/baggage.svg";
 
 const props = defineProps({
     // FlightDetailPage.vue의 샘플 데이터에서 details 또는 pastDetails를 전달합니다.
@@ -48,7 +50,7 @@ const airlineIcon = computed(
                     <del>{{ details.scheduledDeparture }}</del>
                 </span>
                 <b>
-                    <FcIcon :src="departureIcon" />
+                    <img :src="gateIcon" alt="" />
                     {{ details.departureGate }}
                 </b>
             </div>
@@ -80,10 +82,10 @@ const airlineIcon = computed(
                 <span class="fc-schedule__gates">
                     <!-- prettier-ignore -->
                     <b>
-                        <FcIcon :src="bookingIcon" />{{ details.baggage }}
+                        <img :src="baggageIcon" alt="" />{{ details.baggage }}
                     </b>
                     <b>
-                        <FcIcon :src="arrivalIcon" />
+                        <img :src="gateIcon" alt="" />
                         {{ details.arrivalGate }}
                     </b>
                 </span>
@@ -100,7 +102,7 @@ const airlineIcon = computed(
                     ? bookingIcon
                     : planeIcon
                     " />
-                <span>PASTE</span>
+                <span class="fc-details__paste">PASTE</span>
                 <strong>{{ feature.title }}</strong>
                 <small>
                     {{
@@ -117,8 +119,11 @@ const airlineIcon = computed(
         </button>
         <h2>Good to Know</h2>
         <div class="fc-details__card fc-details__timezone">
-            <strong>{{ details.timezoneTitle }}</strong>
-            <span>{{ details.timezoneDescription }}</span>
+            <FcIcon :src="durationIcon" />
+            <div>
+                <strong>{{ details.timezoneTitle }}</strong>
+                <span>{{ details.timezoneDescription }}</span>
+            </div>
         </div>
         <div class="fc-details__card">
             <h3>Arrival Forecast</h3>
@@ -151,7 +156,8 @@ const airlineIcon = computed(
                 {{ details.age }}
             </small>
             <div class="fc-details__plane">
-                <FcIcon :src="planeIcon" />
+                <img v-if="details.image" :src="details.image" :alt="details.plane" />
+                <FcIcon v-else :src="planeIcon" />
             </div>
         </div>
         <div class="fc-details__card">
@@ -166,11 +172,20 @@ const airlineIcon = computed(
                 <span>X / TWITTER</span>
                 <span>FACEBOOK</span>
             </div>
-            <p>ATC Callsign &nbsp;&nbsp;&nbsp; ICAO &nbsp;&nbsp;&nbsp; IATA</p>
-            <strong>
-                {{ details.callsign }} &nbsp;&nbsp;
-                {{ details.icao }} &nbsp;&nbsp; {{ details.iata }}
-            </strong>
+            <dl class="fc-details__codes">
+                <div>
+                    <dt>ATC Callsign</dt>
+                    <dd>{{ details.callsign }}</dd>
+                </div>
+                <div>
+                    <dt>ICAO</dt>
+                    <dd>{{ details.icao }}</dd>
+                </div>
+                <div>
+                    <dt>IATA</dt>
+                    <dd>{{ details.iata }}</dd>
+                </div>
+            </dl>
         </div>
         <div class="fc-details__card">
             <h3>My History on This Route</h3>

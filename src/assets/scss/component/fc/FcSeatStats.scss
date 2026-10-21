@@ -9,7 +9,7 @@
         width: 180px;
         height: 180px;
         margin: 20px auto;
-        border: 25px solid var(--fc-seat-ring, #087bfa);
+        border: 24px solid var(--fc-seat-ring, #007aff);
         border-radius: 50%;
         text-align: center;
 
@@ -20,6 +20,7 @@
 
         small {
             color: var(--fc-text-secondary, #aaa);
+            @include typo.font(b3, rg);
         }
 
         strong {
@@ -28,7 +29,7 @@
     }
 
     &__list {
-        >div {
+        > div {
             display: flex;
             align-items: center;
             gap: 9px;

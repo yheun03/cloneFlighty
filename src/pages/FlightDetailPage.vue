@@ -1,12 +1,27 @@
 <template>
     <section class="frame-page flight-detail-page">
-        <div :inert="editing || undefined" :class="{ 'flight-detail-page__background--blurred': editing }">
-            <FcFlightListItem variant="header" v-bind="flight" @remove="closeFlight" />
-            <FcFlightDetails :details="details" :booking-code="booking.code" :seat="booking.seat" @edit="editBooking"
-                @connection="openConnection" />
+        <div
+            :inert="editing || undefined"
+            :class="{ 'flight-detail-page__background--blurred': editing }"
+        >
+            <FcFlightListItem
+                variant="header"
+                v-bind="flight"
+                @remove="closeFlight"
+            />
+            <FcFlightDetails
+                :details="details"
+                :booking-code="booking.code"
+                :seat="booking.seat"
+                @edit="editBooking"
+                @connection="openConnection"
+            />
         </div>
         <RouterView v-slot="{ Component }">
-            <component :is="Component" v-model="booking" />
+            <component
+                :is="Component"
+                v-model="booking"
+            />
         </RouterView>
     </section>
 </template>
@@ -21,6 +36,7 @@ import FcFlightDetails from "../component/fc/FcFlightDetails.vue";
 
 import airports from "../common/airports.js";
 import airlines from "../common/airlines.js";
+import aircraftImage from "../assets/figma/aircraft-detail.png";
 
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
@@ -43,6 +59,7 @@ const pageData = {
         "flightTime": "13h"
     },
     "details": {
+        "image": aircraftImage,
         "airline": airlines.KE.name,
         "plane": "Airbus A330-300",
         "from": "SFO",
@@ -156,6 +173,7 @@ const pageData = {
         "flightTime": "11h 25m"
     },
     "pastDetails": {
+        "image": aircraftImage,
         "airline": airlines.KE.name,
         "plane": "Airbus A330-300",
         "from": "AMS",

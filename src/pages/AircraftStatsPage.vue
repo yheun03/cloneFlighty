@@ -1,15 +1,31 @@
 <template>
-    <section class="frame-page stats-page aircraft-stats-page" @click="share">
-        <FcTabItem v-model="period" :items="pageData.periods" />
-        <FcAircraftStats :aircraft="pageData.aircraft" :show-period="false" :show-age="false" />
+    <section
+        class="frame-page stats-page aircraft-stats-page"
+        @click="share"
+    >
+        <FcTabItem
+            v-model="period"
+            :items="pageData.periods"
+        />
+        <FcAircraftStats
+            :aircraft="pageData.aircraft"
+            :show-period="false"
+            :show-age="false"
+        />
         <div class="aircraft-stats-page__seat-summary">
             <div>
-                <span v-for="label in pageData.seatSummary.labels" :key="label">
+                <span
+                    v-for="label in pageData.seatSummary.labels"
+                    :key="label"
+                >
                     {{ label }}
                 </span>
             </div>
             <div class="aircraft-stats-page__seat-bar">
-                <span v-for="(count, index) in pageData.seatSummary.counts" :key="index">
+                <span
+                    v-for="(count, index) in pageData.seatSummary.counts"
+                    :key="index"
+                >
                     {{ count }}
                 </span>
             </div>
@@ -22,22 +38,52 @@
         <section class="stats-page__section">
             <div class="fc-stat-head">
                 <h2>Class and Seat</h2>
-                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
+                <BaseButton
+                    label="Share"
+                    :icon="shareIcon"
+                    size="md"
+                    variant="fill"
+                    tone="gray"
+                />
             </div>
-            <FcSeatStats v-bind="pageData.seats.class" :show-title="false" />
-            <FcSeatStats v-bind="pageData.seats.seat" :show-title="false" />
-            <FcSeatStats v-bind="pageData.seats.reason" :show-title="false" />
+            <FcSeatStats
+                v-bind="pageData.seats.class"
+                :show-title="false"
+            />
+            <FcSeatStats
+                v-bind="pageData.seats.seat"
+                :show-title="false"
+            />
+            <FcSeatStats
+                v-bind="pageData.seats.reason"
+                :show-title="false"
+            />
         </section>
         <FcFrequentTails v-bind="pageData.tails" />
         <div class="aircraft-stats-page__age">
             <div class="fc-stat-head">
                 <h2>Aircraft Age</h2>
-                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
+                <BaseButton
+                    label="Share"
+                    :icon="shareIcon"
+                    size="md"
+                    variant="fill"
+                    tone="gray"
+                />
             </div>
-            <FcAircraftStats :aircraft="pageData.aircraft" :show-period="false" :show-tail="false"
-                :show-overview="false" :show-age-title="false" />
+            <FcAircraftStats
+                :aircraft="pageData.aircraft"
+                :show-period="false"
+                :show-tail="false"
+                :show-overview="false"
+                :show-age-title="false"
+            />
         </div>
-        <p v-if="message" class="frame-page__feedback" role="status">
+        <p
+            v-if="message"
+            class="frame-page__feedback"
+            role="status"
+        >
             {{ message }}
         </p>
     </section>
@@ -56,8 +102,10 @@ import FcSeatStats from "../component/fc/FcSeatStats.vue";
 import FcFrequentTails from "../component/fc/FcFrequentTails.vue";
 
 import airlines from "../common/airlines.js";
+import aircraftImage from "../assets/figma/aircraft-passport.png";
+import detailAircraftImage from "../assets/figma/aircraft-detail.png";
 
-import shareIcon from "../assets/icons/lucide/share-2.svg";
+import shareIcon from "../assets/figma/share.svg";
 
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
@@ -76,17 +124,20 @@ const pageData = {
     "period": "ALL-TIME",
     "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
     "aircraft": {
+        "image": aircraftImage,
         "total": 12,
         "mostFlown": "A330-300",
         "tail": "HL-8078",
         "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
         "manufacturer": "55% Airbus",
         "newest": {
+            "image": detailAircraftImage,
             "age": "2 years",
             "model": "Embraer 175",
             "date": "5/25/2024"
         },
         "oldest": {
+            "image": aircraftImage,
             "age": "25 years",
             "model": "B737-800",
             "date": "11/8/2000"
@@ -272,7 +323,7 @@ const period = ref(String(route.query.period || pageData.period));
 const message = ref("");
 
 function share(event) {
-    if (event.target.closest(".fc-button--outline")) {
+    if (event.target.closest(".fc-stat-head .fc-button")) {
         message.value = pageData.shareMessage;
     }
 }

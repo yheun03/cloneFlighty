@@ -9,7 +9,7 @@
 
     &__title {
         margin: 0 36px 8px 4px;
-        @include typo.font(h3, sb, -0.8px);
+        @include typo.font(mo-d4, sb);
     }
 
     &__lead {
@@ -20,8 +20,8 @@
     &__input {
         width: 100%;
 
-        min-height: 44px;
-        padding: 12px;
+        min-height: 46px;
+        padding: 10px 12px;
         border: 0;
         border-radius: 9px;
         background: var(--fc-control-bg, #2b2b2b);
@@ -102,11 +102,11 @@
 
     .fc-list-row__text strong {
         color: var(--fc-text-body, #d4d4d4);
-        @include typo.font(b1, sb);
+        @include typo.font(b2, rg);
 
         &.is-accent {
             color: var(--fc-blue, #087bfa);
-            @include typo.font(b1, sb);
+            @include typo.font(b2, sb);
         }
     }
 

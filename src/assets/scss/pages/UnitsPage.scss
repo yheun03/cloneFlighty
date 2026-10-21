@@ -5,13 +5,21 @@
         margin-top: 36px;
 
         h2 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             margin: 0;
             @include typo.font(h6, sb);
+
+            .fc-icon {
+                width: 24px;
+                height: 24px;
+            }
         }
 
         p {
             margin: 4px 0 14px;
-            @include typo.font(b1, rg);
+            @include typo.font(b2, rg);
         }
     }
 
@@ -24,6 +32,15 @@
 
         button {
             flex: 1;
+            min-height: 30px;
+            padding: 2px 2px 4px;
+            border: 0;
+            border-radius: 999px;
+            @include typo.font(btn1, rg);
+
+            &.is-active {
+                background: var(--fc-segment-selected, #666);
+            }
         }
     }
 }

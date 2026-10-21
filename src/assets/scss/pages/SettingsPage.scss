@@ -6,42 +6,19 @@
 
         h2 {
             margin-bottom: 24px;
-            @include typo.font(h3, sb);
+            @include typo.font(mo-d4, sb);
         }
     }
 
     .fc-settings__pro {
-        padding: 20px 12px;
+        padding: 15px 12px;
 
-        >span:not(.fc-icon) {
+        > span:not(.fc-icon) {
             @include typo.font(h5, sb);
         }
 
         small {
-            @include typo.font(b1, rg);
-        }
-    }
-
-    .fc-settings__group {
-        margin-top: 36px;
-
-        h3 {
-            margin-left: 10px;
-            @include typo.font(c2, rg);
-        }
-
-        button {
-            gap: 16px;
-            padding: 13px 12px;
-            color: var(--fc-text-body, #d4d4d4);
-        }
-
-        button:last-child {
-            border-bottom: 1px solid var(--fc-border, #363636);
-        }
-
-        button>span {
-            @include typo.font(h6, rg);
+            @include typo.font(b2, rg);
         }
     }
 

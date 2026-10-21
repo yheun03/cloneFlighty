@@ -40,28 +40,38 @@
     &__featured {
         display: flex;
         flex-direction: column;
-        height: 170px;
-        padding: 10px;
-        background: #fff;
-        color: #12456c;
+        padding: 0;
+        color: #003a63;
 
         strong {
             @include typo.font(h3, sb);
         }
 
         div {
-            margin-top: auto;
-            text-align: right;
-            @include typo.font(d6, rg);
+            position: relative;
+            height: 90px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 312px;
+            height: 287px;
+            max-width: none;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
         }
     }
 
-    >p {
+    > p {
         margin: 0;
         @include typo.font(t4, rg);
     }
 
-    >p small {
+    > p small {
         color: var(--fc-text-secondary, #aaa);
     }
 
@@ -72,7 +82,7 @@
         height: 170px;
         margin: 15px 0;
 
-        div {
+        > div {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -91,7 +101,7 @@
         grid-template-columns: 1fr 1fr;
         gap: 8px;
 
-        div {
+        > div {
             display: flex;
             flex-direction: column;
             min-height: 100px;
@@ -106,6 +116,30 @@
 
         span {
             color: var(--fc-text-secondary, #aaa);
+        }
+
+        small {
+            align-self: flex-start;
+            padding: 3px 4px;
+            border-radius: 5px;
+            background: var(--fc-control-bg, #333);
+            color: var(--fc-text-secondary, #bbb);
+            @include typo.font(c3, lt);
+        }
+    }
+
+    &__card-image {
+        position: relative;
+        height: 76px;
+        overflow: hidden;
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            max-width: none;
+            transform: translate(-50%, -50%);
         }
     }
 }

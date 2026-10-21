@@ -58,13 +58,14 @@ function selectItem(item) {
             @click="selectItem(item)"
         >
             <span class="fc-search__avatar">
-                <FcIcon :src="item.avatar" />
+                <img v-if="item.image" :src="item.image" alt="" />
+                <FcIcon v-else :src="item.avatar" />
             </span>
             <span>
                 <strong>{{ item.title }}</strong>
                 <small>{{ item.subtitle }}</small>
             </span>
-            <span>
+            <span class="fc-search__arrow">
                 <FcIcon :src="nextIcon" />
             </span>
         </button>

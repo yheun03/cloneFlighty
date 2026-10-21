@@ -3,13 +3,14 @@
 .fc-stat-head {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin: 0 0 16px;
+    align-items: flex-start;
+    gap: 16px;
+    margin: 0 0 4px;
 
     h2 {
         margin: 0;
-        @include typo.font(t5, sb);
+        color: var(--fc-text-body, #d9d9d9);
+        @include typo.font(t3, sb);
     }
 
     .fc-button {
@@ -20,8 +21,8 @@
 .fc-stat-number {
     display: flex;
     align-items: baseline;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 8px;
+    margin-bottom: 0;
 
     strong {
         @include typo.font(d6, sb);
@@ -29,7 +30,7 @@
 
     span {
         color: var(--fc-text-secondary, #999);
-        @include typo.font(t3, sb);
+        @include typo.font(h3, sb);
     }
 }
 
@@ -46,7 +47,7 @@
 .fc-top-airlines__bar {
     i {
         display: block;
-        height: 13px;
+        height: 14px;
         overflow: hidden;
         border-radius: 5px;
         background: var(--fc-meter-bg, #363636);

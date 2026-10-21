@@ -8,7 +8,7 @@ import {
     defaultAirlineLogo,
     getAirline,
 } from "../../common/airlines.js";
-import shareIcon from "../../assets/icons/lucide/share-2.svg";
+import shareIcon from "../../assets/figma/share.svg";
 
 const props = defineProps({
     section: {
@@ -52,7 +52,7 @@ function airlineLogo(value) {
         <template v-if="['all', 'airline', 'airport'].includes(section)">
             <div class="fc-stat-head">
                 <h2>{{ performanceTitle }}</h2>
-                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
+                <BaseButton label="Share" :icon="shareIcon" size="md" variant="fill" tone="gray" />
             </div>
             <div class="fc-performance__headline">
                 <strong>{{ performanceHeadline }}</strong>
@@ -77,7 +77,7 @@ function airlineLogo(value) {
         <template v-if="['all', 'mine'].includes(section)">
             <div class="fc-stat-head">
                 <h2>My Performance</h2>
-                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
+                <BaseButton label="Share" :icon="shareIcon" size="md" variant="fill" tone="gray" />
             </div>
             <div class="fc-performance__headline">
                 <strong>{{ report.cumulative }}</strong>
@@ -98,7 +98,7 @@ function airlineLogo(value) {
         <template v-if="['all', 'delays'].includes(section)">
             <div class="fc-stat-head">
                 <h2>Arrival Delays</h2>
-                <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
+                <BaseButton label="Share" :icon="shareIcon" size="md" variant="fill" tone="gray" />
             </div>
             <div class="fc-stat-number">
                 <strong>{{ report.delayTotal }}</strong>

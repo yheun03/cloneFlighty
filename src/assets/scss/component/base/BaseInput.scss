@@ -2,12 +2,14 @@
 
 .fc-input {
     width: 100%;
+    min-width: 60px;
+    min-height: 46px;
     border: 0;
     border-radius: 8px;
     background: var(--fc-control-bg, #303030);
-    color: var(--fc-text-strong, white);
-    padding: 12px;
-    @include typo.font(b1, rg);
+    color: var(--fc-text-body, #d9d9d9);
+    padding: 10px 12px;
+    @include typo.font(b2, rg);
 
     &::placeholder,
     &__control::placeholder {
@@ -24,16 +26,18 @@
         display: inline-flex;
         flex: none;
         color: var(--fc-placeholder, #777);
-        @include typo.font(b1, rg);
+        @include typo.font(h6, rg);
     }
 
     &__control {
         flex: 1;
+        min-width: 0;
+        width: 100%;
         padding: 0;
         border: 0;
         background: transparent;
         color: inherit;
-        @include typo.font(b1, rg);
+        @include typo.font(b2, rg);
     }
 
     &:disabled,

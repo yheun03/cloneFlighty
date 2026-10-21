@@ -1,41 +1,49 @@
 @use "../common/typography" as typo;
 
-.stats-page>.fc-distance,
-.stats-page>.fc-performance,
-.stats-page>.fc-top-airlines,
-.stats-page>.fc-countries,
-.stats-page>.fc-frequent-tails,
+.stats-page > .fc-distance,
+.stats-page > .fc-performance,
+.stats-page > .fc-top-airlines,
+.stats-page > .fc-countries,
+.stats-page > .fc-frequent-tails,
 .stats-page__section {
-    margin: 48px 0;
+    margin: 64px 0;
 }
 
 .stats-page {
+    .fc-passport h2 {
+        @include typo.font(t3, sb);
+    }
+
+    .fc-passport__numbers span {
+        @include typo.font(b2, rg);
+    }
+
     .fc-stat-head {
-        margin-bottom: 12px;
+        margin-bottom: 4px;
 
         h2 {
             color: var(--fc-text-heading, #ccc);
-            @include typo.font(h6, sb);
+            @include typo.font(t3, sb);
         }
     }
 
     .fc-stat-number {
         flex-wrap: wrap;
-        gap: 6px;
-        margin-bottom: 8px;
+        gap: 8px;
+        margin-bottom: 0;
 
         strong {
-            @include typo.font(h1, sb);
+            @include typo.font(d6, sb);
         }
 
         span {
-            @include typo.font(h6, rg);
+            @include typo.font(h3, sb);
         }
     }
 
     .fc-top-airlines__bar {
         grid-template-columns: 54px minmax(0, 1fr) 28px;
-        @include typo.font(c2, rg);
+        @include typo.font(b2, rg);
     }
 
     .fc-stat-more {

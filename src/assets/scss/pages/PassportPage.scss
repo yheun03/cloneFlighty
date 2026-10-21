@@ -46,7 +46,11 @@
         margin: 18px 0;
 
         strong {
-            @include typo.font(h4, sb);
+            @include typo.font(h3, sb);
+        }
+
+        div:nth-child(n + 3) strong {
+            @include typo.font(t3, sb);
         }
 
         span {
@@ -82,10 +86,21 @@
     }
 
     &__plane {
-        margin: 24px 0;
-        color: #44a8d3;
-        text-align: center;
-        @include typo.font(d2, rg);
+        position: relative;
+        height: 90px;
+        overflow: hidden;
+        margin: 12px 0;
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 312px;
+            height: 287px;
+            max-width: none;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
     }
 
     &__past-title {
@@ -128,11 +143,11 @@
         }
 
         .fc-flight-list__meta {
-            @include typo.font(c3, rg);
+            @include typo.font(b4, rg);
         }
 
-        .fc-flight-list__content>strong {
-            @include typo.font(b3, sb);
+        .fc-flight-list__content > strong {
+            @include typo.font(b2, sb);
         }
 
         .fc-flight-list__sub {

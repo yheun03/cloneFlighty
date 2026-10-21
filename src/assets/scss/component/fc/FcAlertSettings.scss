@@ -3,7 +3,7 @@
 .fc-alerts {
     margin-top: 20px;
 
-    &+.fc-alerts {
+    & + .fc-alerts {
         margin-top: 45px;
     }
 
@@ -12,29 +12,22 @@
         @include typo.font(h4, sb);
     }
 
-    >p {
+    > p {
         margin: 0 0 20px;
     }
 
     &__option {
-        margin: 10px 0;
-        padding: 15px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin: 12px 0;
+        padding: 14px 16px;
         border: 2px solid transparent;
-        border-radius: 14px;
+        border-radius: 16px;
         background: var(--fc-control-bg, #303030);
 
         &.is-selected {
             border-color: var(--fc-link, #1685ff);
-        }
-
-        >div {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        >div>span {
-            @include typo.font(h5, rg);
         }
 
         strong {
@@ -42,15 +35,30 @@
             @include typo.font(t5, sb);
         }
 
-        .fc-switch {
-            transform: scale(0.8);
-            transform-origin: right center;
+        p {
+            margin: 5px 2px 0;
+            color: var(--fc-text-secondary, #aaa);
+            @include typo.font(b2, rg);
+        }
+    }
+
+    &__content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__option-heading {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        > span {
+            display: flex;
         }
 
-        p {
-            margin: 2px 0 0;
-            color: var(--fc-text-secondary, #aaa);
-            @include typo.font(b4, rg);
+        .fc-icon {
+            width: 24px;
+            height: 24px;
         }
     }
 
@@ -60,14 +68,14 @@
         gap: 12px;
         margin-bottom: 20px;
 
-        >span {
+        > span {
             width: 48px;
             height: 48px;
             border-radius: 50%;
             background: white;
         }
 
-        >div {
+        > div {
             display: flex;
             flex-direction: column;
         }

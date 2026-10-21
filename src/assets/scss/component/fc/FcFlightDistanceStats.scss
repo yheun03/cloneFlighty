@@ -3,23 +3,27 @@
 .fc-distance {
     margin: 25px 0;
 
-    >p {
+    > p {
         margin: 0 0 22px;
         color: var(--fc-text-secondary, #aaa);
+        @include typo.font(t5, rg);
     }
 
     &__comparisons {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 22px;
 
-        >strong {
+        > strong {
             margin-bottom: 5px;
+            @include typo.font(t5, sb);
         }
 
-        >span {
+        > span {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            @include typo.font(b2, sb);
         }
     }
 
@@ -49,19 +53,20 @@
             @include typo.font(t5, sb);
         }
 
-        >strong {
+        > strong {
             display: flex;
             justify-content: space-between;
             gap: 6px;
             @include typo.font(b1, sb);
         }
 
-        >strong span {
+        > strong span {
             flex: none;
         }
 
         small {
             color: var(--fc-text-secondary, #999);
+            @include typo.font(b2, rg);
         }
     }
 }

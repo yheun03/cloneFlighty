@@ -13,6 +13,8 @@ SCSS는 컴포넌트 기본 스타일을 `src/assets/scss/component/`, 페이지
 
 Vue 컴포넌트의 props 타입, 필수 여부, 기본값, 허용값, v-model, 이벤트와 데이터 구조는 [컴포넌트 속성 가이드](docs/components.md)를 참고합니다. `.prettierrc.json`으로 4칸 들여쓰기와 속성별 줄바꿈을 유지합니다.
 
+피그마 `최종본` 페이지를 기준으로 공통 UI와 연결 화면을 반영했습니다. 디자인 컴포넌트와 Vue 파일의 대응 관계, 색상·서체·에셋 수정 위치는 [피그마 반영 가이드](docs/figma.md)를 참고합니다.
+
 ```sh
 npm run dev
 npm run build

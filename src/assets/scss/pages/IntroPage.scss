@@ -111,7 +111,7 @@
             @include typo.font(h4, sb, -0.03em);
         }
 
-        >p:last-child:not(.intro__eyebrow) {
+        > p:last-child:not(.intro__eyebrow) {
             margin: 10px 0 0;
             color: #5d6472;
             @include typo.font(b1, rg);

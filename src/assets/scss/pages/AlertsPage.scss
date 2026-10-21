@@ -6,10 +6,10 @@
 
         h2 {
             margin: 0 4px 10px;
-            @include typo.font(h3, sb, -0.8px);
+            @include typo.font(mo-d4, sb);
         }
 
-        >p {
+        > p {
             margin: 0 4px 32px;
             @include typo.font(t5, rg);
         }
@@ -17,11 +17,11 @@
 
     .fc-alerts__option {
         margin: 12px 0;
-        padding: 15px 16px;
-        border-radius: 17px;
+        padding: 12px 14px;
+        border-radius: 16px;
         background: var(--fc-control-bg, #2b2b2b);
 
-        >div>span {
+        > div > span {
             @include typo.font(h5, rg);
         }
 
@@ -30,13 +30,13 @@
         }
 
         p {
-            margin-top: 7px;
+            margin-top: 5px;
             @include typo.font(b2, rg);
         }
     }
 
     .fc-alerts__friend {
-        >span {
+        > span {
             width: 50px;
             height: 50px;
             background: #5c5c5e;
@@ -51,14 +51,14 @@
         }
     }
 
-    .fc-alerts__friend~h2 {
+    .fc-alerts__friend ~ h2 {
         margin-left: 0;
         @include typo.font(h6, sb);
     }
 
     &__intro {
         margin: 36px 0 14px;
-        @include typo.font(t4, rg);
+        @include typo.font(t4, sb);
     }
 
     &__footer {
@@ -74,7 +74,7 @@
         border-radius: 16px;
         background: var(--fc-control-bg, #2b2b2b);
 
-        >.fc-icon {
+        > .fc-icon {
             color: #ff3b30;
             @include typo.font(h6, rg);
         }

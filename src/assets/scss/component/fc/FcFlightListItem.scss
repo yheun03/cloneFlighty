@@ -4,23 +4,30 @@
 .fc-flight-list {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--fc-border, #383838);
+    gap: 16px;
 
     &__days {
         display: flex;
         flex: none;
         flex-direction: column;
         align-items: center;
-        width: 54px;
+        width: 60px;
 
         strong {
             @include typo.font(h3, sb);
         }
 
         small {
-            color: var(--fc-text-secondary, #aaa);
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            color: var(--fc-text-secondary, #979797);
+            @include typo.font(b2, rg);
+
+            b {
+                color: var(--fc-text-body, #d9d9d9);
+                font-weight: 600;
+            }
         }
     }
 
@@ -28,16 +35,20 @@
         display: grid;
         flex: none;
         place-items: center;
-        width: 54px;
-        height: 54px;
-        border: 3px solid var(--fc-border, white);
-        border-radius: 50%;
-        @include typo.font(h3, rg);
+        width: 32px;
+        height: 32px;
+
+        .fc-icon {
+            width: 32px;
+            height: 32px;
+        }
     }
 
     &__content {
         min-width: 0;
         flex: 1;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--fc-border-subtle, #2c2c2c);
     }
 
     &__meta {
@@ -46,22 +57,56 @@
         gap: 8px;
         color: var(--fc-text-secondary, #aaa);
         @include typo.font(b3, rg);
+
+        > span:first-child {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            min-width: 0;
+            color: var(--fc-text-body, #bbb);
+        }
+
+        .fc-icon {
+            width: 14px;
+            height: 14px;
+        }
     }
 
-    &__content>strong {
+    &__content > strong {
         display: block;
-        margin: 4px 0;
+        margin: 2px 0;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        @include typo.font(t5, sb);
+        color: var(--fc-text-body, #d9d9d9);
+        @include typo.font(t4, sb);
     }
 
     &__sub {
         display: flex;
         flex-wrap: wrap;
+        gap: 22px;
+        @include typo.font(c2, rg);
+    }
+
+    &__route-time,
+    &__airport {
+        display: inline-flex;
+        align-items: center;
         gap: 4px;
-        margin-top: 4px;
+    }
+
+    &__route-time {
+        color: var(--fc-text-body, #d9d9d9);
+    }
+
+    &__airport {
+        gap: 2px;
+        color: var(--fc-text-secondary, #888);
+
+        img {
+            display: block;
+        }
     }
 
     &__close {
@@ -77,7 +122,7 @@
     &__avatar {
         width: 44px;
         height: 44px;
-        margin-bottom: 7px;
+        margin-bottom: 8px;
         border-radius: 50%;
         background: #bcbec5;
         overflow: hidden;
@@ -91,6 +136,28 @@
 
     &--friend &__days small {
         white-space: nowrap;
-        @include typo.font(c2, sb);
+        @include typo.font(c3, rg);
+    }
+
+    &--history &__content {
+        padding: 8px 0;
+    }
+
+    &--history &__content > strong {
+        margin: 0;
+        @include typo.font(b2, sb);
+    }
+
+    &--history &__sub {
+        gap: 2px;
+    }
+
+    &--header &__content {
+        padding: 0;
+        border: 0;
+    }
+
+    &--header &__content > strong {
+        @include typo.font(t3, sb);
     }
 }

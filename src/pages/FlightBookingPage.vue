@@ -1,33 +1,95 @@
 <template>
-    <Teleport defer to="#main-content">
-        <div class="booking-dialog" @click.self="close" @keydown="handleKeydown">
-            <section ref="dialog" class="booking-dialog__panel" role="dialog" aria-modal="true"
-                aria-labelledby="booking-title" tabindex="-1">
-                <h2 id="booking-title" class="sr-only">
+    <Teleport
+        defer
+        to="#main-content"
+    >
+        <div
+            class="booking-dialog"
+            @click.self="close"
+            @keydown="handleKeydown"
+        >
+            <section
+                ref="dialog"
+                class="booking-dialog__panel"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="booking-title"
+                tabindex="-1"
+            >
+                <h2
+                    id="booking-title"
+                    class="sr-only"
+                >
                     Edit flight information
                 </h2>
-                <button type="button" class="booking-dialog__close" aria-label="Close booking editor" @click="close">
+                <button
+                    type="button"
+                    class="booking-dialog__close"
+                    aria-label="Close booking editor"
+                    @click="close"
+                >
                     ×
                 </button>
-                <label class="booking-dialog__label booking-dialog__label--first" for="booking-code">
+                <label
+                    class="booking-dialog__label booking-dialog__label--first"
+                    for="booking-code"
+                >
                     Booking Code
                 </label>
-                <BaseInput id="booking-code" v-model="booking.code" :placeholder="pageData.bookingCode"
-                    icon="clipboard-paste" action-label="PASTE" @action="booking.code = pageData.bookingCode" />
-                <label class="booking-dialog__label" for="flight-seat">
+                <BaseInput
+                    id="booking-code"
+                    v-model="booking.code"
+                    :placeholder="pageData.bookingCode"
+                    icon="clipboard-paste"
+                    action-label="PASTE"
+                    @action="booking.code = pageData.bookingCode"
+                />
+                <label
+                    class="booking-dialog__label"
+                    for="flight-seat"
+                >
                     Seat
                 </label>
-                <BaseInput id="flight-seat" v-model="booking.seat" class="frame-page__input"
-                    :placeholder="pageData.seatPlaceholder" />
-                <FcTabItem v-model="booking.position" class="booking-dialog__choices" label="Seat position"
-                    :items="pageData.positions" :icon="chipIcon" size="md" variant="stroke" />
+                <BaseInput
+                    id="flight-seat"
+                    v-model="booking.seat"
+                    class="frame-page__input"
+                    :placeholder="pageData.seatPlaceholder"
+                />
+                <FcTabItem
+                    v-model="booking.position"
+                    class="booking-dialog__choices"
+                    label="Seat position"
+                    :items="pageData.positions"
+                    :icon="chipIcon"
+                    size="md"
+                    variant="stroke"
+                />
                 <h3 class="booking-dialog__label">Class</h3>
-                <FcTabItem v-model="booking.cabin" class="booking-dialog__choices" label="Travel class"
-                    :items="pageData.cabins" :icon="chipIcon" size="md" variant="stroke" />
+                <FcTabItem
+                    v-model="booking.cabin"
+                    class="booking-dialog__choices"
+                    label="Travel class"
+                    :items="pageData.cabins"
+                    :icon="chipIcon"
+                    size="md"
+                    variant="stroke"
+                />
                 <h3 class="booking-dialog__label">Reason</h3>
-                <FcTabItem v-model="booking.reason" class="booking-dialog__choices" label="Travel reason"
-                    :items="pageData.reasons" :icon="chipIcon" size="md" variant="stroke" />
-                <button type="button" class="frame-page__primary" @click="close">
+                <FcTabItem
+                    v-model="booking.reason"
+                    class="booking-dialog__choices"
+                    label="Travel reason"
+                    :items="pageData.reasons"
+                    :icon="chipIcon"
+                    size="md"
+                    variant="stroke"
+                />
+                <button
+                    type="button"
+                    class="frame-page__primary"
+                    @click="close"
+                >
                     Done
                 </button>
             </section>
@@ -45,6 +107,8 @@ import FcTabItem from "../component/fc/FcTabItem.vue";
 
 import chipIcon from "../assets/icons/lucide/square.svg";
 
+import "../assets/scss/component/base/BaseInput.scss";
+import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcTabItem.scss";
 import "../assets/scss/pages/FlightBookingPage.scss";

@@ -1,12 +1,34 @@
 <template>
-    <section class="frame-page stats-page delay-stats-page" @click="share">
-        <FcTabItem v-model="period" :items="pageData.periods" />
+    <section
+        class="frame-page stats-page delay-stats-page"
+        @click="share"
+    >
+        <FcTabItem
+            v-model="period"
+            :items="pageData.periods"
+        />
         <FcDelayReport v-bind="pageData.report" />
-        <FcAirlinePerformance :report="pageData.performance" section="mine" />
-        <FcAirlinePerformance :report="pageData.performance" section="delays" />
-        <FcAirlinePerformance :report="pageData.performance" section="airline" />
-        <FcAirlinePerformance :report="pageData.performance" section="airport" />
-        <p v-if="message" class="frame-page__feedback" role="status">
+        <FcAirlinePerformance
+            :report="pageData.performance"
+            section="mine"
+        />
+        <FcAirlinePerformance
+            :report="pageData.performance"
+            section="delays"
+        />
+        <FcAirlinePerformance
+            :report="pageData.performance"
+            section="airline"
+        />
+        <FcAirlinePerformance
+            :report="pageData.performance"
+            section="airport"
+        />
+        <p
+            v-if="message"
+            class="frame-page__feedback"
+            role="status"
+        >
             {{ message }}
         </p>
     </section>
@@ -199,7 +221,7 @@ const period = ref(String(route.query.period || pageData.period));
 const message = ref("");
 
 function share(event) {
-    if (event.target.closest(".fc-button--outline")) {
+    if (event.target.closest(".fc-stat-head .fc-button")) {
         message.value = pageData.shareMessage;
     }
 }

@@ -1,5 +1,6 @@
 <script setup>
 import FcIcon from "./FcIcon.vue";
+import FcListRow from "./FcListRow.vue";
 
 import nextIcon from "../../assets/icons/lucide/chevron-right.svg";
 
@@ -34,18 +35,15 @@ defineEmits(["select"]);
             class="fc-settings__group"
         >
             <h3>{{ group.label }}</h3>
-            <button
-                v-for="item in group.items"
-                :key="item.title"
-                type="button"
-                @click="$emit('select', item)"
-            >
-                <span><FcIcon :src="item.icon" /></span>
-                {{ item.title }}
-                <b>
-                    <FcIcon :src="nextIcon" />
-                </b>
-            </button>
+            <div class="fc-settings__items">
+                <FcListRow
+                    v-for="item in group.items"
+                    :key="item.title"
+                    :title="item.title"
+                    :icon="item.icon"
+                    @click="$emit('select', item)"
+                />
+            </div>
         </div>
     </div>
 </template>

@@ -19,11 +19,10 @@
             aria-controls="connection-description"
             aria-label="Minimum connection time explanation"
         >
-            <span class="connection-page__minimum">{{ pageData.minimum }}</span>
-            <span class="connection-page__track"><span></span></span>
-            <span class="connection-page__duration">
-                {{ pageData.status.duration }}
-            </span>
+            <img
+                :src="connectionImage"
+                :alt="`${pageData.status.duration}, ${pageData.minimum}`"
+            />
         </RouterLink>
         <FcTerminalTimeline v-bind="pageData.timeline" />
     </section>
@@ -36,6 +35,7 @@ import { useRoute } from "vue-router";
 
 import FcConnectionStatus from "../component/fc/FcConnectionStatus.vue";
 import FcTerminalTimeline from "../component/fc/FcTerminalTimeline.vue";
+import connectionImage from "../assets/figma/connection.png";
 
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcConnectionStatus.scss";

@@ -10,10 +10,11 @@
 
     p {
         margin: 0;
-        @include typo.font(b1, sb);
+        @include typo.font(t5, rg);
     }
 
     p strong {
-        color: #53d96c;
+        color: #4cd964;
+        font-weight: 400;
     }
 }

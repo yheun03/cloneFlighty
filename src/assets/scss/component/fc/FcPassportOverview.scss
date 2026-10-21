@@ -5,7 +5,7 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        height: 180px;
+        height: 189px;
         margin: 20px 0 0;
         padding: 10px;
         background: #f5f7fb;
@@ -32,7 +32,7 @@
         @include typo.font(t4, sb);
     }
 
-    >small,
+    > small,
     &__numbers span {
         color: var(--fc-passport-label, #a8afd9);
         @include typo.font(c3, rg);
@@ -40,9 +40,9 @@
 
     &__numbers {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px 8px;
-        margin: 24px 0;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        gap: 16px 8px;
+        margin: 16px 0;
 
         div:nth-child(2) {
             grid-column: span 2;
@@ -54,7 +54,21 @@
         }
 
         strong {
-            @include typo.font(t4, sb);
+            @include typo.font(h3, sb);
+        }
+
+        div:nth-child(n + 3) strong {
+            @include typo.font(t3, sb);
+        }
+
+        div:nth-child(4) {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        div:nth-child(5) {
+            grid-column: 3;
+            grid-row: 2;
         }
     }
 
@@ -81,16 +95,15 @@
         color: inherit;
         text-align: left;
 
-        >span {
+        > span {
             flex: none;
             @include typo.font(t4, rg);
         }
 
-        >div {
+        > div {
             display: flex;
             flex: 1;
             flex-direction: column;
-
         }
 
         small {

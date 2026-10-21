@@ -4,9 +4,10 @@ import { ref } from "vue";
 import FcIcon from "./FcIcon.vue";
 import FcToggleSwitch from "./FcToggleSwitch.vue";
 
-import calendarIcon from "../../assets/icons/lucide/calendar-days.svg";
-import nextIcon from "../../assets/icons/lucide/chevron-right.svg";
-import noticeIcon from "../../assets/icons/lucide/shield-check.svg";
+import calendarIcon from "../../assets/figma/calendar-import.svg";
+import calendarExportIcon from "../../assets/figma/calendar-export.svg";
+import nextIcon from "../../assets/figma/chevron-right.svg";
+import noticeIcon from "../../assets/figma/calendar-shield.svg";
 
 const props = defineProps({
     // 표시할 캘린더 이름 목록입니다.
@@ -58,8 +59,10 @@ function selectCalendar(calendar) {
                 :aria-expanded="choosing === 'import'"
                 @click="toggleCalendarChoices('import')"
             >
-                <FcIcon :src="calendarIcon" />
-                &nbsp;Choose Calendars
+                <span class="fc-calendar-sync__label">
+                    <FcIcon :src="calendarIcon" />
+                    Choose Calendars
+                </span>
                 <span>
                     {{ importCalendars.join(", ") || "Select" }}&nbsp;
                     <FcIcon :src="nextIcon" />
@@ -79,8 +82,10 @@ function selectCalendar(calendar) {
                 :aria-expanded="choosing === 'export'"
                 @click="toggleCalendarChoices('export')"
             >
-                <FcIcon :src="calendarIcon" />
-                &nbsp;Choose Calendar
+                <span class="fc-calendar-sync__label">
+                    <FcIcon :src="calendarExportIcon" />
+                    Choose Calendar
+                </span>
                 <span>
                     {{ exportCalendar || "Select" }}&nbsp;
                     <FcIcon :src="nextIcon" />

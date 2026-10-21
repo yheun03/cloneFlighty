@@ -20,7 +20,7 @@
 
     .fc-search__result strong,
     .fc-list-row__text strong {
-        @include typo.font(b1, sb);
+        @include typo.font(b2, sb);
     }
 
     .fc-search__section-label {
@@ -31,6 +31,26 @@
 
     .fc-list-row {
         border: 0;
+        min-height: 46px;
+        padding: 4px 0;
+
+        .fc-list-row__wrap {
+            padding: 0;
+            border: 0;
+        }
+
+        .fc-list-row__text {
+            padding: 0;
+        }
+
+        small {
+            color: var(--fc-text-secondary, #767676);
+            @include typo.font(b4, rg);
+        }
+
+        .fc-list-row__arrow {
+            display: none;
+        }
     }
 
     .fc-search__avatar,

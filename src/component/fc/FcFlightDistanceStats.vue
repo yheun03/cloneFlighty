@@ -34,7 +34,7 @@ const expanded = ref(false);
     <div class="fc-distance">
         <div class="fc-stat-head">
             <h2>{{ title }}</h2>
-            <BaseButton :label="shareLabel" :icon="shareIcon" size="sm" variant="fill" tone="default" />
+            <BaseButton :label="shareLabel" :icon="shareIcon" size="md" variant="fill" tone="gray" />
         </div>
         <div class="fc-stat-number">
             <strong>{{ distance }}</strong>

@@ -5,6 +5,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    flex-shrink: 0;
     border: 0;
     background: none;
 
@@ -12,26 +13,39 @@
         @include typo.font(btn4, rg);
         border-radius: 6px;
         padding: 4px 8px;
+        min-height: 26px;
     }
 
-    &--md,
-    &--lg {
+    &--md {
         @include typo.font(btn1, sb);
         border-radius: 8px;
-        padding: 11px 16px;
+        padding: 6px 12px 6px 10px;
+        gap: 4px;
+
+        > .fc-icon {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    &--lg {
+        @include typo.font(btn1, sb);
+        min-height: 46px;
+        border-radius: 8px;
+        padding: 4px 16px;
     }
 
     &--default {
         --fc-button-fill-background: transparent;
         --fc-button-fill-border: var(--fc-border, #595959);
         --fc-button-fill-color: var(--fc-text-strong, white);
-        --fc-button-text-color: var(--fc-text-strong, white);
+        --fc-button-text-color: var(--fc-link, #007aff);
     }
 
     &--red {
-        --fc-button-fill-background: var(--fc-danger, #ff4e48);
-        --fc-button-fill-border: var(--fc-danger, #ff4e48);
-        --fc-button-fill-color: white;
+        --fc-button-fill-background: var(--fc-danger-bg, #371719);
+        --fc-button-fill-border: transparent;
+        --fc-button-fill-color: var(--fc-danger, #ff3b30);
         --fc-button-text-color: var(--fc-danger, #ff4e48);
     }
 
@@ -53,6 +67,24 @@
         border: 1px solid var(--fc-button-fill-border);
         background: var(--fc-button-fill-background);
         color: var(--fc-button-fill-color);
+    }
+
+    &--sm.fc-button--default {
+        --fc-button-fill-background: var(--fc-copy-bg, #007aff33);
+        --fc-button-fill-border: transparent;
+        --fc-button-fill-color: var(--fc-link, #007aff);
+    }
+
+    &--md.fc-button--gray,
+    &--lg.fc-button--gray {
+        --fc-button-fill-background: var(--fc-button-large-bg, #ffffff1a);
+        --fc-button-fill-border: var(--fc-button-large-border, #ffffff33);
+        --fc-button-fill-color: var(--fc-text-strong, white);
+    }
+
+    &--md.fc-button--gray {
+        --fc-button-fill-background: transparent;
+        --fc-button-fill-border: var(--fc-text-secondary, #505050);
     }
 
     &--text {

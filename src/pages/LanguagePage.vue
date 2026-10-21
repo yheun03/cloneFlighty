@@ -41,6 +41,10 @@
 import { ref } from "vue";
 
 import FcListRow from "../component/fc/FcListRow.vue";
+import koreanFlag from "../assets/figma/flag-ko.svg";
+import englishFlag from "../assets/figma/flag-en.svg";
+import japaneseFlag from "../assets/figma/flag-ja.svg";
+import deviceIcon from "../assets/figma/language-device.svg";
 
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcListRow.scss";
@@ -55,26 +59,26 @@ const pageData = {
             "id": "ko",
             "title": "한국어",
             "subtitle": "Korean",
-            "avatar": "🇰🇷"
+            "image": koreanFlag
         },
         {
             "id": "en",
             "title": "English",
             "subtitle": "English",
-            "avatar": "🇬🇧"
+            "image": englishFlag
         },
         {
             "id": "ja",
             "title": "Japanese",
             "subtitle": "日本語",
-            "avatar": "🇯🇵"
+            "image": japaneseFlag
         }
     ],
     "device": {
         "id": "device",
         "title": "Use Device Language",
         "subtitle": "Follow your device language settings.",
-        "avatar": "⚙"
+        "icon": deviceIcon
     }
 };
 

@@ -1,7 +1,7 @@
 <script setup>
 import BaseButton from "../base/BaseButton.vue";
 
-import shareIcon from "../../assets/icons/lucide/share-2.svg";
+import shareIcon from "../../assets/figma/share.svg";
 
 defineProps({
     airline: { type: String, required: true },
@@ -16,7 +16,7 @@ defineProps({
     <div class="fc-frequent-tails">
         <div class="fc-stat-head">
             <h2>Most Frequent Tails</h2>
-            <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
+            <BaseButton label="Share" :icon="shareIcon" size="md" variant="fill" tone="gray" />
         </div>
         <strong>{{ tail }}</strong>
         <p>{{ flights }} flights</p>

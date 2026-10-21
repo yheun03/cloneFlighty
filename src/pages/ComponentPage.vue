@@ -474,7 +474,7 @@
                     </p>
                 </header>
                 <div class="fc-gallery__preview" role="region" aria-labelledby="gallery-distance" tabindex="0">
-                    <FcFlightDistanceStats title="Flight Distance" share-label="Share" share-icon="share-2"
+                    <FcFlightDistanceStats title="Flight Distance" share-label="Share" share-icon="share"
                         distance="73,650" distance-unit="km" miles="45,764" miles-unit="mi"
                         :breakdown="componentData.distance.breakdown" average-label="Average distance: 3,682 km"
                         :comparisons="componentData.distance.comparisons" summary-label="Show Summary"
@@ -580,6 +580,8 @@ import FcFlightDistanceStats from "../component/fc/FcFlightDistanceStats.vue";
 
 import airports from "../common/airports.js";
 import airlines from "../common/airlines.js";
+import aircraftImage from "../assets/figma/aircraft-passport.png";
+import detailAircraftImage from "../assets/figma/aircraft-detail.png";
 
 import "../assets/scss/component/fc/FcComponentGallery.scss";
 import "../assets/scss/component/base/BaseButton.scss";
@@ -831,6 +833,7 @@ const componentData = {
         }
     ],
     "details": {
+        "image": detailAircraftImage,
         "airline": airlines.KE.name,
         "plane": "Airbus A330-300",
         "from": "SFO",
@@ -971,16 +974,19 @@ const componentData = {
         ]
     },
     "aircraft": {
+        "image": aircraftImage,
         "total": 12,
         "mostFlown": "A330-300",
         "tail": "HL-8078",
         "manufacturer": "55% Airbus",
         "newest": {
+            "image": detailAircraftImage,
             "age": "2 years",
             "model": "Embraer 175",
             "date": "5/25/2024"
         },
         "oldest": {
+            "image": aircraftImage,
             "age": "25 years",
             "model": "B737-800",
             "date": "11/8/2000"
@@ -1006,28 +1012,28 @@ const componentData = {
     "alertOptions": {
         "mine": [
             {
-                "icon": "bell",
+                "icon": "alert-basics",
                 "title": "Basics",
                 "desc": "The most critical alerts like gate changes, delays, & Cancellations.",
                 "color": "var(--fc-link, #1685ff)",
                 "enabled": true
             },
             {
-                "icon": "circle-check",
+                "icon": "alert-check",
                 "title": "Above & Beyond",
                 "desc": "Get alerts on inbound aircraft status, connection assistance, and aircraft changes",
                 "color": "var(--fc-success, #00ae70)",
                 "enabled": false
             },
             {
-                "icon": "route",
+                "icon": "alert-map",
                 "title": "Flight Plans",
                 "desc": "Get a map of the flight path when the pilot files it with authorities.",
                 "color": "#ffca2d",
                 "enabled": false
             },
             {
-                "icon": "plane-landing",
+                "icon": "alert-landing",
                 "title": "Arrival Information",
                 "desc": "Get alerts for landing, gate arrival, and baggage claim.",
                 "color": "#ff9d20",
@@ -1036,13 +1042,13 @@ const componentData = {
         ],
         "friend": [
             {
-                "icon": "users",
+                "icon": "alert-off",
                 "title": "None",
                 "desc": "No alerts please. I’ll just view their flights in the app.",
                 "color": "var(--fc-danger, #ff5049)"
             },
             {
-                "icon": "plane-landing",
+                "icon": "alert-landed",
                 "title": "Just Landed",
                 "desc": "Only notify me when they land.",
                 "color": "var(--fc-success, #00ae70)"
@@ -1054,7 +1060,7 @@ const componentData = {
                 "color": "var(--fc-link, #1685ff)"
             },
             {
-                "icon": "users",
+                "icon": "alert-ring",
                 "title": "Everything",
                 "desc": "Every alert. Check-in, gate change, disruptions, landing, baggage, etc",
                 "color": "#ff9d20"

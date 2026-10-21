@@ -2,7 +2,16 @@
 
 .fc-schedule {
     &__airport {
-        @include typo.font(b1, sb);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--fc-text-body, #e1e1e1);
+        @include typo.font(b2, sb);
+
+        .fc-icon {
+            width: 16px;
+            height: 16px;
+        }
     }
 
     &__time {
@@ -20,11 +29,14 @@
         }
 
         b {
-            padding: 2px 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            padding: 0 8px 0 6px;
             border-radius: 8px;
-            background: #ffca2d;
+            background: #ffc51d;
             color: #111;
-            @include typo.font(t5, sb);
+            @include typo.font(t3, sb);
         }
     }
 
@@ -32,7 +44,7 @@
         display: flex;
         justify-content: space-between;
         color: var(--fc-text-secondary, #999);
-        @include typo.font(b3, rg);
+        @include typo.font(b2, rg);
     }
 
     &__divider {
@@ -49,7 +61,7 @@
 
         del {
             color: var(--fc-placeholder, #777);
-            @include typo.font(b4, rg);
+            @include typo.font(b1, rg);
         }
     }
 
@@ -60,7 +72,6 @@
 }
 
 .fc-details {
-
     .fc-schedule__time:nth-of-type(2) strong,
     .fc-schedule__detail:nth-of-type(3) span:first-child {
         color: var(--fc-danger, #ff5049);
@@ -78,7 +89,7 @@
 
     margin-top: 5px;
 
-    >h2 {
+    > h2 {
         margin: 30px 0 12px;
         @include typo.font(h6, sb);
     }
@@ -86,19 +97,19 @@
     &__card {
         border: 1px solid var(--fc-card-border, #535353);
         border-radius: 12px;
-        padding: 12px;
-        margin-top: 12px;
+        padding: 10px 12px;
+        margin-top: 8px;
 
         h3 {
             margin: 0;
-            @include typo.font(t5, sb);
+            @include typo.font(b1, sb);
         }
 
         p,
         small {
             margin: 2px 0 8px;
             color: var(--fc-text-secondary, #aaa);
-            @include typo.font(b3, rg);
+            @include typo.font(b2, rg);
         }
     }
 
@@ -111,7 +122,7 @@
             color: var(--fc-text-secondary, #aaa);
         }
 
-        >button {
+        > button {
             position: relative;
             display: flex;
             flex-direction: column;
@@ -123,7 +134,7 @@
             color: var(--fc-text-body, #ddd);
             text-align: left;
 
-            >span {
+            > .fc-details__paste {
                 position: absolute;
                 top: 10px;
                 right: 10px;
@@ -132,6 +143,11 @@
                 background: var(--fc-copy-bg, #0d2d4c);
                 color: var(--fc-blue, #087bfa);
                 @include typo.font(c3, rg);
+            }
+
+            > .fc-icon {
+                width: 20px;
+                height: 20px;
             }
 
             strong {
@@ -143,8 +159,25 @@
 
     &__timezone {
         display: flex;
-        flex-direction: column;
-        text-align: center;
+        align-items: center;
+        gap: 10px;
+        text-align: left;
+        @include typo.font(b2, rg);
+
+        > .fc-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        > div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        span {
+            color: var(--fc-text-secondary, #979797);
+            @include typo.font(b4, rg);
+        }
     }
 
     &__stats {
@@ -153,7 +186,7 @@
         margin: 15px 0;
         gap: 6px;
 
-        >span {
+        > span {
             display: flex;
             flex-direction: column;
             color: var(--fc-text-secondary, #aaa);
@@ -173,11 +206,11 @@
         margin: 6px 0;
         @include typo.font(b4, rg);
 
-        >span {
+        > span {
             width: 72px;
         }
 
-        >div {
+        > div {
             flex: 1;
             height: 8px;
             background: var(--fc-meter-bg, #383838);
@@ -196,10 +229,41 @@
     }
 
     &__plane {
+        position: relative;
+        height: 100px;
+        overflow: hidden;
         margin: 10px 0 0;
         color: #64bfff;
         text-align: center;
         @include typo.font(d1, rg);
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 332px;
+            height: 284px;
+            max-width: none;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &__codes {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin: 12px 0 0;
+
+        dt {
+            color: var(--fc-text-secondary, #979797);
+            @include typo.font(b4, rg);
+        }
+
+        dd {
+            margin: 2px 0 0;
+            @include typo.font(b1, sb);
+        }
     }
 
     &__links {

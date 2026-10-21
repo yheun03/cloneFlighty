@@ -1,12 +1,12 @@
 @use "../../common/typography" as typo;
 
 .fc-calendar-sync {
-    >strong {
+    > strong {
         display: block;
         @include typo.font(t5, sb);
     }
 
-    >p {
+    > p {
         margin: 2px 0 26px;
         color: var(--fc-text-secondary, #aaa);
         @include typo.font(b3, rg);
@@ -15,7 +15,7 @@
     &__item {
         margin: 25px 0;
 
-        >div {
+        > div {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -29,9 +29,11 @@
         button:not(.fc-switch) {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            gap: 12px;
             width: 100%;
             margin-top: 7px;
-            padding: 7px 0;
+            padding: 14px 0;
             border: 0;
             border-bottom: 1px solid var(--fc-border, #444);
             background: none;
@@ -39,8 +41,21 @@
             text-align: left;
         }
 
-        button>span {
+        button > span:not(.fc-calendar-sync__label) {
             color: var(--fc-text-secondary, #aaa);
+            text-align: right;
+        }
+    }
+
+    &__label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        @include typo.font(b2, rg);
+
+        .fc-icon {
+            width: 24px;
+            height: 24px;
         }
     }
 

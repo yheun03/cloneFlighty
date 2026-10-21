@@ -11,8 +11,16 @@ const icons = import.meta.glob("../../assets/icons/lucide/*.svg", {
     query: "?url",
     import: "default",
 });
+const designIcons = import.meta.glob("../../assets/figma/*.svg", {
+    eager: true,
+    query: "?url",
+    import: "default",
+});
 const source = computed(
-    () => icons[`../../assets/icons/lucide/${props.src}.svg`] || props.src,
+    () =>
+        designIcons[`../../assets/figma/${props.src}.svg`] ||
+        icons[`../../assets/icons/lucide/${props.src}.svg`] ||
+        props.src,
 );
 </script>
 

@@ -8,7 +8,7 @@ import {
     defaultAirlineLogo,
     getAirline,
 } from "../../common/airlines.js";
-import shareIcon from "../../assets/icons/lucide/share-2.svg";
+import shareIcon from "../../assets/figma/share.svg";
 
 const props = defineProps({
     title: { type: String, default: "Top Airlines" },
@@ -53,7 +53,7 @@ const chartItems = computed(() => {
     <div class="fc-top-airlines">
         <div class="fc-stat-head">
             <h2>{{ title }}</h2>
-            <BaseButton label="Share" :icon="shareIcon" size="sm" variant="fill" tone="default" />
+            <BaseButton label="Share" :icon="shareIcon" size="md" variant="fill" tone="gray" />
         </div>
         <div class="fc-stat-number">
             <strong>{{ total }}</strong>

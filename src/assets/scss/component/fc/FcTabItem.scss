@@ -2,7 +2,7 @@
 
 .fc-tab-items {
     display: flex;
-    gap: 8px;
+    gap: 4px;
     overflow-x: auto;
     padding-bottom: 5px;
 }
@@ -19,28 +19,31 @@
 
     &--md {
         min-height: 36px;
-        padding: 5px 13px;
-        border-radius: 10px;
+        padding: 6px 12px;
+        border-radius: 8px;
         @include typo.font(btn1, sb);
 
-        >.fc-icon {
-            @include typo.font(t4, rg);
+        > .fc-icon {
+            width: 16px;
+            height: 16px;
         }
     }
 
     &--sm {
         min-height: 28px;
-        padding: 3px 10px;
+        padding: 4px 10px;
         border-radius: 8px;
         @include typo.font(btn2, sb);
 
-        >.fc-icon {
+        > .fc-icon {
             @include typo.font(b1, rg);
         }
     }
 
     &--stroke {
-        border-color: var(--fc-border, #4b4b4b);
+        border-color: var(--fc-border, #333);
+        padding-left: 8px;
+        font-weight: 400;
     }
 
     &--stroke.is-active {
@@ -51,5 +54,16 @@
 
     &--fill.is-active {
         background: var(--fc-selected-bg, #333);
+    }
+
+    @media (hover: hover) {
+        &--fill:hover {
+            background: var(--fc-selected-bg, #2c2c2c);
+        }
+
+        &--stroke:hover {
+            background: var(--fc-chip-bg, #202e40);
+            color: var(--fc-link, #007aff);
+        }
     }
 }

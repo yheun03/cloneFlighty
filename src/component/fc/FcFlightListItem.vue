@@ -8,8 +8,8 @@ import {
     defaultAirlineLogo,
     getAirline,
 } from "../../common/airlines.js";
-import departureIcon from "../../assets/icons/lucide/plane-takeoff.svg";
-import arrivalIcon from "../../assets/icons/lucide/plane-landing.svg";
+import departureIcon from "../../assets/figma/departure.svg";
+import arrivalIcon from "../../assets/figma/arrival.svg";
 import routeIcon from "../../assets/icons/lucide/arrow-right.svg";
 import durationIcon from "../../assets/icons/lucide/clock-3.svg";
 import flightTimeIcon from "../../assets/icons/lucide/plane.svg";
@@ -42,6 +42,8 @@ defineEmits(["remove"]);
 
 const departureCode = computed(() => props.departure.split(" ")[0]);
 const arrivalCode = computed(() => props.arrival.split(" ")[0]);
+const departureTime = computed(() => props.departure.split(" ").slice(1).join(" "));
+const arrivalTime = computed(() => props.arrival.split(" ").slice(1).join(" "));
 const airlineIcon = computed(
     () => getAirline(props.airline)?.logo || defaultAirlineLogo,
 );
@@ -56,7 +58,7 @@ const isFriend = computed(() => props.type === "friend" || props.avatar);
             </span>
             <strong v-else>{{ days }}</strong>
             <small>
-                <template v-if="isFriend">{{ days }} </template>
+                <b v-if="isFriend">{{ days }}</b>
                 DAYS
             </small>
         </div>
@@ -79,8 +81,20 @@ const isFriend = computed(() => props.type === "friend" || props.avatar);
             </div>
             <strong>{{ title }}</strong>
             <div v-if="variant === 'upcoming'" class="fc-flight-list__sub">
-                <FcChip :label="departure" :icon="departureIcon" />
-                <FcChip :label="arrival" :icon="arrivalIcon" />
+                <span class="fc-flight-list__route-time">
+                    <span class="fc-flight-list__airport">
+                        <img :src="departureIcon" alt="" />
+                        {{ departureCode }}
+                    </span>
+                    <span>{{ departureTime }}</span>
+                </span>
+                <span class="fc-flight-list__route-time">
+                    <span class="fc-flight-list__airport">
+                        <img :src="arrivalIcon" alt="" />
+                        {{ arrivalCode }}
+                    </span>
+                    <span>{{ arrivalTime }}</span>
+                </span>
             </div>
             <div v-else-if="variant === 'history'" class="fc-flight-list__sub">
                 <FcChip v-if="duration" :label="duration" :icon="durationIcon" />

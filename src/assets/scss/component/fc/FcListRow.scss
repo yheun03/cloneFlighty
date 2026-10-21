@@ -1,28 +1,38 @@
 @use "../../common/typography" as typo;
-@use "../../common/variables" as *;
 
 .fc-list-row {
     display: flex;
     align-items: center;
     width: 100%;
     gap: 12px;
-    padding-inline: 0 12px;
+    padding-inline: 12px;
     border: 0;
     background: none;
-    color: var(--fc-text-strong, white);
+    color: var(--fc-text-body, #d9d9d9);
     text-align: left;
 
     &__visual {
         display: grid;
         flex: none;
         place-items: center;
-        width: 36px;
-        height: 36px;
+        width: 24px;
+        height: 24px;
     }
 
     &--icon &__visual {
         color: var(--fc-text-strong, white);
         @include typo.font(h5, rg);
+    }
+
+    &--profile &__visual {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--fc-control-bg, #2c2c2c);
+    }
+
+    &--profile {
+        padding-left: 0;
     }
 
     &__wrap {
@@ -31,11 +41,8 @@
         justify-content: center;
         align-items: center;
         padding-block: 14px;
-        border-bottom: 1px solid $gray-900;
-    }
-
-    &--profile &__wrap {
-        padding-block: 7px;
+        min-width: 0;
+        border-bottom: 1px solid var(--fc-border, #333);
     }
 
     &__text {
@@ -43,19 +50,27 @@
         flex: 1;
         flex-direction: column;
         gap: 2px;
+        min-width: 0;
+        padding-left: 4px;
 
         strong,
         small {
-            @include typo.font(b1, rg);
+            @include typo.font(b2, rg);
         }
 
         strong.is-accent {
             color: var(--fc-link, #1685ff);
-            @include typo.font(b1, sb);
+            @include typo.font(b2, sb);
         }
     }
 
     &__arrow {
-        @include typo.font(h3, rg);
+        display: inline-flex;
+        margin-left: 8px;
+
+        .fc-icon {
+            width: 20px;
+            height: 20px;
+        }
     }
 }

@@ -1,13 +1,23 @@
 <template>
     <section class="frame-page passport-page">
-        <FcTabItem v-model="period" :items="pageData.periods" />
+        <FcTabItem
+            v-model="period"
+            :items="pageData.periods"
+        />
         <div class="passport-page__card passport-page__card--passport">
-            <FcPassportOverview v-bind="pageData.overview" :show-period="false" :show-map="false"
-                :show-history="false" />
-            <RouterLink class="passport-page__stats-link" :to="{
-                name: 'flight-stats',
-                query: { ...route.query, period },
-            }">
+            <FcPassportOverview
+                v-bind="pageData.overview"
+                :show-period="false"
+                :show-map="false"
+                :show-history="false"
+            />
+            <RouterLink
+                class="passport-page__stats-link"
+                :to="{
+                    name: 'flight-stats',
+                    query: { ...route.query, period },
+                }"
+            >
                 All Flight Stats
                 <span>›</span>
             </RouterLink>
@@ -18,8 +28,10 @@
             </strong>
             <h2>hours lost from delays</h2>
             <p>Delayed flights averaged {{ pageData.delays.average }} late</p>
-            <RouterLink class="passport-page__stats-link"
-                :to="{ name: 'delay-stats', query: { ...route.query, period } }">
+            <RouterLink
+                class="passport-page__stats-link"
+                :to="{ name: 'delay-stats', query: { ...route.query, period } }"
+            >
                 All Flight Stats
                 <span>›</span>
             </RouterLink>
@@ -31,29 +43,50 @@
             </strong>
             <p>{{ pageData.aircraft.summary }}</p>
             <div class="passport-page__plane">
-                <FcIcon :src="planeIcon" />
+                <img
+                    :src="pageData.aircraft.image"
+                    :alt="pageData.aircraft.model"
+                />
             </div>
-            <RouterLink class="passport-page__stats-link" :to="{
-                name: 'aircraft-stats',
-                query: { ...route.query, period },
-            }">
+            <RouterLink
+                class="passport-page__stats-link"
+                :to="{
+                    name: 'aircraft-stats',
+                    query: { ...route.query, period },
+                }"
+            >
                 All Flight Stats
                 <span>›</span>
             </RouterLink>
         </div>
         <h2 class="passport-page__past-title">Past Flights</h2>
-        <FcTabItem v-model="group" :items="pageData.groups" label="Group past flights" />
-        <div v-for="history in pageData.historyGroups" :key="history.id" class="passport-page__history">
+        <FcTabItem
+            v-model="group"
+            :items="pageData.groups"
+            label="Group past flights"
+        />
+        <div
+            v-for="history in pageData.historyGroups"
+            :key="history.id"
+            class="passport-page__history"
+        >
             <h3>
                 {{ history.labels[group] }}
                 <small>{{ history.count }}</small>
             </h3>
-            <RouterLink v-for="flight in history.flights" :key="flight.id" :to="{
-                name: 'flight-detail',
-                params: { id: flight.id },
-                query: { ...route.query, from: flight.from, to: flight.to },
-            }">
-                <FcFlightListItem v-bind="flight" variant="history" />
+            <RouterLink
+                v-for="flight in history.flights"
+                :key="flight.id"
+                :to="{
+                    name: 'flight-detail',
+                    params: { id: flight.id },
+                    query: { ...route.query, from: flight.from, to: flight.to },
+                }"
+            >
+                <FcFlightListItem
+                    v-bind="flight"
+                    variant="history"
+                />
             </RouterLink>
         </div>
     </section>
@@ -67,11 +100,10 @@ import { useRoute } from "vue-router";
 import FcTabItem from "../component/fc/FcTabItem.vue";
 import FcPassportOverview from "../component/fc/FcPassportOverview.vue";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
-import FcIcon from "../component/fc/FcIcon.vue";
 
 import airlines from "../common/airlines.js";
 
-import planeIcon from "../assets/icons/lucide/plane.svg";
+import aircraftImage from "../assets/figma/aircraft-passport.png";
 
 import "../assets/scss/component/fc/FcIcon.scss";
 import "../assets/scss/component/fc/FcTabItem.scss";
@@ -141,6 +173,7 @@ const pageData = {
         "average": "20m"
     },
     "aircraft": {
+        "image": aircraftImage,
         "model": "A330-300",
         "summary": "4 flights · 12 hours"
     },

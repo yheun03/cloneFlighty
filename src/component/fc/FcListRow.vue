@@ -3,12 +3,13 @@ import { computed } from "vue";
 
 import FcIcon from "./FcIcon.vue";
 
-import nextIcon from "../../assets/icons/lucide/chevron-right.svg";
+import nextIcon from "../../assets/figma/chevron-right.svg";
 
 const props = defineProps({
     title: { type: String, required: true },
     subtitle: { type: String, default: "" },
     avatar: { type: String, default: "" },
+    image: { type: String, default: "" },
     icon: { type: String, default: "" },
     shape: {
         type: String,
@@ -34,7 +35,8 @@ const rowShape = computed(
     <button type="button" class="fc-list-row" :class="[`fc-list-row--${rowShape}`, `fc-list-row--${type}`]"
         @click="$emit('click')">
         <span class="fc-list-row__visual" aria-hidden="true">
-            <FcIcon v-if="type === 'icon' && icon" :src="icon" />
+            <img v-if="image" :src="image" alt="" />
+            <FcIcon v-else-if="type === 'icon' && icon" :src="icon" />
             <span v-else-if="avatar">{{ avatar }}</span>
         </span>
         <span class="fc-list-row__wrap">

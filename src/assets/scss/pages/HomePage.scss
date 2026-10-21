@@ -2,7 +2,9 @@
 
 .flights-page {
     &__list {
-        margin-top: 10px;
+        display: grid;
+        gap: 10px;
+        margin-top: 8px;
     }
 
     &__flight {
@@ -10,32 +12,7 @@
         color: var(--fc-text-body, #d4d4d4);
     }
 
-    .fc-flight-list {
-        align-items: flex-start;
-        padding: 14px 0;
-        border-bottom: 0;
-    }
-
-    .fc-flight-list__content {
-        padding-bottom: 10px;
-        border-bottom: 1px solid var(--fc-border, #303030);
-    }
-
-    .fc-flight-list__days {
-        padding-top: 5px;
-
-        strong {
-            margin-bottom: 8px;
-            @include typo.font(h3, sb);
-        }
-
-        small {
-            @include typo.font(c1, rg);
-        }
-    }
-
-    .fc-flight-list__meta,
-    .fc-flight-list__sub {
+    .fc-flight-list__meta {
         @include typo.font(b4, rg);
     }
 

@@ -46,7 +46,8 @@ const period = ref(props.aircraft.periods[0]);
                 <strong>{{ aircraft.mostFlown }}</strong>
                 <span>{{ aircraft.summary }}</span>
                 <div>
-                    <FcIcon :src="planeIcon" />
+                    <img v-if="aircraft.image" :src="aircraft.image" :alt="aircraft.mostFlown" />
+                    <FcIcon v-else :src="planeIcon" />
                 </div>
             </div>
         </template>
@@ -67,11 +68,19 @@ const period = ref(props.aircraft.periods[0]);
                     <strong>Newest Aircraft</strong>
                     <b>{{ aircraft.newest.age }} old</b>
                     <span>{{ aircraft.newest.date }}</span>
+                    <div v-if="aircraft.newest.image" class="fc-aircraft-stats__card-image">
+                        <img :src="aircraft.newest.image" :alt="aircraft.newest.model" />
+                    </div>
+                    <small>{{ aircraft.newest.model }}</small>
                 </div>
                 <div>
                     <strong>Oldest Aircraft</strong>
                     <b>{{ aircraft.oldest.age }} old</b>
                     <span>{{ aircraft.oldest.date }}</span>
+                    <div v-if="aircraft.oldest.image" class="fc-aircraft-stats__card-image">
+                        <img :src="aircraft.oldest.image" :alt="aircraft.oldest.model" />
+                    </div>
+                    <small>{{ aircraft.oldest.model }}</small>
                 </div>
             </div>
         </template>

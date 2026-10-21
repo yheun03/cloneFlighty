@@ -13,11 +13,11 @@
         flex-wrap: wrap;
 
         strong {
-            @include typo.font(h1, sb);
+            @include typo.font(d6, sb);
         }
 
         span {
-            @include typo.font(h6, rg);
+            @include typo.font(h3, rg);
         }
     }
 

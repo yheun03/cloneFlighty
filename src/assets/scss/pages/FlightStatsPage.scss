@@ -6,11 +6,10 @@
         align-items: baseline;
         gap: 8px;
 
-        >span {
+        > span {
             color: var(--fc-text-secondary, #aaa);
             @include typo.font(c3, rg);
         }
-
     }
 
     &__line-chart {

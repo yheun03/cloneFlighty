@@ -1,16 +1,34 @@
 <template>
     <section class="frame-page settings-page">
-        <RouterLink class="frame-page__close" :to="{ name: 'home', query: route.query }" aria-label="Close settings">
+        <RouterLink
+            class="frame-page__close"
+            :to="{ name: 'home', query: route.query }"
+            aria-label="Close settings"
+        >
             ×
         </RouterLink>
-        <FcSettingsMenu v-bind="pageData" @select="selectSetting" />
-        <section class="settings-page__appearance" aria-labelledby="appearance-title">
+        <FcSettingsMenu
+            v-bind="pageData"
+            @select="selectSetting"
+        />
+        <section
+            class="settings-page__appearance"
+            aria-labelledby="appearance-title"
+        >
             <h2 id="appearance-title">Appearance</h2>
             <p class="frame-page__note">Choose how Flighty looks.</p>
-            <FcTabItem v-model="appearance" class="settings-page__theme-options" label="색상 모드"
-                :items="pageData.appearance" />
+            <FcTabItem
+                v-model="appearance"
+                class="settings-page__theme-options"
+                label="색상 모드"
+                :items="pageData.appearance"
+            />
         </section>
-        <p v-if="message" class="frame-page__note" role="status">
+        <p
+            v-if="message"
+            class="frame-page__note"
+            role="status"
+        >
             {{ message }}
         </p>
     </section>
