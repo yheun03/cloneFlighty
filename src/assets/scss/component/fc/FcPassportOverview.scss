@@ -2,21 +2,8 @@
 
 .fc-passport {
     &__map {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
         height: 189px;
         margin: 20px 0 0;
-        padding: 10px;
-        background: #f5f7fb;
-        color: #111;
-        @include typo.font(b4, rg);
-
-        span:nth-child(2) {
-            align-self: center;
-            @include typo.font(d5, rg);
-            opacity: 0.35;
-        }
     }
 
     &__flags {

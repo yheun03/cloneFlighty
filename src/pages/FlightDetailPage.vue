@@ -1,23 +1,41 @@
 <template>
     <section class="frame-page flight-detail-page">
         <div
+            v-if="flight"
             :inert="editing || undefined"
             :class="{ 'flight-detail-page__background--blurred': editing }"
         >
             <FcFlightListItem
                 variant="header"
-                v-bind="flight"
+                :airline="flight.airline"
+                :flight="flight.flight"
+                :title="flight.title"
+                :date="flight.date"
+                :departure="flight.departure"
+                :arrival="flight.arrival"
                 @remove="closeFlight"
             />
             <FcFlightDetails
                 :details="details"
+                :completed="flight.isCompleted"
                 :booking-code="booking.code"
                 :seat="booking.seat"
                 @edit="editBooking"
                 @connection="openConnection"
             />
         </div>
-        <RouterView v-slot="{ Component }">
+        <p
+            v-else
+            class="frame-page__note"
+            role="status"
+        >
+            Flight not found.
+            <RouterLink :to="{ name: 'home' }">Back to flights</RouterLink>
+        </p>
+        <RouterView
+            v-if="flight"
+            v-slot="{ Component }"
+        >
             <component
                 :is="Component"
                 v-model="booking"
@@ -27,273 +45,208 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 import { useRoute, useRouter } from "vue-router";
 
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 import FcFlightDetails from "../component/fc/FcFlightDetails.vue";
 
-import airports from "../common/airports.js";
-import airlines from "../common/airlines.js";
-import aircraftImage from "../assets/figma/aircraft-detail.png";
+import { flights, getFlight, formatDuration } from "../common/flights.js";
 
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
 import "../assets/scss/component/fc/FcFlightDetails.scss";
 import "../assets/scss/pages/page_flight_detail.scss";
 
-// 이 페이지에서 사용하는 샘플 데이터입니다.
-// prettier-ignore
-const pageData = {
-    "flight": {
-        "airline": airlines.KE.iata,
-        "flight": "24",
-        "title": "San Francisco to Seoul",
-        "date": "Wed, 28 Jan",
-        "departure": "SFO 11:40",
-        "arrival": "ICN 17:40⁺¹",
-        "days": 21,
-        "duration": "13h",
-        "flightTime": "13h"
-    },
-    "details": {
-        "image": aircraftImage,
-        "airline": airlines.KE.name,
-        "plane": "Airbus A330-300",
-        "from": "SFO",
-        "to": "ICN",
-        "departure": "11:40",
-        "arrival": "17:40",
-        "departureAirport": airports.SFO.fullName,
-        "arrivalAirport": airports.ICN.fullName,
-        "scheduledDeparture": "11:40",
-        "scheduledArrival": "18:00",
-        "departureGate": "F4",
-        "arrivalGate": "F4",
-        "baggage": "14",
-        "departureStatus": "20m Late",
-        "arrivalStatus": "20m Early",
-        "departureTerminal": "Terminal 1",
-        "arrivalTerminal": "Terminal 1",
-        "duration": "13h",
-        "distance": "9,086 km",
-        "arrivalDayOffset": "+1",
-        "overnight": true,
-        "timezoneTitle": "+17 Hours Timezone Change",
-        "timezoneDescription": "17:40 arrival is 00:40 San Francisco time",
-        "forecastDescription": "KE 24 performance over the last 60 days",
-        "forecastStats": [
-            {
-                "label": "Late",
-                "value": "22%"
-            },
-            {
-                "label": "Average of Late",
-                "value": "17m"
-            },
-            {
-                "label": "Observed",
-                "value": "59"
-            }
-        ],
-        "forecast": [
-            {
-                "label": "Early",
-                "value": 81,
-                "color": "var(--fc-success, #00ae57)"
-            },
-            {
-                "label": "On Time",
-                "value": 80,
-                "color": "#56d76a"
-            },
-            {
-                "label": "15m late",
-                "value": 60,
-                "color": "#ffcb31"
-            },
-            {
-                "label": "30m late",
-                "value": 40,
-                "color": "#ff9d20"
-            },
-            {
-                "label": "45m+ late",
-                "value": 20,
-                "color": "var(--fc-danger, #ff4d4d)"
-            }
-        ],
-        "features": [
-            {
-                "title": "Booking Code",
-                "action": "Tap to Edit",
-                "field": "bookingCode"
-            },
-            {
-                "title": "Seat Information",
-                "action": "Add Seat",
-                "field": "seat"
-            }
-        ],
-        "tail": "HL-7587",
-        "firstFlight": "Nov 8, 2000",
-        "age": "25 years old",
-        "alliance": airlines.KE.alliance,
-        "callsign": airlines.KE.callsign,
-        "icao": airlines.KE.icao,
-        "iata": airlines.KE.iata,
-        "historyStats": [
-            {
-                "label": "Flights",
-                "value": "1"
-            },
-            {
-                "label": "Distance",
-                "value": "9,086 km"
-            },
-            {
-                "label": "Flight Time",
-                "value": "13h"
-            }
-        ],
-        "recentFlight": "20 Aug 2025 · KE 647"
-    },
-    "pastFlight": {
-        "airline": airlines.KE.iata,
-        "flight": "5926",
-        "title": "Amsterdam to Seoul",
-        "date": "Dec 29, 2025",
-        "departure": "AMS 09:25",
-        "arrival": "ICN 10:50",
-        "days": 21,
-        "duration": "11h 25m",
-        "flightTime": "11h 25m"
-    },
-    "pastDetails": {
-        "image": aircraftImage,
-        "airline": airlines.KE.name,
-        "plane": "Airbus A330-300",
-        "from": "AMS",
-        "to": "ICN",
-        "departure": "09:25",
-        "arrival": "10:50",
-        "departureAirport": airports.AMS.fullName,
-        "arrivalAirport": airports.ICN.fullName,
-        "scheduledDeparture": "09:05",
-        "scheduledArrival": "11:10",
-        "departureGate": "F4",
-        "arrivalGate": "F4",
-        "baggage": "14",
-        "departureStatus": "20m Late",
-        "arrivalStatus": "20m Early",
-        "departureTerminal": "Terminal 1",
-        "arrivalTerminal": "Terminal 1",
-        "duration": "11h 25m",
-        "distance": "8,560 km",
-        "arrivalDayOffset": "+1",
-        "overnight": true,
-        "timezoneTitle": "+8 Hours Timezone Change",
-        "timezoneDescription": "10:50 arrival is 02:50 Amsterdam time",
-        "forecastDescription": "KE 5926 performance over the last 60 days",
-        "forecastStats": [
-            {
-                "label": "Late",
-                "value": "22%"
-            },
-            {
-                "label": "Average of Late",
-                "value": "17m"
-            },
-            {
-                "label": "Observed",
-                "value": "59"
-            }
-        ],
-        "forecast": [
-            {
-                "label": "Early",
-                "value": 81,
-                "color": "var(--fc-success, #00ae57)"
-            },
-            {
-                "label": "On Time",
-                "value": 80,
-                "color": "#56d76a"
-            },
-            {
-                "label": "15m late",
-                "value": 60,
-                "color": "#ffcb31"
-            },
-            {
-                "label": "30m late",
-                "value": 40,
-                "color": "#ff9d20"
-            },
-            {
-                "label": "45m+ late",
-                "value": 20,
-                "color": "var(--fc-danger, #ff4d4d)"
-            }
-        ],
-        "features": [
-            {
-                "title": "Booking Code",
-                "action": "Tap to Edit",
-                "field": "bookingCode"
-            },
-            {
-                "title": "Seat Information",
-                "action": "Add Seat",
-                "field": "seat"
-            }
-        ],
-        "tail": "HL-7587",
-        "firstFlight": "Nov 8, 2000",
-        "age": "25 years old",
-        "alliance": airlines.KE.alliance,
-        "callsign": airlines.KE.callsign,
-        "icao": airlines.KE.icao,
-        "iata": airlines.KE.iata,
-        "historyStats": [
-            {
-                "label": "Flights",
-                "value": "6"
-            },
-            {
-                "label": "Distance",
-                "value": "51,360 km"
-            },
-            {
-                "label": "Flight Time",
-                "value": "68h 30m"
-            }
-        ],
-        "recentFlight": "29 Dec 2025 · KE 5926"
-    },
-    "booking": {
-        "code": "",
-        "seat": "",
-        "position": "Middle",
-        "cabin": "Business",
-        "reason": "Business"
-    }
-};
-
 const route = useRoute();
 const router = useRouter();
-const booking = ref({ ...pageData.booking });
+const flight = computed(() => getFlight(String(route.params.id)));
 const editing = computed(() => route.name === "flight-booking");
-const isPastFlight = computed(() =>
-    String(route.params.id).startsWith("past-"),
+const booking = computed({
+    get: () => flight.value?.booking,
+    set: (value) => {
+        if (flight.value) Object.assign(flight.value.booking, value);
+    },
+});
+const routeHistory = computed(() =>
+    flights.value
+        .filter(
+            (item) =>
+                item.isCompleted &&
+                !item.friend &&
+                item.from === flight.value?.from &&
+                item.to === flight.value?.to,
+        )
+        .sort((a, b) => Date.parse(b.departureAt) - Date.parse(a.departureAt)),
 );
-const flight = computed(() =>
-    isPastFlight.value ? pageData.pastFlight : pageData.flight,
-);
-const details = computed(() =>
-    isPastFlight.value ? pageData.pastDetails : pageData.details,
-);
+const details = computed(() => {
+    const item = flight.value;
+    if (!item) return null;
+
+    const airline = item.airlineInfo;
+    const aircraft = item.aircraft;
+    const performance = flights.value.filter(
+        (past) =>
+            past.isCompleted &&
+            !past.friend &&
+            past.airline === item.airline &&
+            past.flight === item.flight,
+    );
+    const delayed = performance.filter((past) => past.arrivalDelayMinutes > 0);
+    const averageDelay = delayed.length
+        ? Math.round(
+              delayed.reduce((sum, past) => sum + past.arrivalDelayMinutes, 0) /
+                  delayed.length,
+          )
+        : 0;
+    const percent = (count) =>
+        performance.length ? Math.round((count / performance.length) * 100) : 0;
+    const firstFlight = new Date(`${aircraft.firstFlight}T00:00:00Z`);
+    const departure = new Date(item.departureAt);
+    let age = departure.getUTCFullYear() - firstFlight.getUTCFullYear();
+    if (
+        departure.getUTCMonth() < firstFlight.getUTCMonth() ||
+        (departure.getUTCMonth() === firstFlight.getUTCMonth() &&
+            departure.getUTCDate() < firstFlight.getUTCDate())
+    )
+        age -= 1;
+    const timezoneHours = item.timezoneChangeMinutes / 60;
+    const timing = (minutes) =>
+        minutes > 0 ? "late" : minutes < 0 ? "early" : "on-time";
+    const recent = routeHistory.value[0];
+
+    return {
+        from: item.from,
+        to: item.to,
+        departure: item.departureTime,
+        arrival: item.arrivalTime,
+        scheduledDeparture: item.scheduledDeparture,
+        scheduledArrival: item.scheduledArrival,
+        departureAirport: item.departureAirport.fullName,
+        arrivalAirport: item.arrivalAirport.fullName,
+        departureGate: item.departureInfo.gate,
+        arrivalGate: item.arrivalInfo.gate,
+        departureTerminal: item.departureInfo.terminal,
+        arrivalTerminal: item.arrivalInfo.terminal,
+        departureStatus: item.departureStatus,
+        arrivalStatus: item.arrivalStatus,
+        departureTiming: timing(item.departureDelayMinutes),
+        arrivalTiming: timing(item.arrivalDelayMinutes),
+        departureDateTime: item.departureAt,
+        arrivalDateTime: item.arrivalAt,
+        baggage: item.arrivalInfo.baggage,
+        duration: item.duration,
+        distance: `${item.distanceKm.toLocaleString("en-US")} km`,
+        arrivalDayOffset: item.arrivalDayOffset,
+        overnight: Boolean(item.arrivalDayOffset),
+        timezoneTitle: `${timezoneHours > 0 ? "+" : ""}${timezoneHours} Hours Timezone Change`,
+        timezoneDescription: `${item.arrivalTime} arrival in ${item.arrivalAirport.city} (${item.arrivalAirport.timeZone}) is ${item.arrivalAtOriginTime} ${item.departureAirport.city} time`,
+        features: [
+            {
+                title: "Booking Code",
+                field: "bookingCode",
+                action: "Tap to Edit",
+            },
+            { title: "Seat Information", field: "seat", action: "Add Seat" },
+        ],
+        forecastDescription: `${item.airline} ${item.flight} · sample flight history`,
+        forecastStats: [
+            { label: "Late", value: `${percent(delayed.length)}%` },
+            { label: "Average of Late", value: formatDuration(averageDelay) },
+            { label: "Observed", value: String(performance.length) },
+        ],
+        forecast: [
+            {
+                label: "Early",
+                value: percent(
+                    performance.filter((past) => past.arrivalDelayMinutes < 0)
+                        .length,
+                ),
+                color: "var(--fc-success)",
+            },
+            {
+                label: "On Time",
+                value: percent(
+                    performance.filter((past) => past.arrivalDelayMinutes === 0)
+                        .length,
+                ),
+                color: "#56d76a",
+            },
+            {
+                label: "Under 30m",
+                value: percent(
+                    performance.filter(
+                        (past) =>
+                            past.arrivalDelayMinutes > 0 &&
+                            past.arrivalDelayMinutes < 30,
+                    ).length,
+                ),
+                color: "#ffcb31",
+            },
+            {
+                label: "30–44m",
+                value: percent(
+                    performance.filter(
+                        (past) =>
+                            past.arrivalDelayMinutes >= 30 &&
+                            past.arrivalDelayMinutes < 45,
+                    ).length,
+                ),
+                color: "#ff9d20",
+            },
+            {
+                label: "45m+ late",
+                value: percent(
+                    performance.filter((past) => past.arrivalDelayMinutes >= 45)
+                        .length,
+                ),
+                color: "var(--fc-danger)",
+            },
+        ],
+        plane: `${aircraft.manufacturer} ${aircraft.model}`,
+        tail: aircraft.registration,
+        firstFlight: new Intl.DateTimeFormat("en-US", {
+            timeZone: "UTC",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+        }).format(firstFlight),
+        age: `${age} years old`,
+        engines: aircraft.engines,
+        capacity: aircraft.seats,
+        image: aircraft.image,
+        airline: airline.name,
+        logo: airline.logo,
+        alliance: airline.alliance,
+        callsign: airline.callsign,
+        icao: airline.icao,
+        iata: airline.iata,
+        phone: airline.phone,
+        website: airline.website,
+        x: airline.x,
+        facebook: airline.facebook,
+        historyStats: [
+            { label: "Flights", value: String(routeHistory.value.length) },
+            {
+                label: "Distance",
+                value: `${routeHistory.value.reduce((sum, past) => sum + past.distanceKm, 0).toLocaleString("en-US")} km`,
+            },
+            {
+                label: "Flight Time",
+                value: formatDuration(
+                    routeHistory.value.reduce(
+                        (sum, past) => sum + past.airborneMinutes,
+                        0,
+                    ),
+                ),
+            },
+        ],
+        recentFlight: recent
+            ? `${recent.date} · ${recent.airline} ${recent.flight}`
+            : "No past flights on this route",
+    };
+});
 
 function editBooking() {
     router.push({

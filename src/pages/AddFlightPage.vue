@@ -13,7 +13,7 @@
         <template v-if="mode === 'search'">
             <FcAddFlightSearch
                 v-model="query"
-                v-bind="pageData.search"
+                v-bind="searchOptions"
                 @select="selectResult"
             />
             <h2 class="frame-page__label">MORE</h2>
@@ -102,7 +102,7 @@
                         v-model="date"
                         placeholder="10/5 or Friday"
                         type="calendar"
-                        :calendar-options="pageData.calendar"
+                        :calendar-options="calendarOptions"
                         aria-label="Flight date"
                         @keydown.enter.prevent="showFlights(date)"
                     />
@@ -112,22 +112,22 @@
                     class="add-flight-page__dates"
                 >
                     <BaseListRow
-                        v-for="item in pageData.dates"
+                        v-for="item in dateOptions"
                         :key="item.date"
                         v-bind="item"
-                        :icon="airlines.KE.logo"
+                        :icon="airlines[airline]?.logo || ''"
                         @click="showFlights(item.date)"
                     />
                     <BaseListRow
                         title="Pick from Calendar"
-                        :icon="airlines.KE.logo"
+                        :icon="airlines[airline]?.logo || ''"
                         @click="openPage('add-flight-calendar')"
                     />
                 </div>
                 <template v-else>
                     <BaseCalendarPicker
                         v-model="calendarDate"
-                        v-bind="pageData.calendar"
+                        v-bind="calendarOptions"
                     />
                     <button
                         type="button"
@@ -154,7 +154,7 @@ import BaseListRow from "../component/base/BaseListRow.vue";
 
 import airports from "../common/airports.js";
 import airlines from "../common/airlines.js";
-import koreanFlag from "../assets/figma/flag-ko.svg";
+import { flights } from "../common/flights.js";
 
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/base/BaseButton.scss";
@@ -167,104 +167,100 @@ import "../assets/scss/pages/page_add_flight.scss";
 // 이 페이지에서 사용하는 샘플 데이터입니다.
 // prettier-ignore
 const pageData = {
-    "query": "",
-    "airline": airlines.KE.iata,
-    "flight": "9999",
-    "date": "",
-    "calendarDate": "2026-01-17",
-    "from": "SFO",
-    "to": "ICN",
-    "search": {
-        "placeholder": "10/5 or Friday",
-        "sectionLabel": "FREQUENTLY USED",
-        "items": [
-            {
-                "title": airlines.KE.name,
-                "subtitle": `${airlines.KE.iata}  ·  ${airlines.KE.icao}`,
-                "avatar": airlines.KE.logo,
-                "type": "airline",
-                "code": airlines.KE.iata
-            },
-            {
-                "title": airports.JFK.fullName,
-                "subtitle": `${airports.JFK.iata}  ·  ${airports.JFK.icao}  ·  ${airports.JFK.city}`,
-                "image": koreanFlag,
-                "avatar": "plane",
-                "type": "airport",
-                "code": airports.JFK.iata
-            },
-            {
-                "title": airports.EWR.fullName,
-                "subtitle": `${airports.EWR.iata}  ·  ${airports.EWR.icao}  ·  ${airports.EWR.city}`,
-                "image": koreanFlag,
-                "avatar": "plane",
-                "type": "airport",
-                "code": airports.EWR.iata
-            },
-            {
-                "title": airports.BLR.fullName,
-                "subtitle": `${airports.BLR.iata}  ·  ${airports.BLR.icao}  ·  ${airports.BLR.city}`,
-                "image": koreanFlag,
-                "avatar": "plane",
-                "type": "airport",
-                "code": airports.BLR.iata
-            }
-        ]
-    },
     "more": [
         {
             "title": "Find by Route",
-            "icon": airlines.KE.logo,
+            "icon": "",
             "name": "add-flight-route"
         },
         {
             "title": "Find by Flight Number",
-            "icon": airlines.KE.logo,
+            "icon": "",
             "name": "add-flight-number"
         },
         {
             "title": "Sync from Calendar",
             "subtitle": "Fast, secure, and no setup",
-            "icon": airlines.KE.logo,
+            "icon": "",
             "name": "calendar-sync"
         },
         {
             "title": "Random Flight",
             "subtitle": "Try Pro features for free",
-            "icon": airlines.KE.logo,
+            "icon": "",
             "name": "flight-detail"
         }
     ],
-    "dates": [
-        {
-            "title": "Today",
-            "subtitle": "Wed, 7 Jan",
-            "date": "2026-01-07"
-        },
-        {
-            "title": "Tomorrow",
-            "subtitle": "Thu, 8 Jan",
-            "date": "2026-01-08"
-        }
-    ],
-    "calendar": {
-        "year": 2026,
-        "month": 1,
-        "marked": [16],
-        "outlined": [6]
-    },
     "reportMessage": "Report preview opened."
 };
 
 const route = useRoute();
 const router = useRouter();
-const query = ref(pageData.query);
-const airline = ref(pageData.airline);
-const flight = ref(pageData.flight);
-const date = ref(pageData.date);
-const calendarDate = ref(pageData.calendarDate);
-const from = ref(pageData.from);
-const to = ref(pageData.to);
+const defaultFlight = flights.value.find(
+    (item) => !item.friend && !item.isCompleted,
+);
+const query = ref("");
+const airline = ref(String(route.query.airline || defaultFlight.airline));
+const flight = ref(String(route.query.flight || defaultFlight.flight));
+const date = ref(String(route.query.date || defaultFlight.departureDate));
+const calendarDate = ref(date.value);
+const from = ref(String(route.query.from || defaultFlight.from));
+const to = ref(String(route.query.to || defaultFlight.to));
+const searchOptions = {
+    placeholder: "Search airline, airport, or flight",
+    sectionLabel: "FREQUENTLY USED",
+    items: [
+        ...[airlines.KE, airlines.OZ].map((item) => ({
+            title: item.name,
+            subtitle: `${item.iata} · ${item.icao}`,
+            avatar: item.logo,
+            type: "airline",
+            code: item.iata,
+        })),
+        ...[airports.SFO, airports.ICN].map((item) => ({
+            title: item.fullName,
+            subtitle: `${item.iata} · ${item.icao} · ${item.country}`,
+            flag: item.flag,
+            type: "airport",
+            code: item.iata,
+        })),
+    ],
+};
+const matchingFlights = computed(() =>
+    flights.value.filter(
+        (item) =>
+            !item.friend &&
+            !item.isCompleted &&
+            item.airline === airline.value &&
+            item.flight === flight.value &&
+            item.from === from.value &&
+            item.to === to.value,
+    ),
+);
+const dateOptions = computed(() =>
+    matchingFlights.value.map((item) => ({
+        title: item.date,
+        subtitle: `${item.from} → ${item.to}`,
+        date: item.departureDate,
+    })),
+);
+const calendarOptions = computed(() => {
+    const [year, month] = (date.value || defaultFlight.departureDate)
+        .split("-")
+        .map(Number);
+    return {
+        year,
+        month,
+        marked: matchingFlights.value
+            .filter((item) =>
+                item.departureDate.startsWith(
+                    `${year}-${String(month).padStart(2, "0")}`,
+                ),
+            )
+            .map((item) => Number(item.departureDate.slice(-2))),
+        outlined: [],
+    };
+});
 const message = ref("");
 const mode = computed(() => route.meta.searchMode || "search");
 const selectedDateLabel = computed(() =>
@@ -274,9 +270,18 @@ const selectedDateLabel = computed(() =>
 );
 
 function openPage(name, extra = {}) {
+    if (name === "flight-detail") {
+        const items = flights.value.filter((item) => !item.friend);
+        const item = items[Math.floor(Math.random() * items.length)];
+        router.push({
+            name,
+            params: { id: item.id },
+            query: { from: item.from, to: item.to },
+        });
+        return;
+    }
     router.push({
         name,
-        params: name === "flight-detail" ? { id: "random" } : {},
         query: {
             ...route.query,
             airline: airline.value,
@@ -289,10 +294,21 @@ function openPage(name, extra = {}) {
 }
 
 function selectResult(item) {
-    if (item.type === "airline") {
-        airline.value = item.code;
-    } else {
-        from.value = item.code;
+    const match = flights.value.find(
+        (candidate) =>
+            !candidate.friend &&
+            !candidate.isCompleted &&
+            (item.type === "airline"
+                ? candidate.airline === item.code
+                : candidate.from === item.code),
+    );
+    if (match) {
+        airline.value = match.airline;
+        flight.value = match.flight;
+        from.value = match.from;
+        to.value = match.to;
+        date.value = match.departureDate;
+        calendarDate.value = match.departureDate;
     }
     openPage("add-flight-number");
 }
@@ -300,8 +316,13 @@ function selectResult(item) {
 function showFlights(selectedDate) {
     openPage("flight-results", {
         date: selectedDate,
-        from: from.value,
-        to: to.value,
+        airline:
+            mode.value === "route"
+                ? undefined
+                : airline.value.trim().toUpperCase(),
+        flight: mode.value === "route" ? undefined : flight.value.trim(),
+        from: from.value.trim().toUpperCase(),
+        to: to.value.trim().toUpperCase(),
     });
 }
 </script>

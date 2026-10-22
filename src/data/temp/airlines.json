@@ -1,0 +1,77 @@
+{
+    "KE": {
+        "name": "Korean Air",
+        "nameKo": "대한항공",
+        "iata": "KE",
+        "icao": "KAL",
+        "callsign": "KOREANAIR",
+        "country": "South Korea",
+        "countryCode": "KR",
+        "alliance": "SkyTeam",
+        "logo": "korean-air.svg",
+        "phone": "1588-2001",
+        "internationalPhone": "+82-2-2656-2001",
+        "website": "https://www.koreanair.com/",
+        "x": "https://x.com/KoreanAir_KE",
+        "facebook": "https://www.facebook.com/KoreanAir",
+        "sources": [
+            "https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/chap3_section_3.html",
+            "https://www.koreanair.com/contents/footer/customer-support/service-center?hl=en",
+            "https://press.jal.co.jp/en/release/202609/009703.html"
+        ]
+    },
+    "OZ": {
+        "name": "Asiana Airlines",
+        "nameKo": "아시아나항공",
+        "iata": "OZ",
+        "icao": "AAR",
+        "callsign": "ASIANA",
+        "country": "South Korea",
+        "countryCode": "KR",
+        "alliance": "Star Alliance",
+        "logo": "Logo-OZ.svg",
+        "phone": "1588-8000",
+        "internationalPhone": "+82-2-2669-8000",
+        "website": "https://flyasiana.com/",
+        "x": "https://x.com/Flyasiana",
+        "facebook": "https://www.facebook.com/asianaairlines.korea",
+        "sources": [
+            "https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/chap3_section_3.html",
+            "https://flyasiana.com/C/KR/KO/contents/telephone-reservation?site_preference=normal",
+            "https://x.com/Flyasiana/with_replies",
+            "https://portal.staralliance.com/stardesk/publications/In_Focus.pdf"
+        ]
+    },
+    "KL": {
+        "name": "KLM",
+        "iata": "KL",
+        "icao": "KLM",
+        "callsign": "KLM",
+        "alliance": "SkyTeam",
+        "logo": null
+    },
+    "AY": {
+        "name": "Finnair",
+        "iata": "AY",
+        "icao": "FIN",
+        "callsign": "FINNAIR",
+        "alliance": "oneworld",
+        "logo": "Logo-AY.svg"
+    },
+    "AS": {
+        "name": "Alaska",
+        "iata": "AS",
+        "icao": "ASA",
+        "callsign": "ALASKA",
+        "alliance": "oneworld",
+        "logo": "Logo-AS.svg"
+    },
+    "SQ": {
+        "name": "Singapore Airlines",
+        "iata": "SQ",
+        "icao": "SIA",
+        "callsign": "SINGAPORE",
+        "alliance": "Star Alliance",
+        "logo": "Logo-SQ.svg"
+    }
+}

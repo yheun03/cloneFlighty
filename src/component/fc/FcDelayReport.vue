@@ -3,9 +3,8 @@ import { computed } from "vue";
 
 import BaseIcon from "../base/BaseIcon.vue";
 
-import brandIcon from "../../assets/icons/lucide/square.svg";
-
 const props = defineProps({
+    brandIcon: { type: String, default: "" },
     delayed: { type: Number, required: true },
     total: { type: Number, required: true },
     worstDelay: { type: String, required: true },

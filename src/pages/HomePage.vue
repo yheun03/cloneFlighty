@@ -1,7 +1,11 @@
 <template>
     <section
         class="frame-page flights-page"
-        aria-label="Upcoming flights"
+        :aria-label="
+            route.name === 'flight-results'
+                ? 'Flight search results'
+                : 'Upcoming flights'
+        "
     >
         <BaseInput
             v-model="search"
@@ -21,7 +25,20 @@
                     query: { ...route.query, from: flight.from, to: flight.to },
                 }"
             >
-                <FcFlightListItem v-bind="flight" />
+                <FcFlightListItem
+                    :airline="flight.airline"
+                    :flight="flight.flight"
+                    :title="flight.title"
+                    :date="flight.date"
+                    :departure="flight.departure"
+                    :arrival="flight.arrival"
+                    :duration="flight.duration"
+                    :flight-time="flight.flightTime"
+                    :variant="flight.isCompleted ? 'history' : 'upcoming'"
+                    :days="flight.days"
+                    :type="flight.type"
+                    :profile="flight.profile"
+                />
             </RouterLink>
             <p
                 v-if="!filteredFlights.length"
@@ -41,133 +58,63 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 import { useRoute } from "vue-router";
 
 import BaseInput from "../component/base/BaseInput.vue";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 
-import airlines from "../common/airlines.js";
+import { flights } from "../common/flights.js";
 
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
 import "../assets/scss/pages/page_home.scss";
 
-// 이 페이지에서 사용하는 샘플 데이터입니다.
-// prettier-ignore
+const emit = defineEmits(["map-flights"]);
+
+// 화면 문구만 페이지에서 관리하고 항공편은 공통 JSON을 사용합니다.
 const pageData = {
-    "search": "",
-    "placeholder": "10/5 or Friday",
-    "emptyMessage": "No flights found.",
-    "flights": [
-        {
-            "airline": airlines.KE.iata,
-            "flight": "24",
-            "title": "San Francisco to Seoul",
-            "date": "Wed, 28 Jan",
-            "departure": "SFO 11:40",
-            "arrival": "ICN 17:40⁺¹",
-            "days": 21,
-            "duration": "13h",
-            "flightTime": "13h",
-            "id": "ke-24",
-            "from": "SFO",
-            "to": "ICN"
-        },
-        {
-            "airline": airlines.KE.iata,
-            "flight": "24",
-            "title": "San Francisco to Seoul",
-            "date": "Wed, 28 Jan",
-            "departure": "SFO 11:40",
-            "arrival": "ICN 17:40⁺¹",
-            "days": 999,
-            "duration": "13h",
-            "flightTime": "13h",
-            "id": "ke-24-2",
-            "from": "SFO",
-            "to": "ICN"
-        }
-    ],
-    "friendFlights": [
-        {
-            "airline": airlines.KE.iata,
-            "flight": "24",
-            "title": "San Francisco to Seoul",
-            "date": "Wed, 28 Jan",
-            "departure": "SFO 11:40",
-            "arrival": "ICN 17:40⁺¹",
-            "days": 999,
-            "type": "friend",
-            "duration": "13h",
-            "flightTime": "13h",
-            "id": "ke-24",
-            "from": "SFO",
-            "to": "ICN"
-        },
-        {
-            "airline": airlines.KE.iata,
-            "flight": "24",
-            "title": "San Francisco to Seoul",
-            "date": "Wed, 28 Jan",
-            "departure": "SFO 11:40",
-            "arrival": "ICN 17:40⁺¹",
-            "days": 999,
-            "type": "friend",
-            "duration": "13h",
-            "flightTime": "13h",
-            "id": "ke-24-2",
-            "from": "SFO",
-            "to": "ICN"
-        }
-    ],
-    "results": [
-        {
-            "airline": airlines.KE.iata,
-            "flight": "24",
-            "title": "San Francisco to Seoul",
-            "date": "Wed, 28 Jan",
-            "departure": "SFO 11:40",
-            "arrival": "ICN 17:40⁺¹",
-            "days": 21,
-            "duration": "13h",
-            "flightTime": "13h",
-            "id": "ke-24",
-            "from": "SFO",
-            "to": "ICN"
-        },
-        {
-            "airline": airlines.KE.iata,
-            "flight": "24",
-            "title": "San Francisco to Seoul",
-            "date": "Wed, 28 Jan",
-            "departure": "SFO 11:40",
-            "arrival": "ICN 17:40⁺¹",
-            "days": 999,
-            "duration": "13h",
-            "flightTime": "13h",
-            "id": "ke-24-2",
-            "from": "SFO",
-            "to": "ICN"
-        }
-    ]
+    placeholder: "Search airline, flight, airport, or date",
+    emptyMessage: "No flights found.",
 };
 
 const route = useRoute();
-const search = ref(pageData.search);
-const flights = computed(() => {
-    if (route.name === "friend-flights") return pageData.friendFlights;
-    if (route.name === "flight-results") return pageData.results;
-    return pageData.flights;
+const search = ref("");
+const visibleFlights = computed(() => {
+    if (route.name === "friend-flights") {
+        return flights.value.filter(
+            (flight) => flight.friend && !flight.isCompleted,
+        );
+    }
+
+    const ownFlights = flights.value.filter((flight) => !flight.friend);
+    if (route.name !== "flight-results") {
+        return ownFlights.filter((flight) => !flight.isCompleted);
+    }
+
+    return ownFlights.filter(
+        (flight) =>
+            (!route.query.from || flight.from === route.query.from) &&
+            (!route.query.to || flight.to === route.query.to) &&
+            (!route.query.airline || flight.airline === route.query.airline) &&
+            (!route.query.flight || flight.flight === route.query.flight) &&
+            (!route.query.date || flight.departureDate === route.query.date),
+    );
 });
 const filteredFlights = computed(() => {
-    const keyword = search.value.toLowerCase();
-    return flights.value.filter((flight) =>
-        `${flight.airline} ${flight.flight} ${flight.title} ${flight.from} ${flight.to} ${flight.date}`
-            .toLowerCase()
-            .includes(keyword),
-    );
+    const keyword = search.value.trim().toLowerCase();
+    return [...visibleFlights.value]
+        .sort((a, b) => Date.parse(a.departureAt) - Date.parse(b.departureAt))
+        .filter((flight) =>
+            `${flight.airlineInfo.name} ${flight.airline} ${flight.flight} ${flight.title} ${flight.from} ${flight.to} ${flight.date} ${flight.departureDate}`
+                .toLowerCase()
+                .includes(keyword),
+        );
+});
+
+watch(filteredFlights, (items) => emit("map-flights", items), {
+    immediate: true,
 });
 </script>

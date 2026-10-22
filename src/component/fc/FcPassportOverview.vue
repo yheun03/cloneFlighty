@@ -5,7 +5,6 @@ import BaseIcon from "../base/BaseIcon.vue";
 import BaseTabItem from "../base/BaseTabItem.vue";
 
 import planeIcon from "../../assets/icons/lucide/plane.svg";
-import earthIcon from "../../assets/icons/lucide/earth.svg";
 
 const props = defineProps({
     flights: { type: Number, required: true },
@@ -42,13 +41,8 @@ const period = ref(props.periods[0]);
         <div
             v-if="showMap"
             class="fc-passport__map"
-        >
-            <span>{{ mapFrom }}</span>
-            <span>
-                <BaseIcon :src="earthIcon" />
-            </span>
-            <span>{{ mapTo }}</span>
-        </div>
+            aria-hidden="true"
+        ></div>
         <div
             v-if="showMap"
             class="fc-passport__flags"

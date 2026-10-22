@@ -2,7 +2,7 @@
 
 기본 UI는 `src/component/base/`에, 항공편·통계·설정 등 플라이티 전용 조합은 `src/component/fc/`에 있습니다. 같은 기능은 컴포넌트 파일을 나누지 않고 `type`, `variant`, `size` 등의 props로 구분합니다. 타입·필수 여부·기본값은 각 Vue 파일의 defineProps가 기준입니다. 정해진 상태 값은 validator로 확인합니다. 아래 속성명은 script 기준 camelCase이며 템플릿에서는 show-period, initial-selected처럼 kebab-case로 작성합니다.
 
-객체·배열은 각 페이지 Vue 파일 하단의 `<script setup>`에 있는 `pageData` 샘플 데이터 객체에서 props로 전달합니다. 공항·항공사 기준 정보만 `src/common/`에서 관리합니다. 페이지는 사용하는 공통 컴포넌트를 직접 import합니다. 공통 컴포넌트에 화면 샘플 데이터를 추가하지 않습니다. 선언하지 않은 일반 HTML 속성은 단일 루트 요소에 전달됩니다.
+목록·상세·패스포트·항공편 검색은 `src/data/temp/`의 공통 JSON을 `src/common/flights.js`에서 연결해 props로 전달합니다. 다른 화면의 독립적인 예시는 페이지 하단 `pageData`에서 관리합니다. 데이터 구조는 [임시 데이터 가이드](temp-data.md)를 참고합니다. 페이지는 사용하는 공통 컴포넌트를 직접 import합니다. 공통 컴포넌트에 화면 샘플 데이터를 추가하지 않습니다. 선언하지 않은 일반 HTML 속성은 단일 루트 요소에 전달됩니다.
 
 ## 파일 작성 기준
 
@@ -22,7 +22,7 @@ SCSS는 기본 UI를 `src/assets/scss/component/base/`, 플라이티 전용 컴�
 
 이 예시에서 `v-model`은 검색 문자열, `v-bind`는 JSON의 props 묶음, `select`는 선택한 항목을 받는 이벤트입니다.
 
-예약 편집 페이지 `FlightBookingPage.vue`의 `v-model`은 필수 Object이며 `{ code, seat, position, cabin, reason }` 구조입니다. 부모 `FlightDetailPage.vue`가 상태를 관리하고 모달에서 각 항목을 수정합니다.
+예약 편집 페이지 `FlightBookingPage.vue`의 `v-model`은 필수 Object이며 `{ code, seat, position, cabin, reason }` 구조입니다. 부모 `FlightDetailPage.vue`가 공통 항공편의 booking을 연결하고 모달에서 각 항목을 수정합니다. 항공편별로 편집값이 분리됩니다.
 
 ## BaseButton
 
@@ -49,7 +49,7 @@ SCSS는 기본 UI를 `src/assets/scss/component/base/`, 플라이티 전용 컴�
 
 ## BaseIcon
 
-src는 Lucide 아이콘 이름(예: plane) 또는 import한 SVG URL입니다. 장식용으로 aria-hidden을 사용합니다.
+src는 Lucide 아이콘 이름(예: plane) 또는 import한 SVG URL입니다. 빈 문자열이면 크기만 유지하고 배경·대체 도형을 그리지 않습니다. 장식용으로 aria-hidden을 사용합니다.
 
 | 속성  | 타입   | 필수 | 기본값·허용값 |
 | ----- | ------ | ---- | ------------- |
@@ -74,13 +74,14 @@ src는 Lucide 아이콘 이름(예: plane) 또는 import한 SVG URL입니다. �
 
 ## BaseTabItem
 
-기간 선택, 단위 선택, 체크박스·라디오 그룹이 같은 컴포넌트를 사용합니다.
+기간 선택, 단위 선택, 체크박스·라디오 그룹과 3단계 정렬이 같은 컴포넌트를 사용합니다.
 
 - `items`: 문자열 Array, 필수. `label`: String, 기본값 `"탭 선택"`.
-- `type`: `"tab" | "checkbox" | "radio"`, 기본값 `"tab"`.
+- `type`: `"tab" | "checkbox" | "radio" | "sort"`, 기본값 `"tab"`.
 - `variant`: `"fill" | "stroke" | "segment"`, 기본값 `"fill"`.
 - `size`: `"md" | "sm"`, 기본값 `"md"`. `icon`: String, 기본값 `""`.
-- `v-model`: 기본값 `""`. tab·radio는 단일 값, checkbox는 선택값 배열입니다.
+- `v-model`: 기본값 `""`. tab·radio는 단일 값, checkbox는 선택값 배열입니다. sort는 활성 정렬 항목이며 빈 값이면 기본 날짜순입니다.
+- `v-model:order`: `"" | "desc" | "asc"`, 기본값 `""`. sort 타입에서 첫 클릭은 내림차순(아래), 두 번째는 오름차순(위), 세 번째는 정렬 해제입니다. 새 항목은 내림차순으로 시작합니다.
 
 ## BaseCalendarPicker
 
@@ -157,7 +158,7 @@ items는 { title, subtitle, avatar, type, code } 목록입니다. title과 subti
 
 ## FcFlightDetails
 
-details는 [FlightDetailPage.vue](../src/pages/FlightDetailPage.vue) 하단 샘플 데이터의 details·pastDetails 구조입니다. bookingCode·seat는 예약 편집 결과이며, edit·connection은 전달값 없이 발생합니다.
+details는 [FlightDetailPage.vue](../src/pages/FlightDetailPage.vue)의 computed에서 공통 항공편·항공사·공항·기체 정보를 연결한 표시 데이터입니다. departureTiming·arrivalTiming은 late/early/on-time 상태이며, phone·website·x·facebook은 실제 링크에 사용합니다. bookingCode·seat는 예약 편집 결과이며, edit·connection은 전달값 없이 발생합니다.
 
 | 속성          | 타입    | 필수 | 기본값·허용값 |
 | ------------- | ------- | ---- | ------------- |
@@ -194,7 +195,7 @@ recent는 { id, code, route, title, date } 목록입니다. select(flight)는 �
 
 ## FcDelayReport
 
-delayed·total은 항공편 수, lostMinutes는 분 단위 누적 지연입니다. 총 항공편이나 지연 항공편이 0이면 비율·평균을 0으로 표시합니다.
+brandIcon은 선택 String이며 기본값 `""`입니다. 아이콘이 없으면 영역만 유지합니다. delayed·total은 항공편 수, lostMinutes는 분 단위 누적 지연입니다. 총 항공편이나 지연 항공편이 0이면 비율·평균을 0으로 표시합니다.
 
 | 속성           | 타입   | 필수 | 기본값·허용값 |
 | -------------- | ------ | ---- | ------------- |

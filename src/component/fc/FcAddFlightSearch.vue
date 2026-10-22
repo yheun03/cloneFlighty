@@ -59,6 +59,7 @@ function selectItem(item) {
             :subtitle="item.subtitle"
             :image="item.image"
             :icon="item.avatar"
+            :avatar="item.flag"
             :arrow-icon="nextIcon"
             @click="selectItem(item)"
         />

@@ -27,7 +27,12 @@ const source = computed(
 <template>
     <span
         class="fc-icon"
-        :style="{ '--fc-icon-url': `url(&quot;${source}&quot;)` }"
+        :class="{ 'fc-icon--empty': !source }"
+        :style="
+            source
+                ? { '--fc-icon-url': `url(&quot;${source}&quot;)` }
+                : undefined
+        "
         aria-hidden="true"
     ></span>
 </template>

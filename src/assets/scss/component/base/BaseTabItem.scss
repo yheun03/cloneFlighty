@@ -24,6 +24,19 @@
     background: transparent;
     color: var(--fc-text-strong, white);
 
+    &__sort-icon {
+        width: 16px;
+        height: 16px;
+
+        &--desc {
+            transform: rotate(90deg);
+        }
+
+        &--asc {
+            transform: rotate(-90deg);
+        }
+    }
+
     &--md {
         min-height: 36px;
         padding: 6px 12px;

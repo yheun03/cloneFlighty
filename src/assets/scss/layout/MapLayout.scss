@@ -36,7 +36,7 @@
         text-align: center;
     }
 
-    >.flight-map__error {
+    > .flight-map__error {
         margin: 0;
         color: var(--fc-text-strong, white);
     }
@@ -73,8 +73,8 @@
     }
 
     &__heading-copy {
-
-
+        flex: 1;
+        min-width: 0;
         h1 {
             margin: 0;
             @include typo.font(b1, sb);
@@ -185,7 +185,7 @@
             @include typo.font(t4, rg);
         }
 
-        button+button {
+        button + button {
             border-top: 1px solid var(--fc-border-subtle, #ffffff25);
         }
 
@@ -200,7 +200,7 @@
         }
     }
 
-    &__sidebar--wide~.flight-map__controls {
+    &__sidebar--wide ~ .flight-map__controls {
         display: none;
     }
 }

@@ -18,16 +18,23 @@ const props = defineProps({
     type: {
         type: String,
         default: "tab",
-        validator: (value) => ["tab", "checkbox", "radio"].includes(value),
+        validator: (value) =>
+            ["tab", "checkbox", "radio", "sort"].includes(value),
     },
 });
 
 const selected = defineModel({ default: "" });
+const order = defineModel("order", {
+    type: String,
+    default: "",
+    validator: (value) => ["", "desc", "asc"].includes(value),
+});
 
 const groupRole = {
     tab: "tablist",
     checkbox: "group",
     radio: "radiogroup",
+    sort: "group",
 };
 
 function isSelected(item) {
@@ -37,6 +44,19 @@ function isSelected(item) {
 }
 
 function selectItem(item) {
+    if (props.type === "sort") {
+        if (selected.value !== item || !order.value) {
+            selected.value = item;
+            order.value = "desc";
+        } else if (order.value === "desc") {
+            order.value = "asc";
+        } else {
+            selected.value = "";
+            order.value = "";
+        }
+        return;
+    }
+
     if (props.type !== "checkbox") {
         selected.value = item;
         return;
@@ -49,6 +69,12 @@ function selectItem(item) {
 }
 
 function itemAria(item) {
+    if (props.type === "sort") {
+        return {
+            "aria-pressed": isSelected(item),
+            "aria-label": `${item}${isSelected(item) ? `: ${order.value === "desc" ? "내림차순" : "오름차순"}` : ""}`,
+        };
+    }
     return props.type === "tab"
         ? { "aria-selected": isSelected(item) }
         : { "aria-checked": isSelected(item) };
@@ -72,7 +98,7 @@ function itemAria(item) {
                 `fc-tab-item--${variant}`,
                 { 'is-active': isSelected(item) },
             ]"
-            :role="type"
+            :role="type === 'sort' ? undefined : type"
             v-bind="itemAria(item)"
             @click="selectItem(item)"
         >
@@ -81,6 +107,12 @@ function itemAria(item) {
                 :src="icon"
             />
             {{ item }}
+            <BaseIcon
+                v-if="type === 'sort' && isSelected(item) && order"
+                src="chevron-right"
+                class="fc-tab-item__sort-icon"
+                :class="`fc-tab-item__sort-icon--${order}`"
+            />
         </button>
     </div>
 </template>

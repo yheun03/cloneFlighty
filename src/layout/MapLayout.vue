@@ -12,6 +12,7 @@ import {
 import { useRoute } from "vue-router";
 
 import airports from "../common/airports.js";
+import { flights, getFlight } from "../common/flights.js";
 
 import "../assets/scss/layout/MapLayout.scss";
 import "../assets/scss/layout/_frame.scss";
@@ -31,16 +32,71 @@ const routeColor = computed(() =>
     theme.value === "light" ? "#1570ef" : "#70acff",
 );
 const normalizeAirportCode = (value) => value.trim().toUpperCase().slice(0, 3);
-const from = computed(() =>
-    typeof route.query.from === "string"
-        ? normalizeAirportCode(route.query.from)
-        : defaultFrom,
+const routeFlight = computed(() => getFlight(String(route.params.id || "")));
+const from = computed(
+    () =>
+        routeFlight.value?.from ||
+        (typeof route.query.from === "string"
+            ? normalizeAirportCode(route.query.from)
+            : defaultFrom),
 );
-const to = computed(() =>
-    typeof route.query.to === "string"
-        ? normalizeAirportCode(route.query.to)
-        : defaultTo,
+const to = computed(
+    () =>
+        routeFlight.value?.to ||
+        (typeof route.query.to === "string"
+            ? normalizeAirportCode(route.query.to)
+            : defaultTo),
 );
+const pageFlights = ref({ name: "", items: [] });
+const mapFlights = computed(() => {
+    if (pageFlights.value.name === route.name) return pageFlights.value.items;
+    if (routeFlight.value) return [routeFlight.value];
+    if (
+        ["home", "friend-flights", "flight-results", "passport"].includes(
+            route.name,
+        )
+    ) {
+        return [];
+    }
+    if (route.meta.section === "passport") {
+        return flights.value.filter(
+            (flight) =>
+                flight.isCompleted &&
+                !flight.friend &&
+                (!route.query.period ||
+                    route.query.period === "ALL-TIME" ||
+                    flight.year === route.query.period),
+        );
+    }
+    if (route.params.id && route.meta.section === "flights") return [];
+    return [{ id: "preview", from: from.value, to: to.value }];
+});
+const mapRoutes = computed(() => {
+    const routes = new Map();
+    for (const flight of mapFlights.value) {
+        if (!airports[flight.from] || !airports[flight.to]) continue;
+        // 같은 공항 쌍은 방향·탑승 횟수가 달라도 지도에 한 번만 그립니다.
+        const key = [flight.from, flight.to].sort().join("-");
+        if (!routes.has(key)) {
+            routes.set(key, {
+                id: key,
+                from: flight.from,
+                to: flight.to,
+                flightIds: [],
+            });
+        }
+        routes.get(key).flightIds.push(flight.id);
+    }
+    return [...routes.values()];
+});
+const routeLabel = computed(() => {
+    if (!mapRoutes.value.length) return "표시할 항공편이 없습니다.";
+    if (mapRoutes.value.length === 1) {
+        const item = mapRoutes.value[0];
+        return `${item.from} → ${item.to}`;
+    }
+    return `${mapRoutes.value.length}개 경로 · ${mapFlights.value.length}개 항공편`;
+});
 const sidebar = ref(null);
 const content = ref(null);
 const sidebarOpen = ref(true);
@@ -48,9 +104,15 @@ const isGlobe = ref(false);
 const ready = ref(false);
 const mapError = ref("");
 const mapStatus = ref("지도를 불러오는 중입니다.");
-const routeSummary = computed(
-    () =>
-        `${airports[from.value]?.name || from.value}에서 ${airports[to.value]?.name || to.value}까지`,
+const routeSummary = computed(() =>
+    mapRoutes.value.length
+        ? mapRoutes.value
+              .map(
+                  (item) =>
+                      `${airports[item.from].name}에서 ${airports[item.to].name}까지`,
+              )
+              .join(" · ")
+        : "현재 목록에 표시할 여정이 없습니다.",
 );
 let map;
 let maplibregl;
@@ -58,6 +120,10 @@ let routeBounds = null;
 let resizeFrame = null;
 let disposed = false;
 let fitAfterStyleLoad = true;
+
+function setPageFlights(items) {
+    pageFlights.value = { name: route.name, items };
+}
 
 function loadMapLibreCss() {
     const existing = document.querySelector(`link[href="${MAPLIBRE_CSS_URL}"]`);
@@ -146,44 +212,68 @@ function fitRoute() {
 
 function updateRoute(shouldFit = true) {
     if (!ready.value) return;
-    const start = airports[from.value];
-    const end = airports[to.value];
-    if (!start || !end) {
+    const routeFeatures = [];
+    const airportFeatures = new Map();
+    if (!mapRoutes.value.length) {
         routeBounds = null;
         map.getSource("route").setData({
-            type: "Feature",
-            geometry: { type: "LineString", coordinates: [] },
-            properties: {},
+            type: "FeatureCollection",
+            features: [],
         });
         map.getSource("airports").setData({
             type: "FeatureCollection",
             features: [],
         });
-        mapError.value = "유효한 출발지와 도착지 공항 코드를 확인해 주세요.";
-        mapStatus.value = "";
+        mapError.value = mapFlights.value.length
+            ? "유효한 출발지와 도착지 공항 코드를 확인해 주세요."
+            : "";
+        mapStatus.value = "현재 목록에 표시할 여정이 없습니다.";
         return;
     }
     mapError.value = "";
-    const routePoints = routeCoordinates(start, end);
-    routeBounds = routePoints.reduce(
-        (bounds, point) => bounds.extend(point),
-        new maplibregl.LngLatBounds(routePoints[0], routePoints[0]),
-    );
+    routeBounds = new maplibregl.LngLatBounds();
+    const referenceLongitude = airports[mapRoutes.value[0].to].lng;
+    for (const item of mapRoutes.value) {
+        const points = routeCoordinates(airports[item.from], airports[item.to]);
+        // 날짜 변경선을 지나는 항로도 같은 지구 복사본에 맞춥니다.
+        const middleLongitude = points[Math.floor(points.length / 2)][0];
+        const offset =
+            Math.round((referenceLongitude - middleLongitude) / 360) * 360;
+        const coordinates = points.map(([lng, lat]) => [lng + offset, lat]);
+        coordinates.forEach((point) => routeBounds.extend(point));
+        routeFeatures.push({
+            type: "Feature",
+            id: item.id,
+            geometry: { type: "LineString", coordinates },
+            properties: {
+                from: item.from,
+                to: item.to,
+                flightIds: item.flightIds,
+            },
+        });
+        for (const [code, point] of [
+            [item.from, coordinates[0]],
+            [item.to, coordinates.at(-1)],
+        ]) {
+            if (!airportFeatures.has(code)) {
+                airportFeatures.set(code, {
+                    type: "Feature",
+                    geometry: { type: "Point", coordinates: point },
+                    properties: { code, name: airports[code].fullName },
+                });
+            }
+        }
+    }
     map.getSource("route").setData({
-        type: "Feature",
-        geometry: { type: "LineString", coordinates: routePoints },
-        properties: {},
+        type: "FeatureCollection",
+        features: routeFeatures,
     });
     map.getSource("airports").setData({
         type: "FeatureCollection",
-        features: [routePoints[0], routePoints.at(-1)].map((point) => ({
-            type: "Feature",
-            geometry: { type: "Point", coordinates: point },
-            properties: {},
-        })),
+        features: [...airportFeatures.values()],
     });
     if (shouldFit) fitRoute();
-    mapStatus.value = `${routeSummary.value} 경로를 지도에 표시했습니다.`;
+    mapStatus.value = `${mapFlights.value.length}개 항공편의 ${mapRoutes.value.length}개 경로를 지도에 표시했습니다. ${routeSummary.value}`;
 }
 
 function toggleProjection() {
@@ -235,9 +325,8 @@ onMounted(async () => {
         map.addSource("route", {
             type: "geojson",
             data: {
-                type: "Feature",
-                geometry: { type: "LineString", coordinates: [] },
-                properties: {},
+                type: "FeatureCollection",
+                features: [],
             },
         });
         map.addLayer({
@@ -275,7 +364,7 @@ onMounted(async () => {
     });
     window.addEventListener("resize", resizeMap);
 });
-watch([from, to], () => {
+watch(mapRoutes, () => {
     if (!ready.value) fitAfterStyleLoad = true;
     updateRoute();
 });
@@ -355,8 +444,10 @@ onUnmounted(() => {
                         id="flight-map-route-summary"
                         class="flight-map__route-summary"
                     >
-                        <strong>{{ from }} → {{ to }}</strong>
-                        <span>{{ routeSummary }} · 샘플 데이터</span>
+                        <strong>{{ routeLabel }}</strong>
+                        <span :title="routeSummary">
+                            {{ routeSummary }} · 샘플 데이터
+                        </span>
                     </p>
                 </div>
                 <button
@@ -456,7 +547,12 @@ onUnmounted(() => {
                     'flight-map__content--gallery': route.meta.widePanel,
                 }"
             >
-                <RouterView />
+                <RouterView v-slot="{ Component }">
+                    <component
+                        :is="Component"
+                        @map-flights="setPageFlights"
+                    />
+                </RouterView>
             </div>
         </main>
         <div

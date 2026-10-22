@@ -27,8 +27,6 @@
     &--profile &__visual {
         width: 36px;
         height: 36px;
-        border-radius: 50%;
-        background: var(--fc-control-bg, #2c2c2c);
     }
 
     &--profile {
@@ -81,8 +79,6 @@
     }
 
     &--search &__visual {
-        border-radius: 50%;
-
         .fc-icon {
             width: 24px;
             height: 24px;

@@ -1,45 +1,25 @@
-import defaultAirlineLogo from "../assets/icons/lucide/circle.svg";
+import airlineData from "../data/temp/airlines.json";
 import koreanAirLogo from "../assets/figma/korean-air.svg";
 import asianaLogo from "../assets/Airlines/Logo-OZ.svg";
 import finnairLogo from "../assets/Airlines/Logo-AY.svg";
 import alaskaLogo from "../assets/Airlines/Logo-AS.svg";
 import singaporeAirlinesLogo from "../assets/Airlines/Logo-SQ.svg";
 
-const airlines = {
-    KE: {
-        name: "Korean Air",
-        iata: "KE",
-        icao: "KAL",
-        callsign: "KOREANAIR",
-        alliance: "SkyTeam",
-        logo: koreanAirLogo,
-    },
-    OZ: {
-        name: "Asiana",
-        iata: "OZ",
-        logo: asianaLogo,
-    },
-    KL: {
-        name: "KLM",
-        iata: "KL",
-        logo: defaultAirlineLogo,
-    },
-    AY: {
-        name: "Finnair",
-        iata: "AY",
-        logo: finnairLogo,
-    },
-    AS: {
-        name: "Alaska",
-        iata: "AS",
-        logo: alaskaLogo,
-    },
-    SQ: {
-        name: "Singapore Airlines",
-        iata: "SQ",
-        logo: singaporeAirlinesLogo,
-    },
+// JSON에는 파일명만 두고 실제 이미지 경로는 기존 에셋 import로 연결합니다.
+const logos = {
+    "korean-air.svg": koreanAirLogo,
+    "Logo-OZ.svg": asianaLogo,
+    "Logo-AY.svg": finnairLogo,
+    "Logo-AS.svg": alaskaLogo,
+    "Logo-SQ.svg": singaporeAirlinesLogo,
 };
+const defaultAirlineLogo = "";
+const airlines = Object.fromEntries(
+    Object.entries(airlineData).map(([code, airline]) => [
+        code,
+        { ...airline, logo: logos[airline.logo] || defaultAirlineLogo },
+    ]),
+);
 
 export function getAirline(value) {
     const normalized = String(value || "")

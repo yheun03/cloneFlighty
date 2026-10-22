@@ -2,11 +2,12 @@
     <section class="frame-page passport-page">
         <BaseTabItem
             v-model="period"
-            :items="pageData.periods"
+            :items="periods"
+            label="Flight history period"
         />
         <div class="passport-page__card passport-page__card--passport">
             <FcPassportOverview
-                v-bind="pageData.overview"
+                v-bind="overview"
                 :show-period="false"
                 :show-map="false"
                 :show-history="false"
@@ -24,10 +25,10 @@
         </div>
         <div class="passport-page__card passport-page__card--delays">
             <strong class="passport-page__large">
-                {{ pageData.delays.hours }}
+                {{ delays.hours }}
             </strong>
             <h2>hours lost from delays</h2>
-            <p>Delayed flights averaged {{ pageData.delays.average }} late</p>
+            <p>Delayed flights averaged {{ delays.average }} late</p>
             <RouterLink
                 class="passport-page__stats-link"
                 :to="{ name: 'delay-stats', query: { ...route.query, period } }"
@@ -39,13 +40,14 @@
         <div class="passport-page__card passport-page__card--aircraft">
             <h2>Most flown aircraft</h2>
             <strong class="passport-page__large">
-                {{ pageData.aircraft.model }}
+                {{ aircraft.model }}
             </strong>
-            <p>{{ pageData.aircraft.summary }}</p>
+            <p>{{ aircraft.summary }}</p>
             <div class="passport-page__plane">
                 <img
-                    :src="pageData.aircraft.image"
-                    :alt="pageData.aircraft.model"
+                    v-if="aircraft.image"
+                    :src="aircraft.image"
+                    :alt="aircraft.model"
                 />
             </div>
             <RouterLink
@@ -62,16 +64,18 @@
         <h2 class="passport-page__past-title">Past Flights</h2>
         <BaseTabItem
             v-model="group"
+            v-model:order="sortOrder"
             :items="pageData.groups"
+            type="sort"
             label="Group past flights"
         />
         <div
-            v-for="history in pageData.historyGroups"
+            v-for="history in historyGroups"
             :key="history.id"
             class="passport-page__history"
         >
             <h3>
-                {{ history.labels[group] }}
+                {{ history.label }}
                 <small>{{ history.count }}</small>
             </h3>
             <RouterLink
@@ -84,16 +88,40 @@
                 }"
             >
                 <FcFlightListItem
-                    v-bind="flight"
+                    :airline="flight.airline"
+                    :flight="flight.flight"
+                    :title="flight.title"
+                    :date="flight.date"
+                    :departure="flight.departure"
+                    :arrival="flight.arrival"
+                    :duration="flight.duration"
+                    :flight-time="flight.flightTime"
                     variant="history"
                 />
             </RouterLink>
         </div>
+        <p
+            class="sr-only"
+            role="status"
+        >
+            {{
+                group
+                    ? `${group}: ${sortOrder === "desc" ? "내림차순" : "오름차순"}`
+                    : "Date: 최신 날짜순"
+            }}
+        </p>
+        <p
+            v-if="!historyGroups.length"
+            class="frame-page__note"
+            role="status"
+        >
+            No past flights for this period.
+        </p>
     </section>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 import { useRoute } from "vue-router";
 
@@ -101,9 +129,7 @@ import BaseTabItem from "../component/base/BaseTabItem.vue";
 import FcPassportOverview from "../component/fc/FcPassportOverview.vue";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 
-import airlines from "../common/airlines.js";
-
-import aircraftImage from "../assets/figma/aircraft-passport.png";
+import { flights, formatDuration } from "../common/flights.js";
 
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/base/BaseTabItem.scss";
@@ -111,189 +137,169 @@ import "../assets/scss/component/fc/FcFlightListItem.scss";
 import "../assets/scss/component/fc/FcPassportOverview.scss";
 import "../assets/scss/pages/page_passport.scss";
 
-// 이 페이지에서 사용하는 샘플 데이터입니다.
-// prettier-ignore
+const emit = defineEmits(["map-flights"]);
+
 const pageData = {
-    "period": "ALL-TIME",
-    "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
-    "group": "To",
-    "groups": ["Aisle", "From", "To", "Airline", "Airport", "Tail"],
-    "overview": {
-        "flights": 20,
-        "distance": "73,650 km",
-        "flightTime": "4d 13h",
-        "airports": 16,
-        "airlines": 5,
-        "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
-        "mapFrom": "ICN",
-        "mapTo": "ICN",
-        "flags": "🇰🇷 🇲🇾 🇯🇵 🇩🇪 🇨🇳 🇸🇬 🇳🇱 🇫🇮 🇩🇰 🇸🇪 🇲🇳",
-        "historyTitle": "2025",
-        "historyCount": "9 FLIGHTS",
-        "recent": [
-            {
-                "id": 1,
-                "code": "KE 5926",
-                "route": "AMS → ICN",
-                "title": "Amsterdam to Seoul",
-                "date": "Dec 29, 2025"
-            },
-            {
-                "id": 2,
-                "code": "AY 041",
-                "route": "HEL → ICN",
-                "title": "Helsinki to Seoul",
-                "date": "Nov 14, 2025"
-            },
-            {
-                "id": 3,
-                "code": "KE 703",
-                "route": "ICN → NRT",
-                "title": "Seoul to Tokyo",
-                "date": "Sep 8, 2025"
-            },
-            {
-                "id": 4,
-                "code": "SQ 607",
-                "route": "ICN → SIN",
-                "title": "Seoul to Singapore",
-                "date": "Aug 20, 2025"
-            },
-            {
-                "id": 5,
-                "code": "OZ 202",
-                "route": "ICN → LAX",
-                "title": "Seoul to Los Angeles",
-                "date": "Jun 2, 2025"
-            }
-        ]
-    },
-    "delays": {
-        "hours": "3",
-        "average": "20m"
-    },
-    "aircraft": {
-        "image": aircraftImage,
-        "model": "A330-300",
-        "summary": "4 flights · 12 hours"
-    },
-    "historyGroups": [
-        {
-            "id": "december",
-            "labels": {
-                "From": "🇳🇱 Amsterdam (AMS)",
-                "To": "🇰🇷 Seoul (ICN)",
-                "Airline": airlines.KE.name,
-                "Airport": "🇰🇷 Seoul (ICN)",
-                "Tail": "HL-8078",
-                "Aisle": "Aisle"
-            },
-            "count": "6 FLIGHTS",
-            "flights": [
-                {
-                    "airline": airlines.KE.iata,
-                    "flight": "5926",
-                    "title": "Amsterdam to Seoul",
-                    "date": "Dec 29, 2025",
-                    "departure": "AMS 09:25",
-                    "arrival": "ICN 10:50",
-                    "days": 21,
-                    "duration": "11h 25m",
-                    "flightTime": "11h 25m",
-                    "id": "past-1-1",
-                    "from": "AMS",
-                    "to": "ICN"
-                },
-                {
-                    "airline": airlines.KE.iata,
-                    "flight": "5926",
-                    "title": "Amsterdam to Seoul",
-                    "date": "Dec 29, 2025",
-                    "departure": "AMS 09:25",
-                    "arrival": "ICN 10:50",
-                    "days": 21,
-                    "duration": "11h 25m",
-                    "flightTime": "11h 25m",
-                    "id": "past-1-2",
-                    "from": "AMS",
-                    "to": "ICN"
-                },
-                {
-                    "airline": airlines.KE.iata,
-                    "flight": "5926",
-                    "title": "Amsterdam to Seoul",
-                    "date": "Dec 29, 2025",
-                    "departure": "AMS 09:25",
-                    "arrival": "ICN 10:50",
-                    "days": 21,
-                    "duration": "11h 25m",
-                    "flightTime": "11h 25m",
-                    "id": "past-1-3",
-                    "from": "AMS",
-                    "to": "ICN"
-                }
-            ]
-        },
-        {
-            "id": "november",
-            "labels": {
-                "From": "🇳🇱 Amsterdam (AMS)",
-                "To": "🇰🇷 Seoul (ICN)",
-                "Airline": airlines.KE.name,
-                "Airport": "🇰🇷 Seoul (ICN)",
-                "Tail": "HL-8078",
-                "Aisle": "Aisle"
-            },
-            "count": "6 FLIGHTS",
-            "flights": [
-                {
-                    "airline": airlines.KE.iata,
-                    "flight": "5926",
-                    "title": "Amsterdam to Seoul",
-                    "date": "Dec 29, 2025",
-                    "departure": "AMS 09:25",
-                    "arrival": "ICN 10:50",
-                    "days": 21,
-                    "duration": "11h 25m",
-                    "flightTime": "11h 25m",
-                    "id": "past-2-1",
-                    "from": "AMS",
-                    "to": "ICN"
-                },
-                {
-                    "airline": airlines.KE.iata,
-                    "flight": "5926",
-                    "title": "Amsterdam to Seoul",
-                    "date": "Dec 29, 2025",
-                    "departure": "AMS 09:25",
-                    "arrival": "ICN 10:50",
-                    "days": 21,
-                    "duration": "11h 25m",
-                    "flightTime": "11h 25m",
-                    "id": "past-2-2",
-                    "from": "AMS",
-                    "to": "ICN"
-                },
-                {
-                    "airline": airlines.KE.iata,
-                    "flight": "5926",
-                    "title": "Amsterdam to Seoul",
-                    "date": "Dec 29, 2025",
-                    "departure": "AMS 09:25",
-                    "arrival": "ICN 10:50",
-                    "days": 21,
-                    "duration": "11h 25m",
-                    "flightTime": "11h 25m",
-                    "id": "past-2-3",
-                    "from": "AMS",
-                    "to": "ICN"
-                }
-            ]
-        }
-    ]
+    groups: [
+        "Aisle",
+        "From",
+        "To",
+        "Airline",
+        "Airport",
+        "Tail",
+        "Aircraft",
+        "Flight Time",
+    ],
 };
 
 const route = useRoute();
-const period = ref(pageData.period);
-const group = ref(pageData.group);
+const period = ref(String(route.query.period || "ALL-TIME"));
+const group = ref("");
+const sortOrder = ref("");
+const pastFlights = computed(() =>
+    flights.value.filter((flight) => flight.isCompleted && !flight.friend),
+);
+const periods = computed(() => [
+    "ALL-TIME",
+    ...[...new Set(pastFlights.value.map((flight) => flight.year))].sort(
+        (a, b) => Number(b) - Number(a),
+    ),
+]);
+const periodFlights = computed(() =>
+    pastFlights.value.filter(
+        (flight) => period.value === "ALL-TIME" || flight.year === period.value,
+    ),
+);
+const overview = computed(() => {
+    const items = periodFlights.value;
+    const airports = items.flatMap((flight) => [
+        flight.departureAirport,
+        flight.arrivalAirport,
+    ]);
+    return {
+        flights: items.length,
+        distance: `${items.reduce((sum, flight) => sum + flight.distanceKm, 0).toLocaleString("en-US")} km`,
+        flightTime: formatDuration(
+            items.reduce((sum, flight) => sum + flight.airborneMinutes, 0),
+        ),
+        airports: new Set(airports.map((airport) => airport.iata)).size,
+        airlines: new Set(items.map((flight) => flight.airline)).size,
+        periods: periods.value,
+        mapFrom: items[0]?.from || "ICN",
+        mapTo: items[0]?.to || "ICN",
+        flags: [...new Set(airports.map((airport) => airport.flag))].join(" "),
+        historyTitle: period.value,
+        historyCount: `${items.length} FLIGHTS`,
+        recent: [],
+    };
+});
+const delays = computed(() => {
+    const delayed = periodFlights.value.filter(
+        (flight) => flight.arrivalDelayMinutes > 0,
+    );
+    const minutes = delayed.reduce(
+        (sum, flight) => sum + flight.arrivalDelayMinutes,
+        0,
+    );
+    return {
+        hours: Math.round((minutes / 60) * 10) / 10,
+        average: formatDuration(
+            delayed.length ? Math.round(minutes / delayed.length) : 0,
+        ),
+    };
+});
+const aircraft = computed(() => {
+    const models = new Map();
+    for (const flight of periodFlights.value) {
+        const model = flight.aircraft.model;
+        const summary = models.get(model) || {
+            model,
+            count: 0,
+            minutes: 0,
+            image: flight.aircraft.passportImage,
+        };
+        summary.count += 1;
+        summary.minutes += flight.airborneMinutes;
+        if (!summary.image) summary.image = flight.aircraft.passportImage;
+        models.set(model, summary);
+    }
+    const mostFlown = [...models.values()].sort((a, b) => b.count - a.count)[0];
+    return mostFlown
+        ? {
+              ...mostFlown,
+              summary: `${mostFlown.count} flights · ${formatDuration(mostFlown.minutes)}`,
+          }
+        : { model: "—", image: "", summary: "No aircraft history" };
+});
+const historyGroups = computed(() => {
+    const groups = new Map();
+    for (const flight of periodFlights.value) {
+        let value = flight.year;
+        let label = flight.year;
+        const from = flight.departureAirport;
+        const to = flight.arrivalAirport;
+
+        switch (group.value) {
+            case "Aisle":
+                value = flight.booking.position;
+                label = value;
+                break;
+            case "From":
+                value = flight.from;
+                label = `${from.flag} ${from.city} (${from.iata})`;
+                break;
+            case "To":
+                value = flight.to;
+                label = `${to.flag} ${to.city} (${to.iata})`;
+                break;
+            case "Airline":
+                value = flight.airlineInfo.name;
+                label = value;
+                break;
+            case "Airport":
+                value = `${flight.from}-${flight.to}`;
+                label = `${flight.from} → ${flight.to}`;
+                break;
+            case "Tail":
+                value = flight.aircraft.registration;
+                label = value;
+                break;
+            case "Aircraft":
+                value = flight.aircraft.model;
+                label = value;
+                break;
+            case "Flight Time":
+                value = flight.airborneMinutes;
+                label = formatDuration(value);
+                break;
+        }
+
+        if (!groups.has(value))
+            groups.set(value, { id: String(value), label, value, flights: [] });
+        groups.get(value).flights.push(flight);
+    }
+
+    const direction = group.value && sortOrder.value === "asc" ? 1 : -1;
+    return [...groups.values()]
+        .sort(
+            (a, b) =>
+                direction *
+                (typeof a.value === "number"
+                    ? a.value - b.value
+                    : String(a.value).localeCompare(String(b.value), "en", {
+                          numeric: true,
+                      })),
+        )
+        .map((history) => ({
+            ...history,
+            count: `${history.flights.length} ${history.flights.length === 1 ? "FLIGHT" : "FLIGHTS"}`,
+            flights: [...history.flights].sort(
+                (a, b) => Date.parse(b.departureAt) - Date.parse(a.departureAt),
+            ),
+        }));
+});
+
+watch(periodFlights, (items) => emit("map-flights", items), {
+    immediate: true,
+});
 </script>

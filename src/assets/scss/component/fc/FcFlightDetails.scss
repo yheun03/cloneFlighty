@@ -72,13 +72,13 @@
 }
 
 .fc-details {
-    .fc-schedule__time:nth-of-type(2) strong,
-    .fc-schedule__detail:nth-of-type(3) span:first-child {
+    .fc-schedule__time.is-late strong,
+    .fc-schedule__detail.is-late span:first-child {
         color: var(--fc-danger, #ff5049);
     }
 
-    .fc-schedule__time:nth-of-type(6) strong,
-    .fc-schedule__detail:nth-of-type(7) span:first-child {
+    .fc-schedule__time.is-early strong,
+    .fc-schedule__detail.is-early span:first-child {
         color: var(--fc-success, #00ae70);
     }
 
@@ -233,9 +233,6 @@
         height: 100px;
         overflow: hidden;
         margin: 10px 0 0;
-        color: #64bfff;
-        text-align: center;
-        @include typo.font(d1, rg);
 
         img {
             position: absolute;
@@ -264,6 +261,14 @@
             margin: 2px 0 0;
             @include typo.font(b1, sb);
         }
+
+        &--aircraft {
+            grid-template-columns: 1fr 2fr;
+
+            dd {
+                @include typo.font(b3, rg);
+            }
+        }
     }
 
     &__links {
@@ -272,10 +277,12 @@
         gap: 6px;
         margin: 12px 0;
 
+        a,
         span {
             padding: 5px;
             border-radius: 4px;
             background: var(--fc-control-bg, #303030);
+            color: inherit;
             text-align: center;
             @include typo.font(c2, rg);
         }

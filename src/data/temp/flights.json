@@ -1,0 +1,494 @@
+{
+    "isSample": true,
+    "referenceDate": "2026-10-21",
+    "flights": [
+        {
+            "id": "ke-24",
+            "airline": "KE",
+            "number": "24",
+            "aircraftId": "ke-a333-01",
+            "status": "upcoming",
+            "friend": null,
+            "departure": {
+                "airport": "SFO",
+                "scheduledAt": "2026-11-28T11:20:00-08:00",
+                "estimatedAt": "2026-11-28T11:40:00-08:00",
+                "terminal": "Terminal 1",
+                "gate": "F4"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2026-11-29T18:00:00+09:00",
+                "estimatedAt": "2026-11-29T17:40:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "248",
+                "baggage": "14"
+            },
+            "distanceKm": 9086,
+            "airborneMinutes": 755,
+            "booking": {
+                "code": "KEX241",
+                "seat": "32K",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        },
+        {
+            "id": "ke-24-2",
+            "airline": "KE",
+            "number": "24",
+            "aircraftId": "ke-b789-01",
+            "status": "upcoming",
+            "friend": null,
+            "departure": {
+                "airport": "SFO",
+                "scheduledAt": "2026-12-12T12:30:00-08:00",
+                "estimatedAt": "2026-12-12T13:05:00-08:00",
+                "terminal": "Terminal 1",
+                "gate": "F4"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2026-12-13T19:10:00+09:00",
+                "estimatedAt": "2026-12-13T19:25:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "248",
+                "baggage": "14"
+            },
+            "distanceKm": 9086,
+            "airborneMinutes": 775,
+            "booking": {
+                "code": "KEX242",
+                "seat": "7A",
+                "position": "Window",
+                "cabin": "Business",
+                "reason": "Business"
+            }
+        },
+        {
+            "id": "oz-202",
+            "airline": "OZ",
+            "number": "202",
+            "aircraftId": "oz-a359-01",
+            "status": "upcoming",
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2026-11-15T14:40:00+09:00",
+                "estimatedAt": "2026-11-15T14:40:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "G8"
+            },
+            "arrival": {
+                "airport": "LAX",
+                "scheduledAt": "2026-11-15T08:20:00-08:00",
+                "estimatedAt": "2026-11-15T08:10:00-08:00",
+                "terminal": "Terminal 1",
+                "gate": "B12",
+                "baggage": "8"
+            },
+            "distanceKm": 9630,
+            "airborneMinutes": 605,
+            "booking": {
+                "code": "OZX202",
+                "seat": "18C",
+                "position": "Aisle",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        },
+        {
+            "id": "ke-417-friend",
+            "airline": "KE",
+            "number": "417",
+            "aircraftId": "ke-a333-01",
+            "status": "upcoming",
+            "friend": {
+                "id": "alex",
+                "name": "Alex",
+                "profile": null
+            },
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2026-11-07T17:45:00+09:00",
+                "estimatedAt": "2026-11-07T17:55:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "F4"
+            },
+            "arrival": {
+                "airport": "GUM",
+                "scheduledAt": "2026-11-07T23:05:00+10:00",
+                "estimatedAt": "2026-11-07T23:10:00+10:00",
+                "terminal": "Terminal 1",
+                "gate": "B12",
+                "baggage": "14"
+            },
+            "distanceKm": 3220,
+            "airborneMinutes": 230,
+            "booking": {
+                "code": "FRD417",
+                "seat": "24A",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        },
+        {
+            "id": "oz-101-friend",
+            "airline": "OZ",
+            "number": "101",
+            "aircraftId": "oz-a333-01",
+            "status": "upcoming",
+            "friend": {
+                "id": "jane",
+                "name": "Jane",
+                "profile": null
+            },
+            "departure": {
+                "airport": "NRT",
+                "scheduledAt": "2026-11-10T13:20:00+09:00",
+                "estimatedAt": "2026-11-10T13:20:00+09:00",
+                "terminal": "Terminal 1",
+                "gate": "G8"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2026-11-10T16:10:00+09:00",
+                "estimatedAt": "2026-11-10T16:10:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "248",
+                "baggage": "8"
+            },
+            "distanceKm": 1258,
+            "airborneMinutes": 145,
+            "booking": {
+                "code": "FRD101",
+                "seat": "16B",
+                "position": "Middle",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        },
+        {
+            "id": "past-1-1",
+            "airline": "KE",
+            "number": "926",
+            "aircraftId": "ke-b789-01",
+            "status": "completed",
+            "friend": null,
+            "departure": {
+                "airport": "AMS",
+                "scheduledAt": "2025-12-29T21:00:00+01:00",
+                "actualAt": "2025-12-29T21:20:00+01:00",
+                "terminal": "Terminal 1",
+                "gate": "F4"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2025-12-30T16:30:00+09:00",
+                "actualAt": "2025-12-30T17:00:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "248",
+                "baggage": "14"
+            },
+            "distanceKm": 8560,
+            "airborneMinutes": 675,
+            "booking": {
+                "code": "KEL921",
+                "seat": "7A",
+                "position": "Window",
+                "cabin": "Business",
+                "reason": "Business"
+            }
+        },
+        {
+            "id": "past-1-2",
+            "airline": "OZ",
+            "number": "202",
+            "aircraftId": "oz-a359-01",
+            "status": "completed",
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2025-12-18T14:40:00+09:00",
+                "actualAt": "2025-12-18T14:50:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "G8"
+            },
+            "arrival": {
+                "airport": "LAX",
+                "scheduledAt": "2025-12-18T08:20:00-08:00",
+                "actualAt": "2025-12-18T08:05:00-08:00",
+                "terminal": "Terminal 1",
+                "gate": "B12",
+                "baggage": "8"
+            },
+            "distanceKm": 9630,
+            "airborneMinutes": 590,
+            "booking": {
+                "code": "OZH202",
+                "seat": "18C",
+                "position": "Aisle",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        },
+        {
+            "id": "past-1-3",
+            "airline": "KE",
+            "number": "24",
+            "aircraftId": "ke-a333-01",
+            "status": "completed",
+            "friend": null,
+            "departure": {
+                "airport": "SFO",
+                "scheduledAt": "2025-10-20T11:20:00-07:00",
+                "actualAt": "2025-10-20T11:40:00-07:00",
+                "terminal": "Terminal 1",
+                "gate": "F4"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2025-10-21T17:00:00+09:00",
+                "actualAt": "2025-10-21T16:40:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "248",
+                "baggage": "14"
+            },
+            "distanceKm": 9086,
+            "airborneMinutes": 755,
+            "booking": {
+                "code": "KEH024",
+                "seat": "32K",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        },
+        {
+            "id": "past-2-1",
+            "airline": "OZ",
+            "number": "101",
+            "aircraftId": "oz-a333-01",
+            "status": "completed",
+            "friend": null,
+            "departure": {
+                "airport": "NRT",
+                "scheduledAt": "2025-09-08T13:20:00+09:00",
+                "actualAt": "2025-09-08T13:20:00+09:00",
+                "terminal": "Terminal 1",
+                "gate": "G8"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2025-09-08T16:10:00+09:00",
+                "actualAt": "2025-09-08T16:10:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "248",
+                "baggage": "8"
+            },
+            "distanceKm": 1258,
+            "airborneMinutes": 145,
+            "booking": {
+                "code": "OZH101",
+                "seat": "24B",
+                "position": "Middle",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        },
+        {
+            "id": "past-2-2",
+            "airline": "KE",
+            "number": "417",
+            "aircraftId": "ke-a333-01",
+            "status": "completed",
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2025-06-07T17:45:00+09:00",
+                "actualAt": "2025-06-07T18:00:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "F4"
+            },
+            "arrival": {
+                "airport": "GUM",
+                "scheduledAt": "2025-06-07T23:05:00+10:00",
+                "actualAt": "2025-06-07T23:45:00+10:00",
+                "terminal": "Terminal 1",
+                "gate": "B12",
+                "baggage": "14"
+            },
+            "distanceKm": 3220,
+            "airborneMinutes": 260,
+            "booking": {
+                "code": "KEH417",
+                "seat": "28C",
+                "position": "Aisle",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        },
+        {
+            "id": "past-2-3",
+            "airline": "OZ",
+            "number": "203",
+            "aircraftId": "oz-a359-01",
+            "status": "completed",
+            "friend": null,
+            "departure": {
+                "airport": "LAX",
+                "scheduledAt": "2025-03-15T11:00:00-07:00",
+                "actualAt": "2025-03-15T11:00:00-07:00",
+                "terminal": "Terminal 1",
+                "gate": "G8"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2025-03-16T16:30:00+09:00",
+                "actualAt": "2025-03-16T16:05:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "248",
+                "baggage": "8"
+            },
+            "distanceKm": 9630,
+            "airborneMinutes": 760,
+            "booking": {
+                "code": "OZH203",
+                "seat": "5A",
+                "position": "Window",
+                "cabin": "Business",
+                "reason": "Business"
+            }
+        },
+        {
+            "id": "past-2024-1",
+            "airline": "KE",
+            "number": "115",
+            "aircraftId": "ke-b789-01",
+            "status": "completed",
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2024-10-22T09:20:00+09:00",
+                "actualAt": "2024-10-22T09:30:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "F4"
+            },
+            "arrival": {
+                "airport": "YNJ",
+                "scheduledAt": "2024-10-22T10:50:00+08:00",
+                "actualAt": "2024-10-22T11:05:00+08:00",
+                "terminal": "Terminal 1",
+                "gate": "B12",
+                "baggage": "14"
+            },
+            "distanceKm": 674,
+            "airborneMinutes": 130,
+            "booking": {
+                "code": "KEH115",
+                "seat": "11C",
+                "position": "Aisle",
+                "cabin": "Economy",
+                "reason": "Business"
+            }
+        },
+        {
+            "id": "past-2024-2",
+            "airline": "OZ",
+            "number": "102",
+            "aircraftId": "oz-a333-01",
+            "status": "completed",
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2024-05-04T09:00:00+09:00",
+                "actualAt": "2024-05-04T09:00:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "G8"
+            },
+            "arrival": {
+                "airport": "NRT",
+                "scheduledAt": "2024-05-04T11:20:00+09:00",
+                "actualAt": "2024-05-04T11:20:00+09:00",
+                "terminal": "Terminal 1",
+                "gate": "B12",
+                "baggage": "8"
+            },
+            "distanceKm": 1258,
+            "airborneMinutes": 115,
+            "booking": {
+                "code": "OZH102",
+                "seat": "18A",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        },
+        {
+            "id": "past-2023-1",
+            "airline": "KE",
+            "number": "1238",
+            "aircraftId": "ke-a333-01",
+            "status": "completed",
+            "friend": null,
+            "departure": {
+                "airport": "CJU",
+                "scheduledAt": "2023-08-20T15:20:00+09:00",
+                "actualAt": "2023-08-20T15:35:00+09:00",
+                "terminal": "Terminal 1",
+                "gate": "F4"
+            },
+            "arrival": {
+                "airport": "GMP",
+                "scheduledAt": "2023-08-20T16:30:00+09:00",
+                "actualAt": "2023-08-20T16:50:00+09:00",
+                "terminal": "Terminal 1",
+                "gate": "B12",
+                "baggage": "14"
+            },
+            "distanceKm": 451,
+            "airborneMinutes": 50,
+            "booking": {
+                "code": "KEH238",
+                "seat": "29B",
+                "position": "Middle",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        },
+        {
+            "id": "past-2017-1",
+            "airline": "KE",
+            "number": "647",
+            "aircraftId": "ke-a333-01",
+            "status": "completed",
+            "friend": null,
+            "departure": {
+                "airport": "SFO",
+                "scheduledAt": "2017-06-02T12:00:00-07:00",
+                "actualAt": "2017-06-02T12:00:00-07:00",
+                "terminal": "Terminal 1",
+                "gate": "F4"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2017-06-03T17:30:00+09:00",
+                "actualAt": "2017-06-03T17:25:00+09:00",
+                "terminal": "Terminal 2",
+                "gate": "248",
+                "baggage": "14"
+            },
+            "distanceKm": 9086,
+            "airborneMinutes": 780,
+            "booking": {
+                "code": "KEH647",
+                "seat": "32K",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Personal"
+            }
+        }
+    ]
+}
