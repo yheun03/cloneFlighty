@@ -20,12 +20,12 @@
                     id="booking-title"
                     class="sr-only"
                 >
-                    Edit flight information
+                    {{ $t("Edit flight information") }}
                 </h2>
                 <button
                     type="button"
                     class="booking-dialog__close"
-                    aria-label="Close booking editor"
+                    :aria-label="$t('Close booking editor')"
                     @click="close"
                 >
                     ×
@@ -34,52 +34,52 @@
                     class="booking-dialog__label booking-dialog__label--first"
                     for="booking-code"
                 >
-                    Booking Code
+                    {{ $t("Booking Code") }}
                 </label>
                 <BaseInput
                     id="booking-code"
                     v-model="booking.code"
                     :placeholder="pageData.bookingCode"
                     icon="clipboard-paste"
-                    action-label="PASTE"
+                    :action-label="$t('PASTE')"
                     @action="booking.code = pageData.bookingCode"
                 />
                 <label
                     class="booking-dialog__label"
                     for="flight-seat"
                 >
-                    Seat
+                    {{ $t("Seat") }}
                 </label>
                 <BaseInput
                     id="flight-seat"
                     v-model="booking.seat"
                     class="frame-page__input"
-                    :placeholder="pageData.seatPlaceholder"
+                    :placeholder="$t(pageData.seatPlaceholder)"
                 />
                 <BaseTabItem
                     v-model="booking.position"
                     class="booking-dialog__choices"
-                    label="Seat position"
+                    :label="$t('Seat position')"
                     :items="pageData.positions"
                     :icon="chipIcon"
                     size="md"
                     variant="stroke"
                 />
-                <h3 class="booking-dialog__label">Class</h3>
+                <h3 class="booking-dialog__label">{{ $t("Class") }}</h3>
                 <BaseTabItem
                     v-model="booking.cabin"
                     class="booking-dialog__choices"
-                    label="Travel class"
+                    :label="$t('Travel class')"
                     :items="pageData.cabins"
                     :icon="chipIcon"
                     size="md"
                     variant="stroke"
                 />
-                <h3 class="booking-dialog__label">Reason</h3>
+                <h3 class="booking-dialog__label">{{ $t("Reason") }}</h3>
                 <BaseTabItem
                     v-model="booking.reason"
                     class="booking-dialog__choices"
-                    label="Travel reason"
+                    :label="$t('Travel reason')"
                     :items="pageData.reasons"
                     :icon="chipIcon"
                     size="md"
@@ -90,7 +90,7 @@
                     class="frame-page__primary"
                     @click="close"
                 >
-                    Done
+                    {{ $t("Done") }}
                 </button>
             </section>
         </div>

@@ -6,7 +6,7 @@
             id="connection-description"
             class="connection-page__description"
         >
-            {{ pageData.description }}
+            {{ $t(pageData.description) }}
         </p>
         <RouterLink
             class="connection-page__meter"
@@ -17,11 +17,11 @@
             }"
             :aria-expanded="expanded"
             aria-controls="connection-description"
-            aria-label="Minimum connection time explanation"
+            :aria-label="$t('Minimum connection time explanation')"
         >
             <img
                 :src="connectionImage"
-                :alt="`${pageData.status.duration}, ${pageData.minimum}`"
+                :alt="$t(`${pageData.status.duration}, ${pageData.minimum}`)"
             />
         </RouterLink>
         <FcTerminalTimeline v-bind="pageData.timeline" />

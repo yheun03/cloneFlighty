@@ -40,24 +40,24 @@ function selectOption(option) {
             <div class="fc-alerts__friend">
                 <span></span>
                 <div>
-                    <strong>{{ friendName }}</strong>
-                    <small>{{ friendEmail }}</small>
+                    <strong>{{ $t(friendName) }}</strong>
+                    <small>{{ $t(friendEmail) }}</small>
                 </div>
             </div>
             <div class="fc-alerts__share">
-                Share My Flights
+                {{ $t("Share My Flights") }}
                 <BaseToggleSwitch
                     v-model="shared"
-                    label="Share My Flights"
+                    :label="$t('Share My Flights')"
                 />
             </div>
         </template>
-        <h2>{{ title }}</h2>
-        <p>{{ desc }}</p>
+        <h2>{{ $t(title) }}</h2>
+        <p>{{ $t(desc) }}</p>
         <slot name="intro"></slot>
         <div
             :role="isRadioMode ? 'radiogroup' : undefined"
-            :aria-label="isRadioMode ? title : undefined"
+            :aria-label="$t(isRadioMode ? title : undefined)"
         >
             <div
                 v-for="option in alertOptions"
@@ -80,14 +80,14 @@ function selectOption(option) {
                         <span :style="{ color: option.color }">
                             <BaseIcon :src="option.icon" />
                         </span>
-                        <strong>{{ option.title }}</strong>
+                        <strong>{{ $t(option.title) }}</strong>
                     </div>
-                    <p>{{ option.desc }}</p>
+                    <p>{{ $t(option.desc) }}</p>
                 </div>
                 <BaseToggleSwitch
                     v-if="mode === 'mine'"
                     v-model="option.enabled"
-                    :label="option.title"
+                    :label="$t(option.title)"
                     @click.stop
                 />
             </div>
@@ -99,7 +99,7 @@ function selectOption(option) {
             class="fc-alerts__remove"
             @click="$emit('remove')"
         >
-            Remove Friend
+            {{ $t("Remove Friend") }}
         </button>
     </div>
 </template>

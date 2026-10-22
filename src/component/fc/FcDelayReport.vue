@@ -2,6 +2,7 @@
 import { computed } from "vue";
 
 import BaseIcon from "../base/BaseIcon.vue";
+import { formatDuration } from "../../common/preferences.js";
 
 const props = defineProps({
     brandIcon: { type: String, default: "" },
@@ -18,34 +19,42 @@ const delayedPercent = computed(() =>
 const averageDelay = computed(() =>
     props.delayed ? Math.round(props.lostMinutes / props.delayed) : 0,
 );
-const lostTime = computed(
-    () => `${Math.floor(props.lostMinutes / 60)}h ${props.lostMinutes % 60}m`,
-);
+const lostTime = computed(() => formatDuration(props.lostMinutes));
 </script>
 
 <template>
     <div class="fc-delay-report">
         <div class="fc-delay-report__brand">
             <BaseIcon :src="brandIcon" />
-            Flighty
-            <strong>All-Time Delay Report</strong>
+            {{ $t("Flighty") }}
+            <strong>{{ $t("All-Time Delay Report") }}</strong>
         </div>
-        <strong class="fc-delay-report__percent">{{ delayedPercent }}%</strong>
-        <h2>My flights delayed</h2>
+        <strong class="fc-delay-report__percent">
+            {{ $t(delayedPercent) }}%
+        </strong>
+        <h2>{{ $t("My flights delayed") }}</h2>
         <p>
-            {{ delayed }} of my {{ total }} flights arrived later than scheduled
+            {{
+                $t(
+                    "{delayed} of my {total} flights arrived later than scheduled",
+                    { delayed, total },
+                )
+            }}
         </p>
         <div class="fc-delay-report__stripe"></div>
-        <h3>Lost to Delays</h3>
+        <h3>{{ $t("Lost to Delays") }}</h3>
         <p>
-            Delayed flights averaged
-            {{ averageDelay }}m late
+            {{
+                $t("Delayed flights averaged {duration} late", {
+                    duration: formatDuration(averageDelay),
+                })
+            }}
         </p>
-        <strong class="fc-delay-report__big">{{ lostTime }}</strong>
-        <h3>Worst Delay</h3>
-        <p>{{ worstDelay }}</p>
+        <strong class="fc-delay-report__big">{{ $t(lostTime) }}</strong>
+        <h3>{{ $t("Worst Delay") }}</h3>
+        <p>{{ $t(worstDelay) }}</p>
         <div class="fc-delay-report__stripe"></div>
-        <h3>Worst Airline</h3>
-        <p>{{ worstAirline }}</p>
+        <h3>{{ $t("Worst Airline") }}</h3>
+        <p>{{ $t(worstAirline) }}</p>
     </div>
 </template>

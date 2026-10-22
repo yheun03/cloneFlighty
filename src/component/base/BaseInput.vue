@@ -138,7 +138,7 @@ onBeforeUnmount(removeCalendarListeners);
                 v-bind="$attrs"
                 class="fc-input__control"
                 type="text"
-                :placeholder="placeholder"
+                :placeholder="$t(placeholder)"
                 :disabled="disabled"
                 readonly
                 aria-haspopup="dialog"
@@ -154,7 +154,7 @@ onBeforeUnmount(removeCalendarListeners);
                 class="fc-input-calendar__popover"
                 :style="calendarPosition"
                 role="dialog"
-                :aria-label="`${placeholder || '날짜'} 선택`"
+                :aria-label="$t('Choose date')"
                 @keydown.esc="isCalendarOpen = false"
             >
                 <BaseCalendarPicker
@@ -171,7 +171,7 @@ onBeforeUnmount(removeCalendarListeners);
         v-bind="$attrs"
         class="fc-input fc-input--plain"
         :type="type"
-        :placeholder="placeholder"
+        :placeholder="$t(placeholder)"
         :disabled="disabled"
     />
     <div
@@ -190,12 +190,12 @@ onBeforeUnmount(removeCalendarListeners);
             v-bind="$attrs"
             class="fc-input__control"
             :type="type"
-            :placeholder="placeholder"
+            :placeholder="$t(placeholder)"
             :disabled="disabled"
         />
         <BaseButton
             v-if="actionLabel"
-            :label="actionLabel"
+            :label="$t(actionLabel)"
             size="sm"
             variant="fill"
             tone="gray"

@@ -48,9 +48,9 @@ function airlineLogo(value) {
     <div class="fc-performance">
         <template v-if="['all', 'airline', 'airport'].includes(section)">
             <div class="fc-stat-head">
-                <h2>{{ performanceTitle }}</h2>
+                <h2>{{ $t(performanceTitle) }}</h2>
                 <BaseButton
-                    label="Share"
+                    :label="$t('Share')"
                     :icon="shareIcon"
                     size="md"
                     variant="fill"
@@ -58,9 +58,9 @@ function airlineLogo(value) {
                 />
             </div>
             <div class="fc-performance__headline">
-                <strong>{{ performanceHeadline }}</strong>
+                <strong>{{ $t(performanceHeadline) }}</strong>
                 <span>
-                    {{ isAirport ? "late departures" : "late arrivals" }}
+                    {{ $t(isAirport ? "late departures" : "late arrivals") }}
                 </span>
             </div>
             <div
@@ -71,9 +71,11 @@ function airlineLogo(value) {
                 <div>
                     <span>
                         <BaseIcon :src="airlineLogo(item.name)" />
-                        &nbsp;{{ item.name }}
+                        &nbsp;{{ $t(item.name) }}
                     </span>
-                    <span>{{ item.percent }}% &nbsp;({{ item.count }})</span>
+                    <span>
+                        {{ $t(item.percent) }}% &nbsp;({{ $t(item.count) }})
+                    </span>
                 </div>
                 <i><b :style="{ width: `${item.percent}%` }"></b></i>
             </div>
@@ -83,14 +85,14 @@ function airlineLogo(value) {
                 :aria-expanded="showAll"
                 @click="showAll = !showAll"
             >
-                {{ showAll ? "Show Less" : "Show More" }}
+                {{ $t(showAll ? "Show Less" : "Show More") }}
             </button>
         </template>
         <template v-if="['all', 'mine'].includes(section)">
             <div class="fc-stat-head">
-                <h2>My Performance</h2>
+                <h2>{{ $t("My Performance") }}</h2>
                 <BaseButton
-                    label="Share"
+                    :label="$t('Share')"
                     :icon="shareIcon"
                     size="md"
                     variant="fill"
@@ -98,16 +100,16 @@ function airlineLogo(value) {
                 />
             </div>
             <div class="fc-performance__headline">
-                <strong>{{ report.cumulative }}</strong>
-                <span>late</span>
+                <strong>{{ $t(report.cumulative) }}</strong>
+                <span>{{ $t("late") }}</span>
             </div>
-            <p>cumulative arrival performance</p>
+            <p>{{ $t("cumulative arrival performance") }}</p>
             <div
                 v-for="item in report.performance"
                 :key="item.label"
                 class="fc-performance__meter"
             >
-                <span>{{ item.label }}</span>
+                <span>{{ $t(item.label) }}</span>
                 <i>
                     <b
                         :style="{
@@ -116,14 +118,14 @@ function airlineLogo(value) {
                         }"
                     ></b>
                 </i>
-                <strong>{{ item.value }}%</strong>
+                <strong>{{ $t(item.value) }}%</strong>
             </div>
         </template>
         <template v-if="['all', 'delays'].includes(section)">
             <div class="fc-stat-head">
-                <h2>Arrival Delays</h2>
+                <h2>{{ $t("Arrival Delays") }}</h2>
                 <BaseButton
-                    label="Share"
+                    :label="$t('Share')"
                     :icon="shareIcon"
                     size="md"
                     variant="fill"
@@ -131,8 +133,8 @@ function airlineLogo(value) {
                 />
             </div>
             <div class="fc-stat-number">
-                <strong>{{ report.delayTotal }}</strong>
-                <span>total</span>
+                <strong>{{ $t(report.delayTotal) }}</strong>
+                <span>{{ $t("total") }}</span>
             </div>
             <div
                 v-for="flight in visibleDelays"
@@ -143,9 +145,9 @@ function airlineLogo(value) {
                     <BaseIcon :src="airlineLogo(flight.flight)" />
                     {{ flight.flight }}
                 </span>
-                <b>{{ flight.duration }}</b>
-                <span>{{ flight.route }}</span>
-                <small>{{ flight.date }}</small>
+                <b>{{ $t(flight.duration) }}</b>
+                <span>{{ $t(flight.route) }}</span>
+                <small>{{ $t(flight.date) }}</small>
             </div>
             <button
                 type="button"
@@ -153,7 +155,7 @@ function airlineLogo(value) {
                 :aria-expanded="showDelays"
                 @click="showDelays = !showDelays"
             >
-                {{ showDelays ? "Show Less" : "Show More" }}
+                {{ $t(showDelays ? "Show Less" : "Show More") }}
             </button>
         </template>
     </div>

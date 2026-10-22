@@ -13,6 +13,7 @@ import { useRoute } from "vue-router";
 
 import airports from "../common/airports.js";
 import { flights, getFlight } from "../common/flights.js";
+import { t, locale } from "../common/preferences.js";
 
 import "../assets/scss/layout/MapLayout.scss";
 import "../assets/scss/layout/_frame.scss";
@@ -90,12 +91,15 @@ const mapRoutes = computed(() => {
     return [...routes.values()];
 });
 const routeLabel = computed(() => {
-    if (!mapRoutes.value.length) return "표시할 항공편이 없습니다.";
+    if (!mapRoutes.value.length) return t("No flights to display.");
     if (mapRoutes.value.length === 1) {
         const item = mapRoutes.value[0];
         return `${item.from} → ${item.to}`;
     }
-    return `${mapRoutes.value.length}개 경로 · ${mapFlights.value.length}개 항공편`;
+    return t("{count} routes · {flights} flights", {
+        count: mapRoutes.value.length,
+        flights: mapFlights.value.length,
+    });
 });
 const sidebar = ref(null);
 const content = ref(null);
@@ -103,16 +107,18 @@ const sidebarOpen = ref(true);
 const isGlobe = ref(false);
 const ready = ref(false);
 const mapError = ref("");
-const mapStatus = ref("지도를 불러오는 중입니다.");
+const mapStatus = ref("Loading map…");
 const routeSummary = computed(() =>
     mapRoutes.value.length
         ? mapRoutes.value
-              .map(
-                  (item) =>
-                      `${airports[item.from].name}에서 ${airports[item.to].name}까지`,
+              .map((item) =>
+                  t("{from} to {to} route", {
+                      from: airports[item.from].name,
+                      to: airports[item.to].name,
+                  }),
               )
               .join(" · ")
-        : "현재 목록에 표시할 여정이 없습니다.",
+        : t("No journeys in the current list."),
 );
 let map;
 let maplibregl;
@@ -227,7 +233,7 @@ function updateRoute(shouldFit = true) {
         mapError.value = mapFlights.value.length
             ? "유효한 출발지와 도착지 공항 코드를 확인해 주세요."
             : "";
-        mapStatus.value = "현재 목록에 표시할 여정이 없습니다.";
+        mapStatus.value = "No journeys in the current list.";
         return;
     }
     mapError.value = "";
@@ -273,7 +279,14 @@ function updateRoute(shouldFit = true) {
         features: [...airportFeatures.values()],
     });
     if (shouldFit) fitRoute();
-    mapStatus.value = `${mapFlights.value.length}개 항공편의 ${mapRoutes.value.length}개 경로를 지도에 표시했습니다. ${routeSummary.value}`;
+    mapStatus.value = t(
+        "Showing {flights} flights on {routes} routes. {summary}",
+        {
+            flights: mapFlights.value.length,
+            routes: mapRoutes.value.length,
+            summary: routeSummary.value,
+        },
+    );
 }
 
 function toggleProjection() {
@@ -281,7 +294,9 @@ function toggleProjection() {
     isGlobe.value = !isGlobe.value;
     map.setProjection({ type: isGlobe.value ? "globe" : "mercator" });
     fitRoute();
-    mapStatus.value = `${isGlobe.value ? "지구본" : "평면"} 보기로 전환했습니다.`;
+    mapStatus.value = t(
+        isGlobe.value ? "Switched to globe view." : "Switched to flat view.",
+    );
 }
 
 function toggleSidebar() {
@@ -368,11 +383,14 @@ watch(mapRoutes, () => {
     if (!ready.value) fitAfterStyleLoad = true;
     updateRoute();
 });
+watch(locale, () => {
+    if (map && ready.value) updateRoute();
+});
 watch(theme, () => {
     if (!map) return;
     ready.value = false;
     mapError.value = "";
-    mapStatus.value = "지도 색상 모드를 변경하는 중입니다.";
+    mapStatus.value = "Changing map theme…";
     map.setStyle(mapStyle.value, { diff: false });
 });
 watch(sidebarOpen, async () => {
@@ -402,12 +420,12 @@ onUnmounted(() => {
     <section
         class="flight-map"
         :class="{ 'is-sidebar-closed': !sidebarOpen }"
-        aria-label="비행 경로 지도"
+        :aria-label="$t('비행 경로 지도')"
     >
         <div
             id="flight-map-canvas"
             role="region"
-            :aria-label="`${routeSummary} 항공편 지도`"
+            :aria-label="`${routeSummary} ${$t('비행 경로 지도')}`"
             aria-describedby="flight-map-route-summary flight-map-status"
         ></div>
         <p
@@ -416,7 +434,7 @@ onUnmounted(() => {
             role="status"
             aria-live="polite"
         >
-            {{ mapStatus }}
+            {{ $t(mapStatus) }}
         </p>
         <p
             v-if="mapError"
@@ -424,7 +442,7 @@ onUnmounted(() => {
             role="alert"
             aria-live="assertive"
         >
-            {{ mapError }}
+            {{ $t(mapError) }}
         </p>
         <main
             id="main-content"
@@ -439,65 +457,68 @@ onUnmounted(() => {
         >
             <header class="flight-map__heading">
                 <div class="flight-map__heading-copy">
-                    <h1 id="flight-map-title">{{ route.meta.panelTitle }}</h1>
+                    <h1 id="flight-map-title">
+                        {{ $t(route.meta.panelTitle) }}
+                    </h1>
                     <p
                         id="flight-map-route-summary"
                         class="flight-map__route-summary"
                     >
-                        <strong>{{ routeLabel }}</strong>
-                        <span :title="routeSummary">
-                            {{ routeSummary }} · 임시 데이터
+                        <strong>{{ $t(routeLabel) }}</strong>
+                        <span :title="$t(routeSummary)">
+                            {{ $t(routeSummary) }}
+                            {{ `· ${$t("Temporary data")}` }}
                         </span>
                     </p>
                 </div>
                 <button
                     type="button"
                     class="flight-map__collapse"
-                    :aria-label="sidebarOpen ? '본문 접기' : '본문 펼치기'"
+                    :aria-label="$t(sidebarOpen ? '본문 접기' : '본문 펼치기')"
                     :aria-expanded="sidebarOpen"
                     aria-controls="flight-map-content"
                     @click="toggleSidebar"
                 >
-                    {{ sidebarOpen ? "−" : "+" }}
+                    {{ $t(sidebarOpen ? "−" : "+") }}
                 </button>
             </header>
             <nav
                 v-show="sidebarOpen"
                 class="flight-map__nav"
-                aria-label="주요 메뉴"
+                :aria-label="$t('주요 메뉴')"
             >
                 <RouterLink
                     :to="{ name: 'home', query: route.query }"
                     :class="{ 'is-active': route.meta.section === 'flights' }"
                 >
-                    Flights
+                    {{ $t("Flights") }}
                 </RouterLink>
                 <RouterLink
                     :to="{ name: 'passport', query: route.query }"
                     :class="{ 'is-active': route.meta.section === 'passport' }"
                 >
-                    Passport
+                    {{ $t("Passport") }}
                 </RouterLink>
                 <RouterLink
                     :to="{ name: 'friends', query: route.query }"
                     :class="{ 'is-active': route.meta.section === 'friends' }"
                 >
-                    Friends
+                    {{ $t("Friends") }}
                 </RouterLink>
                 <RouterLink
                     :to="{ name: 'settings', query: route.query }"
                     :class="{ 'is-active': route.meta.section === 'settings' }"
                 >
-                    Settings
+                    {{ $t("Settings") }}
                 </RouterLink>
                 <RouterLink
                     :to="{ name: 'add-flight', query: route.query }"
-                    aria-label="Add Flight"
+                    :aria-label="$t('Add Flight')"
                 >
                     ＋
                 </RouterLink>
                 <RouterLink :to="{ name: 'component', query: route.query }">
-                    UI
+                    {{ $t("UI") }}
                 </RouterLink>
             </nav>
             <div
@@ -521,7 +542,7 @@ onUnmounted(() => {
                         query: route.query,
                     }"
                 >
-                    ‹ Back
+                    {{ $t("‹ Back") }}
                 </RouterLink>
                 <template
                     v-if="
@@ -529,12 +550,12 @@ onUnmounted(() => {
                     "
                 >
                     <RouterLink :to="{ name: 'home', query: route.query }">
-                        My Flights
+                        {{ $t("My Flights") }}
                     </RouterLink>
                     <RouterLink
                         :to="{ name: 'friend-flights', query: route.query }"
                     >
-                        Friends’ Flights
+                        {{ $t("Friends’ Flights") }}
                     </RouterLink>
                 </template>
             </div>
@@ -558,11 +579,11 @@ onUnmounted(() => {
         <div
             class="flight-map__controls"
             role="group"
-            aria-label="지도 조작"
+            :aria-label="$t('지도 조작')"
         >
             <button
                 type="button"
-                aria-label="지도 확대"
+                :aria-label="$t('지도 확대')"
                 :disabled="!ready"
                 @click="map?.zoomIn()"
             >
@@ -570,7 +591,7 @@ onUnmounted(() => {
             </button>
             <button
                 type="button"
-                aria-label="지도 축소"
+                :aria-label="$t('지도 축소')"
                 :disabled="!ready"
                 @click="map?.zoomOut()"
             >
@@ -581,11 +602,11 @@ onUnmounted(() => {
                 :disabled="!ready"
                 :aria-pressed="isGlobe"
                 :aria-label="
-                    isGlobe ? '평면 보기로 전환' : '지구본 보기로 전환'
+                    $t(isGlobe ? '평면 보기로 전환' : '지구본 보기로 전환')
                 "
                 @click="toggleProjection"
             >
-                {{ isGlobe ? "평면" : "지구본" }}
+                {{ $t(isGlobe ? "평면" : "지구본") }}
             </button>
         </div>
     </section>

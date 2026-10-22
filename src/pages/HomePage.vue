@@ -2,17 +2,19 @@
     <section
         class="frame-page flights-page"
         :aria-label="
-            route.name === 'flight-results'
-                ? 'Flight search results'
-                : 'Upcoming flights'
+            $t(
+                route.name === 'flight-results'
+                    ? 'Flight search results'
+                    : 'Upcoming flights',
+            )
         "
     >
         <BaseInput
             v-model="search"
             class="frame-page__input"
             type="search"
-            :placeholder="pageData.placeholder"
-            aria-label="Search flights"
+            :placeholder="$t(pageData.placeholder)"
+            :aria-label="$t('Search flights')"
         />
         <div class="flights-page__list">
             <RouterLink
@@ -28,7 +30,7 @@
                 <FcFlightListItem
                     :airline="flight.airline"
                     :flight="flight.flight"
-                    :title="flight.title"
+                    :title="$t(flight.title)"
                     :date="flight.date"
                     :departure="flight.departure"
                     :arrival="flight.arrival"
@@ -45,14 +47,14 @@
                 class="frame-page__note"
                 role="status"
             >
-                {{ pageData.emptyMessage }}
+                {{ $t(pageData.emptyMessage) }}
             </p>
         </div>
         <RouterLink
             class="frame-page__link flights-page__add"
             :to="{ name: 'add-flight', query: route.query }"
         >
-            + Add Flight
+            {{ $t("+ Add Flight") }}
         </RouterLink>
     </section>
 </template>

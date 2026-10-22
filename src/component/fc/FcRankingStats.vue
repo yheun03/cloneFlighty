@@ -7,6 +7,7 @@ import BaseTabItem from "../base/BaseTabItem.vue";
 
 import { defaultAirlineLogo, getAirline } from "../../common/airlines.js";
 import shareIcon from "../../assets/figma/share.svg";
+import { formatDistance, locale } from "../../common/preferences.js";
 
 const props = defineProps({
     type: {
@@ -42,7 +43,7 @@ const chartItems = computed(() => {
     const sorted = [...props.items].sort(
         (a, b) =>
             b[metricKey.value] - a[metricKey.value] ||
-            a.name.localeCompare(b.name),
+            a.name.localeCompare(b.name, locale.value),
     );
     const items = expanded.value ? sorted : sorted.slice(0, props.limit);
     return items.map((item) => ({
@@ -52,7 +53,7 @@ const chartItems = computed(() => {
         label:
             metric.value === "Flights"
                 ? item.flights
-                : `${item.distance.toLocaleString("en-US", { notation: "compact", maximumFractionDigits: 1 })} km`,
+                : formatDistance(item.distance, { compact: true }),
     }));
 });
 </script>
@@ -60,9 +61,9 @@ const chartItems = computed(() => {
 <template>
     <div class="fc-top-airlines">
         <div class="fc-stat-head">
-            <h2>{{ title }}</h2>
+            <h2>{{ $t(title) }}</h2>
             <BaseButton
-                label="Share"
+                :label="$t('Share')"
                 :icon="shareIcon"
                 size="md"
                 variant="fill"
@@ -70,15 +71,15 @@ const chartItems = computed(() => {
             />
         </div>
         <div class="fc-stat-number">
-            <strong>{{ total }}</strong>
-            <span>{{ unit }}</span>
+            <strong>{{ $t(total) }}</strong>
+            <span>{{ $t(unit) }}</span>
         </div>
         <BaseTabItem
             v-if="hasTabs"
             v-model="metric"
             class="fc-top-airlines__tabs"
             :items="metrics"
-            :label="`${title} 통계 기준`"
+            :label="$t('{title} statistics metric', { title: $t(title) })"
             size="sm"
             type="radio"
         />
@@ -87,10 +88,12 @@ const chartItems = computed(() => {
             :key="item.name"
             class="fc-top-airlines__bar"
         >
-            <span :title="item.name">
+            <span :title="$t(item.name)">
                 <template v-if="type !== 'airline' || !item.logo">
                     {{
-                        type === "airline" ? item.iata || item.name : item.name
+                        type === "airline"
+                            ? item.iata || $t(item.name)
+                            : $t(item.name)
                     }}
                 </template>
                 <BaseIcon
@@ -101,7 +104,7 @@ const chartItems = computed(() => {
                     v-if="type === 'airline' && item.logo"
                     class="sr-only"
                 >
-                    {{ item.name }}
+                    {{ $t(item.name) }}
                 </span>
             </span>
             <i>
@@ -112,7 +115,7 @@ const chartItems = computed(() => {
                     }"
                 ></b>
             </i>
-            <small>{{ item.label }}</small>
+            <small>{{ $t(item.label) }}</small>
         </div>
         <button
             type="button"
@@ -120,7 +123,7 @@ const chartItems = computed(() => {
             :aria-expanded="expanded"
             @click="expanded = !expanded"
         >
-            {{ expanded ? "Show Less" : "Show More" }}
+            {{ $t(expanded ? "Show Less" : "Show More") }}
         </button>
     </div>
 </template>

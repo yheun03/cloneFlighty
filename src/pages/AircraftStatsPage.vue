@@ -18,7 +18,7 @@
                     v-for="label in pageData.seatSummary.labels"
                     :key="label"
                 >
-                    {{ label }}
+                    {{ $t(label) }}
                 </span>
             </div>
             <div class="aircraft-stats-page__seat-bar">
@@ -26,12 +26,12 @@
                     v-for="(count, index) in pageData.seatSummary.counts"
                     :key="index"
                 >
-                    {{ count }}
+                    {{ $t(count) }}
                 </span>
             </div>
             <p>
-                Favorite Seat
-                <strong>{{ pageData.seatSummary.favorite }}</strong>
+                {{ $t("Favorite Seat") }}
+                <strong>{{ $t(pageData.seatSummary.favorite) }}</strong>
             </p>
         </div>
         <FcRankingStats
@@ -40,9 +40,9 @@
         />
         <section class="stats-page__section">
             <div class="fc-stat-head">
-                <h2>Class and Seat</h2>
+                <h2>{{ $t("Class and Seat") }}</h2>
                 <BaseButton
-                    label="Share"
+                    :label="$t('Share')"
                     :icon="shareIcon"
                     size="md"
                     variant="fill"
@@ -65,9 +65,9 @@
         <FcFrequentTails v-bind="pageData.tails" />
         <div class="aircraft-stats-page__age">
             <div class="fc-stat-head">
-                <h2>Aircraft Age</h2>
+                <h2>{{ $t("Aircraft Age") }}</h2>
                 <BaseButton
-                    label="Share"
+                    :label="$t('Share')"
                     :icon="shareIcon"
                     size="md"
                     variant="fill"
@@ -87,7 +87,7 @@
             class="frame-page__feedback"
             role="status"
         >
-            {{ message }}
+            {{ $t(message) }}
         </p>
     </section>
 </template>

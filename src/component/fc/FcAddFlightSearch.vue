@@ -35,27 +35,29 @@ function selectItem(item) {
 
 <template>
     <div class="fc-search">
-        <h2>Add Flight</h2>
-        <label :for="inputId">Enter airline, airport, or flight</label>
+        <h2>{{ $t("Add Flight") }}</h2>
+        <label :for="inputId">
+            {{ $t("Enter airline, airport, or flight") }}
+        </label>
         <BaseInput
             :id="inputId"
             v-model="query"
             type="search"
             autocomplete="off"
-            :placeholder="placeholder"
+            :placeholder="$t(placeholder)"
         />
         <h3
             v-if="sectionLabel"
             class="fc-search__section-label"
         >
-            {{ sectionLabel }}
+            {{ $t(sectionLabel) }}
         </h3>
         <BaseListRow
             v-for="item in filteredItems"
             :key="item.title"
             class="fc-search__result"
             variant="search"
-            :title="item.title"
+            :title="$t(item.title)"
             :subtitle="item.subtitle"
             :image="item.image"
             :icon="item.avatar"
@@ -68,7 +70,7 @@ function selectItem(item) {
             class="fc-search__selected"
             role="status"
         >
-            {{ selected }} 선택됨
+            {{ $t(selected) }} {{ $t("선택됨") }}
         </small>
     </div>
 </template>

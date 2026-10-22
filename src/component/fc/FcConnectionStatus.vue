@@ -8,11 +8,12 @@ defineProps({
 
 <template>
     <div class="fc-connection">
-        <h2>{{ title }}</h2>
+        <h2>{{ $t(title) }}</h2>
         <p>
-            You have
-            <strong>{{ duration }} between flights.</strong>
-            That's {{ extra }} more than the suggested minimum.
+            {{ $t("You have") }}
+            <strong>{{ $t(duration) }} {{ $t("between flights.") }}</strong>
+            {{ $t("That's") }} {{ $t(extra) }}
+            {{ $t("more than the suggested minimum.") }}
         </p>
     </div>
 </template>

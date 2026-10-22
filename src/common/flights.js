@@ -4,26 +4,18 @@ import flightData from "../data/temp/flights.json";
 import airlines from "./airlines.js";
 import airports from "./airports.js";
 import { aircraft, normalizeRegistration } from "./aircraft.js";
+import { locale, t, formatDuration } from "./preferences.js";
+export { formatDuration } from "./preferences.js";
 
 // 목록·상세·패스포트가 같은 항공편과 예약 정보를 참조합니다.
 // 화면 편집만 반응형으로 유지하며 새로고침하면 JSON 값으로 초기화합니다.
 const records = reactive(flightData.flights);
 
-export function formatDuration(minutes) {
-    if (!Number.isFinite(minutes)) return "—";
-    const hours = Math.floor(minutes / 60);
-    const rest = Math.round(minutes % 60);
-    return (
-        [hours ? `${hours}h` : "", rest ? `${rest}m` : ""]
-            .filter(Boolean)
-            .join(" ") || "0m"
-    );
-}
-
 function formatDate(value, timeZone, options) {
-    return new Intl.DateTimeFormat("en-US", { timeZone, ...options }).format(
-        new Date(value),
-    );
+    return new Intl.DateTimeFormat(locale.value, {
+        timeZone,
+        ...options,
+    }).format(new Date(value));
 }
 
 function localDate(value, timeZone) {
@@ -54,15 +46,30 @@ function timeZoneOffset(value, timeZone) {
 }
 
 function timingStatus(minutes) {
-    if (minutes === null) return "Not recorded";
-    if (minutes === 0) return "On Time";
-    return `${formatDuration(Math.abs(minutes))} ${minutes > 0 ? "Late" : "Early"}`;
+    if (minutes === null) return t("Not recorded");
+    if (minutes === 0) return t("On Time");
+    return t(minutes > 0 ? "{duration} Late" : "{duration} Early", {
+        duration: formatDuration(Math.abs(minutes)),
+    });
 }
 
 function joinFlight(record) {
     const airlineInfo = airlines[record.airline];
     const departureAirport = airports[record.departure.airport];
     const arrivalAirport = airports[record.arrival.airport];
+    // 거리 기준값은 외부 데이터셋 좌표에서 계산한 km이며, 단위는 표시할 때 변환합니다.
+    const radians = (degrees) => (degrees * Math.PI) / 180;
+    const lat1 = radians(departureAirport.lat);
+    const lat2 = radians(arrivalAirport.lat);
+    const h =
+        Math.sin((lat2 - lat1) / 2) ** 2 +
+        Math.cos(lat1) *
+            Math.cos(lat2) *
+            Math.sin(radians(arrivalAirport.lng - departureAirport.lng) / 2) **
+                2;
+    const distanceKm = Math.round(
+        6371 * 2 * Math.asin(Math.min(1, Math.sqrt(h))),
+    );
     const aircraftLookup =
         aircraft[normalizeRegistration(record.aircraft.registration)];
     const departureAt =
@@ -138,6 +145,7 @@ function joinFlight(record) {
 
     return {
         ...record,
+        distanceKm,
         airlineInfo,
         departureAirport,
         arrivalAirport,
@@ -154,7 +162,10 @@ function joinFlight(record) {
         from: departureAirport.iata,
         to: arrivalAirport.iata,
         flight: record.number,
-        title: `${departureAirport.city} to ${arrivalAirport.city}`,
+        title: t("{from} to {to}", {
+            from: departureAirport.city,
+            to: arrivalAirport.city,
+        }),
         date: formatDate(departureAt, departureAirport.timeZone, {
             weekday: "short",
             day: "numeric",
@@ -190,15 +201,19 @@ function joinFlight(record) {
         departureStatus: departureObservedAt
             ? timingStatus(departureDelayMinutes)
             : record.status === "upcoming"
-              ? "Scheduled"
-              : "Actual time not recorded",
+              ? t("Scheduled")
+              : t("Actual time not recorded"),
         arrivalStatus: arrivalObservedAt
             ? timingStatus(arrivalDelayMinutes)
             : record.status === "upcoming"
-              ? "Scheduled"
-              : "Actual time not recorded",
+              ? t("Scheduled")
+              : t("Actual time not recorded"),
         durationMinutes,
-        duration: `${formatDuration(durationMinutes)}${hasActualDuration ? "" : " scheduled"}`,
+        duration: hasActualDuration
+            ? formatDuration(durationMinutes)
+            : t("{duration} scheduled", {
+                  duration: formatDuration(durationMinutes),
+              }),
         airborneMinutes,
         flightTime:
             airborneMinutes === null ? "" : formatDuration(airborneMinutes),

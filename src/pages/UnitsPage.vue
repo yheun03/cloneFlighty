@@ -1,26 +1,44 @@
 <template>
     <section class="frame-page units-page">
-        <h1 class="frame-page__title">Units</h1>
+        <h1 class="frame-page__title">{{ $t("Units") }}</h1>
         <p class="frame-page__lead">
-            Set your preferred units for this device. Other units can be changed
-            in your device settings.
+            {{
+                $t(
+                    "Choose distance, speed, and altitude units for this device.",
+                )
+            }}
         </p>
+        <section
+            class="units-page__section"
+            aria-labelledby="distance-title"
+        >
+            <h2 id="distance-title">{{ $t("Distance") }}</h2>
+            <BaseTabItem
+                v-model="preferences.distance"
+                variant="segment"
+                type="radio"
+                :items="pageData.distanceUnits"
+                :label="$t('Distance unit')"
+            />
+            <p>{{ $t("Example: {value}", { value: formatDistance(1000) }) }}</p>
+        </section>
         <section
             class="units-page__section"
             aria-labelledby="speed-title"
         >
             <h2 id="speed-title">
                 <BaseIcon :src="speedIcon" />
-                Aircraft Speed
+                {{ $t("Aircraft Speed") }}
             </h2>
-            <p>Speed relative to the ground.</p>
+            <p>{{ $t("Speed relative to the ground.") }}</p>
             <BaseTabItem
-                v-model="speed"
+                v-model="preferences.speed"
                 variant="segment"
                 type="radio"
                 :items="pageData.speedUnits"
-                label="Aircraft speed unit"
+                :label="$t('Aircraft speed unit')"
             />
+            <p>{{ $t("Example: {value}", { value: formatSpeed(900) }) }}</p>
         </section>
         <section
             class="units-page__section"
@@ -28,44 +46,52 @@
         >
             <h2 id="altitude-title">
                 <BaseIcon :src="speedIcon" />
-                Altitude
+                {{ $t("Altitude") }}
             </h2>
             <p>
-                Zero on the ground, and “Standard Pressure Setting” in flight to
-                ensure consistent flight levels worldwide.
+                {{
+                    $t(
+                        "Zero on the ground, and “Standard Pressure Setting” in flight to ensure consistent flight levels worldwide.",
+                    )
+                }}
             </p>
             <BaseTabItem
-                v-model="altitude"
+                v-model="preferences.altitude"
                 variant="segment"
                 type="radio"
                 :items="pageData.altitudeUnits"
-                label="Altitude unit"
+                :label="$t('Altitude unit')"
             />
+            <p>
+                {{ $t("Example: {value}", { value: formatAltitude(10668) }) }}
+            </p>
         </section>
+        <p class="frame-page__note">
+            {{
+                $t(
+                    "Example values demonstrate unit conversion, not live flight measurements.",
+                )
+            }}
+        </p>
     </section>
 </template>
-
 <script setup>
-import { ref } from "vue";
-
 import BaseIcon from "../component/base/BaseIcon.vue";
 import BaseTabItem from "../component/base/BaseTabItem.vue";
-
+import {
+    preferences,
+    formatDistance,
+    formatSpeed,
+    formatAltitude,
+} from "../common/preferences.js";
 import speedIcon from "../assets/figma/speed.svg";
-
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/base/BaseTabItem.scss";
 import "../assets/scss/pages/page_units.scss";
 
-// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
-// prettier-ignore
 const pageData = {
-    "speed": "km/h",
-    "altitude": "m",
-    "speedUnits": ["mph", "km/h", "kt"],
-    "altitudeUnits": ["ft", "km", "m", "FL"]
+    distanceUnits: ["km", "mi", "nm"],
+    speedUnits: ["mph", "km/h", "kt"],
+    altitudeUnits: ["ft", "km", "m", "FL"],
 };
-
-const speed = ref(pageData.speed);
-const altitude = ref(pageData.altitude);
 </script>

@@ -1,4 +1,6 @@
-import airlineData from "../data/temp/airlines.json";
+import airlineData from "../data/reference/airlines.json";
+import airlineDetails from "../data/airline-details.json";
+import { t } from "./preferences.js";
 import koreanAirLogo from "../assets/figma/korean-air.svg";
 import asianaLogo from "../assets/Airlines/Logo-OZ.svg";
 import finnairLogo from "../assets/Airlines/Logo-AY.svg";
@@ -21,23 +23,34 @@ const defaultAirlineLogo = "";
 const airlines = Object.fromEntries(
     Object.entries(airlineData).map(([code, airline]) => [
         code,
-        { ...airline, logo: logos[airline.logo] || defaultAirlineLogo },
+        {
+            ...airline,
+            ...airlineDetails[code],
+            sourceName: airline.name,
+            logo: logos[airlineDetails[code]?.logo] || defaultAirlineLogo,
+            get name() {
+                return t(airline.name);
+            },
+        },
     ]),
 );
 
 export function getAirline(value) {
     const normalized = String(value || "")
         .trim()
-        .toUpperCase()
-        .split(" ")[0];
+        .toUpperCase();
 
     return (
-        airlines[normalized] ||
+        airlines[normalized.split(" ")[0]] ||
         Object.values(airlines).find(
             (airline) =>
                 airline.icao === normalized ||
-                airline.callsign === normalized ||
+                airline.callsign?.toUpperCase() === normalized ||
                 airline.name.toUpperCase() ===
+                    String(value || "")
+                        .trim()
+                        .toUpperCase() ||
+                airline.sourceName.toUpperCase() ===
                     String(value || "")
                         .trim()
                         .toUpperCase(),

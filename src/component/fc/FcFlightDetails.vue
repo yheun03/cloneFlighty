@@ -76,7 +76,7 @@ const airlineLinks = computed(() => [
                     <del
                         v-if="details.departure !== details.scheduledDeparture"
                     >
-                        {{ details.scheduledDeparture }}
+                        {{ $t(details.scheduledDeparture) }}
                     </del>
                 </span>
                 <b>
@@ -96,11 +96,11 @@ const airlineLinks = computed(() => [
             </div>
             <div class="fc-schedule__divider">
                 <BaseIcon :src="durationIcon" />
-                &nbsp;·&nbsp; {{ details.duration }} &nbsp;·&nbsp;
-                {{ details.distance }} &nbsp;·&nbsp;
+                &nbsp;·&nbsp; {{ $t(details.duration) }} &nbsp;·&nbsp;
+                {{ $t(details.distance) }} &nbsp;·&nbsp;
                 <template v-if="details.overnight">
                     <BaseIcon :src="overnightIcon" />
-                    &nbsp;Overnight
+                    {{ $t("Overnight") }}
                 </template>
             </div>
             <div class="fc-schedule__airport">
@@ -117,13 +117,13 @@ const airlineLinks = computed(() => [
                     <!-- prettier-ignore -->
                     <strong><time :datetime="details.arrivalDateTime">{{ details.arrival }}</time><sup>{{ details.arrivalDayOffset }}</sup></strong>
                     <del v-if="details.arrival !== details.scheduledArrival">
-                        {{ details.scheduledArrival }}
+                        {{ $t(details.scheduledArrival) }}
                     </del>
                 </span>
                 <span class="fc-schedule__gates">
                     <!-- prettier-ignore -->
                     <b>
-                        <img :src="baggageIcon" alt="" />{{ details.baggage }}
+                        <img :src="baggageIcon" alt="" />{{ $t(details.baggage) }}
                     </b>
                     <b>
                         <img
@@ -147,15 +147,15 @@ const airlineLinks = computed(() => [
             class="fc-details__codes"
         >
             <div>
-                <dt>Actual Takeoff (local)</dt>
-                <dd>{{ details.takeoff || "—" }}</dd>
+                <dt>{{ $t("Actual Takeoff (local)") }}</dt>
+                <dd>{{ $t(details.takeoff || "—") }}</dd>
             </div>
             <div>
-                <dt>Actual Landing (local)</dt>
-                <dd>{{ details.landing || "—" }}</dd>
+                <dt>{{ $t("Actual Landing (local)") }}</dt>
+                <dd>{{ $t(details.landing || "—") }}</dd>
             </div>
         </dl>
-        <h2>Enable popular features:</h2>
+        <h2>{{ $t("Enable popular features:") }}</h2>
         <div class="fc-details__features">
             <button
                 v-for="feature in details.features"
@@ -170,13 +170,13 @@ const airlineLinks = computed(() => [
                             : planeIcon
                     "
                 />
-                <span class="fc-details__paste">PASTE</span>
-                <strong>{{ feature.title }}</strong>
+                <span class="fc-details__paste">{{ $t("PASTE") }}</span>
+                <strong>{{ $t(feature.title) }}</strong>
                 <small>
                     {{
                         (feature.field === "bookingCode"
                             ? bookingCode
-                            : seat) || feature.action
+                            : seat) || $t(feature.action)
                     }}
                 </small>
             </button>
@@ -186,29 +186,29 @@ const airlineLinks = computed(() => [
             type="button"
             @click="$emit('connection')"
         >
-            Connection information
+            {{ $t("Connection information") }}
             <BaseIcon :src="routeIcon" />
         </button>
-        <h2>Good to Know</h2>
+        <h2>{{ $t("Good to Know") }}</h2>
         <div class="fc-details__card fc-details__timezone">
             <BaseIcon :src="durationIcon" />
             <div>
-                <strong>{{ details.timezoneTitle }}</strong>
-                <span>{{ details.timezoneDescription }}</span>
+                <strong>{{ $t(details.timezoneTitle) }}</strong>
+                <span>{{ $t(details.timezoneDescription) }}</span>
             </div>
         </div>
         <div class="fc-details__card">
-            <h3>Arrival Forecast</h3>
-            <p>{{ details.forecastDescription }}</p>
+            <h3>{{ $t("Arrival Forecast") }}</h3>
+            <p>{{ $t(details.forecastDescription) }}</p>
             <div class="fc-details__stats">
                 <span
                     v-for="stat in details.forecastStats"
                     :key="stat.label"
                 >
-                    {{ stat.label }}
+                    {{ $t(stat.label) }}
                     <strong>
                         <BaseIcon :src="durationIcon" />
-                        {{ stat.value }}
+                        {{ $t(stat.value) }}
                     </strong>
                 </span>
             </div>
@@ -217,7 +217,7 @@ const airlineLinks = computed(() => [
                 :key="item.label"
                 class="fc-details__bar"
             >
-                <span>{{ item.label }}</span>
+                <span>{{ $t(item.label) }}</span>
                 <div>
                     <i
                         :style="{
@@ -226,36 +226,38 @@ const airlineLinks = computed(() => [
                         }"
                     ></i>
                 </div>
-                <b>{{ item.value }}%</b>
+                <b>{{ $t(item.value) }}%</b>
             </div>
         </div>
         <div class="fc-details__card">
-            <h3>What’s My Plane?</h3>
-            <p>{{ details.plane }} &nbsp;·&nbsp; {{ details.tail }}</p>
+            <h3>{{ $t("What’s My Plane?") }}</h3>
+            <p>{{ $t(details.plane) }} &nbsp;·&nbsp; {{ $t(details.tail) }}</p>
             <small v-if="details.recordedAircraftType">
-                Flight record: {{ details.recordedAircraftType }}
+                {{ $t("Flight record:") }}
+                {{ $t(details.recordedAircraftType) }}
             </small>
             <p
                 v-if="details.aircraftMessage"
                 role="status"
             >
-                {{ details.aircraftMessage }}
+                {{ $t(details.aircraftMessage) }}
             </p>
             <small v-if="details.firstFlight">
-                First Flight: {{ details.firstFlight }} &nbsp;·&nbsp;
-                {{ details.age }}
+                {{ $t("First Flight:") }}
+                {{ $t(details.firstFlight) }} &nbsp;·&nbsp;
+                {{ $t(details.age) }}
             </small>
             <dl
                 v-if="details.capacity || details.engines"
                 class="fc-details__codes fc-details__codes--aircraft"
             >
                 <div>
-                    <dt>Seats</dt>
-                    <dd>{{ details.capacity }}</dd>
+                    <dt>{{ $t("Seats") }}</dt>
+                    <dd>{{ $t(details.capacity) }}</dd>
                 </div>
                 <div>
-                    <dt>Engines</dt>
-                    <dd>{{ details.engines }}</dd>
+                    <dt>{{ $t("Engines") }}</dt>
+                    <dd>{{ $t(details.engines) }}</dd>
                 </div>
             </dl>
             <dl
@@ -266,8 +268,8 @@ const airlineLinks = computed(() => [
                     v-for="field in details.aircraftInfo"
                     :key="field.label"
                 >
-                    <dt>{{ field.label }}</dt>
-                    <dd>{{ field.value }}</dd>
+                    <dt>{{ $t(field.label) }}</dt>
+                    <dd>{{ $t(field.value) }}</dd>
                 </div>
             </dl>
             <div class="fc-details__plane">
@@ -287,7 +289,7 @@ const airlineLinks = computed(() => [
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Aircraft data: adsbdb
+                    {{ $t("Aircraft data: adsbdb") }}
                 </a>
                 <template v-if="details.image && !imageFailed">
                     ·
@@ -296,7 +298,7 @@ const airlineLinks = computed(() => [
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        Photo: airport-data.com
+                        {{ $t("Photo: airport-data.com") }}
                     </a>
                 </template>
             </small>
@@ -306,7 +308,7 @@ const airlineLinks = computed(() => [
                 <BaseIcon :src="airlineIcon" />
                 &nbsp;{{ details.airline }}
             </h3>
-            <p>{{ details.alliance }}</p>
+            <p>{{ $t(details.alliance) }}</p>
             <div class="fc-details__links">
                 <template
                     v-for="link in airlineLinks"
@@ -325,35 +327,35 @@ const airlineLinks = computed(() => [
                                 ? 'noopener noreferrer'
                                 : undefined
                         "
-                        :aria-label="`${details.airline} ${link.label}`"
+                        :aria-label="`${details.airline} ${$t(link.label)}`"
                     >
-                        {{ link.label }}
+                        {{ $t(link.label) }}
                     </a>
                     <span
                         v-else
                         aria-disabled="true"
                     >
-                        {{ link.label }}
+                        {{ $t(link.label) }}
                     </span>
                 </template>
             </div>
             <dl class="fc-details__codes">
                 <div>
-                    <dt>ATC Callsign</dt>
+                    <dt>{{ $t("ATC Callsign") }}</dt>
                     <dd>{{ details.callsign }}</dd>
                 </div>
                 <div>
-                    <dt>ICAO</dt>
+                    <dt>{{ $t("ICAO") }}</dt>
                     <dd>{{ details.icao }}</dd>
                 </div>
                 <div>
-                    <dt>IATA</dt>
+                    <dt>{{ $t("IATA") }}</dt>
                     <dd>{{ details.iata }}</dd>
                 </div>
             </dl>
         </div>
         <div class="fc-details__card">
-            <h3>My History on This Route</h3>
+            <h3>{{ $t("My History on This Route") }}</h3>
             <p>
                 {{ details.from }}
                 <BaseIcon :src="routeIcon" />
@@ -364,17 +366,17 @@ const airlineLinks = computed(() => [
                     v-for="stat in details.historyStats"
                     :key="stat.label"
                 >
-                    {{ stat.label }}
+                    {{ $t(stat.label) }}
                     <strong>
                         <BaseIcon :src="durationIcon" />
-                        {{ stat.value }}
+                        {{ $t(stat.value) }}
                     </strong>
                 </span>
             </div>
-            <p>Most recent flights</p>
+            <p>{{ $t("Most recent flights") }}</p>
             <strong>
                 <BaseIcon :src="airlineIcon" />
-                &nbsp;{{ details.recentFlight }}
+                &nbsp;{{ $t(details.recentFlight) }}
             </strong>
         </div>
     </div>

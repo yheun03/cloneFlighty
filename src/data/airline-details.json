@@ -1,12 +1,6 @@
 {
     "KE": {
-        "name": "Korean Air",
         "nameKo": "대한항공",
-        "iata": "KE",
-        "icao": "KAL",
-        "callsign": "KOREANAIR",
-        "country": "South Korea",
-        "countryCode": "KR",
         "alliance": "SkyTeam",
         "logo": "korean-air.svg",
         "phone": "1588-2001",
@@ -21,13 +15,7 @@
         ]
     },
     "OZ": {
-        "name": "Asiana Airlines",
         "nameKo": "아시아나항공",
-        "iata": "OZ",
-        "icao": "AAR",
-        "callsign": "ASIANA",
-        "country": "South Korea",
-        "countryCode": "KR",
         "alliance": "Star Alliance",
         "logo": "Logo-OZ.svg",
         "phone": "1588-8000",
@@ -43,86 +31,32 @@
         ]
     },
     "KL": {
-        "name": "KLM",
-        "iata": "KL",
-        "icao": "KLM",
-        "callsign": "KLM",
-        "alliance": "SkyTeam",
-        "logo": null
+        "alliance": "SkyTeam"
     },
     "AY": {
-        "name": "Finnair",
-        "iata": "AY",
-        "icao": "FIN",
-        "callsign": "FINNAIR",
         "alliance": "oneworld",
         "logo": "Logo-AY.svg"
     },
     "AS": {
-        "name": "Alaska",
-        "iata": "AS",
-        "icao": "ASA",
-        "callsign": "ALASKA",
         "alliance": "oneworld",
         "logo": "Logo-AS.svg"
     },
     "SQ": {
-        "name": "Singapore Airlines",
-        "iata": "SQ",
-        "icao": "SIA",
-        "callsign": "SINGAPORE",
         "alliance": "Star Alliance",
         "logo": "Logo-SQ.svg"
     },
     "MU": {
-        "name": "China Eastern Airlines",
         "nameKo": "중국동방항공",
-        "iata": "MU",
-        "icao": "CES",
-        "callsign": null,
-        "country": "China",
-        "countryCode": "CN",
-        "alliance": null,
-        "logo": null,
-        "phone": null,
-        "internationalPhone": null,
-        "website": null,
-        "x": null,
-        "facebook": null,
         "sources": ["https://airinfo.airport.kr/ap_en/1408/subview.do"]
     },
     "7C": {
-        "name": "Jeju Air",
         "nameKo": "제주항공",
-        "iata": "7C",
-        "icao": "JJA",
-        "callsign": null,
-        "country": "South Korea",
-        "countryCode": "KR",
-        "alliance": null,
         "logo": "Logo-7C.svg",
-        "phone": null,
-        "internationalPhone": null,
-        "website": null,
-        "x": null,
-        "facebook": null,
         "sources": ["https://airinfo.airport.kr/ap_en/1408/subview.do"]
     },
     "LJ": {
-        "name": "Jin Air",
         "nameKo": "진에어",
-        "iata": "LJ",
-        "icao": "JNA",
-        "callsign": null,
-        "country": "South Korea",
-        "countryCode": "KR",
-        "alliance": null,
         "logo": "Logo-LJ.svg",
-        "phone": null,
-        "internationalPhone": null,
-        "website": null,
-        "x": null,
-        "facebook": null,
         "sources": ["https://airinfo.airport.kr/ap_en/1408/subview.do"]
     }
 }

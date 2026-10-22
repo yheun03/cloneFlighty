@@ -1,6 +1,6 @@
 <template>
     <section class="frame-page calendar-sync-page">
-        <h1 class="frame-page__title">Calendar Sync</h1>
+        <h1 class="frame-page__title">{{ $t("Calendar Sync") }}</h1>
         <FcCalendarSync
             :calendars="pageData.calendars"
             :settings="pageData"

@@ -1,27 +1,33 @@
 <template>
     <section class="frame-page language-page">
-        <h1 class="frame-page__title">Language</h1>
+        <h1 class="frame-page__title">{{ $t("Language") }}</h1>
         <p class="frame-page__lead">
-            Choose the language used in Flighty.
+            {{ $t("Choose the language used in Flighty.") }}
             <br />
-            Your flight details, notifications, and settings will be displayed
-            in the selected language.
+            {{
+                $t(
+                    "Your flight details, notifications, and settings will be displayed in the selected language.",
+                )
+            }}
         </p>
-        <h2 class="frame-page__label">ALERTS</h2>
+        <h2 class="frame-page__label">{{ $t("Languages") }}</h2>
         <div
             role="group"
-            aria-label="Language"
+            :aria-label="$t('Language')"
         >
             <BaseListRow
                 v-for="language in pageData.languages"
                 :key="language.id"
                 v-bind="language"
+                :translate-subtitle="false"
                 :accent="selected === language.id"
                 :aria-pressed="selected === language.id"
                 @click="selected = language.id"
             />
         </div>
-        <h2 class="frame-page__label language-page__device">Device Language</h2>
+        <h2 class="frame-page__label language-page__device">
+            {{ $t("Device Language") }}
+        </h2>
         <BaseListRow
             v-bind="pageData.device"
             :accent="selected === 'device'"
@@ -32,13 +38,20 @@
             class="sr-only"
             role="status"
         >
-            Selected language: {{ selected }}
+            {{ $t("Selected language:") }}
+            {{
+                $t(
+                    pageData.languages.find((item) => item.id === selected)
+                        ?.subtitle || "Device Language",
+                )
+            }}
         </p>
     </section>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed } from "vue";
+import { preferences } from "../common/preferences.js";
 
 import BaseListRow from "../component/base/BaseListRow.vue";
 import koreanFlag from "../assets/figma/flag-ko.svg";
@@ -57,8 +70,8 @@ const pageData = {
     "languages": [
         {
             "id": "ko",
-            "title": "한국어",
-            "subtitle": "Korean",
+            "title": "Korean",
+            "subtitle": "한국어",
             "image": koreanFlag
         },
         {
@@ -82,5 +95,10 @@ const pageData = {
     }
 };
 
-const selected = ref(pageData.selected);
+const selected = computed({
+    get: () => preferences.language,
+    set: (value) => {
+        preferences.language = value;
+    },
+});
 </script>

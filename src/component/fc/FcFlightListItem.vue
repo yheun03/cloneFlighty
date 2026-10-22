@@ -70,10 +70,10 @@ const isFriend = computed(() => props.type === "friend");
                     alt=""
                 />
             </span>
-            <strong v-else>{{ days }}</strong>
+            <strong v-else>{{ $t(days) }}</strong>
             <small>
-                <b v-if="isFriend">{{ days }}</b>
-                DAYS
+                <b v-if="isFriend">{{ $t(days) }}</b>
+                {{ $t("DAYS") }}
             </small>
         </div>
         <div
@@ -87,16 +87,16 @@ const isFriend = computed(() => props.type === "friend");
                 <!-- prettier-ignore -->
                 <span>
                     <BaseIcon v-if="variant === 'upcoming'" :src="airlineIcon" />
-                    {{ airline }} {{ flight }}<template v-if="variant === 'header'">
-                        · {{ date }}
+                    {{ $t(airline) }} {{ $t(flight) }}<template v-if="variant === 'header'">
+                        · {{ $t(date) }}
                     </template><template v-else-if="variant === 'history'">
-                        &nbsp; {{ departureCode }}
-                        <BaseIcon :src="routeIcon" /> {{ arrivalCode }}
+                        &nbsp; {{ $t(departureCode) }}
+                        <BaseIcon :src="routeIcon" /> {{ $t(arrivalCode) }}
                     </template>
                 </span>
-                <span v-if="variant !== 'header'">{{ date }}</span>
+                <span v-if="variant !== 'header'">{{ $t(date) }}</span>
             </div>
-            <strong>{{ title }}</strong>
+            <strong>{{ $t(title) }}</strong>
             <div
                 v-if="variant === 'upcoming'"
                 class="fc-flight-list__sub"
@@ -107,9 +107,9 @@ const isFriend = computed(() => props.type === "friend");
                             :src="departureIcon"
                             alt=""
                         />
-                        {{ departureCode }}
+                        {{ $t(departureCode) }}
                     </span>
-                    <span>{{ departureTime }}</span>
+                    <span>{{ $t(departureTime) }}</span>
                 </span>
                 <span class="fc-flight-list__route-time">
                     <span class="fc-flight-list__airport">
@@ -117,9 +117,9 @@ const isFriend = computed(() => props.type === "friend");
                             :src="arrivalIcon"
                             alt=""
                         />
-                        {{ arrivalCode }}
+                        {{ $t(arrivalCode) }}
                     </span>
-                    <span>{{ arrivalTime }}</span>
+                    <span>{{ $t(arrivalTime) }}</span>
                 </span>
             </div>
             <div
@@ -128,12 +128,12 @@ const isFriend = computed(() => props.type === "friend");
             >
                 <BaseChip
                     v-if="duration"
-                    :label="duration"
+                    :label="$t(duration)"
                     :icon="durationIcon"
                 />
                 <BaseChip
                     v-if="flightTime"
-                    :label="flightTime"
+                    :label="$t(flightTime)"
                     :icon="flightTimeIcon"
                 />
             </div>
@@ -142,7 +142,7 @@ const isFriend = computed(() => props.type === "friend");
             v-if="variant === 'header'"
             type="button"
             class="fc-flight-list__close"
-            aria-label="항공편 닫기"
+            :aria-label="$t('항공편 닫기')"
             @click="$emit('remove')"
         >
             ×

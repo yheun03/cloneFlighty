@@ -21,9 +21,9 @@ const visibleCountries = computed(() =>
 <template>
     <div class="fc-countries">
         <div class="fc-stat-head">
-            <h2>Countries &amp; Territories</h2>
+            <h2>{{ $t("Countries & Territories") }}</h2>
             <BaseButton
-                label="Share"
+                :label="$t('Share')"
                 :icon="shareIcon"
                 size="md"
                 variant="fill"
@@ -31,17 +31,17 @@ const visibleCountries = computed(() =>
             />
         </div>
         <div class="fc-stat-number">
-            <strong>{{ total }}</strong>
-            <span>total</span>
+            <strong>{{ $t(total) }}</strong>
+            <span>{{ $t("total") }}</span>
         </div>
         <div
             v-for="country in visibleCountries"
             :key="country.name"
             class="fc-countries__row"
         >
-            <span>{{ country.flag }}</span>
-            <strong>{{ country.name }}</strong>
-            <small>{{ country.count }} flights</small>
+            <span>{{ $t(country.flag) }}</span>
+            <strong>{{ $t(country.name) }}</strong>
+            <small>{{ $t(country.count) }} {{ $t("flights") }}</small>
         </div>
         <button
             type="button"
@@ -49,17 +49,17 @@ const visibleCountries = computed(() =>
             :aria-expanded="expanded"
             @click="expanded = !expanded"
         >
-            {{ expanded ? "Show Less" : "Show More" }}
+            {{ $t(expanded ? "Show Less" : "Show More") }}
         </button>
         <div class="fc-countries__regions">
             <div
                 v-for="region in regions"
                 :key="region.name"
             >
-                <strong>{{ region.name }}</strong>
+                <strong>{{ $t(region.name) }}</strong>
                 <span>
-                    {{ region.count }}
-                    <small>{{ region.percent }}</small>
+                    {{ $t(region.count) }}
+                    <small>{{ $t(region.percent) }}</small>
                 </span>
             </div>
         </div>

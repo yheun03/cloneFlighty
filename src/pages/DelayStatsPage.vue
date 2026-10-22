@@ -29,7 +29,7 @@
             class="frame-page__feedback"
             role="status"
         >
-            {{ message }}
+            {{ $t(message) }}
         </p>
     </section>
 </template>

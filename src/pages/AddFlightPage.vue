@@ -6,7 +6,7 @@
                 name: 'home',
                 query: { from: route.query.from, to: route.query.to },
             }"
-            aria-label="Close Add Flight"
+            :aria-label="$t('Close Add Flight')"
         >
             ×
         </RouterLink>
@@ -16,7 +16,7 @@
                 v-bind="searchOptions"
                 @select="selectResult"
             />
-            <h2 class="frame-page__label">MORE</h2>
+            <h2 class="frame-page__label">{{ $t("MORE") }}</h2>
             <BaseListRow
                 v-for="item in pageData.more"
                 :key="item.name"
@@ -24,13 +24,13 @@
                 @click="openPage(item.name)"
             />
             <div class="add-flight-page__report">
-                <span>Something missing?</span>
+                <span>{{ $t("Something missing?") }}</span>
                 <button
                     type="button"
                     class="frame-page__link"
                     @click="message = pageData.reportMessage"
                 >
-                    Send Report
+                    {{ $t("Send Report") }}
                 </button>
             </div>
             <p
@@ -38,34 +38,34 @@
                 class="frame-page__note"
                 role="status"
             >
-                {{ message }}
+                {{ $t(message) }}
             </p>
         </template>
         <template v-else>
-            <h1 class="frame-page__title">Add Flight</h1>
+            <h1 class="frame-page__title">{{ $t("Add Flight") }}</h1>
             <p class="frame-page__lead add-flight-page__hint">
-                Enter airline, airport, or flight
+                {{ $t("Enter airline, airport, or flight") }}
             </p>
             <form
                 v-if="mode === 'route'"
                 class="add-flight-page__route"
                 @submit.prevent="showFlights(date)"
             >
-                <label for="flight-from">From</label>
+                <label for="flight-from">{{ $t("From") }}</label>
                 <BaseInput
                     id="flight-from"
                     v-model="from"
                     class="frame-page__input"
-                    placeholder="SFO"
+                    :placeholder="$t('SFO')"
                     maxlength="3"
                     required
                 />
-                <label for="flight-to">To</label>
+                <label for="flight-to">{{ $t("To") }}</label>
                 <BaseInput
                     id="flight-to"
                     v-model="to"
                     class="frame-page__input"
-                    placeholder="ICN"
+                    :placeholder="$t('ICN')"
                     maxlength="3"
                     required
                 />
@@ -73,7 +73,7 @@
                     type="submit"
                     class="frame-page__primary"
                 >
-                    Find Flights
+                    {{ $t("Find Flights") }}
                 </button>
             </form>
             <template v-else>
@@ -87,23 +87,23 @@
                         v-if="mode === 'number'"
                         v-model="airline"
                         class="frame-page__input"
-                        aria-label="Airline code"
+                        :aria-label="$t('Airline code')"
                         maxlength="3"
                     />
                     <BaseInput
                         v-if="mode === 'number'"
                         v-model="flight"
                         class="frame-page__input"
-                        aria-label="Flight number"
+                        :aria-label="$t('Flight number')"
                         inputmode="numeric"
                         maxlength="4"
                     />
                     <BaseInput
                         v-model="date"
-                        placeholder="10/5 or Friday"
+                        :placeholder="$t('10/5 or Friday')"
                         type="calendar"
                         :calendar-options="calendarOptions"
-                        aria-label="Flight date"
+                        :aria-label="$t('Flight date')"
                         @keydown.enter.prevent="showFlights(date)"
                     />
                 </div>
@@ -119,7 +119,7 @@
                         @click="showFlights(item.date)"
                     />
                     <BaseListRow
-                        title="Pick from Calendar"
+                        :title="$t('Pick from Calendar')"
                         :icon="airlines[airline]?.logo || ''"
                         @click="openPage('add-flight-calendar')"
                     />
@@ -134,7 +134,7 @@
                         class="frame-page__link"
                         @click="showFlights(calendarDate)"
                     >
-                        Show flights on {{ selectedDateLabel }}
+                        {{ $t("Show flights on") }} {{ $t(selectedDateLabel) }}
                     </button>
                 </template>
             </template>
@@ -155,6 +155,7 @@ import BaseListRow from "../component/base/BaseListRow.vue";
 import airports from "../common/airports.js";
 import airlines from "../common/airlines.js";
 import { flights } from "../common/flights.js";
+import { locale } from "../common/preferences.js";
 
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/base/BaseButton.scss";
@@ -207,7 +208,7 @@ const date = ref(String(route.query.date || defaultFlight.departureDate));
 const calendarDate = ref(date.value);
 const from = ref(String(route.query.from || defaultFlight.from));
 const to = ref(String(route.query.to || defaultFlight.to));
-const searchOptions = {
+const searchOptions = computed(() => ({
     placeholder: "Search airline, airport, or flight",
     sectionLabel: "FREQUENTLY USED",
     items: [
@@ -234,7 +235,7 @@ const searchOptions = {
                 code: item.iata,
             })),
     ],
-};
+}));
 const matchingFlights = computed(() =>
     upcomingFlights.value.filter(
         (item) =>
@@ -271,9 +272,10 @@ const calendarOptions = computed(() => {
 const message = ref("");
 const mode = computed(() => route.meta.searchMode || "search");
 const selectedDateLabel = computed(() =>
-    new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric" }).format(
-        new Date(`${calendarDate.value}T00:00:00`),
-    ),
+    new Intl.DateTimeFormat(locale.value, {
+        month: "long",
+        day: "numeric",
+    }).format(new Date(`${calendarDate.value}T00:00:00`)),
 );
 
 function openPage(name, extra = {}) {

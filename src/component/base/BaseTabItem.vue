@@ -1,5 +1,6 @@
 <script setup>
 import BaseIcon from "./BaseIcon.vue";
+import { t } from "../../common/preferences.js";
 
 const props = defineProps({
     label: { type: String, default: "탭 선택" },
@@ -72,7 +73,7 @@ function itemAria(item) {
     if (props.type === "sort") {
         return {
             "aria-pressed": isSelected(item),
-            "aria-label": `${item}${isSelected(item) ? `: ${order.value === "desc" ? "내림차순" : "오름차순"}` : ""}`,
+            "aria-label": `${t(item)}${isSelected(item) ? `: ${t(order.value === "desc" ? "Descending" : "Ascending")}` : ""}`,
         };
     }
     return props.type === "tab"
@@ -86,7 +87,7 @@ function itemAria(item) {
         class="fc-tab-items"
         :class="{ 'fc-tab-items--segment': variant === 'segment' }"
         :role="groupRole[type]"
-        :aria-label="label"
+        :aria-label="$t(label)"
     >
         <button
             v-for="item in items"
@@ -106,7 +107,7 @@ function itemAria(item) {
                 v-if="icon"
                 :src="icon"
             />
-            {{ item }}
+            {{ $t(item) }}
             <BaseIcon
                 v-if="type === 'sort' && isSelected(item) && order"
                 src="chevron-right"

@@ -1,10 +1,11 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { preferences, formatDistance } from "../../common/preferences.js";
 
 import BaseIcon from "../base/BaseIcon.vue";
 import BaseButton from "../base/BaseButton.vue";
 
-defineProps({
+const props = defineProps({
     title: { type: String, required: true },
     shareLabel: { type: String, required: true },
     shareIcon: { type: String, required: true },
@@ -28,14 +29,22 @@ defineProps({
 });
 
 const expanded = ref(false);
+const distanceKm = computed(
+    () =>
+        Number(props.distance.replace(/[^\d.-]/g, "")) *
+        { km: 1, mi: 1.609344, nm: 1.852 }[props.distanceUnit],
+);
+const secondaryUnit = computed(() =>
+    preferences.distance === "km" ? "mi" : "km",
+);
 </script>
 
 <template>
     <div class="fc-distance">
         <div class="fc-stat-head">
-            <h2>{{ title }}</h2>
+            <h2>{{ $t(title) }}</h2>
             <BaseButton
-                :label="shareLabel"
+                :label="$t(shareLabel)"
                 :icon="shareIcon"
                 size="md"
                 variant="fill"
@@ -43,10 +52,12 @@ const expanded = ref(false);
             />
         </div>
         <div class="fc-stat-number">
-            <strong>{{ distance }}</strong>
-            <span>{{ distanceUnit }}</span>
+            <strong>
+                ≈ {{ formatDistance(distanceKm, { withUnit: false }) }}
+            </strong>
+            <span>{{ preferences.distance }}</span>
         </div>
-        <p>{{ miles }} {{ milesUnit }}</p>
+        <p>≈ {{ formatDistance(distanceKm, { unit: secondaryUnit }) }}</p>
         <div
             v-if="view === 'breakdown' || expanded"
             class="fc-distance__breakdown"
@@ -55,21 +66,21 @@ const expanded = ref(false);
                 v-for="item in breakdown"
                 :key="item.label"
             >
-                <span>{{ item.label }}</span>
-                <strong>{{ item.value }}</strong>
+                <span>{{ $t(item.label) }}</span>
+                <strong>{{ $t(item.value) }}</strong>
             </div>
         </div>
         <div
             v-else
             class="fc-distance__comparisons"
         >
-            <strong>{{ averageLabel }}</strong>
+            <strong>{{ $t(averageLabel) }}</strong>
             <span
                 v-for="item in comparisons"
                 :key="item.text"
             >
                 <BaseIcon :src="item.icon" />
-                <b>{{ item.text }}</b>
+                <b>{{ $t(item.text) }}</b>
             </span>
         </div>
         <button
@@ -79,23 +90,23 @@ const expanded = ref(false);
             :aria-expanded="expanded"
             @click="expanded = !expanded"
         >
-            {{ expanded ? summaryLabel : breakdownLabel }}
+            {{ $t(expanded ? summaryLabel : breakdownLabel) }}
         </button>
         <div class="fc-distance__flight">
-            <h3>{{ shortestFlight.title }}</h3>
+            <h3>{{ $t(shortestFlight.title) }}</h3>
             <strong>
-                {{ shortestFlight.route }}
-                <span>{{ shortestFlight.distance }}</span>
+                {{ $t(shortestFlight.route) }}
+                <span>{{ $t(shortestFlight.distance) }}</span>
             </strong>
-            <small>{{ shortestFlight.detail }}</small>
+            <small>{{ $t(shortestFlight.detail) }}</small>
         </div>
         <div class="fc-distance__flight">
-            <h3>{{ longestFlight.title }}</h3>
+            <h3>{{ $t(longestFlight.title) }}</h3>
             <strong>
-                {{ longestFlight.route }}
-                <span>{{ longestFlight.distance }}</span>
+                {{ $t(longestFlight.route) }}
+                <span>{{ $t(longestFlight.distance) }}</span>
             </strong>
-            <small>{{ longestFlight.detail }}</small>
+            <small>{{ $t(longestFlight.detail) }}</small>
         </div>
     </div>
 </template>

@@ -30,30 +30,30 @@ const period = ref(props.aircraft.periods[0]);
         <template v-if="showOverview">
             <div class="fc-aircraft-stats__numbers">
                 <div>
-                    <span>Total Aircraft</span>
-                    <strong>{{ aircraft.total }}</strong>
-                    <small>{{ aircraft.manufacturer }}</small>
+                    <span>{{ $t("Total Aircraft") }}</span>
+                    <strong>{{ $t(aircraft.total) }}</strong>
+                    <small>{{ $t(aircraft.manufacturer) }}</small>
                 </div>
                 <div>
-                    <span>Newest Aircraft</span>
-                    <strong>{{ aircraft.newest.age }}</strong>
-                    <small>{{ aircraft.newest.model }}</small>
+                    <span>{{ $t("Newest Aircraft") }}</span>
+                    <strong>{{ $t(aircraft.newest.age) }}</strong>
+                    <small>{{ $t(aircraft.newest.model) }}</small>
                 </div>
                 <div>
-                    <span>Oldest Aircraft</span>
-                    <strong>{{ aircraft.oldest.age }}</strong>
-                    <small>{{ aircraft.oldest.model }}</small>
+                    <span>{{ $t("Oldest Aircraft") }}</span>
+                    <strong>{{ $t(aircraft.oldest.age) }}</strong>
+                    <small>{{ $t(aircraft.oldest.model) }}</small>
                 </div>
             </div>
-            <h3>Most flown aircraft</h3>
+            <h3>{{ $t("Most flown aircraft") }}</h3>
             <div class="fc-aircraft-stats__featured">
-                <strong>{{ aircraft.mostFlown }}</strong>
-                <span>{{ aircraft.summary }}</span>
+                <strong>{{ $t(aircraft.mostFlown) }}</strong>
+                <span>{{ $t(aircraft.summary) }}</span>
                 <div>
                     <img
                         v-if="aircraft.image"
                         :src="aircraft.image"
-                        :alt="aircraft.mostFlown"
+                        :alt="$t(aircraft.mostFlown)"
                     />
                     <BaseIcon
                         v-else
@@ -63,10 +63,10 @@ const period = ref(props.aircraft.periods[0]);
             </div>
         </template>
         <template v-if="showAge">
-            <h3 v-if="showAgeTitle">Aircraft Age</h3>
+            <h3 v-if="showAgeTitle">{{ $t("Aircraft Age") }}</h3>
             <p>
-                {{ aircraft.median }}
-                <small>median age</small>
+                {{ $t(aircraft.median) }}
+                <small>{{ $t("median age") }}</small>
             </p>
             <div class="fc-aircraft-stats__ages">
                 <div
@@ -74,45 +74,48 @@ const period = ref(props.aircraft.periods[0]);
                     :key="age.label"
                 >
                     <i :style="{ height: `${age.value * 5}px` }"></i>
-                    <span>{{ age.label }}</span>
+                    <span>{{ $t(age.label) }}</span>
                 </div>
             </div>
             <div class="fc-aircraft-stats__cards">
                 <div>
-                    <strong>Newest Aircraft</strong>
-                    <b>{{ aircraft.newest.age }} old</b>
-                    <span>{{ aircraft.newest.date }}</span>
+                    <strong>{{ $t("Newest Aircraft") }}</strong>
+                    <b>{{ $t(aircraft.newest.age) }} {{ $t("old") }}</b>
+                    <span>{{ $t(aircraft.newest.date) }}</span>
                     <div
                         v-if="aircraft.newest.image"
                         class="fc-aircraft-stats__card-image"
                     >
                         <img
                             :src="aircraft.newest.image"
-                            :alt="aircraft.newest.model"
+                            :alt="$t(aircraft.newest.model)"
                         />
                     </div>
-                    <small>{{ aircraft.newest.model }}</small>
+                    <small>{{ $t(aircraft.newest.model) }}</small>
                 </div>
                 <div>
-                    <strong>Oldest Aircraft</strong>
-                    <b>{{ aircraft.oldest.age }} old</b>
-                    <span>{{ aircraft.oldest.date }}</span>
+                    <strong>{{ $t("Oldest Aircraft") }}</strong>
+                    <b>{{ $t(aircraft.oldest.age) }} {{ $t("old") }}</b>
+                    <span>{{ $t(aircraft.oldest.date) }}</span>
                     <div
                         v-if="aircraft.oldest.image"
                         class="fc-aircraft-stats__card-image"
                     >
                         <img
                             :src="aircraft.oldest.image"
-                            :alt="aircraft.oldest.model"
+                            :alt="$t(aircraft.oldest.model)"
                         />
                     </div>
-                    <small>{{ aircraft.oldest.model }}</small>
+                    <small>{{ $t(aircraft.oldest.model) }}</small>
                 </div>
             </div>
         </template>
         <template v-if="showTail">
-            <h3>Frequented Tail No.</h3>
-            <p>{{ aircraft.tailFlights }} flights · {{ aircraft.tail }}</p>
+            <h3>{{ $t("Frequented Tail No.") }}</h3>
+            <p>
+                {{ $t(aircraft.tailFlights) }} {{ $t("flights ·") }}
+                {{ aircraft.tail }}
+            </p>
         </template>
     </div>
 </template>

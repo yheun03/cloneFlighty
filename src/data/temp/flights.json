@@ -30,7 +30,6 @@
                 "gate": "53",
                 "baggage": null
             },
-            "distanceKm": 451,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "",
@@ -73,7 +72,6 @@
                 "gate": null,
                 "baggage": null
             },
-            "distanceKm": 451,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "",
@@ -116,7 +114,6 @@
                 "gate": "B8",
                 "baggage": null
             },
-            "distanceKm": 544,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "IFBOGE",
@@ -159,7 +156,6 @@
                 "gate": "F7",
                 "baggage": null
             },
-            "distanceKm": 8552,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "EXHH5U",
@@ -202,7 +198,6 @@
                 "gate": "18",
                 "baggage": null
             },
-            "distanceKm": 1521,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "EXHH5U",
@@ -245,7 +240,6 @@
                 "gate": "E11",
                 "baggage": null
             },
-            "distanceKm": 763,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "9M3LMT",
@@ -288,7 +282,6 @@
                 "gate": "D63",
                 "baggage": null
             },
-            "distanceKm": 633,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "EXHH5U",
@@ -331,7 +324,6 @@
                 "gate": "281",
                 "baggage": null
             },
-            "distanceKm": 8552,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "EXHH5U",
@@ -374,7 +366,6 @@
                 "gate": null,
                 "baggage": null
             },
-            "distanceKm": 3227,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "DRFAHB",
@@ -417,7 +408,6 @@
                 "gate": "236",
                 "baggage": null
             },
-            "distanceKm": 3227,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "DRFAHB",
@@ -460,7 +450,6 @@
                 "gate": null,
                 "baggage": null
             },
-            "distanceKm": 655,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "ca3nzj0",
@@ -503,7 +492,6 @@
                 "gate": "118",
                 "baggage": null
             },
-            "distanceKm": 655,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "",
@@ -546,7 +534,6 @@
                 "gate": null,
                 "baggage": null
             },
-            "distanceKm": 695,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "U6DJKL",
@@ -589,7 +576,6 @@
                 "gate": "16",
                 "baggage": null
             },
-            "distanceKm": 695,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "U6DJKL",
@@ -632,7 +618,6 @@
                 "gate": null,
                 "baggage": null
             },
-            "distanceKm": 861,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "F6FX97",
@@ -675,7 +660,6 @@
                 "gate": null,
                 "baggage": null
             },
-            "distanceKm": 861,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "F6FX97",
@@ -718,7 +702,6 @@
                 "gate": null,
                 "baggage": null
             },
-            "distanceKm": 1273,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "",
@@ -761,7 +744,6 @@
                 "gate": null,
                 "baggage": null
             },
-            "distanceKm": 1273,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "",
@@ -804,7 +786,6 @@
                 "gate": "27",
                 "baggage": null
             },
-            "distanceKm": 1258,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "6OCQLE",
@@ -847,7 +828,6 @@
                 "gate": "19",
                 "baggage": null
             },
-            "distanceKm": 8545,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "AEJPAW",
@@ -890,7 +870,6 @@
                 "gate": "1",
                 "baggage": null
             },
-            "distanceKm": 866,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "6BR5G8",
@@ -933,7 +912,6 @@
                 "gate": "C2",
                 "baggage": null
             },
-            "distanceKm": 1462,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "LAGSCT",
@@ -976,7 +954,6 @@
                 "gate": "265",
                 "baggage": null
             },
-            "distanceKm": 4625,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "FZ3UTV",
@@ -1019,7 +996,6 @@
                 "gate": "G19",
                 "baggage": null
             },
-            "distanceKm": 4625,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "FZ3UTV",
@@ -1062,7 +1038,6 @@
                 "gate": "150",
                 "baggage": null
             },
-            "distanceKm": 9627,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "6W9SWD",
@@ -1105,7 +1080,6 @@
                 "gate": null,
                 "baggage": null
             },
-            "distanceKm": 8545,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "5F7FAZ",
@@ -1148,7 +1122,6 @@
                 "gate": "14",
                 "baggage": null
             },
-            "distanceKm": 9086,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "6W9SWD",
@@ -1191,7 +1164,6 @@
                 "gate": "21",
                 "baggage": null
             },
-            "distanceKm": 1462,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "5G4QUP",
@@ -1234,7 +1206,6 @@
                 "gate": "243",
                 "baggage": null
             },
-            "distanceKm": 1210,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "6OCQLE",
@@ -1277,7 +1248,6 @@
                 "gate": null,
                 "baggage": null
             },
-            "distanceKm": 821,
             "distanceSource": "great-circle",
             "booking": {
                 "code": "6BRJS5",

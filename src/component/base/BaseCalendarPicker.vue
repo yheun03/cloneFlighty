@@ -2,6 +2,7 @@
 import { computed, ref, watch } from "vue";
 
 import BaseButton from "./BaseButton.vue";
+import { locale, t } from "../../common/preferences.js";
 
 const props = defineProps({
     year: { type: Number, required: true },
@@ -21,20 +22,29 @@ const viewYear = ref(props.year);
 const viewMonth = ref(props.month);
 const isPeriodOpen = ref(false);
 
-const weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-const months = Array.from({ length: 12 }, (_, index) => ({
-    value: index + 1,
-    label: new Intl.DateTimeFormat("en-US", { month: "long" }).format(
-        new Date(2026, index, 1),
+const weekdays = computed(() =>
+    Array.from({ length: 7 }, (_, index) =>
+        new Intl.DateTimeFormat(locale.value, { weekday: "short" }).format(
+            new Date(2026, 0, 4 + index),
+        ),
     ),
-}));
+);
+const months = computed(() =>
+    Array.from({ length: 12 }, (_, index) => ({
+        value: index + 1,
+        label: new Intl.DateTimeFormat(locale.value, { month: "long" }).format(
+            new Date(2026, index, 1),
+        ),
+    })),
+);
 const years = computed(() =>
     Array.from({ length: 21 }, (_, index) => props.year - 10 + index),
 );
 const title = computed(() =>
-    new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(
-        new Date(viewYear.value, viewMonth.value - 1, 1),
-    ),
+    new Intl.DateTimeFormat(locale.value, {
+        month: "long",
+        year: "numeric",
+    }).format(new Date(viewYear.value, viewMonth.value - 1, 1)),
 );
 const days = computed(() => {
     const offset = new Date(viewYear.value, viewMonth.value - 1, 1).getDay();
@@ -78,7 +88,7 @@ watch(
         <header class="fc-calendar__header">
             <BaseButton
                 class="fc-calendar__period"
-                :label="title"
+                :label="$t(title)"
                 size="md"
                 variant="text"
                 tone="default"
@@ -88,7 +98,7 @@ watch(
             <div class="fc-calendar__navigation">
                 <BaseButton
                     class="fc-calendar__previous"
-                    aria-label="이전 달"
+                    :aria-label="$t('이전 달')"
                     icon="chevron-right"
                     :icon-size="16"
                     size="sm"
@@ -97,7 +107,7 @@ watch(
                     @click="moveMonth(-1)"
                 />
                 <BaseButton
-                    aria-label="다음 달"
+                    :aria-label="$t('다음 달')"
                     icon="chevron-right"
                     :icon-size="16"
                     size="sm"
@@ -112,26 +122,26 @@ watch(
             class="fc-calendar__period-picker"
         >
             <label>
-                <span>연도</span>
+                <span>{{ $t("연도") }}</span>
                 <select v-model.number="viewYear">
                     <option
                         v-for="year in years"
                         :key="year"
                         :value="year"
                     >
-                        {{ year }}
+                        {{ $t(year) }}
                     </option>
                 </select>
             </label>
             <label>
-                <span>월</span>
+                <span>{{ $t("월") }}</span>
                 <select v-model.number="viewMonth">
                     <option
                         v-for="month in months"
                         :key="month.value"
                         :value="month.value"
                     >
-                        {{ month.label }}
+                        {{ $t(month.label) }}
                     </option>
                 </select>
             </label>
@@ -139,7 +149,7 @@ watch(
         <div
             class="fc-calendar__grid"
             role="grid"
-            :aria-label="`${title} 날짜 선택`"
+            :aria-label="`${title} ${t('Choose date')}`"
         >
             <span
                 v-for="day in weekdays"
@@ -148,7 +158,7 @@ watch(
                 role="columnheader"
                 aria-hidden="true"
             >
-                {{ day }}
+                {{ $t(day) }}
             </span>
             <span
                 v-for="(day, index) in days"
@@ -163,11 +173,11 @@ watch(
                         'is-selected': selectedDay === day,
                         'is-outlined': outlined.includes(day),
                     }"
-                    :aria-label="`${title} ${day}일${marked.includes(day) ? ', 항공편 있음' : ''}`"
+                    :aria-label="`${new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(new Date(viewYear, viewMonth - 1, day))}${marked.includes(day) ? `, ${t('Flight available')}` : ''}`"
                     :aria-pressed="selectedDay === day"
                     @click="selectDay(day)"
                 >
-                    {{ day }}
+                    {{ $t(day) }}
                 </button>
             </span>
         </div>

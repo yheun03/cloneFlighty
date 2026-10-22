@@ -27,6 +27,6 @@ defineEmits(["click"]);
         >
             <BaseIcon :src="icon" />
         </span>
-        <span>{{ label }}</span>
+        <span>{{ $t(label) }}</span>
     </button>
 </template>

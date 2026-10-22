@@ -22,7 +22,8 @@
         }
     }
 
-    &__appearance {
+    &__appearance,
+    &__sources {
         margin-top: 36px;
 
         h2 {
@@ -32,6 +33,17 @@
 
         p {
             margin: 0 0 14px;
+        }
+    }
+
+    &__sources {
+        p {
+            color: var(--fc-text-secondary, #979797);
+            @include typo.font(b2, rg);
+        }
+
+        a {
+            text-decoration: underline;
         }
     }
 

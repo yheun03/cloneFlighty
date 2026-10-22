@@ -49,6 +49,6 @@ const iconStyle = computed(() => {
     <button :type="type" class="fc-button"
         :class="[`fc-button--${size}`, `fc-button--${variant}`, `fc-button--${tone}`, { 'fc-button--icon-only': isIconOnly }]"
         :disabled="disabled" @click="$emit('click', $event)">
-        <BaseIcon v-if="icon" :src="icon" :style="iconStyle" /><span v-if="label">{{ label }}</span>
+        <BaseIcon v-if="icon" :src="icon" :style="iconStyle" /><span v-if="label">{{ $t(label) }}</span>
     </button>
 </template>

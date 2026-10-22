@@ -16,16 +16,16 @@ defineEmits(["select"]);
 
 <template>
     <div class="fc-settings">
-        <h2>Settings</h2>
+        <h2>{{ $t("Settings") }}</h2>
         <button
             class="fc-settings__pro"
             type="button"
             @click="$emit('select', 'pro')"
         >
-            <b>PRO</b>
+            <b>{{ $t("PRO") }}</b>
             <span>
-                <strong>{{ membership.title }}</strong>
-                <small>{{ membership.status }}</small>
+                <strong>{{ $t(membership.title) }}</strong>
+                <small>{{ $t(membership.status) }}</small>
             </span>
             <BaseIcon :src="nextIcon" />
         </button>
@@ -34,12 +34,12 @@ defineEmits(["select"]);
             :key="group.label"
             class="fc-settings__group"
         >
-            <h3>{{ group.label }}</h3>
+            <h3>{{ $t(group.label) }}</h3>
             <div class="fc-settings__items">
                 <BaseListRow
                     v-for="item in group.items"
                     :key="item.title"
-                    :title="item.title"
+                    :title="$t(item.title)"
                     :icon="item.icon"
                     @click="$emit('select', item)"
                 />

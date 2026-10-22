@@ -16,27 +16,27 @@ defineProps({
         <div class="fc-terminal__stop">
             <b>{{ gate }}</b>
             <span>
-                <strong>{{ terminal }}</strong>
-                <small>Awaiting Gate</small>
+                <strong>{{ $t(terminal) }}</strong>
+                <small>{{ $t("Awaiting Gate") }}</small>
             </span>
             <span>
-                Arrive {{ arrival }}
-                <small>Scheduled</small>
+                {{ $t("Arrive") }} {{ $t(arrival) }}
+                <small>{{ $t("Scheduled") }}</small>
             </span>
         </div>
         <div class="fc-terminal__change">
             <BaseIcon :src="terminalIcon" />
-            &nbsp;No Terminal Change
+            {{ $t("No Terminal Change") }}
         </div>
         <div class="fc-terminal__stop">
             <b>{{ gate }}</b>
             <span>
-                <strong>{{ terminal }}</strong>
-                <small>Awaiting Gate</small>
+                <strong>{{ $t(terminal) }}</strong>
+                <small>{{ $t("Awaiting Gate") }}</small>
             </span>
             <span>
-                Depart {{ departure }}
-                <small>Scheduled</small>
+                {{ $t("Depart") }} {{ $t(departure) }}
+                <small>{{ $t("Scheduled") }}</small>
             </span>
         </div>
     </div>

@@ -40,18 +40,22 @@ function selectCalendar(calendar) {
 
 <template>
     <div class="fc-calendar-sync">
-        <strong>Keep your calendar accurate and flights in sync.</strong>
+        <strong>
+            {{ $t("Keep your calendar accurate and flights in sync.") }}
+        </strong>
         <p>
-            Import flights in your calendar for tracking, plus past flights.
-            Export flights with reservation details and live updating to keep
-            your calendar accurate.
+            {{
+                $t(
+                    "Import flights in your calendar for tracking, plus past flights. Export flights with reservation details and live updating to keep your calendar accurate.",
+                )
+            }}
         </p>
         <div class="fc-calendar-sync__item">
             <div>
-                <h3>Import Flights</h3>
+                <h3>{{ $t("Import Flights") }}</h3>
                 <BaseToggleSwitch
                     v-model="importEnabled"
-                    label="Import Flights"
+                    :label="$t('Import Flights')"
                 />
             </div>
             <button
@@ -61,20 +65,20 @@ function selectCalendar(calendar) {
             >
                 <span class="fc-calendar-sync__label">
                     <BaseIcon :src="calendarIcon" />
-                    Choose Calendars
+                    {{ $t("Choose Calendars") }}
                 </span>
                 <span>
-                    {{ importCalendars.join(", ") || "Select" }}&nbsp;
+                    {{ $t(importCalendars.join(", ") || "Select") }}&nbsp;
                     <BaseIcon :src="nextIcon" />
                 </span>
             </button>
         </div>
         <div class="fc-calendar-sync__item">
             <div>
-                <h3>Export Flights</h3>
+                <h3>{{ $t("Export Flights") }}</h3>
                 <BaseToggleSwitch
                     v-model="exportEnabled"
-                    label="Export Flights"
+                    :label="$t('Export Flights')"
                 />
             </div>
             <button
@@ -84,10 +88,10 @@ function selectCalendar(calendar) {
             >
                 <span class="fc-calendar-sync__label">
                     <BaseIcon :src="calendarExportIcon" />
-                    Choose Calendar
+                    {{ $t("Choose Calendar") }}
                 </span>
                 <span>
-                    {{ exportCalendar || "Select" }}&nbsp;
+                    {{ $t(exportCalendar || "Select") }}&nbsp;
                     <BaseIcon :src="nextIcon" />
                 </span>
             </button>
@@ -96,7 +100,7 @@ function selectCalendar(calendar) {
             v-if="choosing"
             class="fc-calendar-sync__choices"
             role="group"
-            aria-label="Choose calendar"
+            :aria-label="$t('Choose calendar')"
         >
             <button
                 v-for="calendar in calendars"
@@ -109,7 +113,7 @@ function selectCalendar(calendar) {
                 "
                 @click="selectCalendar(calendar)"
             >
-                {{ calendar }}
+                {{ $t(calendar) }}
                 <span
                     v-if="
                         choosing === 'import' &&
@@ -123,17 +127,20 @@ function selectCalendar(calendar) {
                 type="button"
                 @click="choosing = ''"
             >
-                Done
+                {{ $t("Done") }}
             </button>
         </div>
         <div class="fc-calendar-sync__notice">
             <BaseIcon :src="noticeIcon" />
             &nbsp;
             <span>
-                <strong>Flighty receives minimal data</strong>
+                <strong>{{ $t("Flighty receives minimal data") }}</strong>
                 <br />
-                Calendar processing is on device, and only events identified for
-                flight import are sent to Flighty.
+                {{
+                    $t(
+                        "Calendar processing is on device, and only events identified for flight import are sent to Flighty.",
+                    )
+                }}
             </span>
         </div>
     </div>

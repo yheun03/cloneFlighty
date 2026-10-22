@@ -15,7 +15,7 @@
                 #intro
             >
                 <h3 class="alerts-page__intro">
-                    Customize this per friend in Flighty Friends.
+                    {{ $t("Customize this per friend in Flighty Friends.") }}
                 </h3>
             </template>
             <template
@@ -24,15 +24,18 @@
             >
                 <div class="alerts-page__new-flights">
                     <BaseIcon :src="bellIcon" />
-                    <strong>New Flights</strong>
+                    <strong>{{ $t("New Flights") }}</strong>
                     <BaseToggleSwitch
                         v-model="newFlights"
-                        label="New Flights"
+                        :label="$t('New Flights')"
                     />
                 </div>
                 <p class="frame-page__note">
-                    Receive an alert when this friend adds new flights to
-                    Flighty
+                    {{
+                        $t(
+                            "Receive an alert when this friend adds new flights to Flighty",
+                        )
+                    }}
                 </p>
             </template>
         </FcAlertSettings>
@@ -40,15 +43,18 @@
             v-if="mode === 'friends'"
             class="frame-page__note alerts-page__footer"
         >
-            To adjust Live Activity preferences for Friends’ Flights, visit
-            Setting &gt; Live Activities
+            {{
+                $t(
+                    "To adjust Live Activity preferences for Friends’ Flights, visit Setting > Live Activities",
+                )
+            }}
         </p>
         <p
             v-if="message"
             class="frame-page__note"
             role="status"
         >
-            {{ message }}
+            {{ $t(message) }}
         </p>
     </section>
 </template>

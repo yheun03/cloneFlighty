@@ -44,7 +44,7 @@ function toggle() {
         class="fc-switch"
         :class="{ 'is-on': checked }"
         :role="type === 'button' ? 'switch' : type"
-        :aria-label="label"
+        :aria-label="$t(label)"
         :aria-checked="checked"
         :disabled="disabled"
         @click="toggle"

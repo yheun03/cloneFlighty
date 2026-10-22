@@ -1,0 +1,74 @@
+{
+    "7C": {
+        "name": "Jeju Air",
+        "iata": "7C",
+        "icao": "JJA",
+        "callsign": "JEJU AIR",
+        "country": "South Korea",
+        "source": "https://openflights.org/data.php"
+    },
+    "AS": {
+        "name": "Alaska Airlines",
+        "iata": "AS",
+        "icao": "ASA",
+        "callsign": null,
+        "country": "United States",
+        "source": "https://openflights.org/data.php"
+    },
+    "AY": {
+        "name": "Finnair",
+        "iata": "AY",
+        "icao": "FIN",
+        "callsign": "FINNAIR",
+        "country": "Finland",
+        "source": "https://openflights.org/data.php"
+    },
+    "KE": {
+        "name": "Korean Air",
+        "iata": "KE",
+        "icao": "KAL",
+        "callsign": "KOREANAIR",
+        "country": "South Korea",
+        "source": "https://openflights.org/data.php"
+    },
+    "KL": {
+        "name": "KLM Royal Dutch Airlines",
+        "iata": "KL",
+        "icao": "KLM",
+        "callsign": "KLM",
+        "country": "Netherlands",
+        "source": "https://openflights.org/data.php"
+    },
+    "LJ": {
+        "name": "Jin Air",
+        "iata": "LJ",
+        "icao": "JNA",
+        "callsign": "Jin Air",
+        "country": "South Korea",
+        "source": "https://openflights.org/data.php"
+    },
+    "MU": {
+        "name": "China Eastern Airlines",
+        "iata": "MU",
+        "icao": "CES",
+        "callsign": "CHINA EASTERN",
+        "country": "China",
+        "source": "https://openflights.org/data.php"
+    },
+    "OZ": {
+        "name": "Asiana Airlines",
+        "iata": "OZ",
+        "icao": "AAR",
+        "callsign": "ASIANA",
+        "country": "South Korea",
+        "source": "https://openflights.org/data.php"
+    },
+    "SQ": {
+        "name": "Singapore Airlines",
+        "iata": "SQ",
+        "icao": "SIA",
+        "callsign": "SINGAPORE",
+        "country": "Singapore",
+        "source": "https://openflights.org/data.php"
+    }
+}

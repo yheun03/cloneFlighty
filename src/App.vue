@@ -1,5 +1,14 @@
 <script setup>
-import { provide, readonly, ref } from "vue";
+import { provide, readonly, ref, watchEffect } from "vue";
+import { useRoute } from "vue-router";
+import { locale, t } from "./common/preferences.js";
+
+const route = useRoute();
+watchEffect(() => {
+    document.documentElement.lang = locale.value;
+    const title = String(route.meta.title || "Flighty").split(" | ")[0];
+    document.title = `${t(title)} | Flighty`;
+});
 
 // 테마는 현재 퍼블리싱 미리보기에서만 변경합니다.
 const theme = ref("dark");
@@ -28,7 +37,7 @@ function focusMainContent() {
             href="#main-content"
             @click.prevent="focusMainContent"
         >
-            본문 바로가기
+            {{ $t("본문 바로가기") }}
         </a>
         <header
             v-if="$route.name === 'intro'"
@@ -39,14 +48,14 @@ function focusMainContent() {
                     class="app__brand"
                     to="/"
                 >
-                    Flighty UI Clone
+                    {{ $t("Flighty UI Clone") }}
                 </RouterLink>
-                <span>비공식 개인 포트폴리오</span>
+                <span>{{ $t("비공식 개인 포트폴리오") }}</span>
             </div>
-            <nav aria-label="주요 메뉴">
-                <RouterLink to="/intro">프로젝트 소개</RouterLink>
-                <RouterLink to="/home">내 항공편</RouterLink>
-                <RouterLink to="/component">UI 컴포넌트</RouterLink>
+            <nav :aria-label="$t('주요 메뉴')">
+                <RouterLink to="/intro">{{ $t("프로젝트 소개") }}</RouterLink>
+                <RouterLink to="/home">{{ $t("내 항공편") }}</RouterLink>
+                <RouterLink to="/component">{{ $t("UI 컴포넌트") }}</RouterLink>
             </nav>
         </header>
         <main

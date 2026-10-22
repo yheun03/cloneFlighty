@@ -47,36 +47,36 @@ const period = ref(props.periods[0]);
             v-if="showMap"
             class="fc-passport__flags"
         >
-            {{ flags }}
+            {{ $t(flags) }}
         </div>
-        <h2>MY FLIGHTY PASSPORT</h2>
-        <small>PASSPORT · PASS · PASPORTE</small>
+        <h2>{{ $t("MY FLIGHTY PASSPORT") }}</h2>
+        <small>{{ $t("PASSPORT · PASS · PASPORTE") }}</small>
         <div class="fc-passport__numbers">
             <div>
-                <span>FLIGHTS</span>
-                <strong>{{ flights }}</strong>
+                <span>{{ $t("FLIGHTS") }}</span>
+                <strong>{{ $t(flights) }}</strong>
             </div>
             <div>
-                <span>FLIGHTS DISTANCE</span>
-                <strong>{{ distance }}</strong>
+                <span>{{ $t("FLIGHTS DISTANCE") }}</span>
+                <strong>{{ $t(distance) }}</strong>
             </div>
             <div>
-                <span>FLIGHT TIME</span>
-                <strong>{{ flightTime }}</strong>
+                <span>{{ $t("FLIGHT TIME") }}</span>
+                <strong>{{ $t(flightTime) }}</strong>
             </div>
             <div>
-                <span>AIRPORTS</span>
-                <strong>{{ airports }}</strong>
+                <span>{{ $t("AIRPORTS") }}</span>
+                <strong>{{ $t(airports) }}</strong>
             </div>
             <div>
-                <span>AIRLINES</span>
-                <strong>{{ airlines }}</strong>
+                <span>{{ $t("AIRLINES") }}</span>
+                <strong>{{ $t(airlines) }}</strong>
             </div>
         </div>
         <template v-if="showHistory">
             <h3>
-                {{ historyTitle }}
-                <small>{{ historyCount }}</small>
+                {{ $t(historyTitle) }}
+                <small>{{ $t(historyCount) }}</small>
             </h3>
             <button
                 v-for="flight in recent"
@@ -89,10 +89,12 @@ const period = ref(props.periods[0]);
                     <BaseIcon :src="planeIcon" />
                 </span>
                 <div>
-                    <small>{{ flight.code }} &nbsp;{{ flight.route }}</small>
-                    <strong>{{ flight.title }}</strong>
+                    <small>
+                        {{ $t(flight.code) }} &nbsp;{{ $t(flight.route) }}
+                    </small>
+                    <strong>{{ $t(flight.title) }}</strong>
                 </div>
-                <small>{{ flight.date }}</small>
+                <small>{{ $t(flight.date) }}</small>
             </button>
         </template>
     </div>

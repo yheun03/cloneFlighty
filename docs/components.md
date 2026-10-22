@@ -103,6 +103,8 @@ src는 Lucide 아이콘 이름(예: plane) 또는 import한 SVG URL입니다. �
 - `accent`: Boolean, 기본값 `false`.
 - 이벤트: `click`. 선택 데이터는 부모에서 전달합니다.
 
+`translateSubtitle`은 Boolean, 기본값 `true`입니다. 언어 선택지의 원어 이름처럼 번역하지 않는 보조 문구는 `false`로 전달합니다.
+
 ## FcConnectionStatus
 
 duration은 실제 환승 시간, extra는 권장 최소 시간보다 여유 있는 시간입니다.
@@ -272,7 +274,7 @@ countries는 { name, flag, count }, regions는 { name, count, percent } 목록�
 - `showTabs`: Boolean, 미지정 시 airline·route는 표시하고 airport·aircraft는 숨깁니다. 선택은 `BaseTabItem`의 radio 타입을 사용합니다.
 - `color`: String, 기본값 `"var(--fc-chart-purple)"`. `limit`: Number, 기본값 `3`.
 
-선택한 Flights·Distance 값의 내림차순으로 정렬한 뒤 limit을 적용합니다. 같은 값이면 이름순입니다. 거리 라벨은 km 단위의 compact 표기로 표시합니다.
+선택한 Flights·Distance 값의 내림차순으로 정렬한 뒤 limit을 적용합니다. 같은 값이면 이름순입니다. 거리 라벨은 공통 설정에서 선택한 거리 단위의 compact 표기로 표시합니다. 선택·정렬에는 원래 키와 km 값을 유지하고 표시 문구만 번역합니다.
 
 ```vue
 <FcRankingStats v-bind="pageData.airlines" type="airline" />

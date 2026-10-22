@@ -8,6 +8,7 @@ import nextIcon from "../../assets/figma/chevron-right.svg";
 const props = defineProps({
     title: { type: String, required: true },
     subtitle: { type: String, default: "" },
+    translateSubtitle: { type: Boolean, default: true },
     avatar: { type: String, default: "" },
     image: { type: String, default: "" },
     icon: { type: String, default: "" },
@@ -61,13 +62,15 @@ const rowShape = computed(
                 v-else-if="type === 'icon' && icon"
                 :src="icon"
             />
-            <span v-else-if="avatar">{{ avatar }}</span>
+            <span v-else-if="avatar">{{ $t(avatar) }}</span>
         </span>
         <span class="fc-list-row__wrap">
             <span class="fc-list-row__text">
-                <strong :class="{ 'is-accent': accent }">{{ title }}</strong>
+                <strong :class="{ 'is-accent': accent }">
+                    {{ $t(title) }}
+                </strong>
                 <small v-if="rowShape === 'double' && subtitle">
-                    {{ subtitle }}
+                    {{ translateSubtitle ? $t(subtitle) : subtitle }}
                 </small>
             </span>
             <span

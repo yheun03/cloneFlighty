@@ -6,11 +6,11 @@
 
 ## 파일과 연결 기준
 
-- `airlines.json`: IATA 코드가 키입니다. CSV의 Airline은 ICAO 코드이므로 KAL → KE, AAR → OZ, ASA → AS, KLM → KL, FIN → AY, CES → MU, JJA → 7C, JNA → LJ로 연결했습니다. 기존 기준 정보는 유지하고 새 항공사의 확인되지 않은 연락처·callsign은 `null`로 둡니다.
-- `airports.json`: IATA 코드가 키입니다. 공항명, ICAO, 도시, 국가·국가 코드, 국기, 좌표, IANA 시간대, 출처를 관리합니다. 대륙 코드(`continent`)는 OurAirports 기준이며 지역별 통계에 사용합니다. 새로 등장한 OSL, CPH, MYJ, KIX, SDJ, FRA, SHA, TPE, PVG를 추가했습니다.
+- `src/data/reference/airlines.json`: airline-codes의 OpenFlights 데이터에서 항공사명·IATA·ICAO·callsign·국가를 생성합니다. CSV의 ICAO 코드는 IATA로 연결합니다. 로고·공식 연락처·SNS는 `src/data/airline-details.json`에서 보완합니다.
+- `src/data/reference/airports.json`: airport-data-js에서 공항명·코드·좌표·IANA 시간대·국가·대륙·홈페이지를 생성합니다. 도시 표시명만 `src/data/airport-display.json`으로 보완하며 국기는 국가 코드로 생성합니다.
 - `flights.json`: 항공편 배열과 원본 파일명(`source`), 분류 기준일(`referenceDate`)을 관리합니다. `airline`, `departure.airport`, `arrival.airport`로 기준 정보를 연결합니다. `aircraft`에는 항공편의 등록번호(`registration`)와 기록된 탑승 기종(`type`)만 둡니다. `id`는 IATA·편명·출발일 조합(예: `lj-367-2026-11-07`)입니다. Flighty ID는 사용하지 않습니다.
 
-연결과 표시값 계산은 `src/common/flights.js`에서 처리합니다. 새 항공편을 추가할 때 항공사·공항 키가 먼저 존재해야 합니다. 컴포넌트에는 필요한 표시 항목만 props로 전달합니다.
+연결과 표시값 계산은 `src/common/flights.js`에서 처리합니다. 새 항공편의 항공사·공항 코드는 `npm run data:refresh`로 공개 기준 정보에 연결합니다. 컴포넌트에는 필요한 표시 항목만 props로 전달합니다.
 
 ## CSV 필드 대응
 
@@ -48,7 +48,7 @@ CSV의 시간은 UTC 오프셋이 없는 현지 시간입니다. 출발·이륙 
 - 시차는 도착 시점에 두 공항의 UTC 오프셋을 비교합니다. DAYS는 브라우저 실행 시점과 출발 공항 현지 날짜를 비교합니다.
 - `durationMinutes`는 실제 게이트 출도착이 모두 있을 때 그 차이입니다. 하나라도 없으면 예정 게이트 출도착의 차이를 쓰고 `scheduled`를 붙입니다. 실제 출발과 예정 도착을 섞어 실제 소요 시간으로 표시하지 않습니다.
 - `airborneMinutes`는 실제 이륙·착륙이 모두 있는 14편만 계산합니다. 나머지는 `null`입니다. 패스포트 비행시간은 기록된 값만 더하고 기록된 항공편 수를 표시합니다. 기종별 요약·상세의 노선 이력에도 같은 기준을 사용합니다.
-- CSV에 거리가 없으므로 `distanceKm`는 공항 좌표의 대권거리로 계산했습니다. `distanceSource: "great-circle"`로 구분하고 거리 앞에 ≈를 표시합니다. 실제 비행 경로의 거리가 아닙니다.
+- CSV에 거리가 없으므로 `distanceKm`는 공통 모듈에서 외부 공항 좌표의 대권거리로 계산합니다. JSON에는 중복 거리값을 저장하지 않습니다. `distanceSource: "great-circle"`로 구분하고 거리 앞에 ≈를 표시합니다. 실제 비행 경로의 거리가 아닙니다.
 
 ## 목록과 상세
 
@@ -75,7 +75,7 @@ CSV의 시간은 UTC 오프셋이 없는 현지 시간입니다. 출발·이륙 
 
 - 국내선은 출도착 국가 코드가 같은 항공편, 국제선은 다른 항공편입니다. 장거리 항공편은 예정 게이트 출도착 시간이 6시간 이상인 항공편으로 정의했습니다.
 - Year는 연속된 연도(기록 없는 해는 0편), Month는 1~12월, Weekday는 출발 공항의 현지 날짜 기준 월~일로 집계합니다. 각 차트의 합계는 선택 기간의 항공편 수와 같습니다.
-- 거리 합계·마일 환산·평균 거리·최단 및 최장 항공편은 `distanceKm`로 계산합니다. 거리 비교는 [NASA의 지구·달 수치](https://science.nasa.gov/moon/by-the-numbers/)를 기준으로 지구 둘레 40,030.2 km, 달 평균 거리 384,400 km, 태양 평균 거리 149,598,262 km를 사용합니다.
+- 거리 합계·평균 거리·최단 및 최장 항공편은 `distanceKm`로 계산하고 선택한 거리 단위로 표시합니다. 거리 비교는 [NASA의 지구·달 수치](https://science.nasa.gov/moon/by-the-numbers/)를 기준으로 지구 둘레 40,030.2 km, 달 평균 거리 384,400 km, 태양 평균 거리 149,598,262 km를 사용합니다.
 - 시간 합계·평균은 실제 이륙·착륙 시각이 있는 항공편만 사용하고 기록 수를 표시합니다. 택싱 시간은 실제 게이트 출도착도 있는 같은 항공편의 게이트 소요 시간에서 공중 비행시간을 뺍니다. 일·주·월·년 환산은 각각 24시간·7일·30일·365일입니다. 미기록은 —입니다.
 - 공항은 출도착에 등장한 고유 공항 수이며 항공편 수는 각 공항의 출발 또는 도착을 셉니다. 항공사는 판매 항공사 코드로 묶습니다. 노선은 왕복을 합친 공항 쌍입니다. 항공편 수·거리 탭은 해당 값으로 정렬한 뒤 표시 개수를 적용합니다.
 - 국가는 고유 국가·영토 코드 수이며 국가별 항공편 수는 해당 국가에 출발·도착한 편수를 셉니다. 국내선은 같은 국가에 한 번만 셉니다. 지역은 공항의 대륙 코드로 묶은 고유 국가·영토 수와 그 비율입니다.
@@ -112,4 +112,4 @@ Aisle은 좌석 위치, From·To는 출발·도착 공항 코드, Airline은 항
 - 기존 항공사 ICAO·callsign: [FAA 항공사 식별자](https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/chap3_section_3.html).
 - 대한항공 연락처: [공식 서비스센터](https://www.koreanair.com/contents/footer/customer-support/service-center?hl=en). SNS: [대한항공·JAL 공동 발표](https://press.jal.co.jp/en/release/202609/009703.html).
 - 아시아나 연락처: [공식 전화 예약 안내](https://flyasiana.com/C/KR/KO/contents/telephone-reservation?site_preference=normal). X: [공식 계정](https://x.com/Flyasiana/with_replies). Facebook: [Star Alliance 소개](https://portal.staralliance.com/stardesk/publications/In_Focus.pdf).
-- 공항 코드·위치: [OurAirports 공개 데이터](https://ourairports.com/data/). 추가 공항의 좌표는 공개 CSV에서 확인했으며 개별 페이지는 `airports.json`의 `source`에 있습니다.
+- 공항 코드·위치·시간대와 항공사 코드: 무료 공개 패키지에서 생성합니다. [다국어·단위·데이터 가이드](localization-units-data.md)에 출처·라이선스·갱신 방법과 보완 필드를 정리했습니다.

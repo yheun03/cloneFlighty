@@ -6,7 +6,7 @@
         <BaseTabItem
             v-model="period"
             :items="periods"
-            label="Flight statistics period"
+            :label="$t('Flight statistics period')"
         />
         <FcPassportOverview
             v-bind="statistics.overview"
@@ -14,23 +14,29 @@
             :show-history="false"
         />
         <p class="frame-page__note">
-            Completed flights only. Flight time recorded for
-            {{ statistics.recordedCount }} of
-            {{ periodFlights.length }} flights. Distances are great-circle
-            estimates.
+            {{ $t("Completed flights only.") }}
+            {{
+                $t(
+                    "Flight time recorded for {recorded} of {total} flights. Distances are great-circle estimates.",
+                    {
+                        recorded: statistics.recordedCount,
+                        total: periodFlights.length,
+                    },
+                )
+            }}
         </p>
         <p
             v-if="!periodFlights.length"
             class="frame-page__note"
             role="status"
         >
-            No past flights for this period.
+            {{ $t("No past flights for this period.") }}
         </p>
         <section class="stats-page__section">
             <div class="fc-stat-head">
-                <h2>Flights</h2>
+                <h2>{{ $t("Flights") }}</h2>
                 <BaseButton
-                    label="Share"
+                    :label="$t('Share')"
                     :icon="shareIcon"
                     size="md"
                     variant="fill"
@@ -38,24 +44,25 @@
                 />
             </div>
             <div class="fc-stat-number">
-                <strong>{{ statistics.totals.total }}</strong>
+                <strong>{{ $t(statistics.totals.total) }}</strong>
             </div>
             <p class="frame-page__note">
-                {{ statistics.totals.domestic }} domestic
+                {{ $t(statistics.totals.domestic) }} {{ $t("domestic") }}
                 <br />
-                {{ statistics.totals.international }} international
+                {{ $t(statistics.totals.international) }}
+                {{ $t("international") }}
                 <br />
-                {{ statistics.totals.longHaul }} long haul
+                {{ $t(statistics.totals.longHaul) }} {{ $t("long haul") }}
             </p>
             <p class="frame-page__note">
-                Long haul: scheduled duration of 6h or more.
+                {{ $t("Long haul: scheduled duration of 6h or more.") }}
             </p>
             <div class="stats-page__flight-tabs">
-                <span>FLIGHTS PER</span>
+                <span>{{ $t("FLIGHTS PER") }}</span>
                 <BaseTabItem
                     v-model="metric"
                     :items="pageData.metrics"
-                    label="Flights per"
+                    :label="$t('Flights per')"
                     size="sm"
                 />
             </div>
@@ -63,7 +70,7 @@
                 class="stats-page__line-chart"
                 viewBox="0 0 280 180"
                 role="img"
-                :aria-label="chartLabel"
+                :aria-label="$t(chartLabel)"
             >
                 <polyline
                     :points="
@@ -92,7 +99,7 @@
                         :y="point.y - 8"
                         text-anchor="middle"
                     >
-                        {{ point.count }}
+                        {{ $t(point.count) }}
                     </text>
                     <text
                         class="stats-page__chart-label"
@@ -100,7 +107,7 @@
                         y="165"
                         text-anchor="middle"
                     >
-                        {{ point.label }}
+                        {{ $t(point.label) }}
                     </text>
                 </g>
             </svg>
@@ -127,15 +134,18 @@
         />
         <FcCountriesStats v-bind="statistics.countries" />
         <p class="frame-page__note">
-            Country flights include departures or arrivals, counted once per
-            flight. Region totals count distinct countries and territories.
+            {{
+                $t(
+                    "Country flights include departures or arrivals, counted once per flight. Region totals count distinct countries and territories.",
+                )
+            }}
         </p>
         <p
             v-if="message"
             class="frame-page__feedback"
             role="status"
         >
-            {{ message }}
+            {{ $t(message) }}
         </p>
     </section>
 </template>
@@ -153,6 +163,7 @@ import FcRankingStats from "../component/fc/FcRankingStats.vue";
 import FcCountriesStats from "../component/fc/FcCountriesStats.vue";
 
 import { flights, formatDuration } from "../common/flights.js";
+import { t, locale, formatDistance } from "../common/preferences.js";
 import shareIcon from "../assets/figma/share.svg";
 
 import "../assets/scss/component/base/BaseButton.scss";
@@ -294,7 +305,8 @@ const statistics = computed(() => {
     }
 
     const countries = [...countryRows.values()].sort(
-        (a, b) => b.count - a.count || a.name.localeCompare(b.name),
+        (a, b) =>
+            b.count - a.count || a.name.localeCompare(b.name, locale.value),
     );
     const regionRows = new Map();
     for (const country of countries) {
@@ -307,7 +319,10 @@ const statistics = computed(() => {
             count,
             percent: `${Math.round((count / countries.length) * 100)}%`,
         }))
-        .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+        .sort(
+            (a, b) =>
+                b.count - a.count || a.name.localeCompare(b.name, locale.value),
+        );
     const byDistance = [...items].sort(
         (a, b) =>
             a.distanceKm - b.distanceKm ||
@@ -321,9 +336,7 @@ const statistics = computed(() => {
         route: flight
             ? `${flight.departureAirport.city} → ${flight.arrivalAirport.city}`
             : "—",
-        distance: flight
-            ? `≈ ${flight.distanceKm.toLocaleString("en-US")} km`
-            : "—",
+        distance: flight ? `≈ ${formatDistance(flight.distanceKm)}` : "—",
         detail: flight
             ? `${flight.airline} ${flight.flight} · ${flight.date}`
             : "No flights in this period",
@@ -333,7 +346,7 @@ const statistics = computed(() => {
         recordedCount: recorded.length,
         overview: {
             flights: items.length,
-            distance: `≈ ${distanceKm.toLocaleString("en-US")} km`,
+            distance: `≈ ${formatDistance(distanceKm)}`,
             flightTime: formatDuration(airMinutes),
             airports: airportRows.size,
             airlines: airlineRows.size,
@@ -403,16 +416,20 @@ const statistics = computed(() => {
                 },
                 { label: "In Air", value: formatDuration(airMinutes) },
                 {
-                    label: `Taxiing (${taxiFlights.length} flights)`,
+                    label: t("Taxiing ({count} flights)", {
+                        count: taxiFlights.length,
+                    }),
                     value: formatDuration(taxiMinutes),
                 },
             ],
             averageLabel: items.length
-                ? `Average distance: ≈ ${Math.round(distanceKm / items.length).toLocaleString("en-US")} km`
+                ? t("Average distance: {distance}", {
+                      distance: `≈ ${formatDistance(distanceKm / items.length)}`,
+                  })
                 : "Average distance: —",
             comparisons: distanceComparisons.map((item) => ({
                 icon: item.icon,
-                text: `${(distanceKm / item.km).toLocaleString("en-US", { maximumSignificantDigits: 2 })}x ${item.label}`,
+                text: `${(distanceKm / item.km).toLocaleString(locale.value, { maximumSignificantDigits: 2 })}x ${t(item.label)}`,
             })),
             summaryLabel: "Show Summary",
             breakdownLabel: "Show Breakdown",
@@ -459,7 +476,10 @@ const chartData = computed(() => {
             "Nov",
             "Dec",
         ].map((label, index) => ({
-            label,
+            label: new Intl.DateTimeFormat(locale.value, {
+                month: "short",
+                timeZone: "UTC",
+            }).format(new Date(Date.UTC(2026, index, 1))),
             count: items.filter(
                 (flight) =>
                     Number(flight.departureDate.slice(5, 7)) === index + 1,
@@ -469,7 +489,10 @@ const chartData = computed(() => {
     if (metric.value === "Weekday") {
         return ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
             (label, index) => ({
-                label,
+                label: new Intl.DateTimeFormat(locale.value, {
+                    weekday: "short",
+                    timeZone: "UTC",
+                }).format(new Date(Date.UTC(2026, 0, 5 + index))),
                 count: items.filter(
                     (flight) =>
                         (new Date(
@@ -508,7 +531,7 @@ const chartPoints = computed(() => {
 });
 const chartLabel = computed(
     () =>
-        `Flights per ${metric.value}: ${chartData.value.map((item) => `${item.label}: ${item.count}`).join(", ")}`,
+        `${t("Flights per")} ${t(metric.value)}: ${chartData.value.map((item) => `${item.label}: ${item.count}`).join(", ")}`,
 );
 
 watch(periodFlights, (items) => emit("map-flights", items), {

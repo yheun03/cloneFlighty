@@ -1,19 +1,22 @@
 <template>
     <section class="frame-page friends-page">
-        <h1 class="frame-page__title">Flighty Friends</h1>
+        <h1 class="frame-page__title">{{ $t("Flighty Friends") }}</h1>
         <p class="frame-page__lead">
-            Share upcoming flights among friends and family. Invite new friends,
-            set custom alerts, and control access here.
+            {{
+                $t(
+                    "Share upcoming flights among friends and family. Invite new friends, set custom alerts, and control access here.",
+                )
+            }}
         </p>
         <div class="friends-page__list">
             <BaseListRow
                 v-for="friend in pageData.friends"
                 :key="friend.id"
-                :title="friend.title"
+                :title="$t(friend.title)"
                 @click="openFriend(friend)"
             />
             <BaseListRow
-                title="Invite a Friend"
+                :title="$t('Invite a Friend')"
                 accent
                 @click="inviting = !inviting"
             />
@@ -23,17 +26,17 @@
             class="friends-page__invite"
             @submit.prevent="inviteFriend"
         >
-            <label for="friend-email">Friend’s email</label>
+            <label for="friend-email">{{ $t("Friend’s email") }}</label>
             <BaseInput
                 id="friend-email"
                 v-model="email"
                 class="frame-page__input"
                 type="email"
-                placeholder="friend@example.com"
+                :placeholder="$t('friend@example.com')"
                 required
             />
             <BaseButton
-                label="Prepare Invitation"
+                :label="$t('Prepare Invitation')"
                 variant="text"
                 tone="primary"
                 @click="inviteFriend"
@@ -44,7 +47,7 @@
             class="frame-page__note"
             role="status"
         >
-            {{ message }}
+            {{ $t(message) }}
         </p>
     </section>
 </template>

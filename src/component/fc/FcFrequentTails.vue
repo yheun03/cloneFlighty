@@ -15,9 +15,9 @@ defineProps({
 <template>
     <div class="fc-frequent-tails">
         <div class="fc-stat-head">
-            <h2>Most Frequent Tails</h2>
+            <h2>{{ $t("Most Frequent Tails") }}</h2>
             <BaseButton
-                label="Share"
+                :label="$t('Share')"
                 :icon="shareIcon"
                 size="md"
                 variant="fill"
@@ -25,8 +25,8 @@ defineProps({
             />
         </div>
         <strong>{{ tail }}</strong>
-        <p>{{ flights }} flights</p>
-        <small>{{ airline }} · {{ model }}</small>
-        <span>{{ flag }}</span>
+        <p>{{ $t(flights) }} {{ $t("flights") }}</p>
+        <small>{{ $t(airline) }} · {{ $t(model) }}</small>
+        <span>{{ $t(flag) }}</span>
     </div>
 </template>

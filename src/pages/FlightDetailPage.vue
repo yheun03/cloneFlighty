@@ -9,7 +9,7 @@
                 variant="header"
                 :airline="flight.airline"
                 :flight="flight.flight"
-                :title="flight.title"
+                :title="$t(flight.title)"
                 :date="flight.date"
                 :departure="flight.departure"
                 :arrival="flight.arrival"
@@ -29,8 +29,10 @@
             class="frame-page__note"
             role="status"
         >
-            Flight not found.
-            <RouterLink :to="{ name: 'home' }">Back to flights</RouterLink>
+            {{ $t("Flight not found.") }}
+            <RouterLink :to="{ name: 'home' }">
+                {{ $t("Back to flights") }}
+            </RouterLink>
         </p>
         <RouterView
             v-if="flight"
@@ -54,6 +56,7 @@ import FcFlightDetails from "../component/fc/FcFlightDetails.vue";
 
 import { flights, getFlight, formatDuration } from "../common/flights.js";
 import { loadAircraft } from "../common/aircraft.js";
+import { t, locale, formatDistance } from "../common/preferences.js";
 
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
@@ -141,11 +144,13 @@ const details = computed(() => {
         departureGate: item.departureInfo.gate || "—",
         arrivalGate: item.arrivalInfo.gate || "—",
         departureTerminal: item.departureInfo.terminal
-            ? `Terminal ${item.departureInfo.terminal}`
-            : "Terminal —",
+            ? t("Terminal {terminal}", {
+                  terminal: item.departureInfo.terminal,
+              })
+            : t("Terminal {terminal}", { terminal: "—" }),
         arrivalTerminal: item.arrivalInfo.terminal
-            ? `Terminal ${item.arrivalInfo.terminal}`
-            : "Terminal —",
+            ? t("Terminal {terminal}", { terminal: item.arrivalInfo.terminal })
+            : t("Terminal {terminal}", { terminal: "—" }),
         departureStatus: item.departureStatus,
         arrivalStatus: item.arrivalStatus,
         departureTiming: timing(item.departureDelayMinutes),
@@ -153,24 +158,35 @@ const details = computed(() => {
         departureDateTime: item.departureAt,
         arrivalDateTime: item.arrivalAt,
         takeoff: item.departureInfo.takeoffActualAt
-            ? new Intl.DateTimeFormat("en-US", {
+            ? new Intl.DateTimeFormat(locale.value, {
                   timeZone: item.departureAirport.timeZone,
                   ...timeOptions,
               }).format(new Date(item.departureInfo.takeoffActualAt))
             : "",
         landing: item.arrivalInfo.landingActualAt
-            ? new Intl.DateTimeFormat("en-US", {
+            ? new Intl.DateTimeFormat(locale.value, {
                   timeZone: item.arrivalAirport.timeZone,
                   ...timeOptions,
               }).format(new Date(item.arrivalInfo.landingActualAt))
             : "",
         baggage: item.arrivalInfo.baggage || "—",
         duration: item.duration,
-        distance: `${item.distanceSource === "great-circle" ? "≈ " : ""}${item.distanceKm.toLocaleString("en-US")} km`,
+        distance: `${item.distanceSource === "great-circle" ? "≈ " : ""}${formatDistance(item.distanceKm)}`,
         arrivalDayOffset: item.arrivalDayOffset,
         overnight: Boolean(item.arrivalDayOffset),
-        timezoneTitle: `${timezoneHours > 0 ? "+" : ""}${timezoneHours} Hours Timezone Change`,
-        timezoneDescription: `${item.arrivalTime} arrival in ${item.arrivalAirport.city} (${item.arrivalAirport.timeZone}) is ${item.arrivalAtOriginTime} ${item.departureAirport.city} time`,
+        timezoneTitle: t("{hours} Hours Timezone Change", {
+            hours: `${timezoneHours > 0 ? "+" : ""}${timezoneHours}`,
+        }),
+        timezoneDescription: t(
+            "{arrival} arrival in {city} ({zone}) is {originTime} {originCity} time",
+            {
+                arrival: item.arrivalTime,
+                city: item.arrivalAirport.city,
+                zone: item.arrivalAirport.timeZone,
+                originTime: item.arrivalAtOriginTime,
+                originCity: item.departureAirport.city,
+            },
+        ),
         features: [
             {
                 title: "Booking Code",
@@ -180,7 +196,7 @@ const details = computed(() => {
             { title: "Seat Information", field: "seat", action: "Add Seat" },
         ],
         forecastDescription: performance.length
-            ? `${item.airline} ${item.flight} · recorded arrivals`
+            ? `${item.airline} ${item.flight} · ${t("recorded arrivals")}`
             : "No recorded arrival times for this flight number",
         forecastStats: [
             {
@@ -284,10 +300,13 @@ const details = computed(() => {
             { label: "Flights", value: String(routeHistory.value.length) },
             {
                 label: "Distance",
-                value: `≈ ${routeHistory.value.reduce((sum, past) => sum + past.distanceKm, 0).toLocaleString("en-US")} km`,
+                value: `≈ ${formatDistance(routeHistory.value.reduce((sum, past) => sum + past.distanceKm, 0))}`,
             },
             {
-                label: `Recorded Flight Time (${recordedFlights.length}/${routeHistory.value.length})`,
+                label: t("Recorded Flight Time ({recorded}/{total})", {
+                    recorded: recordedFlights.length,
+                    total: routeHistory.value.length,
+                }),
                 value: formatDuration(
                     recordedFlights.length
                         ? recordedFlights.reduce(

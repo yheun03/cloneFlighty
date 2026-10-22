@@ -22,12 +22,14 @@ defineProps({
             v-if="showTitle"
             class="fc-stat-head"
         >
-            <h2>{{ mode === "class" ? "Class and Seat" : "Favorite Seat" }}</h2>
+            <h2>
+                {{ $t(mode === "class" ? "Class and Seat" : "Favorite Seat") }}
+            </h2>
         </div>
         <div class="fc-seat-stats__ring">
             <div>
-                <small>{{ topLabel }}</small>
-                <strong>{{ topValue }}</strong>
+                <small>{{ $t(topLabel) }}</small>
+                <strong>{{ $t(topValue) }}</strong>
             </div>
         </div>
         <div class="fc-seat-stats__list">
@@ -36,9 +38,9 @@ defineProps({
                 :key="row.name"
             >
                 <i :style="{ background: row.color }"></i>
-                <strong>{{ row.name }}</strong>
-                <b>{{ row.count }}</b>
-                <span>{{ row.percent }}%</span>
+                <strong>{{ $t(row.name) }}</strong>
+                <b>{{ $t(row.count) }}</b>
+                <span>{{ $t(row.percent) }}%</span>
             </div>
         </div>
     </div>

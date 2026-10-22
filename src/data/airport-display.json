@@ -1,0 +1,80 @@
+{
+    "ICN": {
+        "city": "Seoul"
+    },
+    "SFO": {
+        "city": "San Francisco"
+    },
+    "LAX": {
+        "city": "Los Angeles"
+    },
+    "JFK": {
+        "city": "New York"
+    },
+    "NRT": {
+        "city": "Tokyo"
+    },
+    "HND": {
+        "city": "Tokyo"
+    },
+    "LHR": {
+        "city": "London"
+    },
+    "CDG": {
+        "city": "Paris"
+    },
+    "SIN": {
+        "city": "Singapore"
+    },
+    "AMS": {
+        "city": "Amsterdam"
+    },
+    "HEL": {
+        "city": "Helsinki"
+    },
+    "EWR": {
+        "city": "Newark"
+    },
+    "BLR": {
+        "city": "Bengaluru"
+    },
+    "GUM": {
+        "city": "Guam"
+    },
+    "YNJ": {
+        "city": "Yanji"
+    },
+    "GMP": {
+        "city": "Seoul"
+    },
+    "CJU": {
+        "city": "Jeju"
+    },
+    "OSL": {
+        "city": "Oslo"
+    },
+    "CPH": {
+        "city": "Copenhagen"
+    },
+    "MYJ": {
+        "city": "Matsuyama"
+    },
+    "KIX": {
+        "city": "Osaka"
+    },
+    "SDJ": {
+        "city": "Sendai"
+    },
+    "FRA": {
+        "city": "Frankfurt"
+    },
+    "SHA": {
+        "city": "Shanghai"
+    },
+    "TPE": {
+        "city": "Taipei"
+    },
+    "PVG": {
+        "city": "Shanghai"
+    }
+}
