@@ -1,77 +1,115 @@
 # 임시 항공편 데이터
 
-목록, 상세, 패스포트, 항공편 검색은 `src/data/temp/`의 데이터를 함께 사용합니다. 항공편 일정·지연·예약 코드·좌석·기체 상세 사양은 화면 검증용 가상 데이터입니다. 항공사·공항 기준 정보와 가상 운항 정보를 구분해 수정합니다.
+목록, 상세, 패스포트, 항공편 통계, 검색은 `src/data/temp/`의 데이터를 함께 사용합니다. 현재 항공편은 제공된 `FlightyExport-2026-10-22 (1).csv`의 30행을 옮긴 예제입니다. 2026-10-22 기준 지난 여정 26편, 앞으로의 여정 4편이며 친구 항공편은 없습니다.
+
+앞으로의 여정은 LJ 367(ICN → KIX, 11월 7일), LJ 384(KIX → ICN, 11월 10일), OZ 152(ICN → SDJ, 12월 4일), OZ 151(SDJ → ICN, 12월 6일)입니다. 기존 가상 항공편은 이 데이터로 교체했습니다.
 
 ## 파일과 연결 기준
 
-- `airlines.json`: IATA 코드가 키입니다. 대한항공·아시아나의 IATA, ICAO, ATC callsign, 국가, 동맹, 국내·국제 전화번호, 공식 홈페이지·X·Facebook, 확인 출처를 관리합니다. 다른 항공사는 기존 통계 예시에 필요한 기본 정보만 포함합니다.
-- `airports.json`: IATA 코드가 키입니다. 공항명, ICAO, 도시, 국가·국가 코드, 국기, 위도·경도, IANA 시간대, 참고 출처를 관리합니다.
-- `aircraft.json`: 기체 ID가 키입니다. 운항사, 등록 번호, 제작사, 모델, ICAO 기종 코드, 최초 비행일, 좌석 수, 엔진, 이미지 파일명을 관리합니다. 기체별 값은 `isSample: true`인 임시 예시이며 실제 등록 기체의 이력·사양을 보증하지 않습니다.
-- `flights.json`: 고유 `id`가 있는 항공편 배열입니다. `airline`으로 항공사를, `aircraftId`로 기체를, `departure.airport`와 `arrival.airport`로 공항을 연결합니다. `friend`가 있으면 친구 항공편, `status: "completed"`이면 지난 항공편입니다.
+- `airlines.json`: IATA 코드가 키입니다. CSV의 Airline은 ICAO 코드이므로 KAL → KE, AAR → OZ, ASA → AS, KLM → KL, FIN → AY, CES → MU, JJA → 7C, JNA → LJ로 연결했습니다. 기존 기준 정보는 유지하고 새 항공사의 확인되지 않은 연락처·callsign은 `null`로 둡니다.
+- `airports.json`: IATA 코드가 키입니다. 공항명, ICAO, 도시, 국가·국가 코드, 국기, 좌표, IANA 시간대, 출처를 관리합니다. 대륙 코드(`continent`)는 OurAirports 기준이며 지역별 통계에 사용합니다. 새로 등장한 OSL, CPH, MYJ, KIX, SDJ, FRA, SHA, TPE, PVG를 추가했습니다.
+- `flights.json`: 항공편 배열과 원본 파일명(`source`), 분류 기준일(`referenceDate`)을 관리합니다. `airline`, `departure.airport`, `arrival.airport`로 기준 정보를 연결합니다. `aircraft`에는 항공편의 등록번호(`registration`)와 기록된 탑승 기종(`type`)만 둡니다. `id`는 IATA·편명·출발일 조합(예: `lj-367-2026-11-07`)입니다. Flighty ID는 사용하지 않습니다.
 
-연결은 `src/common/flights.js`에서 처리합니다. 새 기체나 항공편을 추가할 때 항공사·공항·기체 키가 먼저 존재해야 합니다. 컴포넌트에는 표시할 항목만 props로 전달하고, HTML 속성으로 원본 객체 전체를 전달하지 않습니다.
+연결과 표시값 계산은 `src/common/flights.js`에서 처리합니다. 새 항공편을 추가할 때 항공사·공항 키가 먼저 존재해야 합니다. 컴포넌트에는 필요한 표시 항목만 props로 전달합니다.
+
+## CSV 필드 대응
+
+- Date → `date`, Airline → `airline`(IATA로 변환), Flight → `number`, From·To → 출도착 `airport`.
+- Dep/Arr Terminal·Gate → 출도착 `terminal`, `gate`. 원본 값(예: `D`, `MAIN`, `2`)은 유지하고 상세 화면에서 Terminal 접두사를 붙입니다.
+- Gate Departure/Arrival (Scheduled) → 출도착 `scheduledAt`, (Actual) → `actualAt`.
+- Take off (Scheduled/Actual) → `departure.takeoffScheduledAt`, `takeoffActualAt`.
+- Landing (Scheduled/Actual) → `arrival.landingScheduledAt`, `landingActualAt`.
+- Canceled → `canceled`(Boolean), Diverted To → `divertedTo`.
+- Aircraft Type Name·Tail Number → 항공편의 `aircraft.type`, `aircraft.registration`. 과거 탑승 기종은 현재 등록 정보와 구분합니다.
+- PNR·Seat·Seat Type·Cabin Class·Flight Reason → `booking.code`, `seat`, `position`, `cabin`, `reason`. WINDOW → Window, MIDDLE → Middle, ECONOMY → Economy, PREMIUM_ECONOMY → Premium Economy, LEISURE → Leisure로 표시값을 변환했습니다. 빈 예약 정보는 빈 문자열입니다.
+- Notes → `notes`. CSV의 Flighty ID 컬럼들은 예제 데이터에 포함하지 않습니다.
+
+예약 외 비어 있는 원본 필드는 `null`입니다. CSV에 없는 수하물 벨트 번호도 `null`입니다. `status`는 원본의 취소 여부와 기준일로 분류한 예제 상태이며, 기준일 이전은 `completed`, 이후는 `upcoming`입니다. 과거 항공편의 실제 도착 시각이 비어 있어도 지난 여정에 포함합니다. 이 상태는 자동으로 날짜에 따라 이동하지 않으므로 새 예제 일정으로 바꾸면 기준일과 상태도 함께 갱신합니다.
 
 ## 날짜와 시간
 
-`scheduledAt`, `estimatedAt`, `actualAt`은 UTC 오프셋이 포함된 ISO 날짜로 저장합니다. 표시 시간은 `actualAt → estimatedAt → scheduledAt` 순서로 결정합니다.
+CSV의 시간은 UTC 오프셋이 없는 현지 시간입니다. 출발·이륙 시각은 출발 공항, 착륙·도착 시각은 도착 공항의 IANA 시간대로 해석해 날짜별 서머타임을 반영한 ISO 문자열로 저장했습니다.
 
 ```json
 {
-    "airport": "SFO",
-    "scheduledAt": "2026-11-28T11:20:00-08:00",
-    "estimatedAt": "2026-11-28T11:40:00-08:00",
-    "terminal": "Terminal 1",
-    "gate": "F4"
+    "airport": "KIX",
+    "scheduledAt": "2026-11-10T23:25:00+09:00",
+    "actualAt": null,
+    "takeoffScheduledAt": null,
+    "takeoffActualAt": null,
+    "terminal": "1",
+    "gate": null
 }
 ```
 
-- 지연·조기 도착은 표시 시각과 예정 시각의 차이를 분 단위로 계산합니다. 0분이면 On Time입니다.
-- 목록의 출발일·출발 시간은 출발 공항 시간대, 도착 시간은 도착 공항 시간대를 사용합니다.
-- 도착일의 `+1` 등은 양쪽 공항의 현지 달력 날짜를 비교한 결과입니다.
-- 시차는 도착 시점의 두 공항 UTC 오프셋을 비교합니다. 예시 SFO → ICN은 겨울 +17시간, 여름 +16시간입니다. 공항의 `timeZone`에는 `America/Los_Angeles`, `Asia/Seoul` 같은 IANA 이름을 사용합니다.
-- `durationMinutes`는 출도착 시각 차이, `airborneMinutes`는 택싱을 제외한 샘플 비행시간입니다. 정렬의 Flight Time은 `airborneMinutes`를 사용합니다.
-- DAYS는 브라우저 실행 시점과 출발 공항의 현지 날짜를 기준으로 계산합니다. `flights.json`의 `referenceDate`는 샘플 제작 기준일이며 시간을 고정하지 않습니다.
+- 표시 시각은 `actualAt → estimatedAt → scheduledAt` 순서입니다. CSV에는 estimated 값이 없으므로 새로 만들지 않았습니다.
+- 실제 또는 예상 시각이 있을 때만 지연·조기 출도착을 계산합니다. 실제 시각이 0분 차이면 On Time, 예정 항공편은 Scheduled, 과거의 미기록 시각은 Actual time not recorded로 표시합니다. 미기록은 0분 지연으로 집계하지 않습니다.
+- 목록의 출발일·출발 시간은 출발 공항, 도착 시간은 도착 공항 시간대입니다. 도착일의 `+1`, `+2`는 현지 달력 날짜 차이입니다. 예를 들어 OZ 211의 SFO 출발은 9월 17일, ICN 도착은 9월 19일입니다.
+- 시차는 도착 시점에 두 공항의 UTC 오프셋을 비교합니다. DAYS는 브라우저 실행 시점과 출발 공항 현지 날짜를 비교합니다.
+- `durationMinutes`는 실제 게이트 출도착이 모두 있을 때 그 차이입니다. 하나라도 없으면 예정 게이트 출도착의 차이를 쓰고 `scheduled`를 붙입니다. 실제 출발과 예정 도착을 섞어 실제 소요 시간으로 표시하지 않습니다.
+- `airborneMinutes`는 실제 이륙·착륙이 모두 있는 14편만 계산합니다. 나머지는 `null`입니다. 패스포트 비행시간은 기록된 값만 더하고 기록된 항공편 수를 표시합니다. 기종별 요약·상세의 노선 이력에도 같은 기준을 사용합니다.
+- CSV에 거리가 없으므로 `distanceKm`는 공항 좌표의 대권거리로 계산했습니다. `distanceSource: "great-circle"`로 구분하고 거리 앞에 ≈를 표시합니다. 실제 비행 경로의 거리가 아닙니다.
 
 ## 목록과 상세
 
-`HomePage.vue`는 내 예정 항공편, 친구 예정 항공편, 검색 조건에 맞는 결과를 같은 컬렉션에서 선택합니다. 항공사·편명·노선·날짜 검색도 해당 항공편을 기준으로 수행합니다.
+`HomePage.vue`는 내 예정 항공편, 친구 예정 항공편, 검색 조건에 맞는 결과를 같은 컬렉션에서 선택합니다. 항공사·편명·노선·날짜 검색도 해당 항공편을 기준으로 수행합니다. 항공편 추가 검색의 항공사·공항 선택지도 현재 컬렉션에서 가져옵니다.
 
-`FlightDetailPage.vue`는 URL의 항공편 ID를 조회합니다. `ke-24`와 `ke-24-2`는 날짜, 지연, 예약 코드, 좌석, 연결된 기체가 서로 다른 항공편입니다. 없는 ID는 임의의 다른 항공편으로 대체하지 않고 안내를 표시합니다. 상세 지도는 URL의 출도착 검색 조건보다 항공편 자체의 공항을 우선합니다. 목록 지도는 아래의 페이지별 항공편 배열을 사용합니다.
+`FlightDetailPage.vue`는 URL의 항공편 ID를 조회합니다. 없는 ID는 안내를 표시합니다. 출도착 게이트·터미널·예약·좌석·기체를 같은 레코드에서 가져오며, 실제 이륙·착륙이 기록되어 있으면 현지 시각을 함께 표시합니다. 미정 기체의 등록 번호는 Not assigned로 표시합니다. 기체 공개 데이터는 아래 방식으로 조회합니다.
 
-예약 편집은 해당 항공편의 `booking` 객체를 갱신합니다. 다른 페이지로 이동해도 편집값이 유지되고, 다른 항공편의 예약 정보와 섞이지 않습니다. 새로고침하면 JSON 값으로 초기화합니다.
+예약 편집은 해당 항공편의 `booking` 객체를 갱신합니다. 페이지 이동 후에도 편집값이 유지되고 다른 항공편과 섞이지 않습니다. 새로고침하면 JSON 값으로 초기화합니다.
 
-도착 예측 차트는 같은 항공사·편명의 지난 임시 항공편에서 집계합니다. 관측값이 없으면 0으로 표시하며, 실제 운항 예측이나 최근 60일 실적으로 표시하지 않습니다.
+도착 예측 영역은 같은 항공사·편명의 CSV 기록 중 실제 도착 시각이 있는 항공편만 집계합니다. 기록이 없으면 비율을 —로 표시하고 막대를 숨깁니다. 실시간 예측 데이터는 아닙니다.
+
+## 기체 공개 데이터 조회
+
+기체별 수동 JSON은 사용하지 않습니다. `src/common/aircraft.js`의 `loadAircraft`가 선택한 항공편의 등록번호로 [adsbdb 공개 항공기 데이터](https://github.com/mrjackwills/adsbdb)의 `GET https://api.adsbdb.com/v0/aircraft/{registration}`를 조회합니다. 별도 API 키 없이 브라우저에서 접근할 수 있는 공개 조회를 사용합니다.
+
+- 상세 페이지에서 선택한 기체만 요청하고, 같은 등록번호는 화면 세션에서 재사용합니다. `PHBHH → PH-BHH`, `OHLKG → OH-LKG`, `B32LV → B-32LV`처럼 조회용 등록번호 형식을 정리합니다.
+- 제조사·현재 기종·ICAO 기종·Mode S·등록 소유자·국가·사진은 응답에서 가져옵니다. 사진에는 airport-data.com 출처를 표시합니다. 좌석 수·엔진·최초 비행일처럼 응답에 없는 값은 생성하지 않습니다.
+- 항공편의 `aircraft.type`은 당시 탑승 기록입니다. 외부 데이터는 현재 등록 정보로 별도 표시하며, 소유자를 과거 운항사로 추정하지 않습니다. 패스포트의 기종별 집계도 당시 기록을 사용합니다.
+- 등록번호가 없으면 요청하지 않습니다. 조회 중·미등록(404)·통신 실패·10초 제한을 구분하고 항공편 기록을 계속 표시합니다. 사진을 불러오지 못하면 기존 이미지 영역만 유지합니다.
+
+## 항공편 통계
+
+`FlightStatsPage.vue`는 패스포트와 동일하게 내 완료 항공편만 집계합니다. 기간 탭은 실제 기록의 연도에서 만들고 URL의 `period`와 연결합니다. 모든 수치·차트·순위·지도는 같은 기간 배열을 사용합니다.
+
+- 국내선은 출도착 국가 코드가 같은 항공편, 국제선은 다른 항공편입니다. 장거리 항공편은 예정 게이트 출도착 시간이 6시간 이상인 항공편으로 정의했습니다.
+- Year는 연속된 연도(기록 없는 해는 0편), Month는 1~12월, Weekday는 출발 공항의 현지 날짜 기준 월~일로 집계합니다. 각 차트의 합계는 선택 기간의 항공편 수와 같습니다.
+- 거리 합계·마일 환산·평균 거리·최단 및 최장 항공편은 `distanceKm`로 계산합니다. 거리 비교는 [NASA의 지구·달 수치](https://science.nasa.gov/moon/by-the-numbers/)를 기준으로 지구 둘레 40,030.2 km, 달 평균 거리 384,400 km, 태양 평균 거리 149,598,262 km를 사용합니다.
+- 시간 합계·평균은 실제 이륙·착륙 시각이 있는 항공편만 사용하고 기록 수를 표시합니다. 택싱 시간은 실제 게이트 출도착도 있는 같은 항공편의 게이트 소요 시간에서 공중 비행시간을 뺍니다. 일·주·월·년 환산은 각각 24시간·7일·30일·365일입니다. 미기록은 —입니다.
+- 공항은 출도착에 등장한 고유 공항 수이며 항공편 수는 각 공항의 출발 또는 도착을 셉니다. 항공사는 판매 항공사 코드로 묶습니다. 노선은 왕복을 합친 공항 쌍입니다. 항공편 수·거리 탭은 해당 값으로 정렬한 뒤 표시 개수를 적용합니다.
+- 국가는 고유 국가·영토 코드 수이며 국가별 항공편 수는 해당 국가에 출발·도착한 편수를 셉니다. 국내선은 같은 국가에 한 번만 셉니다. 지역은 공항의 대륙 코드로 묶은 고유 국가·영토 수와 그 비율입니다.
 
 ## 페이지별 지도 경로
 
-- 앞으로의 여정: `HomePage.vue`의 `filteredFlights`를 사용합니다. 내 예정 항공편·친구 예정 항공편·검색 결과와 지도 항로가 함께 바뀝니다.
-- 패스포트: `PassportPage.vue`의 `periodFlights`를 사용합니다. ALL-TIME은 내 모든 완료 항공편, 연도를 선택하면 해당 연도의 여정만 표시합니다. 그룹 정렬은 경로 집합을 바꾸지 않습니다.
+- 앞으로의 여정: `HomePage.vue`의 `filteredFlights`를 사용합니다. 현재는 예정 4편의 2개 공항 쌍이며 검색 결과와 함께 바뀝니다.
+- 패스포트: `PassportPage.vue`의 `periodFlights`를 사용합니다. ALL-TIME은 지난 26편, 연도를 선택하면 해당 연도의 여정만 표시합니다. 그룹 정렬은 경로 집합을 바꾸지 않습니다.
 - 상세: 선택한 항공편 하나를 표시합니다. 목록이 비어 있으면 지도 항로와 공항 마커도 비웁니다.
 
-두 목록 페이지는 `map-flights` 이벤트로 실제 표시할 배열을 `MapLayout.vue`에 전달합니다. 지도에서 별도의 검색·기간 필터를 복제하지 않습니다. 동일 공항 쌍은 중복으로 그리지 않고 항공편 ID 목록을 함께 보관합니다. 공항 마커도 공항 코드별로 한 번만 표시하며, 모든 경로가 보이도록 지도 범위를 맞춥니다. 날짜 변경선을 지나는 항로는 같은 지구 복사본의 경도에 맞춰 연결합니다.
+목록 페이지는 `map-flights` 이벤트로 실제 표시 배열을 `MapLayout.vue`에 전달합니다. 동일 공항 쌍은 중복으로 그리지 않고 공항 마커도 코드별로 한 번만 표시합니다. 모든 경로가 보이도록 지도 범위를 맞추고 날짜 변경선 항로도 같은 지구 복사본에 연결합니다.
 
 ## 패스포트 정렬
 
-기간 선택은 내 완료 항공편을 연도로 필터링합니다. 요약·누적 지연·자주 탑승한 기종·이력 건수도 같은 필터 결과를 사용합니다.
+기간 선택은 지난 항공편을 연도로 필터링합니다. 요약·누적 지연·자주 탑승한 기종·이력 건수도 같은 필터 결과를 사용합니다.
 
 `Group past flights`는 `BaseTabItem`의 `type="sort"`, `v-model`, `v-model:order`를 사용합니다.
 
-1. 첫 클릭: 해당 항목으로 묶고 내림차순으로 정렬합니다. 아래 화살표를 표시합니다.
-2. 같은 항목을 두 번째 클릭: 오름차순으로 정렬합니다. 위 화살표를 표시합니다.
-3. 세 번째 클릭: 항목과 화살표를 해제하고 최신 날짜순으로 돌아갑니다.
+1. 첫 클릭: 해당 항목으로 묶고 내림차순. 아래 화살표를 표시합니다.
+2. 두 번째 클릭: 오름차순. 위 화살표를 표시합니다.
+3. 세 번째 클릭: 정렬 항목·화살표를 해제하고 최신 날짜순으로 돌아갑니다.
 4. 다른 항목 클릭: 새 항목의 내림차순으로 시작합니다.
 
-Aisle은 좌석 위치, From·To는 각각 출발·도착 공항 코드, Airline은 항공사 이름, Airport는 출도착 공항 조합, Tail은 기체 등록 번호, Aircraft는 모델, Flight Time은 숫자 분을 기준으로 합니다. 같은 그룹 안에서는 최신 출발 시각순을 유지합니다. 기본 날짜순은 연도별로 묶습니다. 각 그룹의 건수는 실제 배열 길이입니다.
+Aisle은 좌석 위치, From·To는 출발·도착 공항 코드, Airline은 항공사 이름, Airport는 공항 조합, Tail은 등록 번호, Aircraft는 모델, Flight Time은 실제 비행시간(분)을 사용합니다. 빈 값은 Not recorded로 묶어 정렬 방향과 관계없이 마지막에 둡니다. 그룹 안에서는 최신 출발순이며 그룹 건수는 실제 배열 길이입니다.
 
 ## 이미지 자리
 
-이미지·로고가 없으면 크기와 간격만 유지합니다. 회색 원·채움 사각형·가짜 로고를 만들지 않습니다. 실제 에셋이 있으면 기존 이미지와 아이콘을 표시합니다. JSON 이미지 파일명은 공통 모듈에서 기존 에셋 import로 연결하며 외부 임시 이미지 URL을 런타임에 사용하지 않습니다.
+이미지·로고가 없으면 크기와 간격만 유지합니다. 회색 원·채움 사각형·가짜 로고를 만들지 않습니다. 항공사 JSON의 로고 파일명은 공통 모듈에서 로컬 에셋과 연결하고, 기체 사진은 공개 조회 응답의 URL을 사용합니다.
 
 ## 기준 정보 출처
 
-- 항공사 ICAO·callsign: [FAA 항공사 식별자](https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/chap3_section_3.html).
-- 대한항공 연락처: [공식 서비스센터](https://www.koreanair.com/contents/footer/customer-support/service-center?hl=en). SNS 주소: [대한항공·JAL 공동 발표](https://press.jal.co.jp/en/release/202609/009703.html).
-- 아시아나 연락처: [공식 전화 예약 안내](https://flyasiana.com/C/KR/KO/contents/telephone-reservation?site_preference=normal). X: [공식 계정](https://x.com/Flyasiana/with_replies). Facebook: [Star Alliance 공식 소개](https://portal.staralliance.com/stardesk/publications/In_Focus.pdf).
-- 공항 코드·위치 참고: [OurAirports 데이터 설명](https://ourairports.com/help/data-dictionary.html). 개별 참고 페이지는 각 공항의 `source`에 있습니다. 기존 프로젝트 좌표를 유지했습니다.
-
-연락처·SNS·동맹 정보는 변경될 수 있으므로 실서비스에 적용할 때 JSON의 출처를 기준으로 갱신합니다.
+- 원본 운항·예약·기체: 사용자가 제공한 Flighty CSV. 원본 파일은 수정하지 않았습니다.
+- 항공사 IATA·ICAO 대응: [인천국제공항 취항 항공사](https://airinfo.airport.kr/ap_en/1408/subview.do).
+- 기존 항공사 ICAO·callsign: [FAA 항공사 식별자](https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/chap3_section_3.html).
+- 대한항공 연락처: [공식 서비스센터](https://www.koreanair.com/contents/footer/customer-support/service-center?hl=en). SNS: [대한항공·JAL 공동 발표](https://press.jal.co.jp/en/release/202609/009703.html).
+- 아시아나 연락처: [공식 전화 예약 안내](https://flyasiana.com/C/KR/KO/contents/telephone-reservation?site_preference=normal). X: [공식 계정](https://x.com/Flyasiana/with_replies). Facebook: [Star Alliance 소개](https://portal.staralliance.com/stardesk/publications/In_Focus.pdf).
+- 공항 코드·위치: [OurAirports 공개 데이터](https://ourairports.com/data/). 추가 공항의 좌표는 공개 CSV에서 확인했으며 개별 페이지는 `airports.json`의 `source`에 있습니다.

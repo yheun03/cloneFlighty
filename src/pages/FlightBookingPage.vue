@@ -120,7 +120,7 @@ const pageData = {
     "seatPlaceholder": "32K",
     "positions": ["Aisle", "Middle", "Window", "Pilot", "Captain", "Jumpseat"],
     "cabins": ["Economy", "Premium Economy", "Business", "First Class"],
-    "reasons": ["Personal", "Business", "Crew"]
+    "reasons": ["Leisure", "Personal", "Business", "Crew"]
 };
 
 const booking = defineModel({ type: Object, required: true });

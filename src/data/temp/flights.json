@@ -1,493 +1,1295 @@
 {
-    "isSample": true,
-    "referenceDate": "2026-10-21",
+    "source": "FlightyExport-2026-10-22 (1).csv",
+    "referenceDate": "2026-10-22",
     "flights": [
         {
-            "id": "ke-24",
+            "id": "ke-1269-2017-05-31",
+            "date": "2017-05-31",
             "airline": "KE",
-            "number": "24",
-            "aircraftId": "ke-a333-01",
-            "status": "upcoming",
+            "number": "1269",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
             "friend": null,
             "departure": {
-                "airport": "SFO",
-                "scheduledAt": "2026-11-28T11:20:00-08:00",
-                "estimatedAt": "2026-11-28T11:40:00-08:00",
-                "terminal": "Terminal 1",
-                "gate": "F4"
+                "airport": "GMP",
+                "scheduledAt": "2017-05-31T12:00:00+09:00",
+                "actualAt": "2017-05-31T11:57:00+09:00",
+                "takeoffScheduledAt": "2017-05-31T12:14:00+09:00",
+                "takeoffActualAt": "2017-05-31T12:14:00+09:00",
+                "terminal": "D",
+                "gate": "8"
             },
             "arrival": {
-                "airport": "ICN",
-                "scheduledAt": "2026-11-29T18:00:00+09:00",
-                "estimatedAt": "2026-11-29T17:40:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "248",
-                "baggage": "14"
+                "airport": "CJU",
+                "scheduledAt": "2017-05-31T13:10:00+09:00",
+                "actualAt": "2017-05-31T13:09:00+09:00",
+                "landingScheduledAt": "2017-05-31T13:05:00+09:00",
+                "landingActualAt": "2017-05-31T13:05:00+09:00",
+                "terminal": null,
+                "gate": "53",
+                "baggage": null
             },
-            "distanceKm": 9086,
-            "airborneMinutes": 755,
+            "distanceKm": 451,
+            "distanceSource": "great-circle",
             "booking": {
-                "code": "KEX241",
-                "seat": "32K",
+                "code": "",
+                "seat": "",
                 "position": "Window",
                 "cabin": "Economy",
-                "reason": "Personal"
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7566",
+                "type": "Boeing 737-800"
             }
         },
         {
-            "id": "ke-24-2",
-            "airline": "KE",
-            "number": "24",
-            "aircraftId": "ke-b789-01",
-            "status": "upcoming",
-            "friend": null,
-            "departure": {
-                "airport": "SFO",
-                "scheduledAt": "2026-12-12T12:30:00-08:00",
-                "estimatedAt": "2026-12-12T13:05:00-08:00",
-                "terminal": "Terminal 1",
-                "gate": "F4"
-            },
-            "arrival": {
-                "airport": "ICN",
-                "scheduledAt": "2026-12-13T19:10:00+09:00",
-                "estimatedAt": "2026-12-13T19:25:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "248",
-                "baggage": "14"
-            },
-            "distanceKm": 9086,
-            "airborneMinutes": 775,
-            "booking": {
-                "code": "KEX242",
-                "seat": "7A",
-                "position": "Window",
-                "cabin": "Business",
-                "reason": "Business"
-            }
-        },
-        {
-            "id": "oz-202",
-            "airline": "OZ",
-            "number": "202",
-            "aircraftId": "oz-a359-01",
-            "status": "upcoming",
-            "friend": null,
-            "departure": {
-                "airport": "ICN",
-                "scheduledAt": "2026-11-15T14:40:00+09:00",
-                "estimatedAt": "2026-11-15T14:40:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "G8"
-            },
-            "arrival": {
-                "airport": "LAX",
-                "scheduledAt": "2026-11-15T08:20:00-08:00",
-                "estimatedAt": "2026-11-15T08:10:00-08:00",
-                "terminal": "Terminal 1",
-                "gate": "B12",
-                "baggage": "8"
-            },
-            "distanceKm": 9630,
-            "airborneMinutes": 605,
-            "booking": {
-                "code": "OZX202",
-                "seat": "18C",
-                "position": "Aisle",
-                "cabin": "Economy",
-                "reason": "Personal"
-            }
-        },
-        {
-            "id": "ke-417-friend",
-            "airline": "KE",
-            "number": "417",
-            "aircraftId": "ke-a333-01",
-            "status": "upcoming",
-            "friend": {
-                "id": "alex",
-                "name": "Alex",
-                "profile": null
-            },
-            "departure": {
-                "airport": "ICN",
-                "scheduledAt": "2026-11-07T17:45:00+09:00",
-                "estimatedAt": "2026-11-07T17:55:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "F4"
-            },
-            "arrival": {
-                "airport": "GUM",
-                "scheduledAt": "2026-11-07T23:05:00+10:00",
-                "estimatedAt": "2026-11-07T23:10:00+10:00",
-                "terminal": "Terminal 1",
-                "gate": "B12",
-                "baggage": "14"
-            },
-            "distanceKm": 3220,
-            "airborneMinutes": 230,
-            "booking": {
-                "code": "FRD417",
-                "seat": "24A",
-                "position": "Window",
-                "cabin": "Economy",
-                "reason": "Personal"
-            }
-        },
-        {
-            "id": "oz-101-friend",
-            "airline": "OZ",
-            "number": "101",
-            "aircraftId": "oz-a333-01",
-            "status": "upcoming",
-            "friend": {
-                "id": "jane",
-                "name": "Jane",
-                "profile": null
-            },
-            "departure": {
-                "airport": "NRT",
-                "scheduledAt": "2026-11-10T13:20:00+09:00",
-                "estimatedAt": "2026-11-10T13:20:00+09:00",
-                "terminal": "Terminal 1",
-                "gate": "G8"
-            },
-            "arrival": {
-                "airport": "ICN",
-                "scheduledAt": "2026-11-10T16:10:00+09:00",
-                "estimatedAt": "2026-11-10T16:10:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "248",
-                "baggage": "8"
-            },
-            "distanceKm": 1258,
-            "airborneMinutes": 145,
-            "booking": {
-                "code": "FRD101",
-                "seat": "16B",
-                "position": "Middle",
-                "cabin": "Economy",
-                "reason": "Personal"
-            }
-        },
-        {
-            "id": "past-1-1",
-            "airline": "KE",
-            "number": "926",
-            "aircraftId": "ke-b789-01",
-            "status": "completed",
-            "friend": null,
-            "departure": {
-                "airport": "AMS",
-                "scheduledAt": "2025-12-29T21:00:00+01:00",
-                "actualAt": "2025-12-29T21:20:00+01:00",
-                "terminal": "Terminal 1",
-                "gate": "F4"
-            },
-            "arrival": {
-                "airport": "ICN",
-                "scheduledAt": "2025-12-30T16:30:00+09:00",
-                "actualAt": "2025-12-30T17:00:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "248",
-                "baggage": "14"
-            },
-            "distanceKm": 8560,
-            "airborneMinutes": 675,
-            "booking": {
-                "code": "KEL921",
-                "seat": "7A",
-                "position": "Window",
-                "cabin": "Business",
-                "reason": "Business"
-            }
-        },
-        {
-            "id": "past-1-2",
-            "airline": "OZ",
-            "number": "202",
-            "aircraftId": "oz-a359-01",
-            "status": "completed",
-            "friend": null,
-            "departure": {
-                "airport": "ICN",
-                "scheduledAt": "2025-12-18T14:40:00+09:00",
-                "actualAt": "2025-12-18T14:50:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "G8"
-            },
-            "arrival": {
-                "airport": "LAX",
-                "scheduledAt": "2025-12-18T08:20:00-08:00",
-                "actualAt": "2025-12-18T08:05:00-08:00",
-                "terminal": "Terminal 1",
-                "gate": "B12",
-                "baggage": "8"
-            },
-            "distanceKm": 9630,
-            "airborneMinutes": 590,
-            "booking": {
-                "code": "OZH202",
-                "seat": "18C",
-                "position": "Aisle",
-                "cabin": "Economy",
-                "reason": "Personal"
-            }
-        },
-        {
-            "id": "past-1-3",
-            "airline": "KE",
-            "number": "24",
-            "aircraftId": "ke-a333-01",
-            "status": "completed",
-            "friend": null,
-            "departure": {
-                "airport": "SFO",
-                "scheduledAt": "2025-10-20T11:20:00-07:00",
-                "actualAt": "2025-10-20T11:40:00-07:00",
-                "terminal": "Terminal 1",
-                "gate": "F4"
-            },
-            "arrival": {
-                "airport": "ICN",
-                "scheduledAt": "2025-10-21T17:00:00+09:00",
-                "actualAt": "2025-10-21T16:40:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "248",
-                "baggage": "14"
-            },
-            "distanceKm": 9086,
-            "airborneMinutes": 755,
-            "booking": {
-                "code": "KEH024",
-                "seat": "32K",
-                "position": "Window",
-                "cabin": "Economy",
-                "reason": "Personal"
-            }
-        },
-        {
-            "id": "past-2-1",
-            "airline": "OZ",
-            "number": "101",
-            "aircraftId": "oz-a333-01",
-            "status": "completed",
-            "friend": null,
-            "departure": {
-                "airport": "NRT",
-                "scheduledAt": "2025-09-08T13:20:00+09:00",
-                "actualAt": "2025-09-08T13:20:00+09:00",
-                "terminal": "Terminal 1",
-                "gate": "G8"
-            },
-            "arrival": {
-                "airport": "ICN",
-                "scheduledAt": "2025-09-08T16:10:00+09:00",
-                "actualAt": "2025-09-08T16:10:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "248",
-                "baggage": "8"
-            },
-            "distanceKm": 1258,
-            "airborneMinutes": 145,
-            "booking": {
-                "code": "OZH101",
-                "seat": "24B",
-                "position": "Middle",
-                "cabin": "Economy",
-                "reason": "Personal"
-            }
-        },
-        {
-            "id": "past-2-2",
-            "airline": "KE",
-            "number": "417",
-            "aircraftId": "ke-a333-01",
-            "status": "completed",
-            "friend": null,
-            "departure": {
-                "airport": "ICN",
-                "scheduledAt": "2025-06-07T17:45:00+09:00",
-                "actualAt": "2025-06-07T18:00:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "F4"
-            },
-            "arrival": {
-                "airport": "GUM",
-                "scheduledAt": "2025-06-07T23:05:00+10:00",
-                "actualAt": "2025-06-07T23:45:00+10:00",
-                "terminal": "Terminal 1",
-                "gate": "B12",
-                "baggage": "14"
-            },
-            "distanceKm": 3220,
-            "airborneMinutes": 260,
-            "booking": {
-                "code": "KEH417",
-                "seat": "28C",
-                "position": "Aisle",
-                "cabin": "Economy",
-                "reason": "Personal"
-            }
-        },
-        {
-            "id": "past-2-3",
-            "airline": "OZ",
-            "number": "203",
-            "aircraftId": "oz-a359-01",
-            "status": "completed",
-            "friend": null,
-            "departure": {
-                "airport": "LAX",
-                "scheduledAt": "2025-03-15T11:00:00-07:00",
-                "actualAt": "2025-03-15T11:00:00-07:00",
-                "terminal": "Terminal 1",
-                "gate": "G8"
-            },
-            "arrival": {
-                "airport": "ICN",
-                "scheduledAt": "2025-03-16T16:30:00+09:00",
-                "actualAt": "2025-03-16T16:05:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "248",
-                "baggage": "8"
-            },
-            "distanceKm": 9630,
-            "airborneMinutes": 760,
-            "booking": {
-                "code": "OZH203",
-                "seat": "5A",
-                "position": "Window",
-                "cabin": "Business",
-                "reason": "Business"
-            }
-        },
-        {
-            "id": "past-2024-1",
-            "airline": "KE",
-            "number": "115",
-            "aircraftId": "ke-b789-01",
-            "status": "completed",
-            "friend": null,
-            "departure": {
-                "airport": "ICN",
-                "scheduledAt": "2024-10-22T09:20:00+09:00",
-                "actualAt": "2024-10-22T09:30:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "F4"
-            },
-            "arrival": {
-                "airport": "YNJ",
-                "scheduledAt": "2024-10-22T10:50:00+08:00",
-                "actualAt": "2024-10-22T11:05:00+08:00",
-                "terminal": "Terminal 1",
-                "gate": "B12",
-                "baggage": "14"
-            },
-            "distanceKm": 674,
-            "airborneMinutes": 130,
-            "booking": {
-                "code": "KEH115",
-                "seat": "11C",
-                "position": "Aisle",
-                "cabin": "Economy",
-                "reason": "Business"
-            }
-        },
-        {
-            "id": "past-2024-2",
-            "airline": "OZ",
-            "number": "102",
-            "aircraftId": "oz-a333-01",
-            "status": "completed",
-            "friend": null,
-            "departure": {
-                "airport": "ICN",
-                "scheduledAt": "2024-05-04T09:00:00+09:00",
-                "actualAt": "2024-05-04T09:00:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "G8"
-            },
-            "arrival": {
-                "airport": "NRT",
-                "scheduledAt": "2024-05-04T11:20:00+09:00",
-                "actualAt": "2024-05-04T11:20:00+09:00",
-                "terminal": "Terminal 1",
-                "gate": "B12",
-                "baggage": "8"
-            },
-            "distanceKm": 1258,
-            "airborneMinutes": 115,
-            "booking": {
-                "code": "OZH102",
-                "seat": "18A",
-                "position": "Window",
-                "cabin": "Economy",
-                "reason": "Personal"
-            }
-        },
-        {
-            "id": "past-2023-1",
+            "id": "ke-1238-2017-06-02",
+            "date": "2017-06-02",
             "airline": "KE",
             "number": "1238",
-            "aircraftId": "ke-a333-01",
             "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
             "friend": null,
             "departure": {
                 "airport": "CJU",
-                "scheduledAt": "2023-08-20T15:20:00+09:00",
-                "actualAt": "2023-08-20T15:35:00+09:00",
-                "terminal": "Terminal 1",
-                "gate": "F4"
+                "scheduledAt": "2017-06-02T16:00:00+09:00",
+                "actualAt": "2017-06-02T16:03:00+09:00",
+                "takeoffScheduledAt": "2017-06-02T16:20:00+09:00",
+                "takeoffActualAt": "2017-06-02T16:20:00+09:00",
+                "terminal": null,
+                "gate": "5"
             },
             "arrival": {
                 "airport": "GMP",
-                "scheduledAt": "2023-08-20T16:30:00+09:00",
-                "actualAt": "2023-08-20T16:50:00+09:00",
-                "terminal": "Terminal 1",
-                "gate": "B12",
-                "baggage": "14"
+                "scheduledAt": "2017-06-02T17:10:00+09:00",
+                "actualAt": "2017-06-02T17:19:00+09:00",
+                "landingScheduledAt": "2017-06-02T17:10:00+09:00",
+                "landingActualAt": "2017-06-02T17:10:00+09:00",
+                "terminal": "D",
+                "gate": null,
+                "baggage": null
             },
             "distanceKm": 451,
-            "airborneMinutes": 50,
+            "distanceSource": "great-circle",
             "booking": {
-                "code": "KEH238",
-                "seat": "29B",
+                "code": "",
+                "seat": "",
                 "position": "Middle",
                 "cabin": "Economy",
-                "reason": "Personal"
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7765",
+                "type": "Boeing 777-200 ER"
             }
         },
         {
-            "id": "past-2017-1",
-            "airline": "KE",
-            "number": "647",
-            "aircraftId": "ke-a333-01",
+            "id": "as-3329-2024-09-13",
+            "date": "2024-09-13",
+            "airline": "AS",
+            "number": "3329",
             "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
             "friend": null,
             "departure": {
+                "airport": "LAX",
+                "scheduledAt": "2024-09-13T15:45:00-07:00",
+                "actualAt": "2024-09-13T15:42:00-07:00",
+                "takeoffScheduledAt": "2024-09-13T15:55:00-07:00",
+                "takeoffActualAt": "2024-09-13T15:56:00-07:00",
+                "terminal": "6",
+                "gate": "67"
+            },
+            "arrival": {
                 "airport": "SFO",
-                "scheduledAt": "2017-06-02T12:00:00-07:00",
-                "actualAt": "2017-06-02T12:00:00-07:00",
-                "terminal": "Terminal 1",
+                "scheduledAt": "2024-09-13T17:13:00-07:00",
+                "actualAt": "2024-09-13T16:57:00-07:00",
+                "landingScheduledAt": "2024-09-13T16:48:00-07:00",
+                "landingActualAt": "2024-09-13T16:55:00-07:00",
+                "terminal": "1",
+                "gate": "B8",
+                "baggage": null
+            },
+            "distanceKm": 544,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "IFBOGE",
+                "seat": "17D",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "N413SY",
+                "type": "Embraer 175"
+            }
+        },
+        {
+            "id": "ke-5925-2025-12-23",
+            "date": "2025-12-23",
+            "airline": "KE",
+            "number": "5925",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2025-12-23T23:05:00+09:00",
+                "actualAt": "2025-12-23T23:04:00+09:00",
+                "takeoffScheduledAt": "2025-12-23T23:15:00+09:00",
+                "takeoffActualAt": "2025-12-23T23:21:00+09:00",
+                "terminal": "2",
+                "gate": "275"
+            },
+            "arrival": {
+                "airport": "AMS",
+                "scheduledAt": "2025-12-24T05:20:00+01:00",
+                "actualAt": "2025-12-24T04:45:00+01:00",
+                "landingScheduledAt": "2025-12-24T05:10:00+01:00",
+                "landingActualAt": "2025-12-24T04:38:00+01:00",
+                "terminal": "3",
+                "gate": "F7",
+                "baggage": null
+            },
+            "distanceKm": 8552,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "EXHH5U",
+                "seat": "38K",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "PHBHH",
+                "type": "Boeing 787-9"
+            }
+        },
+        {
+            "id": "kl-1251-2025-12-24",
+            "date": "2025-12-24",
+            "airline": "KL",
+            "number": "1251",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "AMS",
+                "scheduledAt": "2025-12-24T09:50:00+01:00",
+                "actualAt": "2025-12-24T10:08:00+01:00",
+                "takeoffScheduledAt": "2025-12-24T10:00:00+01:00",
+                "takeoffActualAt": "2025-12-24T10:26:00+01:00",
+                "terminal": "1",
+                "gate": "C10"
+            },
+            "arrival": {
+                "airport": "HEL",
+                "scheduledAt": "2025-12-24T13:10:00+02:00",
+                "actualAt": "2025-12-24T13:57:00+02:00",
+                "landingScheduledAt": "2025-12-24T13:00:00+02:00",
+                "landingActualAt": "2025-12-24T13:52:00+02:00",
+                "terminal": null,
+                "gate": "18",
+                "baggage": null
+            },
+            "distanceKm": 1521,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "EXHH5U",
+                "seat": "22F",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "PHAXL",
+                "type": "Airbus A321neo"
+            }
+        },
+        {
+            "id": "ay-911-2025-12-27",
+            "date": "2025-12-27",
+            "airline": "AY",
+            "number": "911",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "HEL",
+                "scheduledAt": "2025-12-27T07:20:00+02:00",
+                "actualAt": "2025-12-27T07:36:00+02:00",
+                "takeoffScheduledAt": "2025-12-27T07:30:00+02:00",
+                "takeoffActualAt": "2025-12-27T07:46:00+02:00",
+                "terminal": "MAIN",
+                "gate": "36"
+            },
+            "arrival": {
+                "airport": "OSL",
+                "scheduledAt": "2025-12-27T08:00:00+01:00",
+                "actualAt": "2025-12-27T08:17:00+01:00",
+                "landingScheduledAt": "2025-12-27T07:50:00+01:00",
+                "landingActualAt": "2025-12-27T08:11:00+01:00",
+                "terminal": "I",
+                "gate": "E11",
+                "baggage": null
+            },
+            "distanceKm": 763,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "9M3LMT",
+                "seat": "7E",
+                "position": "Middle",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "OHLKG",
+                "type": "Embraer 190"
+            }
+        },
+        {
+            "id": "ke-6410-2025-12-29",
+            "date": "2025-12-29",
+            "airline": "KE",
+            "number": "6410",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "CPH",
+                "scheduledAt": "2025-12-29T17:30:00+01:00",
+                "actualAt": "2025-12-29T18:00:00+01:00",
+                "takeoffScheduledAt": "2025-12-29T17:40:00+01:00",
+                "takeoffActualAt": "2025-12-29T18:16:00+01:00",
+                "terminal": "2",
+                "gate": "A22"
+            },
+            "arrival": {
+                "airport": "AMS",
+                "scheduledAt": "2025-12-29T18:55:00+01:00",
+                "actualAt": "2025-12-29T19:24:00+01:00",
+                "landingScheduledAt": "2025-12-29T18:45:00+01:00",
+                "landingActualAt": "2025-12-29T19:21:00+01:00",
+                "terminal": "2",
+                "gate": "D63",
+                "baggage": null
+            },
+            "distanceKm": 633,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "EXHH5U",
+                "seat": "3F",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "PHBXM",
+                "type": "Boeing 737-800"
+            }
+        },
+        {
+            "id": "ke-5926-2025-12-29",
+            "date": "2025-12-29",
+            "airline": "KE",
+            "number": "5926",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "AMS",
+                "scheduledAt": "2025-12-29T20:55:00+01:00",
+                "actualAt": "2025-12-29T21:15:00+01:00",
+                "takeoffScheduledAt": "2025-12-29T21:05:00+01:00",
+                "takeoffActualAt": "2025-12-29T21:31:00+01:00",
+                "terminal": "2",
                 "gate": "F4"
             },
             "arrival": {
                 "airport": "ICN",
-                "scheduledAt": "2017-06-03T17:30:00+09:00",
-                "actualAt": "2017-06-03T17:25:00+09:00",
-                "terminal": "Terminal 2",
-                "gate": "248",
-                "baggage": "14"
+                "scheduledAt": "2025-12-30T16:55:00+09:00",
+                "actualAt": "2025-12-30T16:43:00+09:00",
+                "landingScheduledAt": "2025-12-30T16:45:00+09:00",
+                "landingActualAt": "2025-12-30T16:32:00+09:00",
+                "terminal": "2",
+                "gate": "281",
+                "baggage": null
             },
-            "distanceKm": 9086,
-            "airborneMinutes": 780,
+            "distanceKm": 8552,
+            "distanceSource": "great-circle",
             "booking": {
-                "code": "KEH647",
+                "code": "EXHH5U",
+                "seat": "21A",
+                "position": "Window",
+                "cabin": "Premium Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "PHBHG",
+                "type": "Boeing 787-9"
+            }
+        },
+        {
+            "id": "ke-415-2026-03-05",
+            "date": "2026-03-05",
+            "airline": "KE",
+            "number": "415",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2026-03-05T09:15:00+09:00",
+                "actualAt": "2026-03-05T09:30:00+09:00",
+                "takeoffScheduledAt": "2026-03-05T09:25:00+09:00",
+                "takeoffActualAt": "2026-03-05T09:52:00+09:00",
+                "terminal": "T2",
+                "gate": "218"
+            },
+            "arrival": {
+                "airport": "GUM",
+                "scheduledAt": "2026-03-05T14:35:00+10:00",
+                "actualAt": "2026-03-05T14:42:00+10:00",
+                "landingScheduledAt": "2026-03-05T14:25:00+10:00",
+                "landingActualAt": "2026-03-05T14:38:00+10:00",
+                "terminal": "MAIN",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceKm": 3227,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "DRFAHB",
+                "seat": "42H",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7533",
+                "type": "Boeing 777-300"
+            }
+        },
+        {
+            "id": "ke-418-2026-03-09",
+            "date": "2026-03-09",
+            "airline": "KE",
+            "number": "418",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "GUM",
+                "scheduledAt": "2026-03-09T01:00:00+10:00",
+                "actualAt": "2026-03-09T00:52:00+10:00",
+                "takeoffScheduledAt": "2026-03-09T01:10:00+10:00",
+                "takeoffActualAt": "2026-03-09T01:06:00+10:00",
+                "terminal": null,
+                "gate": null
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2026-03-09T04:50:00+09:00",
+                "actualAt": "2026-03-09T04:23:00+09:00",
+                "landingScheduledAt": "2026-03-09T04:40:00+09:00",
+                "landingActualAt": "2026-03-09T04:14:00+09:00",
+                "terminal": "2",
+                "gate": "236",
+                "baggage": null
+            },
+            "distanceKm": 3227,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "DRFAHB",
+                "seat": "29A",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7532",
+                "type": "Boeing 777-300"
+            }
+        },
+        {
+            "id": "mu-892-2026-07-10",
+            "date": "2026-07-10",
+            "airline": "MU",
+            "number": "892",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2026-07-10T15:40:00+09:00",
+                "actualAt": "2026-07-10T17:51:00+09:00",
+                "takeoffScheduledAt": "2026-07-10T15:50:00+09:00",
+                "takeoffActualAt": "2026-07-10T18:04:00+09:00",
+                "terminal": "1",
+                "gate": "121"
+            },
+            "arrival": {
+                "airport": "YNJ",
+                "scheduledAt": "2026-07-10T16:55:00+08:00",
+                "actualAt": "2026-07-10T18:59:00+08:00",
+                "landingScheduledAt": "2026-07-10T16:45:00+08:00",
+                "landingActualAt": "2026-07-10T18:49:00+08:00",
+                "terminal": null,
+                "gate": null,
+                "baggage": null
+            },
+            "distanceKm": 655,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "ca3nzj0",
+                "seat": "42L",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "B32LV",
+                "type": "Airbus A320neo"
+            }
+        },
+        {
+            "id": "mu-891-2026-07-14",
+            "date": "2026-07-14",
+            "airline": "MU",
+            "number": "891",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "YNJ",
+                "scheduledAt": "2026-07-14T11:35:00+08:00",
+                "actualAt": "2026-07-14T11:26:00+08:00",
+                "takeoffScheduledAt": "2026-07-14T11:45:00+08:00",
+                "takeoffActualAt": "2026-07-14T11:41:00+08:00",
+                "terminal": null,
+                "gate": "5"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2026-07-14T14:40:00+09:00",
+                "actualAt": "2026-07-14T14:40:00+09:00",
+                "landingScheduledAt": "2026-07-14T14:30:00+09:00",
+                "landingActualAt": "2026-07-14T14:24:00+09:00",
+                "terminal": "1",
+                "gate": "118",
+                "baggage": null
+            },
+            "distanceKm": 655,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "",
+                "seat": "42L",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "B327A",
+                "type": "Airbus A320neo"
+            }
+        },
+        {
+            "id": "7c-1701-2026-07-31",
+            "date": "2026-07-31",
+            "airline": "7C",
+            "number": "1701",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2026-07-31T07:00:00+09:00",
+                "actualAt": "2026-07-31T06:57:00+09:00",
+                "takeoffScheduledAt": "2026-07-31T07:10:00+09:00",
+                "takeoffActualAt": "2026-07-31T07:12:00+09:00",
+                "terminal": "T1",
+                "gate": "15"
+            },
+            "arrival": {
+                "airport": "MYJ",
+                "scheduledAt": "2026-07-31T08:35:00+09:00",
+                "actualAt": "2026-07-31T08:24:00+09:00",
+                "landingScheduledAt": "2026-07-31T08:25:00+09:00",
+                "landingActualAt": "2026-07-31T08:20:00+09:00",
+                "terminal": "MAIN",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceKm": 695,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "U6DJKL",
+                "seat": "13F",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL8335",
+                "type": "Boeing 737-800"
+            }
+        },
+        {
+            "id": "7c-1702-2026-08-02",
+            "date": "2026-08-02",
+            "airline": "7C",
+            "number": "1702",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "MYJ",
+                "scheduledAt": "2026-08-02T09:35:00+09:00",
+                "actualAt": "2026-08-02T09:32:00+09:00",
+                "takeoffScheduledAt": "2026-08-02T09:45:00+09:00",
+                "takeoffActualAt": "2026-08-02T09:42:00+09:00",
+                "terminal": null,
+                "gate": null
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2026-08-02T11:15:00+09:00",
+                "actualAt": "2026-08-02T10:57:00+09:00",
+                "landingScheduledAt": "2026-08-02T11:05:00+09:00",
+                "landingActualAt": "2026-08-02T10:51:00+09:00",
+                "terminal": "1",
+                "gate": "16",
+                "baggage": null
+            },
+            "distanceKm": 695,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "U6DJKL",
+                "seat": "8F",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL8339",
+                "type": "Boeing 737-800"
+            }
+        },
+        {
+            "id": "lj-367-2026-11-07",
+            "date": "2026-11-07",
+            "airline": "LJ",
+            "number": "367",
+            "status": "upcoming",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2026-11-07T14:50:00+09:00",
+                "actualAt": null,
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "2",
+                "gate": null
+            },
+            "arrival": {
+                "airport": "KIX",
+                "scheduledAt": "2026-11-07T16:35:00+09:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "1",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceKm": 861,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "F6FX97",
+                "seat": "",
+                "position": "",
+                "cabin": "",
+                "reason": ""
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": null,
+                "type": "Boeing 737-800"
+            }
+        },
+        {
+            "id": "lj-384-2026-11-10",
+            "date": "2026-11-10",
+            "airline": "LJ",
+            "number": "384",
+            "status": "upcoming",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "KIX",
+                "scheduledAt": "2026-11-10T23:25:00+09:00",
+                "actualAt": null,
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "1",
+                "gate": null
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2026-11-11T01:40:00+09:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "2",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceKm": 861,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "F6FX97",
+                "seat": "",
+                "position": "",
+                "cabin": "",
+                "reason": ""
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": null,
+                "type": "Boeing 737-800"
+            }
+        },
+        {
+            "id": "oz-152-2026-12-04",
+            "date": "2026-12-04",
+            "airline": "OZ",
+            "number": "152",
+            "status": "upcoming",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2026-12-04T09:35:00+09:00",
+                "actualAt": null,
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "2",
+                "gate": null
+            },
+            "arrival": {
+                "airport": "SDJ",
+                "scheduledAt": "2026-12-04T11:45:00+09:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": null,
+                "gate": null,
+                "baggage": null
+            },
+            "distanceKm": 1273,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "",
+                "seat": "",
+                "position": "",
+                "cabin": "",
+                "reason": ""
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": null,
+                "type": "Airbus A321neo"
+            }
+        },
+        {
+            "id": "oz-151-2026-12-06",
+            "date": "2026-12-06",
+            "airline": "OZ",
+            "number": "151",
+            "status": "upcoming",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "SDJ",
+                "scheduledAt": "2026-12-06T12:45:00+09:00",
+                "actualAt": null,
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": null,
+                "gate": null
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2026-12-06T15:20:00+09:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "2",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceKm": 1273,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "",
+                "seat": "",
+                "position": "",
+                "cabin": "",
+                "reason": ""
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": null,
+                "type": "Airbus A321neo"
+            }
+        },
+        {
+            "id": "ke-703-2023-08-02",
+            "date": "2023-08-02",
+            "airline": "KE",
+            "number": "703",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2023-08-02T10:10:00+09:00",
+                "actualAt": "2023-08-02T10:16:00+09:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "2",
+                "gate": "256"
+            },
+            "arrival": {
+                "airport": "NRT",
+                "scheduledAt": "2023-08-02T12:35:00+09:00",
+                "actualAt": "2023-08-02T12:57:00+09:00",
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "1",
+                "gate": "27",
+                "baggage": null
+            },
+            "distanceKm": 1258,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "6OCQLE",
+                "seat": "52G",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7710",
+                "type": "Airbus A330-300"
+            }
+        },
+        {
+            "id": "oz-542-2023-11-21",
+            "date": "2023-11-21",
+            "airline": "OZ",
+            "number": "542",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "FRA",
+                "scheduledAt": "2023-11-21T17:35:00+01:00",
+                "actualAt": "2023-11-21T17:27:00+01:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "1",
+                "gate": "B43"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2023-11-22T13:15:00+09:00",
+                "actualAt": "2023-11-22T12:57:00+09:00",
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "1",
+                "gate": "19",
+                "baggage": null
+            },
+            "distanceKm": 8545,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "AEJPAW",
+                "seat": "32A",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7578",
+                "type": "Airbus A350-900"
+            }
+        },
+        {
+            "id": "oz-3625-2023-12-27",
+            "date": "2023-12-27",
+            "airline": "OZ",
+            "number": "3625",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "SHA",
+                "scheduledAt": "2023-12-27T18:15:00+08:00",
+                "actualAt": "2023-12-27T18:42:00+08:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "1",
+                "gate": "T13"
+            },
+            "arrival": {
+                "airport": "GMP",
+                "scheduledAt": "2023-12-27T21:05:00+09:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "I",
+                "gate": "1",
+                "baggage": null
+            },
+            "distanceKm": 866,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "6BR5G8",
                 "seat": "32K",
                 "position": "Window",
                 "cabin": "Economy",
-                "reason": "Personal"
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL8038",
+                "type": "Airbus A321"
+            }
+        },
+        {
+            "id": "oz-711-2025-02-15",
+            "date": "2025-02-15",
+            "airline": "OZ",
+            "number": "711",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2025-02-15T09:45:00+09:00",
+                "actualAt": "2025-02-15T09:50:00+09:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "1",
+                "gate": "17"
+            },
+            "arrival": {
+                "airport": "TPE",
+                "scheduledAt": "2025-02-15T11:40:00+08:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "2",
+                "gate": "C2",
+                "baggage": null
+            },
+            "distanceKm": 1462,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "LAGSCT",
+                "seat": "71A",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7640",
+                "type": "Airbus A380"
+            }
+        },
+        {
+            "id": "ke-644-2025-08-24",
+            "date": "2025-08-24",
+            "airline": "KE",
+            "number": "644",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "SIN",
+                "scheduledAt": "2025-08-24T22:30:00+08:00",
+                "actualAt": "2025-08-24T22:45:00+08:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "4",
+                "gate": "G19"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2025-08-25T06:00:00+09:00",
+                "actualAt": "2025-08-25T06:16:00+09:00",
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "2",
+                "gate": "265",
+                "baggage": null
+            },
+            "distanceKm": 4625,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "FZ3UTV",
+                "seat": "52j",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7203",
+                "type": "Boeing 777-300 ER"
+            }
+        },
+        {
+            "id": "ke-647-2025-08-20",
+            "date": "2025-08-20",
+            "airline": "KE",
+            "number": "647",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2025-08-20T23:35:00+09:00",
+                "actualAt": "2025-08-20T23:36:00+09:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "2",
+                "gate": "247"
+            },
+            "arrival": {
+                "airport": "SIN",
+                "scheduledAt": "2025-08-21T05:00:00+08:00",
+                "actualAt": "2025-08-21T04:50:00+08:00",
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "4",
+                "gate": "G19",
+                "baggage": null
+            },
+            "distanceKm": 4625,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "FZ3UTV",
+                "seat": "40a",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7587",
+                "type": "Airbus A330-300"
+            }
+        },
+        {
+            "id": "oz-202-2024-09-10",
+            "date": "2024-09-10",
+            "airline": "OZ",
+            "number": "202",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2024-09-10T14:40:00+09:00",
+                "actualAt": "2024-09-10T14:51:00+09:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "1",
+                "gate": "10"
+            },
+            "arrival": {
+                "airport": "LAX",
+                "scheduledAt": "2024-09-10T10:20:00-07:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "B",
+                "gate": "150",
+                "baggage": null
+            },
+            "distanceKm": 9627,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "6W9SWD",
+                "seat": "31B",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7626",
+                "type": "Airbus A380"
+            }
+        },
+        {
+            "id": "oz-541-2023-11-15",
+            "date": "2023-11-15",
+            "airline": "OZ",
+            "number": "541",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2023-11-15T08:50:00+09:00",
+                "actualAt": "2023-11-15T08:52:00+09:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "1",
+                "gate": "23"
+            },
+            "arrival": {
+                "airport": "FRA",
+                "scheduledAt": "2023-11-15T14:50:00+01:00",
+                "actualAt": "2023-11-15T15:05:00+01:00",
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "1",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceKm": 8545,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "5F7FAZ",
+                "seat": "32K",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL8078",
+                "type": "Airbus A350-900"
+            }
+        },
+        {
+            "id": "oz-211-2024-09-17",
+            "date": "2024-09-17",
+            "airline": "OZ",
+            "number": "211",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "SFO",
+                "scheduledAt": "2024-09-17T23:30:00-07:00",
+                "actualAt": "2024-09-17T23:40:00-07:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "I",
+                "gate": "G7"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2024-09-19T04:30:00+09:00",
+                "actualAt": "2024-09-19T03:57:00+09:00",
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "1",
+                "gate": "14",
+                "baggage": null
+            },
+            "distanceKm": 9086,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "6W9SWD",
+                "seat": "33K",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL8078",
+                "type": "Airbus A350-900"
+            }
+        },
+        {
+            "id": "oz-714-2025-02-19",
+            "date": "2025-02-19",
+            "airline": "OZ",
+            "number": "714",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "TPE",
+                "scheduledAt": "2025-02-19T17:10:00+08:00",
+                "actualAt": "2025-02-19T17:08:00+08:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "2",
+                "gate": "C7"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2025-02-19T20:30:00+09:00",
+                "actualAt": "2025-02-19T20:35:00+09:00",
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "1",
+                "gate": "21",
+                "baggage": null
+            },
+            "distanceKm": 1462,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "5G4QUP",
+                "seat": "36K",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7741",
+                "type": "Airbus A330-300"
+            }
+        },
+        {
+            "id": "ke-720-2023-08-06",
+            "date": "2023-08-06",
+            "airline": "KE",
+            "number": "720",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "HND",
+                "scheduledAt": "2023-08-06T02:00:00+09:00",
+                "actualAt": "2023-08-06T02:01:00+09:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "3",
+                "gate": "113"
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2023-08-06T04:35:00+09:00",
+                "actualAt": "2023-08-06T04:11:00+09:00",
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "2",
+                "gate": "243",
+                "baggage": null
+            },
+            "distanceKm": 1210,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "6OCQLE",
+                "seat": "48A",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7728",
+                "type": "Boeing 737-900"
+            }
+        },
+        {
+            "id": "oz-361-2023-12-24",
+            "date": "2023-12-24",
+            "airline": "OZ",
+            "number": "361",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2023-12-24T09:05:00+09:00",
+                "actualAt": "2023-12-24T10:08:00+09:00",
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "1",
+                "gate": "26"
+            },
+            "arrival": {
+                "airport": "PVG",
+                "scheduledAt": "2023-12-24T10:05:00+08:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "2",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceKm": 821,
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "6BRJS5",
+                "seat": "32K",
+                "position": "Window",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7740",
+                "type": "Airbus A330-300"
             }
         }
     ]

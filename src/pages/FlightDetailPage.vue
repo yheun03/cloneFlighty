@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, watch } from "vue";
 
 import { useRoute, useRouter } from "vue-router";
 
@@ -53,6 +53,7 @@ import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 import FcFlightDetails from "../component/fc/FcFlightDetails.vue";
 
 import { flights, getFlight, formatDuration } from "../common/flights.js";
+import { loadAircraft } from "../common/aircraft.js";
 
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/fc/FcFlightListItem.scss";
@@ -62,6 +63,9 @@ import "../assets/scss/pages/page_flight_detail.scss";
 const route = useRoute();
 const router = useRouter();
 const flight = computed(() => getFlight(String(route.params.id)));
+watch(() => flight.value?.aircraft.registration, loadAircraft, {
+    immediate: true,
+});
 const editing = computed(() => route.name === "flight-booking");
 const booking = computed({
     get: () => flight.value?.booking,
@@ -86,12 +90,14 @@ const details = computed(() => {
 
     const airline = item.airlineInfo;
     const aircraft = item.aircraft;
+    const registry = aircraft.lookup?.data;
     const performance = flights.value.filter(
         (past) =>
             past.isCompleted &&
             !past.friend &&
             past.airline === item.airline &&
-            past.flight === item.flight,
+            past.flight === item.flight &&
+            past.arrivalDelayMinutes !== null,
     );
     const delayed = performance.filter((past) => past.arrivalDelayMinutes > 0);
     const averageDelay = delayed.length
@@ -99,22 +105,29 @@ const details = computed(() => {
               delayed.reduce((sum, past) => sum + past.arrivalDelayMinutes, 0) /
                   delayed.length,
           )
-        : 0;
+        : null;
     const percent = (count) =>
-        performance.length ? Math.round((count / performance.length) * 100) : 0;
-    const firstFlight = new Date(`${aircraft.firstFlight}T00:00:00Z`);
-    const departure = new Date(item.departureAt);
-    let age = departure.getUTCFullYear() - firstFlight.getUTCFullYear();
-    if (
-        departure.getUTCMonth() < firstFlight.getUTCMonth() ||
-        (departure.getUTCMonth() === firstFlight.getUTCMonth() &&
-            departure.getUTCDate() < firstFlight.getUTCDate())
-    )
-        age -= 1;
+        performance.length
+            ? Math.round((count / performance.length) * 100)
+            : null;
     const timezoneHours = item.timezoneChangeMinutes / 60;
     const timing = (minutes) =>
-        minutes > 0 ? "late" : minutes < 0 ? "early" : "on-time";
+        minutes === null
+            ? "unknown"
+            : minutes > 0
+              ? "late"
+              : minutes < 0
+                ? "early"
+                : "on-time";
     const recent = routeHistory.value[0];
+    const recordedFlights = routeHistory.value.filter(
+        (past) => past.airborneMinutes !== null,
+    );
+    const timeOptions = {
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23",
+    };
 
     return {
         from: item.from,
@@ -125,19 +138,35 @@ const details = computed(() => {
         scheduledArrival: item.scheduledArrival,
         departureAirport: item.departureAirport.fullName,
         arrivalAirport: item.arrivalAirport.fullName,
-        departureGate: item.departureInfo.gate,
-        arrivalGate: item.arrivalInfo.gate,
-        departureTerminal: item.departureInfo.terminal,
-        arrivalTerminal: item.arrivalInfo.terminal,
+        departureGate: item.departureInfo.gate || "—",
+        arrivalGate: item.arrivalInfo.gate || "—",
+        departureTerminal: item.departureInfo.terminal
+            ? `Terminal ${item.departureInfo.terminal}`
+            : "Terminal —",
+        arrivalTerminal: item.arrivalInfo.terminal
+            ? `Terminal ${item.arrivalInfo.terminal}`
+            : "Terminal —",
         departureStatus: item.departureStatus,
         arrivalStatus: item.arrivalStatus,
         departureTiming: timing(item.departureDelayMinutes),
         arrivalTiming: timing(item.arrivalDelayMinutes),
         departureDateTime: item.departureAt,
         arrivalDateTime: item.arrivalAt,
-        baggage: item.arrivalInfo.baggage,
+        takeoff: item.departureInfo.takeoffActualAt
+            ? new Intl.DateTimeFormat("en-US", {
+                  timeZone: item.departureAirport.timeZone,
+                  ...timeOptions,
+              }).format(new Date(item.departureInfo.takeoffActualAt))
+            : "",
+        landing: item.arrivalInfo.landingActualAt
+            ? new Intl.DateTimeFormat("en-US", {
+                  timeZone: item.arrivalAirport.timeZone,
+                  ...timeOptions,
+              }).format(new Date(item.arrivalInfo.landingActualAt))
+            : "",
+        baggage: item.arrivalInfo.baggage || "—",
         duration: item.duration,
-        distance: `${item.distanceKm.toLocaleString("en-US")} km`,
+        distance: `${item.distanceSource === "great-circle" ? "≈ " : ""}${item.distanceKm.toLocaleString("en-US")} km`,
         arrivalDayOffset: item.arrivalDayOffset,
         overnight: Boolean(item.arrivalDayOffset),
         timezoneTitle: `${timezoneHours > 0 ? "+" : ""}${timezoneHours} Hours Timezone Change`,
@@ -150,76 +179,101 @@ const details = computed(() => {
             },
             { title: "Seat Information", field: "seat", action: "Add Seat" },
         ],
-        forecastDescription: `${item.airline} ${item.flight} · sample flight history`,
+        forecastDescription: performance.length
+            ? `${item.airline} ${item.flight} · recorded arrivals`
+            : "No recorded arrival times for this flight number",
         forecastStats: [
-            { label: "Late", value: `${percent(delayed.length)}%` },
+            {
+                label: "Late",
+                value: performance.length ? `${percent(delayed.length)}%` : "—",
+            },
             { label: "Average of Late", value: formatDuration(averageDelay) },
             { label: "Observed", value: String(performance.length) },
         ],
-        forecast: [
+        forecast: performance.length
+            ? [
+                  {
+                      label: "Early",
+                      value: percent(
+                          performance.filter(
+                              (past) => past.arrivalDelayMinutes < 0,
+                          ).length,
+                      ),
+                      color: "var(--fc-success)",
+                  },
+                  {
+                      label: "On Time",
+                      value: percent(
+                          performance.filter(
+                              (past) => past.arrivalDelayMinutes === 0,
+                          ).length,
+                      ),
+                      color: "#56d76a",
+                  },
+                  {
+                      label: "Under 30m",
+                      value: percent(
+                          performance.filter(
+                              (past) =>
+                                  past.arrivalDelayMinutes > 0 &&
+                                  past.arrivalDelayMinutes < 30,
+                          ).length,
+                      ),
+                      color: "#ffcb31",
+                  },
+                  {
+                      label: "30–44m",
+                      value: percent(
+                          performance.filter(
+                              (past) =>
+                                  past.arrivalDelayMinutes >= 30 &&
+                                  past.arrivalDelayMinutes < 45,
+                          ).length,
+                      ),
+                      color: "#ff9d20",
+                  },
+                  {
+                      label: "45m+ late",
+                      value: percent(
+                          performance.filter(
+                              (past) => past.arrivalDelayMinutes >= 45,
+                          ).length,
+                      ),
+                      color: "var(--fc-danger)",
+                  },
+              ]
+            : [],
+        plane: registry
+            ? `${registry.manufacturer} ${registry.type}`
+            : aircraft.type,
+        recordedAircraftType: aircraft.type,
+        aircraftMessage:
+            aircraft.lookup?.status === "loading"
+                ? "Loading aircraft information…"
+                : aircraft.lookup?.status === "not-found"
+                  ? "No public aircraft record found. Showing the flight record."
+                  : aircraft.lookup?.status === "unavailable"
+                    ? "Aircraft information is temporarily unavailable. Showing the flight record."
+                    : "",
+        aircraftSource: aircraft.lookup?.source || "",
+        aircraftInfo: [
+            { label: "ICAO Type", value: registry?.icao_type },
+            { label: "Mode S", value: registry?.mode_s },
+            { label: "Registered Owner", value: registry?.registered_owner },
             {
-                label: "Early",
-                value: percent(
-                    performance.filter((past) => past.arrivalDelayMinutes < 0)
-                        .length,
-                ),
-                color: "var(--fc-success)",
+                label: "Country",
+                value: registry?.registered_owner_country_name,
             },
-            {
-                label: "On Time",
-                value: percent(
-                    performance.filter((past) => past.arrivalDelayMinutes === 0)
-                        .length,
-                ),
-                color: "#56d76a",
-            },
-            {
-                label: "Under 30m",
-                value: percent(
-                    performance.filter(
-                        (past) =>
-                            past.arrivalDelayMinutes > 0 &&
-                            past.arrivalDelayMinutes < 30,
-                    ).length,
-                ),
-                color: "#ffcb31",
-            },
-            {
-                label: "30–44m",
-                value: percent(
-                    performance.filter(
-                        (past) =>
-                            past.arrivalDelayMinutes >= 30 &&
-                            past.arrivalDelayMinutes < 45,
-                    ).length,
-                ),
-                color: "#ff9d20",
-            },
-            {
-                label: "45m+ late",
-                value: percent(
-                    performance.filter((past) => past.arrivalDelayMinutes >= 45)
-                        .length,
-                ),
-                color: "var(--fc-danger)",
-            },
-        ],
-        plane: `${aircraft.manufacturer} ${aircraft.model}`,
-        tail: aircraft.registration,
-        firstFlight: new Intl.DateTimeFormat("en-US", {
-            timeZone: "UTC",
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-        }).format(firstFlight),
-        age: `${age} years old`,
-        engines: aircraft.engines,
-        capacity: aircraft.seats,
+        ].filter((field) => field.value),
+        tail:
+            registry?.registration ||
+            aircraft.registration ||
+            (item.isCompleted ? "Not recorded" : "Not assigned"),
         image: aircraft.image,
         airline: airline.name,
         logo: airline.logo,
         alliance: airline.alliance,
-        callsign: airline.callsign,
+        callsign: airline.callsign || "—",
         icao: airline.icao,
         iata: airline.iata,
         phone: airline.phone,
@@ -230,15 +284,17 @@ const details = computed(() => {
             { label: "Flights", value: String(routeHistory.value.length) },
             {
                 label: "Distance",
-                value: `${routeHistory.value.reduce((sum, past) => sum + past.distanceKm, 0).toLocaleString("en-US")} km`,
+                value: `≈ ${routeHistory.value.reduce((sum, past) => sum + past.distanceKm, 0).toLocaleString("en-US")} km`,
             },
             {
-                label: "Flight Time",
+                label: `Recorded Flight Time (${recordedFlights.length}/${routeHistory.value.length})`,
                 value: formatDuration(
-                    routeHistory.value.reduce(
-                        (sum, past) => sum + past.airborneMinutes,
-                        0,
-                    ),
+                    recordedFlights.length
+                        ? recordedFlights.reduce(
+                              (sum, past) => sum + past.airborneMinutes,
+                              0,
+                          )
+                        : null,
                 ),
             },
         ],

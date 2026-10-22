@@ -446,7 +446,7 @@ onUnmounted(() => {
                     >
                         <strong>{{ routeLabel }}</strong>
                         <span :title="routeSummary">
-                            {{ routeSummary }} · 샘플 데이터
+                            {{ routeSummary }} · 임시 데이터
                         </span>
                     </p>
                 </div>

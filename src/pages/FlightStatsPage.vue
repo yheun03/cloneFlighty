@@ -1,17 +1,31 @@
 <template>
     <section
-        class="frame-page stats-page"
+        class="frame-page stats-page flight-stats-page"
         @click="share"
     >
         <BaseTabItem
             v-model="period"
-            :items="pageData.periods"
+            :items="periods"
+            label="Flight statistics period"
         />
         <FcPassportOverview
-            v-bind="pageData.overview"
+            v-bind="statistics.overview"
             :show-period="false"
             :show-history="false"
         />
+        <p class="frame-page__note">
+            Completed flights only. Flight time recorded for
+            {{ statistics.recordedCount }} of
+            {{ periodFlights.length }} flights. Distances are great-circle
+            estimates.
+        </p>
+        <p
+            v-if="!periodFlights.length"
+            class="frame-page__note"
+            role="status"
+        >
+            No past flights for this period.
+        </p>
         <section class="stats-page__section">
             <div class="fc-stat-head">
                 <h2>Flights</h2>
@@ -24,66 +38,98 @@
                 />
             </div>
             <div class="fc-stat-number">
-                <strong>{{ pageData.flights.total }}</strong>
+                <strong>{{ statistics.totals.total }}</strong>
             </div>
             <p class="frame-page__note">
-                {{ pageData.flights.domestic }} domestic
+                {{ statistics.totals.domestic }} domestic
                 <br />
-                {{ pageData.flights.international }} international
+                {{ statistics.totals.international }} international
                 <br />
-                {{ pageData.flights.longHaul }} long haul
+                {{ statistics.totals.longHaul }} long haul
+            </p>
+            <p class="frame-page__note">
+                Long haul: scheduled duration of 6h or more.
             </p>
             <div class="stats-page__flight-tabs">
                 <span>FLIGHTS PER</span>
                 <BaseTabItem
                     v-model="metric"
                     :items="pageData.metrics"
+                    label="Flights per"
                     size="sm"
                 />
             </div>
             <svg
                 class="stats-page__line-chart"
-                viewBox="0 0 280 170"
+                viewBox="0 0 280 180"
                 role="img"
-                :aria-label="`Flights per ${metric}`"
+                :aria-label="chartLabel"
             >
                 <polyline
-                    :points="pageData.points[metric]"
+                    :points="
+                        chartPoints
+                            .map((point) => `${point.x},${point.y}`)
+                            .join(' ')
+                    "
                     fill="none"
                     stroke="var(--fc-chart-line)"
                     stroke-width="2"
                 />
-                <circle
+                <g
                     v-for="point in chartPoints"
-                    :key="point.point"
-                    :cx="point.x"
-                    :cy="point.y"
-                    r="3"
-                    fill="var(--fc-chart-line)"
-                />
+                    :key="point.label"
+                    aria-hidden="true"
+                >
+                    <circle
+                        :cx="point.x"
+                        :cy="point.y"
+                        r="3"
+                        fill="var(--fc-chart-line)"
+                    />
+                    <text
+                        class="stats-page__chart-count"
+                        :x="point.x"
+                        :y="point.y - 8"
+                        text-anchor="middle"
+                    >
+                        {{ point.count }}
+                    </text>
+                    <text
+                        class="stats-page__chart-label"
+                        :x="point.x"
+                        y="165"
+                        text-anchor="middle"
+                    >
+                        {{ point.label }}
+                    </text>
+                </g>
             </svg>
         </section>
         <FcFlightDistanceStats
-            v-bind="pageData.distance"
+            v-bind="statistics.distance"
             view="summary"
         />
         <FcFlightDistanceStats
-            v-bind="pageData.distance"
+            v-bind="statistics.distance"
             view="breakdown"
         />
         <FcRankingStats
-            v-bind="pageData.airports"
+            v-bind="statistics.airports"
             type="airport"
         />
         <FcRankingStats
-            v-bind="pageData.airlines"
+            v-bind="statistics.airlines"
             type="airline"
         />
         <FcRankingStats
-            v-bind="pageData.routes"
+            v-bind="statistics.routes"
             type="route"
         />
-        <FcCountriesStats v-bind="pageData.countries" />
+        <FcCountriesStats v-bind="statistics.countries" />
+        <p class="frame-page__note">
+            Country flights include departures or arrivals, counted once per
+            flight. Region totals count distinct countries and territories.
+        </p>
         <p
             v-if="message"
             class="frame-page__feedback"
@@ -95,9 +141,9 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import BaseButton from "../component/base/BaseButton.vue";
 import BaseTabItem from "../component/base/BaseTabItem.vue";
@@ -106,8 +152,7 @@ import FcFlightDistanceStats from "../component/fc/FcFlightDistanceStats.vue";
 import FcRankingStats from "../component/fc/FcRankingStats.vue";
 import FcCountriesStats from "../component/fc/FcCountriesStats.vue";
 
-import airlines from "../common/airlines.js";
-
+import { flights, formatDuration } from "../common/flights.js";
 import shareIcon from "../assets/figma/share.svg";
 
 import "../assets/scss/component/base/BaseButton.scss";
@@ -121,360 +166,354 @@ import "../assets/scss/component/fc/FcFlightDistanceStats.scss";
 import "../assets/scss/layout/_stats.scss";
 import "../assets/scss/pages/page_flight_stats.scss";
 
-// 이 페이지에서 사용하는 샘플 데이터입니다.
-// prettier-ignore
+const emit = defineEmits(["map-flights"]);
 const pageData = {
-    "period": "ALL-TIME",
-    "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
-    "metric": "Year",
-    "metrics": ["Year", "Month", "Weekday"],
-    "overview": {
-        "flights": 20,
-        "distance": "73,650 km",
-        "flightTime": "4d 13h",
-        "airports": 16,
-        "airlines": 5,
-        "periods": ["ALL-TIME", "2025", "2024", "2023", "2017"],
-        "mapFrom": "ICN",
-        "mapTo": "ICN",
-        "flags": "🇰🇷 🇲🇾 🇯🇵 🇩🇪 🇨🇳 🇸🇬 🇳🇱 🇫🇮 🇩🇰 🇸🇪 🇲🇳",
-        "historyTitle": "2025",
-        "historyCount": "9 FLIGHTS",
-        "recent": [
-            {
-                "id": 1,
-                "code": "KE 5926",
-                "route": "AMS → ICN",
-                "title": "Amsterdam to Seoul",
-                "date": "Dec 29, 2025"
-            },
-            {
-                "id": 2,
-                "code": "AY 041",
-                "route": "HEL → ICN",
-                "title": "Helsinki to Seoul",
-                "date": "Nov 14, 2025"
-            },
-            {
-                "id": 3,
-                "code": "KE 703",
-                "route": "ICN → NRT",
-                "title": "Seoul to Tokyo",
-                "date": "Sep 8, 2025"
-            },
-            {
-                "id": 4,
-                "code": "SQ 607",
-                "route": "ICN → SIN",
-                "title": "Seoul to Singapore",
-                "date": "Aug 20, 2025"
-            },
-            {
-                "id": 5,
-                "code": "OZ 202",
-                "route": "ICN → LAX",
-                "title": "Seoul to Los Angeles",
-                "date": "Jun 2, 2025"
-            }
-        ]
-    },
-    "flights": {
-        "total": 20,
-        "domestic": 3,
-        "international": 17,
-        "longHaul": 8
-    },
-    "points": {
-        "Year": "0,90 70,130 140,75 210,125 280,28",
-        "Month": "0,120 70,90 140,115 210,50 280,28",
-        "Weekday": "0,115 70,60 140,95 210,40 280,75"
-    },
-    "distance": {
-        "title": "Flight Distance",
-        "shareLabel": "Share",
-        "shareIcon": "share",
-        "distance": "73,650",
-        "distanceUnit": "km",
-        "miles": "45,764",
-        "milesUnit": "mi",
-        "breakdown": [
-            {
-                "label": "Days",
-                "value": "4.6"
-            },
-            {
-                "label": "Weeks",
-                "value": "4.6"
-            },
-            {
-                "label": "Months",
-                "value": "4.6"
-            },
-            {
-                "label": "Years",
-                "value": "4.6"
-            },
-            {
-                "label": "Avg. Flight Time",
-                "value": "5h 28m"
-            },
-            {
-                "label": "In Air",
-                "value": "4.6"
-            },
-            {
-                "label": "Taxiing",
-                "value": "5h 28m"
-            }
-        ],
-        "averageLabel": "Average distance: 3,682 km",
-        "comparisons": [
-            {
-                "icon": "earth",
-                "text": "1.8x Around Earth"
-            },
-            {
-                "icon": "moon",
-                "text": "0.2x To the Moon"
-            },
-            {
-                "icon": "sun",
-                "text": "0.02x Around the Sun"
-            }
-        ],
-        "summaryLabel": "Show Summary",
-        "breakdownLabel": "Show Breakdown",
-        "shortestFlight": {
-            "title": "Shortest flight",
-            "route": "Jeju → Seoul",
-            "distance": "451 km",
-            "detail": "KE 1238 · 2 Jun 2017"
-        },
-        "longestFlight": {
-            "title": "Longest flight",
-            "route": "Jeju → Seoul",
-            "distance": "9,647 km",
-            "detail": "KE 1238 · 2 Jun 2017"
-        }
-    },
-    "airports": {
-        "title": "Flight Distance",
-        "total": "73,650",
-        "unit": "km",
-        "items": [
-            {
-                "name": "ICN",
-                "flights": 13,
-                "distance": 48600
-            },
-            {
-                "name": "AMS",
-                "flights": 3,
-                "distance": 5250
-            },
-            {
-                "name": "CDG",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "LAX",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "SFO",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "JFK",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "FRA",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "NRT",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "HEL",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "SIN",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "LHR",
-                "flights": 2,
-                "distance": 5250
-            }
-        ],
-        "limit": 8
-    },
-    "airlines": {
-        "title": "Top Airlines",
-        "total": 9,
-        "unit": "total airlines",
-        "items": [
-            {
-                "name": airlines.KE.name,
-                "flights": 13,
-                "distance": 48600
-            },
-            {
-                "name": airlines.OZ.name,
-                "flights": 3,
-                "distance": 12000
-            },
-            {
-                "name": airlines.KL.name,
-                "flights": 2,
-                "distance": 7800
-            },
-            {
-                "name": airlines.AY.name,
-                "flights": 2,
-                "distance": 5250
-            }
-        ]
-    },
-    "routes": {
-        "title": "Top Routes",
-        "total": 9,
-        "items": [
-            {
-                "name": "AMS-HEL",
-                "flights": 13,
-                "distance": 48600
-            },
-            {
-                "name": "AMS-ICN",
-                "flights": 3,
-                "distance": 5250
-            },
-            {
-                "name": "CJU-GMP",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "FRA-ICN",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "ICN-NRT",
-                "flights": 2,
-                "distance": 5250
-            },
-            {
-                "name": "ICN-SFO",
-                "flights": 2,
-                "distance": 5250
-            }
-        ],
-        "limit": 4,
-        "unit": "total routes"
-    },
-    "countries": {
-        "total": 11,
-        "countries": [
-            {
-                "flag": "🇰🇷",
-                "name": "South Korea",
-                "count": 16
-            },
-            {
-                "flag": "🇳🇱",
-                "name": "Netherlands",
-                "count": 16
-            },
-            {
-                "flag": "🇺🇸",
-                "name": "United States",
-                "count": 16
-            },
-            {
-                "flag": "🇯🇵",
-                "name": "Japan",
-                "count": 7
-            },
-            {
-                "flag": "🇸🇬",
-                "name": "Singapore",
-                "count": 5
-            }
-        ],
-        "regions": [
-            {
-                "name": "Asia",
-                "count": 5,
-                "percent": "14%"
-            },
-            {
-                "name": "Europe",
-                "count": 5,
-                "percent": "14%"
-            },
-            {
-                "name": "N. America",
-                "count": 5,
-                "percent": "14%"
-            },
-            {
-                "name": "Africa",
-                "count": 5,
-                "percent": "14%"
-            },
-            {
-                "name": "C. America",
-                "count": 5,
-                "percent": "14%"
-            },
-            {
-                "name": "Caribbean",
-                "count": 5,
-                "percent": "14%"
-            },
-            {
-                "name": "Middle East",
-                "count": 5,
-                "percent": "14%"
-            },
-            {
-                "name": "Oceania",
-                "count": 5,
-                "percent": "14%"
-            },
-            {
-                "name": "S. America",
-                "count": 5,
-                "percent": "14%"
-            }
-        ]
-    },
-    "shareMessage": "Share preview ready."
+    metrics: ["Year", "Month", "Weekday"],
+    shareMessage: "Share preview ready.",
 };
-
+const regionNames = {
+    AS: "Asia",
+    EU: "Europe",
+    NA: "N. America",
+    SA: "S. America",
+    AF: "Africa",
+    OC: "Oceania",
+    AN: "Antarctica",
+};
+// 거리 비교 기준: https://science.nasa.gov/moon/by-the-numbers/
+const distanceComparisons = [
+    { icon: "earth", label: "Around Earth", km: 40030.2 },
+    { icon: "moon", label: "To the Moon", km: 384400 },
+    { icon: "sun", label: "To the Sun", km: 149598262 },
+];
 const route = useRoute();
-const period = ref(String(route.query.period || pageData.period));
-const metric = ref(pageData.metric);
+const router = useRouter();
+const period = computed({
+    get: () => String(route.query.period || "ALL-TIME"),
+    set: (value) =>
+        router.replace({ query: { ...route.query, period: value } }),
+});
+const metric = ref(pageData.metrics[0]);
 const message = ref("");
-const chartPoints = computed(() =>
-    pageData.points[metric.value].split(" ").map((point) => {
-        const [x, y] = point.split(",");
-        return { point, x, y };
-    }),
+const pastFlights = computed(() =>
+    flights.value.filter((flight) => flight.isCompleted && !flight.friend),
 );
+const periods = computed(() => [
+    "ALL-TIME",
+    ...[...new Set(pastFlights.value.map((flight) => flight.year))].sort(
+        (a, b) => Number(b) - Number(a),
+    ),
+]);
+const periodFlights = computed(() =>
+    pastFlights.value.filter(
+        (flight) => period.value === "ALL-TIME" || flight.year === period.value,
+    ),
+);
+const statistics = computed(() => {
+    const items = periodFlights.value;
+    const recorded = items.filter((flight) => flight.airborneMinutes !== null);
+    const airMinutes = recorded.length
+        ? recorded.reduce((sum, flight) => sum + flight.airborneMinutes, 0)
+        : null;
+    const taxiFlights = recorded.filter(
+        (flight) =>
+            flight.departureInfo.actualAt && flight.arrivalInfo.actualAt,
+    );
+    const taxiMinutes = taxiFlights.length
+        ? taxiFlights.reduce(
+              (sum, flight) =>
+                  sum + flight.durationMinutes - flight.airborneMinutes,
+              0,
+          )
+        : null;
+    const distanceKm = items.reduce(
+        (sum, flight) => sum + flight.distanceKm,
+        0,
+    );
+    const domestic = items.filter(
+        (flight) =>
+            flight.departureAirport.countryCode ===
+            flight.arrivalAirport.countryCode,
+    ).length;
+    const airportRows = new Map();
+    const airlineRows = new Map();
+    const routeRows = new Map();
+    const countryRows = new Map();
+
+    for (const flight of items) {
+        const airline = airlineRows.get(flight.airline) || {
+            iata: flight.airline,
+            name: flight.airlineInfo.name,
+            flights: 0,
+            distance: 0,
+        };
+        airline.flights += 1;
+        airline.distance += flight.distanceKm;
+        airlineRows.set(flight.airline, airline);
+
+        // 왕복 노선은 같은 공항 쌍으로 묶습니다.
+        const routeName = [flight.from, flight.to].sort().join("–");
+        const pair = routeRows.get(routeName) || {
+            name: routeName,
+            flights: 0,
+            distance: 0,
+        };
+        pair.flights += 1;
+        pair.distance += flight.distanceKm;
+        routeRows.set(routeName, pair);
+
+        const visitedCountries = new Set();
+        const visitedAirports = new Set();
+        for (const airport of [
+            flight.departureAirport,
+            flight.arrivalAirport,
+        ]) {
+            if (!visitedAirports.has(airport.iata)) {
+                const row = airportRows.get(airport.iata) || {
+                    name: airport.iata,
+                    flights: 0,
+                    distance: 0,
+                };
+                row.flights += 1;
+                row.distance += flight.distanceKm;
+                airportRows.set(airport.iata, row);
+                visitedAirports.add(airport.iata);
+            }
+            if (!visitedCountries.has(airport.countryCode)) {
+                const country = countryRows.get(airport.countryCode) || {
+                    name: airport.country,
+                    flag: airport.flag,
+                    continent: airport.continent,
+                    count: 0,
+                };
+                country.count += 1;
+                countryRows.set(airport.countryCode, country);
+                visitedCountries.add(airport.countryCode);
+            }
+        }
+    }
+
+    const countries = [...countryRows.values()].sort(
+        (a, b) => b.count - a.count || a.name.localeCompare(b.name),
+    );
+    const regionRows = new Map();
+    for (const country of countries) {
+        const name = regionNames[country.continent] || "Other";
+        regionRows.set(name, (regionRows.get(name) || 0) + 1);
+    }
+    const regions = [...regionRows]
+        .map(([name, count]) => ({
+            name,
+            count,
+            percent: `${Math.round((count / countries.length) * 100)}%`,
+        }))
+        .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+    const byDistance = [...items].sort(
+        (a, b) =>
+            a.distanceKm - b.distanceKm ||
+            Date.parse(a.departureAt) - Date.parse(b.departureAt),
+    );
+    const extremes = [
+        { title: "Shortest flight", flight: byDistance[0] },
+        { title: "Longest flight", flight: byDistance.at(-1) },
+    ].map(({ title, flight }) => ({
+        title,
+        route: flight
+            ? `${flight.departureAirport.city} → ${flight.arrivalAirport.city}`
+            : "—",
+        distance: flight
+            ? `≈ ${flight.distanceKm.toLocaleString("en-US")} km`
+            : "—",
+        detail: flight
+            ? `${flight.airline} ${flight.flight} · ${flight.date}`
+            : "No flights in this period",
+    }));
+
+    return {
+        recordedCount: recorded.length,
+        overview: {
+            flights: items.length,
+            distance: `≈ ${distanceKm.toLocaleString("en-US")} km`,
+            flightTime: formatDuration(airMinutes),
+            airports: airportRows.size,
+            airlines: airlineRows.size,
+            periods: periods.value,
+            mapFrom: items[0]?.from || "ICN",
+            mapTo: items[0]?.to || "ICN",
+            flags: countries.map((country) => country.flag).join(" "),
+            historyTitle: period.value,
+            historyCount: `${items.length} FLIGHTS`,
+            recent: [],
+        },
+        totals: {
+            total: items.length,
+            domestic,
+            international: items.length - domestic,
+            longHaul: items.filter(
+                (flight) =>
+                    Date.parse(flight.arrivalInfo.scheduledAt) -
+                        Date.parse(flight.departureInfo.scheduledAt) >=
+                    6 * 60 * 60000,
+            ).length,
+        },
+        distance: {
+            title: "Flight Distance",
+            shareLabel: "Share",
+            shareIcon: "share",
+            distance: `≈ ${distanceKm.toLocaleString("en-US")}`,
+            distanceUnit: "km",
+            miles: `≈ ${Math.round(distanceKm / 1.609344).toLocaleString("en-US")}`,
+            milesUnit: "mi",
+            breakdown: [
+                {
+                    label: "Days in air",
+                    value:
+                        airMinutes === null
+                            ? "—"
+                            : (airMinutes / 1440).toFixed(2),
+                },
+                {
+                    label: "Weeks in air",
+                    value:
+                        airMinutes === null
+                            ? "—"
+                            : (airMinutes / 10080).toFixed(2),
+                },
+                {
+                    label: "Months in air (30 days)",
+                    value:
+                        airMinutes === null
+                            ? "—"
+                            : (airMinutes / 43200).toFixed(3),
+                },
+                {
+                    label: "Years in air (365 days)",
+                    value:
+                        airMinutes === null
+                            ? "—"
+                            : (airMinutes / 525600).toFixed(4),
+                },
+                {
+                    label: "Avg. recorded flight time",
+                    value: formatDuration(
+                        recorded.length
+                            ? Math.round(airMinutes / recorded.length)
+                            : null,
+                    ),
+                },
+                { label: "In Air", value: formatDuration(airMinutes) },
+                {
+                    label: `Taxiing (${taxiFlights.length} flights)`,
+                    value: formatDuration(taxiMinutes),
+                },
+            ],
+            averageLabel: items.length
+                ? `Average distance: ≈ ${Math.round(distanceKm / items.length).toLocaleString("en-US")} km`
+                : "Average distance: —",
+            comparisons: distanceComparisons.map((item) => ({
+                icon: item.icon,
+                text: `${(distanceKm / item.km).toLocaleString("en-US", { maximumSignificantDigits: 2 })}x ${item.label}`,
+            })),
+            summaryLabel: "Show Summary",
+            breakdownLabel: "Show Breakdown",
+            shortestFlight: extremes[0],
+            longestFlight: extremes[1],
+        },
+        airports: {
+            title: "Top Airports",
+            total: airportRows.size,
+            unit: "total airports",
+            items: [...airportRows.values()],
+            limit: 8,
+        },
+        airlines: {
+            title: "Top Airlines",
+            total: airlineRows.size,
+            unit: "total airlines",
+            items: [...airlineRows.values()],
+        },
+        routes: {
+            title: "Top Routes",
+            total: routeRows.size,
+            unit: "airport pairs",
+            items: [...routeRows.values()],
+            limit: 4,
+        },
+        countries: { total: countries.length, countries, regions },
+    };
+});
+const chartData = computed(() => {
+    const items = periodFlights.value;
+    if (metric.value === "Month") {
+        return [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ].map((label, index) => ({
+            label,
+            count: items.filter(
+                (flight) =>
+                    Number(flight.departureDate.slice(5, 7)) === index + 1,
+            ).length,
+        }));
+    }
+    if (metric.value === "Weekday") {
+        return ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+            (label, index) => ({
+                label,
+                count: items.filter(
+                    (flight) =>
+                        (new Date(
+                            `${flight.departureDate}T00:00:00Z`,
+                        ).getUTCDay() +
+                            6) %
+                            7 ===
+                        index,
+                ).length,
+            }),
+        );
+    }
+    if (!items.length) return [];
+    const years = items.map((flight) => Number(flight.year));
+    const first = Math.min(...years);
+    return Array.from(
+        { length: Math.max(...years) - first + 1 },
+        (_, index) => ({
+            label: String(first + index),
+            count: items.filter(
+                (flight) => Number(flight.year) === first + index,
+            ).length,
+        }),
+    );
+});
+const chartPoints = computed(() => {
+    const maximum = Math.max(1, ...chartData.value.map((item) => item.count));
+    return chartData.value.map((item, index) => ({
+        ...item,
+        x:
+            chartData.value.length === 1
+                ? 140
+                : 10 + (index * 260) / (chartData.value.length - 1),
+        y: 142 - (item.count / maximum) * 120,
+    }));
+});
+const chartLabel = computed(
+    () =>
+        `Flights per ${metric.value}: ${chartData.value.map((item) => `${item.label}: ${item.count}`).join(", ")}`,
+);
+
+watch(periodFlights, (items) => emit("map-flights", items), {
+    immediate: true,
+});
 
 function share(event) {
     if (event.target.closest(".fc-stat-head .fc-button")) {

@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 
 import BaseIcon from "../base/BaseIcon.vue";
 
@@ -23,6 +23,14 @@ const props = defineProps({
 });
 
 defineEmits(["edit", "connection"]);
+
+const imageFailed = ref(false);
+watch(
+    () => props.details.image,
+    () => {
+        imageFailed.value = false;
+    },
+);
 
 const airlineIcon = computed(
     () =>
@@ -134,6 +142,19 @@ const airlineLinks = computed(() => [
                 <span>{{ details.arrivalTerminal }}</span>
             </div>
         </div>
+        <dl
+            v-if="details.takeoff || details.landing"
+            class="fc-details__codes"
+        >
+            <div>
+                <dt>Actual Takeoff (local)</dt>
+                <dd>{{ details.takeoff || "—" }}</dd>
+            </div>
+            <div>
+                <dt>Actual Landing (local)</dt>
+                <dd>{{ details.landing || "—" }}</dd>
+            </div>
+        </dl>
         <h2>Enable popular features:</h2>
         <div class="fc-details__features">
             <button
@@ -211,7 +232,16 @@ const airlineLinks = computed(() => [
         <div class="fc-details__card">
             <h3>What’s My Plane?</h3>
             <p>{{ details.plane }} &nbsp;·&nbsp; {{ details.tail }}</p>
-            <small>
+            <small v-if="details.recordedAircraftType">
+                Flight record: {{ details.recordedAircraftType }}
+            </small>
+            <p
+                v-if="details.aircraftMessage"
+                role="status"
+            >
+                {{ details.aircraftMessage }}
+            </p>
+            <small v-if="details.firstFlight">
                 First Flight: {{ details.firstFlight }} &nbsp;·&nbsp;
                 {{ details.age }}
             </small>
@@ -228,13 +258,48 @@ const airlineLinks = computed(() => [
                     <dd>{{ details.engines }}</dd>
                 </div>
             </dl>
+            <dl
+                v-if="details.aircraftInfo?.length"
+                class="fc-details__codes"
+            >
+                <div
+                    v-for="field in details.aircraftInfo"
+                    :key="field.label"
+                >
+                    <dt>{{ field.label }}</dt>
+                    <dd>{{ field.value }}</dd>
+                </div>
+            </dl>
             <div class="fc-details__plane">
                 <img
-                    v-if="details.image"
+                    v-if="details.image && !imageFailed"
                     :src="details.image"
                     :alt="details.plane"
+                    @error="imageFailed = true"
                 />
             </div>
+            <small
+                v-if="details.aircraftSource"
+                class="fc-details__source"
+            >
+                <a
+                    :href="details.aircraftSource"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Aircraft data: adsbdb
+                </a>
+                <template v-if="details.image && !imageFailed">
+                    ·
+                    <a
+                        :href="details.image"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Photo: airport-data.com
+                    </a>
+                </template>
+            </small>
         </div>
         <div class="fc-details__card">
             <h3>

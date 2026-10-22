@@ -39,9 +39,12 @@ const maximum = computed(() =>
     Math.max(1, ...props.items.map((item) => item[metricKey.value])),
 );
 const chartItems = computed(() => {
-    const items = expanded.value
-        ? props.items
-        : props.items.slice(0, props.limit);
+    const sorted = [...props.items].sort(
+        (a, b) =>
+            b[metricKey.value] - a[metricKey.value] ||
+            a.name.localeCompare(b.name),
+    );
+    const items = expanded.value ? sorted : sorted.slice(0, props.limit);
     return items.map((item) => ({
         ...item,
         logo: getAirline(item.iata || item.name)?.logo || defaultAirlineLogo,
@@ -49,7 +52,7 @@ const chartItems = computed(() => {
         label:
             metric.value === "Flights"
                 ? item.flights
-                : `${Math.round(item.distance / 1000)}k km`,
+                : `${item.distance.toLocaleString("en-US", { notation: "compact", maximumFractionDigits: 1 })} km`,
     }));
 });
 </script>
@@ -84,12 +87,22 @@ const chartItems = computed(() => {
             :key="item.name"
             class="fc-top-airlines__bar"
         >
-            <span>
-                <template v-if="type !== 'airline'">{{ item.name }}</template>
+            <span :title="item.name">
+                <template v-if="type !== 'airline' || !item.logo">
+                    {{
+                        type === "airline" ? item.iata || item.name : item.name
+                    }}
+                </template>
                 <BaseIcon
                     v-else
                     :src="item.logo"
                 />
+                <span
+                    v-if="type === 'airline' && item.logo"
+                    class="sr-only"
+                >
+                    {{ item.name }}
+                </span>
             </span>
             <i>
                 <b

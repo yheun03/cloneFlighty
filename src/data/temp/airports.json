@@ -11,7 +11,8 @@
         "countryCode": "KR",
         "flag": "🇰🇷",
         "timeZone": "Asia/Seoul",
-        "source": "https://ourairports.com/airports/RKSI/"
+        "source": "https://ourairports.com/airports/RKSI/",
+        "continent": "AS"
     },
     "SFO": {
         "iata": "SFO",
@@ -25,7 +26,8 @@
         "countryCode": "US",
         "flag": "🇺🇸",
         "timeZone": "America/Los_Angeles",
-        "source": "https://ourairports.com/airports/KSFO/"
+        "source": "https://ourairports.com/airports/KSFO/",
+        "continent": "NA"
     },
     "LAX": {
         "iata": "LAX",
@@ -39,7 +41,8 @@
         "countryCode": "US",
         "flag": "🇺🇸",
         "timeZone": "America/Los_Angeles",
-        "source": "https://ourairports.com/airports/KLAX/"
+        "source": "https://ourairports.com/airports/KLAX/",
+        "continent": "NA"
     },
     "JFK": {
         "iata": "JFK",
@@ -53,7 +56,8 @@
         "countryCode": "US",
         "flag": "🇺🇸",
         "timeZone": "America/New_York",
-        "source": "https://ourairports.com/airports/KJFK/"
+        "source": "https://ourairports.com/airports/KJFK/",
+        "continent": "NA"
     },
     "NRT": {
         "iata": "NRT",
@@ -67,7 +71,8 @@
         "countryCode": "JP",
         "flag": "🇯🇵",
         "timeZone": "Asia/Tokyo",
-        "source": "https://ourairports.com/airports/RJAA/"
+        "source": "https://ourairports.com/airports/RJAA/",
+        "continent": "AS"
     },
     "HND": {
         "iata": "HND",
@@ -81,7 +86,8 @@
         "countryCode": "JP",
         "flag": "🇯🇵",
         "timeZone": "Asia/Tokyo",
-        "source": "https://ourairports.com/airports/RJTT/"
+        "source": "https://ourairports.com/airports/RJTT/",
+        "continent": "AS"
     },
     "LHR": {
         "iata": "LHR",
@@ -95,7 +101,8 @@
         "countryCode": "GB",
         "flag": "🇬🇧",
         "timeZone": "Europe/London",
-        "source": "https://ourairports.com/airports/EGLL/"
+        "source": "https://ourairports.com/airports/EGLL/",
+        "continent": "EU"
     },
     "CDG": {
         "iata": "CDG",
@@ -109,7 +116,8 @@
         "countryCode": "FR",
         "flag": "🇫🇷",
         "timeZone": "Europe/Paris",
-        "source": "https://ourairports.com/airports/LFPG/"
+        "source": "https://ourairports.com/airports/LFPG/",
+        "continent": "EU"
     },
     "SIN": {
         "iata": "SIN",
@@ -123,7 +131,8 @@
         "countryCode": "SG",
         "flag": "🇸🇬",
         "timeZone": "Asia/Singapore",
-        "source": "https://ourairports.com/airports/WSSS/"
+        "source": "https://ourairports.com/airports/WSSS/",
+        "continent": "AS"
     },
     "AMS": {
         "iata": "AMS",
@@ -137,7 +146,8 @@
         "countryCode": "NL",
         "flag": "🇳🇱",
         "timeZone": "Europe/Amsterdam",
-        "source": "https://ourairports.com/airports/EHAM/"
+        "source": "https://ourairports.com/airports/EHAM/",
+        "continent": "EU"
     },
     "HEL": {
         "iata": "HEL",
@@ -151,7 +161,8 @@
         "countryCode": "FI",
         "flag": "🇫🇮",
         "timeZone": "Europe/Helsinki",
-        "source": "https://ourairports.com/airports/EFHK/"
+        "source": "https://ourairports.com/airports/EFHK/",
+        "continent": "EU"
     },
     "EWR": {
         "iata": "EWR",
@@ -165,7 +176,8 @@
         "countryCode": "US",
         "flag": "🇺🇸",
         "timeZone": "America/New_York",
-        "source": "https://ourairports.com/airports/KEWR/"
+        "source": "https://ourairports.com/airports/KEWR/",
+        "continent": "NA"
     },
     "BLR": {
         "iata": "BLR",
@@ -179,7 +191,8 @@
         "countryCode": "IN",
         "flag": "🇮🇳",
         "timeZone": "Asia/Kolkata",
-        "source": "https://ourairports.com/airports/VOBL/"
+        "source": "https://ourairports.com/airports/VOBL/",
+        "continent": "AS"
     },
     "GUM": {
         "iata": "GUM",
@@ -193,7 +206,8 @@
         "countryCode": "GU",
         "flag": "🇬🇺",
         "timeZone": "Pacific/Guam",
-        "source": "https://ourairports.com/airports/PGUM/"
+        "source": "https://ourairports.com/airports/PGUM/",
+        "continent": "OC"
     },
     "YNJ": {
         "iata": "YNJ",
@@ -207,7 +221,8 @@
         "countryCode": "CN",
         "flag": "🇨🇳",
         "timeZone": "Asia/Shanghai",
-        "source": "https://ourairports.com/airports/ZYYJ/"
+        "source": "https://ourairports.com/airports/ZYYJ/",
+        "continent": "AS"
     },
     "GMP": {
         "iata": "GMP",
@@ -221,7 +236,8 @@
         "countryCode": "KR",
         "flag": "🇰🇷",
         "timeZone": "Asia/Seoul",
-        "source": "https://ourairports.com/airports/RKSS/"
+        "source": "https://ourairports.com/airports/RKSS/",
+        "continent": "AS"
     },
     "CJU": {
         "iata": "CJU",
@@ -235,6 +251,142 @@
         "countryCode": "KR",
         "flag": "🇰🇷",
         "timeZone": "Asia/Seoul",
-        "source": "https://ourairports.com/airports/RKPC/"
+        "source": "https://ourairports.com/airports/RKPC/",
+        "continent": "AS"
+    },
+    "OSL": {
+        "iata": "OSL",
+        "icao": "ENGM",
+        "name": "오슬로 가르데르모엔 공항",
+        "fullName": "Oslo-Gardermoen International Airport",
+        "city": "Oslo",
+        "lat": 60.193901,
+        "lng": 11.1004,
+        "country": "Norway",
+        "countryCode": "NO",
+        "flag": "🇳🇴",
+        "timeZone": "Europe/Oslo",
+        "source": "https://ourairports.com/airports/ENGM/",
+        "continent": "EU"
+    },
+    "CPH": {
+        "iata": "CPH",
+        "icao": "EKCH",
+        "name": "코펜하겐 공항",
+        "fullName": "Copenhagen Kastrup Airport",
+        "city": "Copenhagen",
+        "lat": 55.617900848389,
+        "lng": 12.656000137329,
+        "country": "Denmark",
+        "countryCode": "DK",
+        "flag": "🇩🇰",
+        "timeZone": "Europe/Copenhagen",
+        "source": "https://ourairports.com/airports/EKCH/",
+        "continent": "EU"
+    },
+    "MYJ": {
+        "iata": "MYJ",
+        "icao": "RJOM",
+        "name": "마쓰야마 공항",
+        "fullName": "Matsuyama Airport",
+        "city": "Matsuyama",
+        "lat": 33.826893,
+        "lng": 132.700114,
+        "country": "Japan",
+        "countryCode": "JP",
+        "flag": "🇯🇵",
+        "timeZone": "Asia/Tokyo",
+        "source": "https://ourairports.com/airports/RJOM/",
+        "continent": "AS"
+    },
+    "KIX": {
+        "iata": "KIX",
+        "icao": "RJBB",
+        "name": "간사이 국제공항",
+        "fullName": "Kansai International Airport",
+        "city": "Osaka",
+        "lat": 34.427299,
+        "lng": 135.244003,
+        "country": "Japan",
+        "countryCode": "JP",
+        "flag": "🇯🇵",
+        "timeZone": "Asia/Tokyo",
+        "source": "https://ourairports.com/airports/RJBB/",
+        "continent": "AS"
+    },
+    "SDJ": {
+        "iata": "SDJ",
+        "icao": "RJSS",
+        "name": "센다이 공항",
+        "fullName": "Sendai Airport",
+        "city": "Sendai",
+        "lat": 38.139702,
+        "lng": 140.917007,
+        "country": "Japan",
+        "countryCode": "JP",
+        "flag": "🇯🇵",
+        "timeZone": "Asia/Tokyo",
+        "source": "https://ourairports.com/airports/RJSS/",
+        "continent": "AS"
+    },
+    "FRA": {
+        "iata": "FRA",
+        "icao": "EDDF",
+        "name": "프랑크푸르트 공항",
+        "fullName": "Frankfurt Main Airport",
+        "city": "Frankfurt",
+        "lat": 50.026706,
+        "lng": 8.55835,
+        "country": "Germany",
+        "countryCode": "DE",
+        "flag": "🇩🇪",
+        "timeZone": "Europe/Berlin",
+        "source": "https://ourairports.com/airports/EDDF/",
+        "continent": "EU"
+    },
+    "SHA": {
+        "iata": "SHA",
+        "icao": "ZSSS",
+        "name": "상하이 훙차오 국제공항",
+        "fullName": "Shanghai Hongqiao International Airport",
+        "city": "Shanghai",
+        "lat": 31.198104,
+        "lng": 121.33426,
+        "country": "China",
+        "countryCode": "CN",
+        "flag": "🇨🇳",
+        "timeZone": "Asia/Shanghai",
+        "source": "https://ourairports.com/airports/ZSSS/",
+        "continent": "AS"
+    },
+    "TPE": {
+        "iata": "TPE",
+        "icao": "RCTP",
+        "name": "타이완 타오위안 국제공항",
+        "fullName": "Taiwan Taoyuan International Airport",
+        "city": "Taipei",
+        "lat": 25.0777,
+        "lng": 121.233002,
+        "country": "Taiwan",
+        "countryCode": "TW",
+        "flag": "🇹🇼",
+        "timeZone": "Asia/Taipei",
+        "source": "https://ourairports.com/airports/RCTP/",
+        "continent": "AS"
+    },
+    "PVG": {
+        "iata": "PVG",
+        "icao": "ZSPD",
+        "name": "상하이 푸둥 국제공항",
+        "fullName": "Shanghai Pudong International Airport",
+        "city": "Shanghai",
+        "lat": 31.1434,
+        "lng": 121.805,
+        "country": "China",
+        "countryCode": "CN",
+        "flag": "🇨🇳",
+        "timeZone": "Asia/Shanghai",
+        "source": "https://ourairports.com/airports/ZSPD/",
+        "continent": "AS"
     }
 }

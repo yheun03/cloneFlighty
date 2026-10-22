@@ -196,9 +196,10 @@ const pageData = {
 
 const route = useRoute();
 const router = useRouter();
-const defaultFlight = flights.value.find(
-    (item) => !item.friend && !item.isCompleted,
+const upcomingFlights = computed(() =>
+    flights.value.filter((item) => !item.friend && !item.isCompleted),
 );
+const defaultFlight = upcomingFlights.value[0];
 const query = ref("");
 const airline = ref(String(route.query.airline || defaultFlight.airline));
 const flight = ref(String(route.query.flight || defaultFlight.flight));
@@ -210,27 +211,33 @@ const searchOptions = {
     placeholder: "Search airline, airport, or flight",
     sectionLabel: "FREQUENTLY USED",
     items: [
-        ...[airlines.KE, airlines.OZ].map((item) => ({
-            title: item.name,
-            subtitle: `${item.iata} · ${item.icao}`,
-            avatar: item.logo,
-            type: "airline",
-            code: item.iata,
-        })),
-        ...[airports.SFO, airports.ICN].map((item) => ({
-            title: item.fullName,
-            subtitle: `${item.iata} · ${item.icao} · ${item.country}`,
-            flag: item.flag,
-            type: "airport",
-            code: item.iata,
-        })),
+        ...[...new Set(upcomingFlights.value.map((item) => item.airline))]
+            .map((code) => airlines[code])
+            .map((item) => ({
+                title: item.name,
+                subtitle: `${item.iata} · ${item.icao}`,
+                avatar: item.logo,
+                type: "airline",
+                code: item.iata,
+            })),
+        ...[
+            ...new Set(
+                upcomingFlights.value.flatMap((item) => [item.from, item.to]),
+            ),
+        ]
+            .map((code) => airports[code])
+            .map((item) => ({
+                title: item.fullName,
+                subtitle: `${item.iata} · ${item.icao} · ${item.country}`,
+                flag: item.flag,
+                type: "airport",
+                code: item.iata,
+            })),
     ],
 };
 const matchingFlights = computed(() =>
-    flights.value.filter(
+    upcomingFlights.value.filter(
         (item) =>
-            !item.friend &&
-            !item.isCompleted &&
             item.airline === airline.value &&
             item.flight === flight.value &&
             item.from === from.value &&
@@ -294,13 +301,10 @@ function openPage(name, extra = {}) {
 }
 
 function selectResult(item) {
-    const match = flights.value.find(
-        (candidate) =>
-            !candidate.friend &&
-            !candidate.isCompleted &&
-            (item.type === "airline"
-                ? candidate.airline === item.code
-                : candidate.from === item.code),
+    const match = upcomingFlights.value.find((candidate) =>
+        item.type === "airline"
+            ? candidate.airline === item.code
+            : candidate.from === item.code,
     );
     if (match) {
         airline.value = match.airline;

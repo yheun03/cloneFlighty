@@ -158,7 +158,7 @@ items는 { title, subtitle, avatar, type, code } 목록입니다. title과 subti
 
 ## FcFlightDetails
 
-details는 [FlightDetailPage.vue](../src/pages/FlightDetailPage.vue)의 computed에서 공통 항공편·항공사·공항·기체 정보를 연결한 표시 데이터입니다. departureTiming·arrivalTiming은 late/early/on-time 상태이며, phone·website·x·facebook은 실제 링크에 사용합니다. bookingCode·seat는 예약 편집 결과이며, edit·connection은 전달값 없이 발생합니다.
+details는 [FlightDetailPage.vue](../src/pages/FlightDetailPage.vue)의 computed에서 공통 항공편·항공사·공항·기체 정보를 연결한 표시 데이터입니다. departureTiming·arrivalTiming은 late/early/on-time/unknown 상태이며, phone·website·x·facebook은 실제 링크에 사용합니다. takeoff·landing은 기록된 실제 이륙·착륙의 현지 시각입니다. recordedAircraftType은 항공편에 기록된 탑승 기종, aircraftInfo는 외부에서 조회한 현재 등록 정보이며 aircraftSource로 출처를 연결합니다. aircraftMessage는 조회 상태를 표시합니다. firstFlight·age·capacity·engines는 값이 있을 때만 표시하며, forecast가 빈 배열이면 관측 막대를 표시하지 않습니다. bookingCode·seat는 예약 편집 결과이며, edit·connection은 전달값 없이 발생합니다.
 
 | 속성          | 타입    | 필수 | 기본값·허용값 |
 | ------------- | ------- | ---- | ------------- |
@@ -265,12 +265,14 @@ countries는 { name, flag, count }, regions는 { name, count, percent } 목록�
 
 항공사·공항·노선·기종 순위가 같은 막대 차트 컴포넌트를 사용합니다. 기존 `FcTopAirlines`의 호출부를 이 컴포넌트로 변경했습니다. 기존 `fc-top-airlines` 클래스는 디자인 일관성을 위해 유지합니다.
 
-- `type`: `"airline" | "airport" | "route" | "aircraft"`, 기본값 `"airline"`. airline은 로고, 나머지는 이름을 표시합니다.
+- `type`: `"airline" | "airport" | "route" | "aircraft"`, 기본값 `"airline"`. airline은 로고(없으면 IATA·이름), 나머지는 이름을 표시합니다.
 - `title`: String, 기본값 `"Top Airlines"`. `unit`: String, 기본값 `"total airlines"`.
 - `total`: Number / String, 기본값 `0`.
 - `items`: Array, 필수. 항목은 `{ name, iata?, flights, distance }`이며 distance 단위는 km입니다.
 - `showTabs`: Boolean, 미지정 시 airline·route는 표시하고 airport·aircraft는 숨깁니다. 선택은 `BaseTabItem`의 radio 타입을 사용합니다.
 - `color`: String, 기본값 `"var(--fc-chart-purple)"`. `limit`: Number, 기본값 `3`.
+
+선택한 Flights·Distance 값의 내림차순으로 정렬한 뒤 limit을 적용합니다. 같은 값이면 이름순입니다. 거리 라벨은 km 단위의 compact 표기로 표시합니다.
 
 ```vue
 <FcRankingStats v-bind="pageData.airlines" type="airline" />
@@ -281,7 +283,7 @@ countries는 { name, flag, count }, regions는 { name, count, percent } 목록�
 
 ## FcFlightDistanceStats
 
-breakdown은 { label, value }, comparisons는 { icon, text }, 최단·최장 항공편은 { title, route, distance, detail } 구조입니다. view의 toggle은 전환 버튼, summary는 요약, breakdown은 상세를 표시합니다. [FlightStatsPage.vue](../src/pages/FlightStatsPage.vue) 하단 샘플 데이터의 distance를 참고합니다.
+breakdown은 { label, value }, comparisons는 { icon, text }, 최단·최장 항공편은 { title, route, distance, detail } 구조입니다. view의 toggle은 전환 버튼, summary는 요약, breakdown은 상세를 표시합니다. [FlightStatsPage.vue](../src/pages/FlightStatsPage.vue)의 statistics computed에서 기간별 distance 표시값을 계산합니다.
 
 | 속성             | 타입   | 필수 | 기본값·허용값                                       |
 | ---------------- | ------ | ---- | --------------------------------------------------- |

@@ -12,6 +12,11 @@
                 :show-map="false"
                 :show-history="false"
             />
+            <p>
+                Flight time recorded for {{ recordedFlights.length }} of
+                {{ periodFlights.length }} flights. Distances are great-circle
+                estimates.
+            </p>
             <RouterLink
                 class="passport-page__stats-link"
                 :to="{
@@ -29,6 +34,10 @@
             </strong>
             <h2>hours lost from delays</h2>
             <p>Delayed flights averaged {{ delays.average }} late</p>
+            <p>
+                Arrival times recorded for {{ delays.observed }} of
+                {{ periodFlights.length }} flights.
+            </p>
             <RouterLink
                 class="passport-page__stats-link"
                 :to="{ name: 'delay-stats', query: { ...route.query, period } }"
@@ -170,6 +179,9 @@ const periodFlights = computed(() =>
         (flight) => period.value === "ALL-TIME" || flight.year === period.value,
     ),
 );
+const recordedFlights = computed(() =>
+    periodFlights.value.filter((flight) => flight.airborneMinutes !== null),
+);
 const overview = computed(() => {
     const items = periodFlights.value;
     const airports = items.flatMap((flight) => [
@@ -178,9 +190,14 @@ const overview = computed(() => {
     ]);
     return {
         flights: items.length,
-        distance: `${items.reduce((sum, flight) => sum + flight.distanceKm, 0).toLocaleString("en-US")} km`,
+        distance: `≈ ${items.reduce((sum, flight) => sum + flight.distanceKm, 0).toLocaleString("en-US")} km`,
         flightTime: formatDuration(
-            items.reduce((sum, flight) => sum + flight.airborneMinutes, 0),
+            recordedFlights.value.length
+                ? recordedFlights.value.reduce(
+                      (sum, flight) => sum + flight.airborneMinutes,
+                      0,
+                  )
+                : null,
         ),
         airports: new Set(airports.map((airport) => airport.iata)).size,
         airlines: new Set(items.map((flight) => flight.airline)).size,
@@ -202,9 +219,12 @@ const delays = computed(() => {
         0,
     );
     return {
+        observed: periodFlights.value.filter(
+            (flight) => flight.arrivalDelayMinutes !== null,
+        ).length,
         hours: Math.round((minutes / 60) * 10) / 10,
         average: formatDuration(
-            delayed.length ? Math.round(minutes / delayed.length) : 0,
+            delayed.length ? Math.round(minutes / delayed.length) : null,
         ),
     };
 });
@@ -216,10 +236,14 @@ const aircraft = computed(() => {
             model,
             count: 0,
             minutes: 0,
+            recorded: 0,
             image: flight.aircraft.passportImage,
         };
         summary.count += 1;
-        summary.minutes += flight.airborneMinutes;
+        if (flight.airborneMinutes !== null) {
+            summary.minutes += flight.airborneMinutes;
+            summary.recorded += 1;
+        }
         if (!summary.image) summary.image = flight.aircraft.passportImage;
         models.set(model, summary);
     }
@@ -227,7 +251,7 @@ const aircraft = computed(() => {
     return mostFlown
         ? {
               ...mostFlown,
-              summary: `${mostFlown.count} flights · ${formatDuration(mostFlown.minutes)}`,
+              summary: `${mostFlown.count} flights · ${formatDuration(mostFlown.recorded ? mostFlown.minutes : null)} recorded (${mostFlown.recorded}/${mostFlown.count})`,
           }
         : { model: "—", image: "", summary: "No aircraft history" };
 });
@@ -241,8 +265,8 @@ const historyGroups = computed(() => {
 
         switch (group.value) {
             case "Aisle":
-                value = flight.booking.position;
-                label = value;
+                value = flight.booking.position || null;
+                label = value || "Not recorded";
                 break;
             case "From":
                 value = flight.from;
@@ -262,7 +286,7 @@ const historyGroups = computed(() => {
                 break;
             case "Tail":
                 value = flight.aircraft.registration;
-                label = value;
+                label = value || "Not recorded";
                 break;
             case "Aircraft":
                 value = flight.aircraft.model;
@@ -270,7 +294,7 @@ const historyGroups = computed(() => {
                 break;
             case "Flight Time":
                 value = flight.airborneMinutes;
-                label = formatDuration(value);
+                label = value === null ? "Not recorded" : formatDuration(value);
                 break;
         }
 
@@ -281,15 +305,19 @@ const historyGroups = computed(() => {
 
     const direction = group.value && sortOrder.value === "asc" ? 1 : -1;
     return [...groups.values()]
-        .sort(
-            (a, b) =>
+        .sort((a, b) => {
+            if (a.value === null && b.value === null) return 0;
+            if (a.value === null) return 1;
+            if (b.value === null) return -1;
+            return (
                 direction *
                 (typeof a.value === "number"
                     ? a.value - b.value
                     : String(a.value).localeCompare(String(b.value), "en", {
                           numeric: true,
-                      })),
-        )
+                      }))
+            );
+        })
         .map((history) => ({
             ...history,
             count: `${history.flights.length} ${history.flights.length === 1 ? "FLIGHT" : "FLIGHTS"}`,

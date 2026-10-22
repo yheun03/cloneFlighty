@@ -42,7 +42,7 @@
     }
 
     .fc-top-airlines__bar {
-        grid-template-columns: 54px minmax(0, 1fr) 28px;
+        grid-template-columns: 54px minmax(0, 1fr) max-content;
         @include typo.font(b2, rg);
     }
 

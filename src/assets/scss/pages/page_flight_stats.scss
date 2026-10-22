@@ -19,4 +19,14 @@
         margin-top: 20px;
         overflow: visible;
     }
+
+    &__chart-count,
+    &__chart-label {
+        fill: var(--fc-text-secondary, #aaa);
+        font-size: 9px;
+    }
+
+    &__chart-count {
+        fill: var(--fc-text-strong, white);
+    }
 }
