@@ -30,7 +30,10 @@ const lostTime = computed(() => formatDuration(props.lostMinutes));
 <template>
     <div class="fc-delay-report">
         <div class="fc-delay-report__brand">
-            <BaseIcon :src="brandIcon" />
+            <BaseIcon
+                v-if="brandIcon"
+                :src="brandIcon"
+            />
             {{ $t("Flighty") }}
             <strong>
                 {{

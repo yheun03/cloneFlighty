@@ -5,6 +5,7 @@ import BaseIcon from "../base/BaseIcon.vue";
 import BaseButton from "../base/BaseButton.vue";
 
 import { defaultAirlineLogo, getAirline } from "../../common/airlines.js";
+import airports from "../../common/airports.js";
 import shareIcon from "../../assets/figma/share.svg";
 
 const props = defineProps({
@@ -33,7 +34,18 @@ const visiblePerformance = computed(() => {
     const items = isAirport.value
         ? props.report.airports
         : props.report.airlines;
-    return showAll.value ? items : items.slice(0, 5);
+    return (showAll.value ? items : items.slice(0, 5)).map((item) => {
+        const code = item.iata || item.name.split(" ").at(-1);
+        return {
+            ...item,
+            name: isAirport.value ? code : item.name,
+            icon:
+                item.icon ||
+                (isAirport.value
+                    ? airports[code]?.flagIcon
+                    : airlineLogo(item.iata || item.name)),
+        };
+    });
 });
 const visibleDelays = computed(() =>
     showDelays.value ? props.report.delays : props.report.delays.slice(0, 4),
@@ -70,7 +82,11 @@ function airlineLogo(value) {
             >
                 <div>
                     <span>
-                        <BaseIcon :src="airlineLogo(item.name)" />
+                        <BaseIcon
+                            v-if="item.icon"
+                            :src="item.icon"
+                            variant="image"
+                        />
                         &nbsp;{{ $t(item.name) }}
                     </span>
                     <span>
@@ -145,7 +161,10 @@ function airlineLogo(value) {
                 class="fc-performance__delay"
             >
                 <span>
-                    <BaseIcon :src="airlineLogo(flight.flight)" />
+                    <BaseIcon
+                        :src="airlineLogo(flight.flight)"
+                        variant="image"
+                    />
                     {{ flight.flight }}
                 </span>
                 <b>{{ $t(flight.duration) }}</b>

@@ -12,6 +12,10 @@
         text-align: right;
         white-space: nowrap;
         @include typo.font(t5, rg);
+
+        .fc-icon + .fc-icon {
+            margin-left: 4px;
+        }
     }
 
     h2 {

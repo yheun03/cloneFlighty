@@ -104,7 +104,14 @@
             class="passport-page__history"
         >
             <h3>
-                {{ $t(history.label) }}
+                <span>
+                    <BaseIcon
+                        v-if="history.icon"
+                        :src="history.icon"
+                        variant="image"
+                    />
+                    {{ $t(history.label) }}
+                </span>
                 <small>{{ $t(history.count) }}</small>
             </h3>
             <RouterLink
@@ -157,6 +164,7 @@ import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import BaseTabItem from "../component/base/BaseTabItem.vue";
+import BaseIcon from "../component/base/BaseIcon.vue";
 import FcPassportOverview from "../component/fc/FcPassportOverview.vue";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 
@@ -305,6 +313,7 @@ const historyGroups = computed(() => {
     for (const flight of periodFlights.value) {
         let value = flight.year;
         let label = flight.year;
+        let icon = "";
         const from = flight.departureAirport;
         const to = flight.arrivalAirport;
 
@@ -315,15 +324,18 @@ const historyGroups = computed(() => {
                 break;
             case "From":
                 value = flight.from;
-                label = `${from.flag} ${from.city} (${from.iata})`;
+                label = `${from.city} (${from.iata})`;
+                icon = from.flagIcon;
                 break;
             case "To":
                 value = flight.to;
-                label = `${to.flag} ${to.city} (${to.iata})`;
+                label = `${to.city} (${to.iata})`;
+                icon = to.flagIcon;
                 break;
             case "Airline":
                 value = flight.airlineInfo.name;
                 label = value;
+                icon = flight.airlineInfo.logo;
                 break;
             case "Airport":
                 value = `${flight.from}-${flight.to}`;
@@ -344,7 +356,13 @@ const historyGroups = computed(() => {
         }
 
         if (!groups.has(value))
-            groups.set(value, { id: String(value), label, value, flights: [] });
+            groups.set(value, {
+                id: String(value),
+                label,
+                icon,
+                value,
+                flights: [],
+            });
         groups.get(value).flights.push(flight);
     }
 

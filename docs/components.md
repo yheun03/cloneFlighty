@@ -51,9 +51,12 @@ SCSS는 기본 UI를 `src/assets/scss/component/base/`, 플라이티 전용 컴�
 
 src는 Lucide 아이콘 이름(예: plane) 또는 import한 SVG URL입니다. 빈 문자열이면 크기만 유지하고 배경·대체 도형을 그리지 않습니다. 장식용으로 aria-hidden을 사용합니다.
 
-| 속성  | 타입   | 필수 | 기본값·허용값 |
-| ----- | ------ | ---- | ------------- |
-| `src` | String | 필수 | —             |
+`variant="mask"`가 기본이며 단색 UI 아이콘에 사용합니다. 항공사 로고·국기는 `variant="image"`로 원본 색상을 유지합니다. 로고는 `common/airlines.js`, 국가 국기는 `common/countries.js`의 `getCountryFlag`로 로컬 에셋을 연결합니다. 항공사 로고 파일이 없으면 해당 항공사의 국가 국기를 사용합니다.
+
+| 속성      | 타입   | 필수 | 기본값·허용값    |
+| --------- | ------ | ---- | ---------------- |
+| `src`     | String | 필수 | —                |
+| `variant` | String | 선택 | `mask` / `image` |
 
 ## BaseToggleSwitch
 
@@ -267,7 +270,7 @@ countries는 { name, flag, count }, regions는 { name, count, percent } 목록�
 
 항공사·공항·노선·기종 순위가 같은 막대 차트 컴포넌트를 사용합니다. 기존 `FcTopAirlines`의 호출부를 이 컴포넌트로 변경했습니다. 기존 `fc-top-airlines` 클래스는 디자인 일관성을 위해 유지합니다.
 
-- `type`: `"airline" | "airport" | "route" | "aircraft"`, 기본값 `"airline"`. airline은 로고(없으면 IATA·이름), 나머지는 이름을 표시합니다.
+- `type`: `"airline" | "airport" | "route" | "aircraft"`, 기본값 `"airline"`. airline은 로컬 로고(파일이 없으면 소속 국가 국기), airport는 로컬 국가 국기와 공항 코드를 표시합니다. 나머지는 이름을 표시합니다.
 - `title`: String, 기본값 `"Top Airlines"`. `unit`: String, 기본값 `"total airlines"`.
 - `total`: Number / String, 기본값 `0`.
 - `items`: Array, 필수. 항목은 `{ name, iata?, flights, distance }`이며 distance 단위는 km입니다.

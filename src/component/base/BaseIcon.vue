@@ -4,6 +4,11 @@ import { computed } from "vue";
 const props = defineProps({
     // Lucide 아이콘 이름 또는 import한 SVG URL입니다.
     src: { type: String, required: true },
+    variant: {
+        type: String,
+        default: "mask",
+        validator: (value) => ["mask", "image"].includes(value),
+    },
 });
 
 const icons = import.meta.glob("../../assets/icons/lucide/*.svg", {
@@ -27,7 +32,10 @@ const source = computed(
 <template>
     <span
         class="fc-icon"
-        :class="{ 'fc-icon--empty': !source }"
+        :class="{
+            'fc-icon--empty': !source,
+            'fc-icon--image': variant === 'image',
+        }"
         :style="
             source
                 ? { '--fc-icon-url': `url(&quot;${source}&quot;)` }

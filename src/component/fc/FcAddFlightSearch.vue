@@ -3,6 +3,7 @@ import { computed, ref, useId } from "vue";
 
 import BaseInput from "../base/BaseInput.vue";
 import BaseListRow from "../base/BaseListRow.vue";
+import { getCountryFlag } from "../../common/countries.js";
 
 import nextIcon from "../../assets/icons/lucide/arrow-right.svg";
 
@@ -59,8 +60,7 @@ function selectItem(item) {
             variant="search"
             :title="$t(item.title)"
             :subtitle="item.subtitle"
-            :image="item.image"
-            :icon="item.avatar"
+            :image="item.image || item.avatar || getCountryFlag(item.flag)"
             :avatar="item.flag"
             :arrow-icon="nextIcon"
             @click="selectItem(item)"

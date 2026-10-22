@@ -1,15 +1,19 @@
 <script setup>
+import { computed } from "vue";
 import BaseButton from "../base/BaseButton.vue";
+import BaseIcon from "../base/BaseIcon.vue";
+import { getCountryFlag } from "../../common/countries.js";
 
 import shareIcon from "../../assets/figma/share.svg";
 
-defineProps({
+const props = defineProps({
     airline: { type: String, required: true },
     flag: { type: String, required: true },
     tail: { type: String, required: true },
     flights: { type: Number, required: true },
     model: { type: String, required: true },
 });
+const flagIcon = computed(() => getCountryFlag(props.flag));
 </script>
 
 <template>
@@ -27,6 +31,10 @@ defineProps({
         <strong>{{ tail }}</strong>
         <p>{{ $t(flights) }} {{ $t("flights") }}</p>
         <small>{{ $t(airline) }} · {{ $t(model) }}</small>
-        <span>{{ $t(flag) }}</span>
+        <BaseIcon
+            v-if="flagIcon"
+            :src="flagIcon"
+            variant="image"
+        />
     </div>
 </template>

@@ -37,6 +37,7 @@ for (const name of [
     "DelayStatsPage",
     "PassportPage",
     "FlightDetailPage",
+    "AddFlightPage",
 ]) {
     pages[name] = (
         await server.ssrLoadModule(`/src/pages/${name}.vue`)
@@ -150,6 +151,70 @@ test("all statistics and passport use the same completed flights and year filter
                 }
             });
         }
+    }
+});
+
+test("airlines and airports resolve local logos or country flags", async () => {
+    const { default: airlines, getAirline } = await server.ssrLoadModule(
+        "/src/common/airlines.js",
+    );
+    const { default: airports } = await server.ssrLoadModule(
+        "/src/common/airports.js",
+    );
+    const { getCountryFlag } = await server.ssrLoadModule(
+        "/src/common/countries.js",
+    );
+    for (const airline of Object.values(airlines))
+        assert.ok(airline.logo, `${airline.iata} needs a logo or flag`);
+    for (const airport of Object.values(airports))
+        assert.match(airport.flagIcon, /\/assets\/Flags\//);
+    assert.match(airlines.KL.logo, /Flags\/netherlands\.svg/);
+    assert.match(airlines.MU.logo, /Flags\/china\.svg/);
+    assert.equal(
+        airlines.AY.logo,
+        (await server.ssrLoadModule("/src/assets/Airlines/Logo-AY.svg?url"))
+            .default,
+    );
+    assert.equal(
+        getAirline("DL 123").logo,
+        (await server.ssrLoadModule("/src/assets/Airlines/Logo-DL.svg?url"))
+            .default,
+    );
+    assert.equal(getCountryFlag("DK"), getCountryFlag("🇩🇰"));
+    assert.match(getCountryFlag("DK"), /Flags\/denmark\.svg/);
+});
+
+test("entity icons remain populated across pages and languages", async () => {
+    try {
+        for (const language of ["en", "ko", "ja"]) {
+            preferences.language = language;
+            for (const name of [
+                "FlightStatsPage",
+                "DelayStatsPage",
+                "AircraftStatsPage",
+                "PassportPage",
+                "AddFlightPage",
+            ]) {
+                const { html } = await render(name);
+                assert.doesNotMatch(
+                    html,
+                    /fc-icon--empty/,
+                    `${name} has an empty icon in ${language}`,
+                );
+                if (name === "AddFlightPage")
+                    assert.match(html, /<img[^>]+Flags\/japan\.svg/);
+                else assert.match(html, /fc-icon--image/);
+            }
+            const { html } = await render(
+                "FlightDetailPage",
+                "ALL-TIME",
+                "kl-1251-2025-12-24",
+            );
+            assert.doesNotMatch(html, /fc-icon--empty/);
+            assert.match(html, /Flags\/netherlands\.svg/);
+        }
+    } finally {
+        preferences.language = "en";
     }
 });
 

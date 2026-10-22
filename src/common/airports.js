@@ -1,5 +1,6 @@
 import airportData from "../data/reference/airports.json";
 import { countryName, t } from "./preferences.js";
+import { getCountryFlag } from "./countries.js";
 
 const airports = Object.fromEntries(
     Object.entries(airportData).map(([code, airport]) => [
@@ -7,6 +8,7 @@ const airports = Object.fromEntries(
         {
             ...airport,
             sourceName: airport.fullName,
+            flagIcon: getCountryFlag(airport.countryCode),
             flag: [...airport.countryCode]
                 .map((letter) =>
                     String.fromCodePoint(127397 + letter.charCodeAt(0)),

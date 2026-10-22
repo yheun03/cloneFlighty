@@ -2,6 +2,8 @@
 import { computed, ref } from "vue";
 
 import BaseButton from "../base/BaseButton.vue";
+import BaseIcon from "../base/BaseIcon.vue";
+import { getCountryFlag } from "../../common/countries.js";
 
 import shareIcon from "../../assets/figma/share.svg";
 
@@ -39,7 +41,11 @@ const visibleCountries = computed(() =>
             :key="country.name"
             class="fc-countries__row"
         >
-            <span>{{ $t(country.flag) }}</span>
+            <BaseIcon
+                v-if="getCountryFlag(country.flag)"
+                :src="getCountryFlag(country.flag)"
+                variant="image"
+            />
             <strong>{{ $t(country.name) }}</strong>
             <small>{{ $t(country.count) }} {{ $t("flights") }}</small>
         </div>

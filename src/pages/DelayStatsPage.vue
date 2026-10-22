@@ -138,6 +138,8 @@ const statistics = computed(() => {
     const airports = new Map();
     for (const flight of arrivals) {
         const row = airlines.get(flight.airline) || {
+            iata: flight.airline,
+            icon: flight.airlineInfo.logo,
             name: flight.airlineInfo.name,
             total: 0,
             delayed: 0,
@@ -152,7 +154,9 @@ const statistics = computed(() => {
     }
     for (const flight of departures) {
         const row = airports.get(flight.from) || {
-            name: `${flight.departureAirport.flag} ${flight.from}`,
+            name: flight.from,
+            iata: flight.from,
+            icon: flight.departureAirport.flagIcon,
             total: 0,
             delayed: 0,
         };

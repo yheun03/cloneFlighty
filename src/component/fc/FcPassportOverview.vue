@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import BaseIcon from "../base/BaseIcon.vue";
 import BaseTabItem from "../base/BaseTabItem.vue";
+import { getCountryFlag } from "../../common/countries.js";
 
 import planeIcon from "../../assets/icons/lucide/plane.svg";
 
@@ -29,6 +30,9 @@ const props = defineProps({
 defineEmits(["select"]);
 
 const period = ref(props.periods[0]);
+const flagIcons = computed(() => [
+    ...new Set(props.flags.split(/\s+/).map(getCountryFlag).filter(Boolean)),
+]);
 </script>
 
 <template>
@@ -47,7 +51,12 @@ const period = ref(props.periods[0]);
             v-if="showMap"
             class="fc-passport__flags"
         >
-            {{ $t(flags) }}
+            <BaseIcon
+                v-for="flag in flagIcons"
+                :key="flag"
+                :src="flag"
+                variant="image"
+            />
         </div>
         <h2>{{ $t("MY FLIGHTY PASSPORT") }}</h2>
         <small>{{ $t("PASSPORT · PASS · PASPORTE") }}</small>

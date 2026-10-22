@@ -115,12 +115,12 @@
                         v-for="item in dateOptions"
                         :key="item.date"
                         v-bind="item"
-                        :icon="airlines[airline]?.logo || ''"
+                        :image="airlines[airline]?.logo || ''"
                         @click="showFlights(item.date)"
                     />
                     <BaseListRow
                         :title="$t('Pick from Calendar')"
-                        :icon="airlines[airline]?.logo || ''"
+                        :image="airlines[airline]?.logo || ''"
                         @click="openPage('add-flight-calendar')"
                     />
                 </div>

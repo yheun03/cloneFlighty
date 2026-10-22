@@ -314,7 +314,10 @@ const airlineLinks = computed(() => [
         </div>
         <div class="fc-details__card">
             <h3>
-                <BaseIcon :src="airlineIcon" />
+                <BaseIcon
+                    :src="airlineIcon"
+                    variant="image"
+                />
                 &nbsp;{{ details.airline }}
             </h3>
             <p>{{ $t(details.alliance) }}</p>
@@ -384,7 +387,10 @@ const airlineLinks = computed(() => [
             </div>
             <p>{{ $t("Most recent flights") }}</p>
             <strong>
-                <BaseIcon :src="airlineIcon" />
+                <BaseIcon
+                    :src="airlineIcon"
+                    variant="image"
+                />
                 &nbsp;{{ $t(details.recentFlight) }}
             </strong>
         </div>

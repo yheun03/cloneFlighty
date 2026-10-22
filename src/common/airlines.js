@@ -1,23 +1,21 @@
 import airlineData from "../data/reference/airlines.json";
 import airlineDetails from "../data/airline-details.json";
 import { t } from "./preferences.js";
+import { getCountryFlag } from "./countries.js";
 import koreanAirLogo from "../assets/figma/korean-air.svg";
-import asianaLogo from "../assets/Airlines/Logo-OZ.svg";
-import finnairLogo from "../assets/Airlines/Logo-AY.svg";
-import alaskaLogo from "../assets/Airlines/Logo-AS.svg";
-import singaporeAirlinesLogo from "../assets/Airlines/Logo-SQ.svg";
-import jinAirLogo from "../assets/Airlines/Logo-LJ.svg";
-import jejuAirLogo from "../assets/Airlines/Logo-7C.svg";
 
-// JSON에는 파일명만 두고 실제 이미지 경로는 기존 에셋 import로 연결합니다.
+// 항공사 로고를 모두 연결하고, 로고가 없는 항공사는 소속 국가의 국기를 사용합니다.
 const logos = {
+    ...Object.fromEntries(
+        Object.entries(
+            import.meta.glob("../assets/Airlines/*.svg", {
+                eager: true,
+                query: "?url",
+                import: "default",
+            }),
+        ).map(([path, image]) => [path.split("/").at(-1), image]),
+    ),
     "korean-air.svg": koreanAirLogo,
-    "Logo-OZ.svg": asianaLogo,
-    "Logo-AY.svg": finnairLogo,
-    "Logo-AS.svg": alaskaLogo,
-    "Logo-SQ.svg": singaporeAirlinesLogo,
-    "Logo-LJ.svg": jinAirLogo,
-    "Logo-7C.svg": jejuAirLogo,
 };
 const defaultAirlineLogo = "";
 const airlines = Object.fromEntries(
@@ -27,7 +25,10 @@ const airlines = Object.fromEntries(
             ...airline,
             ...airlineDetails[code],
             sourceName: airline.name,
-            logo: logos[airlineDetails[code]?.logo] || defaultAirlineLogo,
+            logo:
+                logos[airlineDetails[code]?.logo] ||
+                logos[`Logo-${code}.svg`] ||
+                getCountryFlag(airline.country),
             get name() {
                 return t(airline.name);
             },
@@ -54,7 +55,13 @@ export function getAirline(value) {
                     String(value || "")
                         .trim()
                         .toUpperCase(),
-        )
+        ) ||
+        (logos[`Logo-${normalized.split(" ")[0]}.svg`]
+            ? {
+                  iata: normalized.split(" ")[0],
+                  logo: logos[`Logo-${normalized.split(" ")[0]}.svg`],
+              }
+            : undefined)
     );
 }
 

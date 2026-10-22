@@ -6,6 +6,7 @@ import BaseButton from "../base/BaseButton.vue";
 import BaseTabItem from "../base/BaseTabItem.vue";
 
 import { defaultAirlineLogo, getAirline } from "../../common/airlines.js";
+import airports from "../../common/airports.js";
 import shareIcon from "../../assets/figma/share.svg";
 import { formatDistance, locale } from "../../common/preferences.js";
 
@@ -48,7 +49,12 @@ const chartItems = computed(() => {
     const items = expanded.value ? sorted : sorted.slice(0, props.limit);
     return items.map((item) => ({
         ...item,
-        logo: getAirline(item.iata || item.name)?.logo || defaultAirlineLogo,
+        logo:
+            props.type === "airline"
+                ? getAirline(item.iata || item.name)?.logo || defaultAirlineLogo
+                : props.type === "airport"
+                  ? airports[item.iata || item.name]?.flagIcon
+                  : "",
         width: `${(item[metricKey.value] / maximum.value) * 100}%`,
         label:
             metric.value === "Flights"
@@ -88,7 +94,15 @@ const chartItems = computed(() => {
             :key="item.name"
             class="fc-top-airlines__bar"
         >
-            <span :title="$t(item.name)">
+            <span
+                class="fc-top-airlines__label"
+                :title="$t(item.name)"
+            >
+                <BaseIcon
+                    v-if="item.logo"
+                    :src="item.logo"
+                    variant="image"
+                />
                 <template v-if="type !== 'airline' || !item.logo">
                     {{
                         type === "airline"
@@ -96,10 +110,6 @@ const chartItems = computed(() => {
                             : $t(item.name)
                     }}
                 </template>
-                <BaseIcon
-                    v-else
-                    :src="item.logo"
-                />
                 <span
                     v-if="type === 'airline' && item.logo"
                     class="sr-only"

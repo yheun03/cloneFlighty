@@ -80,13 +80,16 @@ const isFriend = computed(() => props.type === "friend");
             v-else
             class="fc-flight-list__logo"
         >
-            <BaseIcon :src="airlineIcon" />
+            <BaseIcon
+                :src="airlineIcon"
+                variant="image"
+            />
         </div>
         <div class="fc-flight-list__content">
             <div class="fc-flight-list__meta">
                 <!-- prettier-ignore -->
                 <span>
-                    <BaseIcon v-if="variant === 'upcoming'" :src="airlineIcon" />
+                    <BaseIcon v-if="variant === 'upcoming'" :src="airlineIcon" variant="image" />
                     {{ $t(airline) }} {{ $t(flight) }}<template v-if="variant === 'header'">
                         · {{ $t(date) }}
                     </template><template v-else-if="variant === 'history'">
