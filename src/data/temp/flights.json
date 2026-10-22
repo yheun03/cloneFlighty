@@ -591,6 +591,92 @@
             }
         },
         {
+            "id": "ke-81-2026-10-15",
+            "date": "2026-10-15",
+            "airline": "KE",
+            "number": "81",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2026-10-15T10:00:00+09:00",
+                "actualAt": null,
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "2",
+                "gate": null
+            },
+            "arrival": {
+                "airport": "JFK",
+                "scheduledAt": "2026-10-15T11:00:00-04:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "1",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "",
+                "seat": "",
+                "position": "",
+                "cabin": "",
+                "reason": ""
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL7621",
+                "type": "Airbus A380-800",
+                "source": "https://www.flightradar24.com/data/flights/ke81"
+            }
+        },
+        {
+            "id": "ke-86-2026-10-17",
+            "date": "2026-10-17",
+            "airline": "KE",
+            "number": "86",
+            "status": "completed",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": null,
+            "departure": {
+                "airport": "JFK",
+                "scheduledAt": "2026-10-17T00:50:00-04:00",
+                "actualAt": null,
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "1",
+                "gate": null
+            },
+            "arrival": {
+                "airport": "ICN",
+                "scheduledAt": "2026-10-18T05:10:00+09:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "2",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "",
+                "seat": "",
+                "position": "",
+                "cabin": "",
+                "reason": ""
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": "HL8041",
+                "type": "Boeing 777-300ER",
+                "source": "https://www.flightradar24.com/data/flights/ke86"
+            }
+        },
+        {
             "id": "lj-367-2026-11-07",
             "date": "2026-11-07",
             "airline": "LJ",

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 import BaseIcon from "../base/BaseIcon.vue";
 import BaseTabItem from "../base/BaseTabItem.vue";
@@ -7,7 +7,7 @@ import BaseTabItem from "../base/BaseTabItem.vue";
 import planeIcon from "../../assets/icons/lucide/plane.svg";
 
 const props = defineProps({
-    // AircraftStatsPage.vue의 예제 JSON에서 aircraft 데이터 구조를 사용합니다.
+    // 페이지에서 실제 항공편을 집계한 표시 데이터를 전달합니다.
     aircraft: { type: Object, required: true },
     // 표시할 통계 영역입니다.
     showPeriod: { type: Boolean, default: true },
@@ -18,6 +18,13 @@ const props = defineProps({
 });
 
 const period = ref(props.aircraft.periods[0]);
+const imageFailed = ref(false);
+watch(
+    () => props.aircraft.image,
+    () => {
+        imageFailed.value = false;
+    },
+);
 </script>
 
 <template>
@@ -51,9 +58,11 @@ const period = ref(props.aircraft.periods[0]);
                 <span>{{ $t(aircraft.summary) }}</span>
                 <div>
                     <img
-                        v-if="aircraft.image"
+                        v-if="aircraft.image && !imageFailed"
                         :src="aircraft.image"
+                        :class="{ 'is-local': aircraft.imageIsLocal }"
                         :alt="$t(aircraft.mostFlown)"
+                        @error="imageFailed = true"
                     />
                     <BaseIcon
                         v-else
@@ -61,6 +70,28 @@ const period = ref(props.aircraft.periods[0]);
                     />
                 </div>
             </div>
+            <small
+                v-if="aircraft.source"
+                class="frame-page__note"
+            >
+                <a
+                    :href="aircraft.source"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {{ $t("Aircraft data: adsbdb") }}
+                </a>
+                <template v-if="aircraft.imageSource && !imageFailed">
+                    ·
+                    <a
+                        :href="aircraft.imageSource"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        {{ $t("Photo: airport-data.com") }}
+                    </a>
+                </template>
+            </small>
         </template>
         <template v-if="showAge">
             <h3 v-if="showAgeTitle">{{ $t("Aircraft Age") }}</h3>

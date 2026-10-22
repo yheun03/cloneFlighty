@@ -8,16 +8,21 @@ const props = defineProps({
     brandIcon: { type: String, default: "" },
     delayed: { type: Number, required: true },
     total: { type: Number, required: true },
+    period: { type: String, default: "ALL-TIME" },
     worstDelay: { type: String, required: true },
     worstAirline: { type: String, required: true },
-    lostMinutes: { type: Number, required: true },
+    lostMinutes: { type: Number, default: null },
 });
 
 const delayedPercent = computed(() =>
-    props.total ? Math.round((props.delayed / props.total) * 100) : 0,
+    props.total ? Math.round((props.delayed / props.total) * 100) : null,
 );
 const averageDelay = computed(() =>
-    props.delayed ? Math.round(props.lostMinutes / props.delayed) : 0,
+    !props.total
+        ? null
+        : props.delayed
+          ? Math.round(props.lostMinutes / props.delayed)
+          : 0,
 );
 const lostTime = computed(() => formatDuration(props.lostMinutes));
 </script>
@@ -27,10 +32,16 @@ const lostTime = computed(() => formatDuration(props.lostMinutes));
         <div class="fc-delay-report__brand">
             <BaseIcon :src="brandIcon" />
             {{ $t("Flighty") }}
-            <strong>{{ $t("All-Time Delay Report") }}</strong>
+            <strong>
+                {{
+                    props.period === "ALL-TIME"
+                        ? $t("All-Time Delay Report")
+                        : `${props.period} ${$t("Delay Report")}`
+                }}
+            </strong>
         </div>
         <strong class="fc-delay-report__percent">
-            {{ $t(delayedPercent) }}%
+            {{ delayedPercent === null ? "—" : `${delayedPercent}%` }}
         </strong>
         <h2>{{ $t("My flights delayed") }}</h2>
         <p>

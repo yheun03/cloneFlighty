@@ -7,6 +7,10 @@
         color: #004465;
     }
 
+    .fc-top-airlines__bar {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) max-content;
+    }
+
     &__seat-summary {
         margin: 24px 0;
         @include typo.font(c2, rg);
@@ -14,6 +18,8 @@
         > div:first-child {
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 4px 8px;
         }
 
         p strong {
@@ -22,13 +28,14 @@
     }
 
     &__seat-bar {
-        display: grid;
-        grid-template-columns: 19fr 1fr 1fr 1fr;
+        display: flex;
         background: #9fc8e3;
         color: var(--fc-blue, #087bfa);
         text-align: right;
 
         span {
+            flex-basis: 0;
+            min-width: 0;
             padding-right: 4px;
             border-right: 1px solid var(--fc-blue, #087bfa);
         }

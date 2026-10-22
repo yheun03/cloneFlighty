@@ -197,19 +197,19 @@ recent는 { id, code, route, title, date } 목록입니다. select(flight)는 �
 
 ## FcDelayReport
 
-brandIcon은 선택 String이며 기본값 `""`입니다. 아이콘이 없으면 영역만 유지합니다. delayed·total은 항공편 수, lostMinutes는 분 단위 누적 지연입니다. 총 항공편이나 지연 항공편이 0이면 비율·평균을 0으로 표시합니다.
+brandIcon은 선택 String이며 기본값 `""`입니다. 아이콘이 없으면 영역만 유지합니다. delayed·total은 실제 도착 시각이 기록된 항공편의 지연 수·전체 수, lostMinutes는 분 단위 누적 지연이며 미기록은 null입니다. 기록된 항공편이 없으면 비율·평균을 —로 표시합니다. 기록은 있고 지연 항공편이 없으면 0입니다. 선택 String `period`의 기본값은 `ALL-TIME`이며 보고서 제목에 반영합니다.
 
-| 속성           | 타입   | 필수 | 기본값·허용값 |
-| -------------- | ------ | ---- | ------------- |
-| `delayed`      | Number | 필수 | —             |
-| `total`        | Number | 필수 | —             |
-| `worstDelay`   | String | 필수 | —             |
-| `worstAirline` | String | 필수 | —             |
-| `lostMinutes`  | Number | 필수 | —             |
+| 속성           | 타입          | 필수 | 기본값·허용값 |
+| -------------- | ------------- | ---- | ------------- |
+| `delayed`      | Number        | 필수 | —             |
+| `total`        | Number        | 필수 | —             |
+| `worstDelay`   | String        | 필수 | —             |
+| `worstAirline` | String        | 필수 | —             |
+| `lostMinutes`  | Number / null | 선택 | `null`        |
 
 ## FcAircraftStats
 
-aircraft는 [AircraftStatsPage.vue](../src/pages/AircraftStatsPage.vue) 하단 샘플 데이터의 aircraft 구조입니다. show\*는 각 영역의 표시 여부이며 showAgeTitle은 showAge 영역의 제목만 제어합니다.
+aircraft는 [AircraftStatsPage.vue](../src/pages/AircraftStatsPage.vue)의 `statistics.aircraft` 구조입니다. 실제 항공편 집계를 전달하며 `source`·`image`가 있으면 기체 데이터와 사진 출처를 표시합니다. show\*는 각 영역의 표시 여부이며 showAgeTitle은 showAge 영역의 제목만 제어합니다.
 
 | 속성           | 타입    | 필수 | 기본값·허용값 |
 | -------------- | ------- | ---- | ------------- |
@@ -222,7 +222,7 @@ aircraft는 [AircraftStatsPage.vue](../src/pages/AircraftStatsPage.vue) 하단 �
 
 ## FcAirlinePerformance
 
-report는 [DelayStatsPage.vue](../src/pages/DelayStatsPage.vue) 하단 샘플 데이터의 performance 구조입니다. section으로 전체·항공사·공항·개인·지연 영역을 선택합니다. 최초 목록은 성과 5개, 지연 4개입니다.
+report는 [DelayStatsPage.vue](../src/pages/DelayStatsPage.vue)의 `statistics.performance` 구조입니다. section으로 전체·항공사·공항·개인·지연 영역을 선택합니다. 최초 목록은 성과 5개, 지연 4개이며 초과할 때 더 보기 버튼을 표시합니다. `cumulativeTiming`은 누적 도착 실적의 조기/지연/정시 구분이며 지연 행의 `id`는 항공편의 고유 ID입니다.
 
 | 속성      | 타입   | 필수 | 기본값·허용값                                                 |
 | --------- | ------ | ---- | ------------------------------------------------------------- |
@@ -231,7 +231,7 @@ report는 [DelayStatsPage.vue](../src/pages/DelayStatsPage.vue) 하단 샘플 �
 
 ## FcSeatStats
 
-rows는 { name, count, percent, color } 목록입니다. percent는 0~100 숫자, color는 CSS 색상입니다. mode별 데이터는 [AircraftStatsPage.vue](../src/pages/AircraftStatsPage.vue) 하단 샘플 데이터의 seats를 참고합니다.
+rows는 { name, count, percent, color } 목록입니다. percent는 0~100 숫자, color는 CSS 색상입니다. 원형 차트는 실제 count 비율로 그리고 건수가 없으면 중립색을 사용합니다. mode별 데이터는 [AircraftStatsPage.vue](../src/pages/AircraftStatsPage.vue)의 `statistics.seats`를 참고합니다.
 
 | 속성        | 타입    | 필수 | 기본값·허용값                              |
 | ----------- | ------- | ---- | ------------------------------------------ |

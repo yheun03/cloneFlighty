@@ -272,6 +272,7 @@ const details = computed(() => {
                     ? "Aircraft information is temporarily unavailable. Showing the flight record."
                     : "",
         aircraftSource: aircraft.lookup?.source || "",
+        aircraftFlightSource: aircraft.source || "",
         aircraftInfo: [
             { label: "ICAO Type", value: registry?.icao_type },
             { label: "Mode S", value: registry?.mode_s },
@@ -286,6 +287,7 @@ const details = computed(() => {
             aircraft.registration ||
             (item.isCompleted ? "Not recorded" : "Not assigned"),
         image: aircraft.image,
+        imageSource: aircraft.imageSource,
         airline: airline.name,
         logo: airline.logo,
         alliance: airline.alliance,

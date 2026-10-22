@@ -53,4 +53,4 @@ npm run data:refresh
 npm run build
 ```
 
-`predev`와 `prebuild`에서도 생성 스크립트를 실행합니다. 일반 실행에서는 네트워크 조회 없이 설치된 패키지와 `package-lock.json`의 버전을 사용합니다. 최신 원본을 반영할 때는 패키지를 명시적으로 갱신한 다음 `npm run data:refresh`를 실행하고 생성 JSON의 코드·좌표·시간대·callsign 변경을 검토합니다. 새 항공편에 새 공항·항공사 코드를 넣으면 자동으로 생성 대상에 포함됩니다. 도시 별칭·공식 연락처·번역은 필요한 경우 별도로 보완합니다.
+`predev`와 `prebuild`에서도 생성 스크립트를 실행합니다. 공항·항공사는 네트워크 조회 없이 설치된 패키지와 `package-lock.json`의 버전을 사용합니다. 기체는 등록번호별 adsbdb 스냅샷(`reference/aircraft.json`)을 재사용하고 캐시가 없는 번호만 무료 API로 보완합니다. `npm run data:aircraft`로 기체 전체를 갱신할 수 있으며 통신 실패 시 이전 스냅샷을 유지합니다. 최신 공항·항공사 원본을 반영할 때는 패키지를 명시적으로 갱신한 다음 `npm run data:refresh`를 실행하고 생성 JSON의 코드·좌표·시간대·callsign 변경을 검토합니다. 새 항공편에 새 공항·항공사 코드를 넣으면 자동으로 생성 대상에 포함됩니다. 도시 별칭·공식 연락처·번역은 필요한 경우 별도로 보완합니다.

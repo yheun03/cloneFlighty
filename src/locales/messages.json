@@ -2428,5 +2428,73 @@
         "en": "Vue 3 UI Components",
         "ko": "Vue 3 UI 컴포넌트",
         "ja": "Vue 3 UI コンポーネント"
+    },
+    "Aircraft recorded for {recorded} of {total} flights.": {
+        "ko": "전체 {total}편 중 {recorded}편의 기종이 기록되어 있습니다.",
+        "ja": "全{total}便中{recorded}便の機種が記録されています。"
+    },
+    "No recorded tail numbers for this period.": {
+        "ko": "이 기간에 기록된 기체 등록번호가 없습니다.",
+        "ja": "この期間の機体登録番号は記録されていません。"
+    },
+    "Aircraft manufacture dates are not available in the public data.": {
+        "ko": "공개 데이터에 제조일이 없어 기령을 계산할 수 없습니다.",
+        "ja": "公開データに製造日がないため、機齢は計算できません。"
+    },
+    "{seat} ({count} times)": {
+        "ko": "{seat} ({count}회)",
+        "ja": "{seat}（{count}回）"
+    },
+    "Departure times recorded for {recorded} of {total} flights.": {
+        "ko": "전체 {total}편 중 {recorded}편의 실제 출발 시각이 기록되어 있습니다.",
+        "ja": "全{total}便中{recorded}便の実出発時刻が記録されています。"
+    },
+    "No delayed arrivals": {
+        "ko": "도착 지연 없음",
+        "ja": "到着遅延なし"
+    },
+    "1–14m late": {
+        "ko": "1~14분 지연",
+        "ja": "1〜14分遅延"
+    },
+    "15–29m late": {
+        "ko": "15~29분 지연",
+        "ja": "15〜29分遅延"
+    },
+    "30–44m late": {
+        "ko": "30~44분 지연",
+        "ja": "30〜44分遅延"
+    },
+    "Delay Report": {
+        "ko": "지연 보고서",
+        "ja": "遅延レポート"
+    },
+    "No recorded times for this period.": {
+        "ko": "이 기간에 기록된 실제 시각이 없습니다.",
+        "ja": "この期間の実時刻は記録されていません。"
+    },
+    "No delayed arrivals recorded for this period.": {
+        "ko": "이 기간에 기록된 도착 지연이 없습니다.",
+        "ja": "この期間に記録された到着遅延はありません。"
+    },
+    "Flight aircraft history": {
+        "ko": "해당 항공편 기체 이력",
+        "ja": "この便の機体履歴"
+    },
+    "total aircraft types": {
+        "ko": "전체 기종",
+        "ja": "機種の合計"
+    },
+    "Aircraft types use flight records, with current registry data only when the record is missing.": {
+        "ko": "기종은 탑승 기록을 우선하며, 기록이 없을 때만 현재 등록 정보로 보완합니다.",
+        "ja": "機種は搭乗記録を優先し、記録がない場合のみ現在の登録情報で補完します。"
+    },
+    "late arrivals": {
+        "ko": "도착 지연",
+        "ja": "到着遅延"
+    },
+    "late departures": {
+        "ko": "출발 지연",
+        "ja": "出発遅延"
     }
 }

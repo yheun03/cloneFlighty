@@ -80,6 +80,9 @@ function airlineLogo(value) {
                 <i><b :style="{ width: `${item.percent}%` }"></b></i>
             </div>
             <button
+                v-if="
+                    (isAirport ? report.airports : report.airlines).length > 5
+                "
                 type="button"
                 class="fc-stat-more"
                 :aria-expanded="showAll"
@@ -101,7 +104,7 @@ function airlineLogo(value) {
             </div>
             <div class="fc-performance__headline">
                 <strong>{{ $t(report.cumulative) }}</strong>
-                <span>{{ $t("late") }}</span>
+                <span>{{ $t(report.cumulativeTiming || "late") }}</span>
             </div>
             <p>{{ $t("cumulative arrival performance") }}</p>
             <div
@@ -138,7 +141,7 @@ function airlineLogo(value) {
             </div>
             <div
                 v-for="flight in visibleDelays"
-                :key="flight.flight"
+                :key="flight.id || `${flight.flight}-${flight.date}`"
                 class="fc-performance__delay"
             >
                 <span>
@@ -150,6 +153,7 @@ function airlineLogo(value) {
                 <small>{{ $t(flight.date) }}</small>
             </div>
             <button
+                v-if="report.delays.length > 4"
                 type="button"
                 class="fc-stat-more"
                 :aria-expanded="showDelays"
@@ -158,5 +162,21 @@ function airlineLogo(value) {
                 {{ $t(showDelays ? "Show Less" : "Show More") }}
             </button>
         </template>
+        <p
+            v-if="
+                (section === 'mine' && !report.performance.length) ||
+                (section === 'airline' && !report.airlines.length) ||
+                (section === 'airport' && !report.airports.length)
+            "
+            class="frame-page__note"
+        >
+            {{ $t("No recorded times for this period.") }}
+        </p>
+        <p
+            v-if="section === 'delays' && !report.delays.length"
+            class="frame-page__note"
+        >
+            {{ $t("No delayed arrivals recorded for this period.") }}
+        </p>
     </div>
 </template>

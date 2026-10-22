@@ -236,6 +236,15 @@ const airlineLinks = computed(() => [
                 {{ $t("Flight record:") }}
                 {{ $t(details.recordedAircraftType) }}
             </small>
+            <small v-if="details.aircraftFlightSource">
+                <a
+                    :href="details.aircraftFlightSource"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {{ $t("Flight aircraft history") }}
+                </a>
+            </small>
             <p
                 v-if="details.aircraftMessage"
                 role="status"
@@ -276,7 +285,7 @@ const airlineLinks = computed(() => [
                 <img
                     v-if="details.image && !imageFailed"
                     :src="details.image"
-                    :alt="details.plane"
+                    :alt="details.recordedAircraftType || details.plane"
                     @error="imageFailed = true"
                 />
             </div>
@@ -291,10 +300,10 @@ const airlineLinks = computed(() => [
                 >
                     {{ $t("Aircraft data: adsbdb") }}
                 </a>
-                <template v-if="details.image && !imageFailed">
+                <template v-if="details.imageSource && !imageFailed">
                     ·
                     <a
-                        :href="details.image"
+                        :href="details.imageSource"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

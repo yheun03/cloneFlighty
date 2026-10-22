@@ -3,7 +3,11 @@ import { computed, reactive } from "vue";
 import flightData from "../data/temp/flights.json";
 import airlines from "./airlines.js";
 import airports from "./airports.js";
-import { aircraft, normalizeRegistration } from "./aircraft.js";
+import {
+    aircraft,
+    normalizeRegistration,
+    getAircraftImages,
+} from "./aircraft.js";
 import { locale, t, formatDuration } from "./preferences.js";
 export { formatDuration } from "./preferences.js";
 
@@ -72,6 +76,15 @@ function joinFlight(record) {
     );
     const aircraftLookup =
         aircraft[normalizeRegistration(record.aircraft.registration)];
+    const aircraftModel =
+        (
+            record.aircraft.type ||
+            (aircraftLookup?.data
+                ? `${aircraftLookup.data.manufacturer} ${aircraftLookup.data.type}`
+                : "")
+        )
+            .replace(/\s+ER$/, "ER")
+            .replace(/^Airbus A380$/, "Airbus A380-800") || null;
     const departureAt =
         record.departure.actualAt ||
         record.departure.estimatedAt ||
@@ -152,10 +165,9 @@ function joinFlight(record) {
         aircraft: {
             ...record.aircraft,
             // 과거 탑승 기종은 항공편 기록을 유지하고 현재 등록 정보는 별도로 둡니다.
-            model: record.aircraft.type,
+            model: aircraftModel,
             lookup: aircraftLookup,
-            image: aircraftLookup?.data?.url_photo || "",
-            passportImage: "",
+            ...getAircraftImages(record.airline, aircraftModel, aircraftLookup),
         },
         departureInfo: record.departure,
         arrivalInfo: record.arrival,

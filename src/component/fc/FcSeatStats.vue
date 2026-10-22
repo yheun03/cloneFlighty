@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import { computed } from "vue";
+
+const props = defineProps({
     mode: {
         type: String,
         default: "seat",
@@ -10,6 +12,20 @@ defineProps({
     topValue: { type: String, required: true },
     // 통계 행: { name, count, percent, color }
     rows: { type: Array, required: true },
+});
+
+const ringBackground = computed(() => {
+    const total = props.rows.reduce((sum, row) => sum + row.count, 0);
+    if (!total) return "var(--fc-border)";
+    let offset = 0;
+    const segments = props.rows
+        .filter((row) => row.count > 0)
+        .map((row) => {
+            const start = offset;
+            offset += (row.count / total) * 100;
+            return `${row.color} ${start}% ${offset}%`;
+        });
+    return `conic-gradient(${segments.join(", ")})`;
 });
 </script>
 
@@ -26,7 +42,10 @@ defineProps({
                 {{ $t(mode === "class" ? "Class and Seat" : "Favorite Seat") }}
             </h2>
         </div>
-        <div class="fc-seat-stats__ring">
+        <div
+            class="fc-seat-stats__ring"
+            :style="{ background: ringBackground }"
+        >
             <div>
                 <small>{{ $t(topLabel) }}</small>
                 <strong>{{ $t(topValue) }}</strong>

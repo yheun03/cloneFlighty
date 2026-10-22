@@ -75,6 +75,7 @@
                 <img
                     v-if="aircraft.image"
                     :src="aircraft.image"
+                    :class="{ 'is-local': aircraft.imageIsLocal }"
                     :alt="$t(aircraft.model)"
                 />
             </div>
@@ -153,7 +154,7 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import BaseTabItem from "../component/base/BaseTabItem.vue";
 import FcPassportOverview from "../component/fc/FcPassportOverview.vue";
@@ -184,7 +185,12 @@ const pageData = {
 };
 
 const route = useRoute();
-const period = ref(String(route.query.period || "ALL-TIME"));
+const router = useRouter();
+const period = computed({
+    get: () => String(route.query.period || "ALL-TIME"),
+    set: (value) =>
+        router.replace({ query: { ...route.query, period: value } }),
+});
 const group = ref("");
 const sortOrder = ref("");
 const pastFlights = computed(() =>
@@ -260,13 +266,20 @@ const aircraft = computed(() => {
             minutes: 0,
             recorded: 0,
             image: flight.aircraft.passportImage,
+            imageIsLocal: flight.aircraft.imageIsLocal,
         };
         summary.count += 1;
         if (flight.airborneMinutes !== null) {
             summary.minutes += flight.airborneMinutes;
             summary.recorded += 1;
         }
-        if (!summary.image) summary.image = flight.aircraft.passportImage;
+        if (
+            !summary.image ||
+            (!summary.imageIsLocal && flight.aircraft.imageIsLocal)
+        ) {
+            summary.image = flight.aircraft.passportImage;
+            summary.imageIsLocal = flight.aircraft.imageIsLocal;
+        }
         models.set(model, summary);
     }
     const mostFlown = [...models.values()].sort((a, b) => b.count - a.count)[0];
