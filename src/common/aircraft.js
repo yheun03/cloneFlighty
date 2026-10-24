@@ -29,6 +29,50 @@ const aircraftImageCodes = {
     "Embraer 190": ["E190"],
 };
 
+const externalAircraftImages = reactive({});
+
+async function loadExternalAircraftImage(airline, airlineName, model) {
+    const key = `${airline}:${model}`;
+    if (externalAircraftImages[key]) return;
+
+    externalAircraftImages[key] = { status: "loading" };
+    const params = new URLSearchParams({
+        action: "query",
+        format: "json",
+        origin: "*",
+        generator: "search",
+        gsrsearch: `"${airlineName}" "${model}" filetype:bitmap`,
+        gsrnamespace: "6",
+        gsrlimit: "5",
+        prop: "imageinfo",
+        iiprop: "url|mime",
+        iiurlwidth: "1600",
+    });
+
+    try {
+        const response = await fetch(
+            `https://commons.wikimedia.org/w/api.php?${params}`,
+            { signal: AbortSignal.timeout(10000) },
+        );
+        if (!response.ok) throw new Error(`Aircraft image: ${response.status}`);
+
+        const body = await response.json();
+        const page = Object.values(body.query?.pages || {})
+            .sort((a, b) => a.index - b.index)
+            .find((item) => item.imageinfo?.[0]?.mime?.startsWith("image/"));
+        const info = page?.imageinfo?.[0];
+        externalAircraftImages[key] = info
+            ? {
+                  status: "loaded",
+                  image: info.thumburl || info.url,
+                  source: `https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title.replaceAll(" ", "_"))}`,
+              }
+            : { status: "not-found" };
+    } catch {
+        externalAircraftImages[key] = { status: "unavailable" };
+    }
+}
+
 // 공개 기체 데이터: https://github.com/mrjackwills/adsbdb
 // 생성된 스냅샷을 먼저 사용하고 캐시가 없는 등록번호만 조회합니다.
 export const aircraft = reactive(
@@ -40,7 +84,7 @@ export const aircraft = reactive(
     ),
 );
 
-export function getAircraftImages(airline, model, lookup) {
+export function getAircraftImages(airline, model, lookup, airlineInfo) {
     const registry = lookup?.data;
     const codes =
         aircraftImageCodes[model] ||
@@ -68,12 +112,21 @@ export function getAircraftImages(airline, model, lookup) {
         (record) =>
             codes[0] &&
             record?.data?.icao_type === codes[0] &&
+            record.data.registered_owner_operator_flag_code ===
+                airlineInfo.icao &&
             record.data.url_photo,
     )?.data;
+    const externalImage = externalAircraftImages[`${airline}:${model}`];
+    if (!photo && !externalImage && airlineInfo?.name && model)
+        loadExternalAircraftImage(airline, airlineInfo.name, model);
     return {
-        image: photo?.url_photo || "",
-        passportImage: photo?.url_photo_thumbnail || photo?.url_photo || "",
-        imageSource: photo?.url_photo || "",
+        image: photo?.url_photo || externalImage?.image || "",
+        passportImage:
+            photo?.url_photo_thumbnail ||
+            photo?.url_photo ||
+            externalImage?.image ||
+            "",
+        imageSource: photo?.url_photo || externalImage?.source || "",
         imageIsLocal: false,
     };
 }

@@ -167,7 +167,12 @@ function joinFlight(record) {
             // 과거 탑승 기종은 항공편 기록을 유지하고 현재 등록 정보는 별도로 둡니다.
             model: aircraftModel,
             lookup: aircraftLookup,
-            ...getAircraftImages(record.airline, aircraftModel, aircraftLookup),
+            ...getAircraftImages(
+                record.airline,
+                aircraftModel,
+                aircraftLookup,
+                airlineInfo,
+            ),
         },
         departureInfo: record.departure,
         arrivalInfo: record.arrival,
