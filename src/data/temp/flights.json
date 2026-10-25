@@ -1347,6 +1347,98 @@
                 "registration": "HL7740",
                 "type": "Airbus A330-300"
             }
+        },
+        {
+            "id": "ke-901-2026-11-18-friend",
+            "date": "2026-11-18",
+            "airline": "KE",
+            "number": "901",
+            "status": "upcoming",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": {
+                "id": "1",
+                "name": "김민지",
+                "profile": "https://api.dicebear.com/10.x/lorelei/svg?seed=Minji"
+            },
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2026-11-18T12:15:00+09:00",
+                "actualAt": null,
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "2",
+                "gate": null
+            },
+            "arrival": {
+                "airport": "CDG",
+                "scheduledAt": "2026-11-18T18:30:00+01:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "2E",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "",
+                "seat": "",
+                "position": "",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": null,
+                "type": "Boeing 777-300ER"
+            }
+        },
+        {
+            "id": "oz-521-2026-12-02-friend",
+            "date": "2026-12-02",
+            "airline": "OZ",
+            "number": "521",
+            "status": "upcoming",
+            "canceled": false,
+            "divertedTo": null,
+            "friend": {
+                "id": "2",
+                "name": "박서준",
+                "profile": "https://api.dicebear.com/10.x/lorelei/svg?seed=Seojun"
+            },
+            "departure": {
+                "airport": "ICN",
+                "scheduledAt": "2026-12-02T12:20:00+09:00",
+                "actualAt": null,
+                "takeoffScheduledAt": null,
+                "takeoffActualAt": null,
+                "terminal": "1",
+                "gate": null
+            },
+            "arrival": {
+                "airport": "LHR",
+                "scheduledAt": "2026-12-02T17:50:00+00:00",
+                "actualAt": null,
+                "landingScheduledAt": null,
+                "landingActualAt": null,
+                "terminal": "2",
+                "gate": null,
+                "baggage": null
+            },
+            "distanceSource": "great-circle",
+            "booking": {
+                "code": "",
+                "seat": "",
+                "position": "",
+                "cabin": "Economy",
+                "reason": "Leisure"
+            },
+            "notes": "",
+            "aircraft": {
+                "registration": null,
+                "type": "Airbus A350-900"
+            }
         }
     ]
 }

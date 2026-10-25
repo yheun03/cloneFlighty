@@ -1,6 +1,12 @@
 .friends-page {
     &__list {
         margin-top: 36px;
+
+        .fc-list-row--profile .fc-list-row__visual {
+            overflow: hidden;
+            border-radius: 50%;
+            background: var(--fc-control-bg, #2b2b2b);
+        }
     }
 
     &__invite {

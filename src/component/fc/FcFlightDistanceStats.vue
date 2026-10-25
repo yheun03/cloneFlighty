@@ -37,19 +37,20 @@ const distanceKm = computed(
 const secondaryUnit = computed(() =>
     preferences.distance === "km" ? "mi" : "km",
 );
+const comparisonRows = computed(() => {
+    const maximum = Math.max(...props.comparisons.map((item) => item.value || 0), 1);
+    return props.comparisons.map((item) => ({
+        ...item,
+        width: `${Math.max(6, Math.min(100, ((item.value || 0) / maximum) * 100))}%`,
+    }));
+});
 </script>
 
 <template>
     <div class="fc-distance">
         <div class="fc-stat-head">
             <h2>{{ $t(title) }}</h2>
-            <BaseButton
-                :label="$t(shareLabel)"
-                :icon="shareIcon"
-                size="md"
-                variant="fill"
-                tone="gray"
-            />
+            <BaseButton :label="$t(shareLabel)" :icon="shareIcon" size="md" variant="fill" tone="gray" />
         </div>
         <div class="fc-stat-number">
             <strong>
@@ -58,38 +59,23 @@ const secondaryUnit = computed(() =>
             <span>{{ preferences.distance }}</span>
         </div>
         <p>≈ {{ formatDistance(distanceKm, { unit: secondaryUnit }) }}</p>
-        <div
-            v-if="view === 'breakdown' || expanded"
-            class="fc-distance__breakdown"
-        >
-            <div
-                v-for="item in breakdown"
-                :key="item.label"
-            >
+        <div v-if="view === 'breakdown' || expanded" class="fc-distance__breakdown">
+            <div v-for="item in breakdown" :key="item.label">
                 <span>{{ $t(item.label) }}</span>
                 <strong>{{ $t(item.value) }}</strong>
             </div>
         </div>
-        <div
-            v-else
-            class="fc-distance__comparisons"
-        >
+        <div v-else class="fc-distance__comparisons">
             <strong>{{ $t(averageLabel) }}</strong>
-            <span
-                v-for="item in comparisons"
-                :key="item.text"
-            >
-                <BaseIcon :src="item.icon" />
+            <span v-for="item in comparisonRows" :key="item.text" :style="{ '--fc-distance-width': item.width }">
+                <i>
+                    <BaseIcon :src="item.icon" />
+                </i>
                 <b>{{ $t(item.text) }}</b>
             </span>
         </div>
-        <button
-            v-if="view === 'toggle'"
-            type="button"
-            class="fc-stat-more"
-            :aria-expanded="expanded"
-            @click="expanded = !expanded"
-        >
+        <button v-if="view === 'toggle'" type="button" class="fc-stat-more" :aria-expanded="expanded"
+            @click="expanded = !expanded">
             {{ $t(expanded ? summaryLabel : breakdownLabel) }}
         </button>
         <div class="fc-distance__flight">

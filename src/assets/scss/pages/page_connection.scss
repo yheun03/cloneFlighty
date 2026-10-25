@@ -19,14 +19,116 @@
     }
 
     &__meter {
-        display: block;
+        position: relative;
+        display: grid;
+        grid-template-rows: 28px 54px 18px;
         margin: 16px 0 12px;
+        color: var(--fc-text-secondary, #888);
+        text-decoration: none;
+        @include typo.font(c2, sb);
 
-        img {
+        &-callout {
+            position: relative;
+            z-index: 2;
+            justify-self: end;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: #42d884;
+            color: #101312;
+            @include typo.font(b2, sb);
+
+            &::after {
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                width: 2px;
+                height: 24px;
+                background: #42d884;
+                content: "";
+            }
+        }
+
+        &-scale {
+            position: relative;
             display: block;
+        }
+
+        &-hatch {
+            position: absolute;
+            inset: 9px 0 0 42%;
+            height: 42px;
+            background: repeating-linear-gradient(135deg,
+                    rgba(66, 216, 132, 0.35) 0 4px,
+                    transparent 4px 9px);
+        }
+
+        &-bar {
+            position: absolute;
+            top: 20px;
+            left: 0;
             width: 100%;
-            height: 50px;
-            object-fit: cover;
+            height: 14px;
+            border-radius: 999px;
+            background: linear-gradient(90deg,
+                    #ef4a43 0%,
+                    #ff8d2d 20%,
+                    #ffcc35 31%,
+                    #55d477 48%,
+                    #42d884 100%);
+        }
+
+        &-minimum,
+        &-now {
+            position: absolute;
+            z-index: 2;
+            top: 14px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+        }
+
+        &-minimum {
+            left: 42%;
+            width: 8px;
+            height: 8px;
+            color: var(--fc-text-secondary, #aaa);
+            transform: translateX(-50%);
+
+            &::before {
+                position: absolute;
+                bottom: 17px;
+                left: 50%;
+                width: 1px;
+                height: 18px;
+                background: #6b6b6b;
+                content: "";
+            }
+
+            &::after {
+                position: absolute;
+                bottom: 35px;
+                left: 50%;
+                width: max-content;
+                transform: translateX(-50%);
+                content: attr(data-label);
+            }
+        }
+
+        &-now {
+            top: 13px;
+            right: 17%;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #42d884;
+        }
+
+        &-labels {
+            display: grid;
+            grid-template-columns: 22% 25% 1fr;
+
+            b:last-child {
+                color: #42d884;
+            }
         }
     }
 

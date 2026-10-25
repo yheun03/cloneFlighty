@@ -1,34 +1,18 @@
 <template>
     <section class="frame-page alerts-page">
-        <FcAlertSettings
-            :key="route.name + String(route.params.id || '')"
-            :mode="mode"
-            v-bind="alert"
-            :initial-shared="pageData.shared"
-            :initial-selected="pageData.selected"
-            :friend-name="friend.friendName"
-            :friend-email="friend.friendEmail"
-            @remove="removeFriend"
-        >
-            <template
-                v-if="mode === 'friends'"
-                #intro
-            >
+        <FcAlertSettings :key="route.name + String(route.params.id || '')" :mode="mode" v-bind="alert"
+            :initial-shared="pageData.shared" :initial-selected="pageData.selected" :friend-name="friend.friendName"
+            :friend-email="friend.friendEmail" @remove="removeFriend">
+            <template v-if="mode === 'friends'" #intro>
                 <h3 class="alerts-page__intro">
                     {{ $t("Customize this per friend in Flighty Friends.") }}
                 </h3>
             </template>
-            <template
-                v-if="mode === 'friend'"
-                #after-options
-            >
+            <template v-if="mode === 'friend'" #after-options>
                 <div class="alerts-page__new-flights">
                     <BaseIcon :src="bellIcon" />
                     <strong>{{ $t("New Flights") }}</strong>
-                    <BaseToggleSwitch
-                        v-model="newFlights"
-                        :label="$t('New Flights')"
-                    />
+                    <BaseToggleSwitch v-model="newFlights" :label="$t('New Flights')" />
                 </div>
                 <p class="frame-page__note">
                     {{
@@ -39,21 +23,14 @@
                 </p>
             </template>
         </FcAlertSettings>
-        <p
-            v-if="mode === 'friends'"
-            class="frame-page__note alerts-page__footer"
-        >
+        <p v-if="mode === 'friends'" class="frame-page__note alerts-page__footer">
             {{
                 $t(
                     "To adjust Live Activity preferences for Friends’ Flights, visit Setting > Live Activities",
                 )
             }}
         </p>
-        <p
-            v-if="message"
-            class="frame-page__note"
-            role="status"
-        >
+        <p v-if="message" class="frame-page__note" role="status">
             {{ $t(message) }}
         </p>
     </section>
@@ -177,12 +154,12 @@ const pageData = {
     },
     "profiles": {
         "1": {
-            "friendName": "Kimhj",
-            "friendEmail": "kimhj@example.com"
+            "friendName": "김민지",
+            "friendEmail": "minji@example.com"
         },
         "2": {
-            "friendName": "Kimhj",
-            "friendEmail": "kimhj2@example.com"
+            "friendName": "박서준",
+            "friendEmail": "seojun@example.com"
         }
     },
     "removeMessage": "Remove Friend preview."

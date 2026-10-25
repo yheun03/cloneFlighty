@@ -4,49 +4,24 @@
         <p class="frame-page__lead">
             {{
                 $t(
-                    "Share upcoming flights among friends and family. Invite new friends, set custom alerts, and control access here.",
+                    "Share upcoming flights among friends and family. Invite new friends, set custom alerts, and control access
+            here.",
                 )
             }}
         </p>
         <div class="friends-page__list">
-            <BaseListRow
-                v-for="friend in pageData.friends"
-                :key="friend.id"
-                :title="$t(friend.title)"
-                @click="openFriend(friend)"
-            />
-            <BaseListRow
-                :title="$t('Invite a Friend')"
-                accent
-                @click="inviting = !inviting"
-            />
+            <BaseListRow v-for="friend in pageData.friends" :key="friend.id" :title="$t(friend.title)"
+                :subtitle="friend.email" :image="friend.profile" type="profile" :translate-subtitle="false"
+                @click="openFriend(friend)" />
+            <BaseListRow :title="$t('Invite a Friend')" accent @click="inviting = !inviting" />
         </div>
-        <form
-            v-if="inviting"
-            class="friends-page__invite"
-            @submit.prevent="inviteFriend"
-        >
+        <form v-if="inviting" class="friends-page__invite" @submit.prevent="inviteFriend">
             <label for="friend-email">{{ $t("Friend’s email") }}</label>
-            <BaseInput
-                id="friend-email"
-                v-model="email"
-                class="frame-page__input"
-                type="email"
-                :placeholder="$t('friend@example.com')"
-                required
-            />
-            <BaseButton
-                :label="$t('Prepare Invitation')"
-                variant="text"
-                tone="primary"
-                @click="inviteFriend"
-            />
+            <BaseInput id="friend-email" v-model="email" class="frame-page__input" type="email"
+                :placeholder="$t('friend@example.com')" required />
+            <BaseButton :label="$t('Prepare Invitation')" variant="text" tone="primary" @click="inviteFriend" />
         </form>
-        <p
-            v-if="message"
-            class="frame-page__note"
-            role="status"
-        >
+        <p v-if="message" class="frame-page__note" role="status">
             {{ $t(message) }}
         </p>
     </section>
@@ -72,13 +47,15 @@ const pageData = {
     "friends": [
         {
             "id": "1",
-            "title": "Kimhj",
-            "email": "kimhj@example.com"
+            "title": "김민지",
+            "email": "minji@example.com",
+            "profile": "https://api.dicebear.com/10.x/lorelei/svg?seed=Minji"
         },
         {
             "id": "2",
-            "title": "Kimhj",
-            "email": "kimhj2@example.com"
+            "title": "박서준",
+            "email": "seojun@example.com",
+            "profile": "https://api.dicebear.com/10.x/lorelei/svg?seed=Seojun"
         }
     ],
     "email": "",

@@ -21,8 +21,8 @@ const averageDelay = computed(() =>
     !props.total
         ? null
         : props.delayed
-          ? Math.round(props.lostMinutes / props.delayed)
-          : 0,
+            ? Math.round(props.lostMinutes / props.delayed)
+            : 0,
 );
 const lostTime = computed(() => formatDuration(props.lostMinutes));
 </script>
@@ -30,10 +30,7 @@ const lostTime = computed(() => formatDuration(props.lostMinutes));
 <template>
     <div class="fc-delay-report">
         <div class="fc-delay-report__brand">
-            <BaseIcon
-                v-if="brandIcon"
-                :src="brandIcon"
-            />
+            <BaseIcon v-if="brandIcon" :src="brandIcon" />
             {{ $t("Flighty") }}
             <strong>
                 {{
@@ -55,7 +52,16 @@ const lostTime = computed(() => formatDuration(props.lostMinutes));
                 )
             }}
         </p>
-        <div class="fc-delay-report__stripe"></div>
+        <div class="fc-delay-report__stripe fc-delay-report__stripe--summary">
+            <span class="fc-delay-report__stripe-delayed" :style="{ width: `${delayedPercent || 0}%` }">
+                <b>{{ delayedPercent || 0 }}%</b>
+                <small>{{ $t("Delayed") }}</small>
+            </span>
+            <span class="fc-delay-report__stripe-on-time">
+                <b>{{ delayedPercent === null ? "—" : 100 - delayedPercent }}%</b>
+                <small>{{ $t("On Time") }}</small>
+            </span>
+        </div>
         <h3>{{ $t("Lost to Delays") }}</h3>
         <p>
             {{
@@ -67,7 +73,16 @@ const lostTime = computed(() => formatDuration(props.lostMinutes));
         <strong class="fc-delay-report__big">{{ $t(lostTime) }}</strong>
         <h3>{{ $t("Worst Delay") }}</h3>
         <p>{{ $t(worstDelay) }}</p>
-        <div class="fc-delay-report__stripe"></div>
+        <div class="fc-delay-report__stripe fc-delay-report__stripe--worst">
+            <span>
+                <small>{{ $t("Airline") }}</small>
+                <b>{{ $t(worstAirline) }}</b>
+            </span>
+            <span>
+                <small>{{ $t("Flight") }}</small>
+                <b>{{ $t(worstDelay) }}</b>
+            </span>
+        </div>
         <h3>{{ $t("Worst Airline") }}</h3>
         <p>{{ $t(worstAirline) }}</p>
     </div>

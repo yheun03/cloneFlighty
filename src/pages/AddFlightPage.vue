@@ -1,43 +1,22 @@
 <template>
     <section class="frame-page add-flight-page">
-        <RouterLink
-            class="frame-page__close"
-            :to="{
-                name: 'home',
-                query: { from: route.query.from, to: route.query.to },
-            }"
-            :aria-label="$t('Close Add Flight')"
-        >
+        <RouterLink class="frame-page__close" :to="{
+            name: 'home',
+            query: { from: route.query.from, to: route.query.to },
+        }" :aria-label="$t('Close Add Flight')">
             ×
         </RouterLink>
         <template v-if="mode === 'search'">
-            <FcAddFlightSearch
-                v-model="query"
-                v-bind="searchOptions"
-                @select="selectResult"
-            />
+            <FcAddFlightSearch v-model="query" v-bind="searchOptions" @select="selectResult" />
             <h2 class="frame-page__label">{{ $t("MORE") }}</h2>
-            <BaseListRow
-                v-for="item in pageData.more"
-                :key="item.name"
-                v-bind="item"
-                @click="openPage(item.name)"
-            />
+            <BaseListRow v-for="item in pageData.more" :key="item.name" v-bind="item" @click="openPage(item.name)" />
             <div class="add-flight-page__report">
                 <span>{{ $t("Something missing?") }}</span>
-                <button
-                    type="button"
-                    class="frame-page__link"
-                    @click="message = pageData.reportMessage"
-                >
+                <button type="button" class="frame-page__link" @click="message = pageData.reportMessage">
                     {{ $t("Send Report") }}
                 </button>
             </div>
-            <p
-                v-if="message"
-                class="frame-page__note"
-                role="status"
-            >
+            <p v-if="message" class="frame-page__note" role="status">
                 {{ $t(message) }}
             </p>
         </template>
@@ -46,94 +25,38 @@
             <p class="frame-page__lead add-flight-page__hint">
                 {{ $t("Enter airline, airport, or flight") }}
             </p>
-            <form
-                v-if="mode === 'route'"
-                class="add-flight-page__route"
-                @submit.prevent="showFlights(date)"
-            >
+            <form v-if="mode === 'route'" class="add-flight-page__route" @submit.prevent="showFlights(date)">
                 <label for="flight-from">{{ $t("From") }}</label>
-                <BaseInput
-                    id="flight-from"
-                    v-model="from"
-                    class="frame-page__input"
-                    :placeholder="$t('SFO')"
-                    maxlength="3"
-                    required
-                />
+                <BaseInput id="flight-from" v-model="from" class="frame-page__input" :placeholder="$t('SFO')"
+                    maxlength="3" required />
                 <label for="flight-to">{{ $t("To") }}</label>
-                <BaseInput
-                    id="flight-to"
-                    v-model="to"
-                    class="frame-page__input"
-                    :placeholder="$t('ICN')"
-                    maxlength="3"
-                    required
-                />
-                <button
-                    type="submit"
-                    class="frame-page__primary"
-                >
+                <BaseInput id="flight-to" v-model="to" class="frame-page__input" :placeholder="$t('ICN')" maxlength="3"
+                    required />
+                <button type="submit" class="frame-page__primary">
                     {{ $t("Find Flights") }}
                 </button>
             </form>
             <template v-else>
-                <div
-                    class="add-flight-page__fields"
-                    :class="{
-                        'add-flight-page__fields--number': mode === 'number',
-                    }"
-                >
-                    <BaseInput
-                        v-if="mode === 'number'"
-                        v-model="airline"
-                        class="frame-page__input"
-                        :aria-label="$t('Airline code')"
-                        maxlength="3"
-                    />
-                    <BaseInput
-                        v-if="mode === 'number'"
-                        v-model="flight"
-                        class="frame-page__input"
-                        :aria-label="$t('Flight number')"
-                        inputmode="numeric"
-                        maxlength="4"
-                    />
-                    <BaseInput
-                        v-model="date"
-                        :placeholder="$t('10/5 or Friday')"
-                        type="calendar"
-                        :calendar-options="calendarOptions"
-                        :aria-label="$t('Flight date')"
-                        @keydown.enter.prevent="showFlights(date)"
-                    />
+                <div class="add-flight-page__fields" :class="{
+                    'add-flight-page__fields--number': mode === 'number',
+                }">
+                    <BaseInput v-if="mode === 'number'" v-model="airline" class="frame-page__input"
+                        :aria-label="$t('Airline code')" maxlength="3" />
+                    <BaseInput v-if="mode === 'number'" v-model="flight" class="frame-page__input"
+                        :aria-label="$t('Flight number')" inputmode="numeric" maxlength="4" />
+                    <BaseInput v-model="date" :placeholder="$t('10/5 or Friday')" type="calendar"
+                        :calendar-options="calendarOptions" :aria-label="$t('Flight date')"
+                        @keydown.enter.prevent="showFlights(date)" />
                 </div>
-                <div
-                    v-if="mode === 'number'"
-                    class="add-flight-page__dates"
-                >
-                    <BaseListRow
-                        v-for="item in dateOptions"
-                        :key="item.date"
-                        v-bind="item"
-                        :image="airlines[airline]?.logo || ''"
-                        @click="showFlights(item.date)"
-                    />
-                    <BaseListRow
-                        :title="$t('Pick from Calendar')"
-                        :image="airlines[airline]?.logo || ''"
-                        @click="openPage('add-flight-calendar')"
-                    />
+                <div v-if="mode === 'number'" class="add-flight-page__dates">
+                    <BaseListRow v-for="item in dateOptions" :key="item.date" v-bind="item"
+                        :image="airlines[airline]?.logo || ''" @click="showFlights(item.date)" />
+                    <BaseListRow :title="$t('Pick from Calendar')" :image="airlines[airline]?.logo || ''"
+                        @click="openPage('add-flight-calendar')" />
                 </div>
                 <template v-else>
-                    <BaseCalendarPicker
-                        v-model="calendarDate"
-                        v-bind="calendarOptions"
-                    />
-                    <button
-                        type="button"
-                        class="frame-page__link"
-                        @click="showFlights(calendarDate)"
-                    >
+                    <BaseCalendarPicker v-model="calendarDate" v-bind="calendarOptions" />
+                    <button type="button" class="frame-page__link" @click="showFlights(calendarDate)">
                         {{ $t("Show flights on") }} {{ $t(selectedDateLabel) }}
                     </button>
                 </template>
@@ -157,6 +80,11 @@ import airlines from "../common/airlines.js";
 import { flights } from "../common/flights.js";
 import { locale } from "../common/preferences.js";
 
+import routeIcon from "../assets/icons/lucide/route.svg";
+import ticketIcon from "../assets/icons/lucide/ticket.svg";
+import calendarIcon from "../assets/icons/lucide/calendar-days.svg";
+import randomIcon from "../assets/icons/lucide/plane.svg";
+
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/base/BaseIcon.scss";
@@ -171,24 +99,24 @@ const pageData = {
     "more": [
         {
             "title": "Find by Route",
-            "icon": "",
+            "icon": routeIcon,
             "name": "add-flight-route"
         },
         {
             "title": "Find by Flight Number",
-            "icon": "",
+            "icon": ticketIcon,
             "name": "add-flight-number"
         },
         {
             "title": "Sync from Calendar",
             "subtitle": "Fast, secure, and no setup",
-            "icon": "",
+            "icon": calendarIcon,
             "name": "calendar-sync"
         },
         {
             "title": "Random Flight",
             "subtitle": "Try Pro features for free",
-            "icon": "",
+            "icon": randomIcon,
             "name": "flight-detail"
         }
     ],

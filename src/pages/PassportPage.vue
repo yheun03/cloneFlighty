@@ -1,17 +1,8 @@
 <template>
     <section class="frame-page passport-page">
-        <BaseTabItem
-            v-model="period"
-            :items="periods"
-            :label="$t('Flight history period')"
-        />
+        <BaseTabItem v-model="period" :items="periods" :label="$t('Flight history period')" />
         <div class="passport-page__card passport-page__card--passport">
-            <FcPassportOverview
-                v-bind="overview"
-                :show-period="false"
-                :show-map="false"
-                :show-history="false"
-            />
+            <FcPassportOverview v-bind="overview" :show-period="false" :show-history="false" />
             <p>
                 {{
                     $t(
@@ -23,13 +14,10 @@
                     )
                 }}
             </p>
-            <RouterLink
-                class="passport-page__stats-link"
-                :to="{
-                    name: 'flight-stats',
-                    query: { ...route.query, period },
-                }"
-            >
+            <RouterLink class="passport-page__stats-link" :to="{
+                name: 'flight-stats',
+                query: { ...route.query, period },
+            }">
                 {{ $t("All Flight Stats") }}
                 <span>›</span>
             </RouterLink>
@@ -57,10 +45,8 @@
                     )
                 }}
             </p>
-            <RouterLink
-                class="passport-page__stats-link"
-                :to="{ name: 'delay-stats', query: { ...route.query, period } }"
-            >
+            <RouterLink class="passport-page__stats-link"
+                :to="{ name: 'delay-stats', query: { ...route.query, period } }">
                 {{ $t("All Flight Stats") }}
                 <span>›</span>
             </RouterLink>
@@ -72,74 +58,39 @@
             </strong>
             <p>{{ $t(aircraft.summary) }}</p>
             <div class="passport-page__plane">
-                <img
-                    v-if="aircraft.image"
-                    :src="aircraft.image"
-                    :class="{ 'is-local': aircraft.imageIsLocal }"
-                    :alt="$t(aircraft.model)"
-                />
+                <img v-if="aircraft.image" :src="aircraft.image" :class="{ 'is-local': aircraft.imageIsLocal }"
+                    :alt="$t(aircraft.model)" />
             </div>
-            <RouterLink
-                class="passport-page__stats-link"
-                :to="{
-                    name: 'aircraft-stats',
-                    query: { ...route.query, period },
-                }"
-            >
+            <RouterLink class="passport-page__stats-link" :to="{
+                name: 'aircraft-stats',
+                query: { ...route.query, period },
+            }">
                 {{ $t("All Flight Stats") }}
                 <span>›</span>
             </RouterLink>
         </div>
         <h2 class="passport-page__past-title">{{ $t("Past Flights") }}</h2>
-        <BaseTabItem
-            v-model="group"
-            v-model:order="sortOrder"
-            :items="pageData.groups"
-            type="sort"
-            :label="$t('Group past flights')"
-        />
-        <div
-            v-for="history in historyGroups"
-            :key="history.id"
-            class="passport-page__history"
-        >
+        <BaseTabItem v-model="group" v-model:order="sortOrder" :items="pageData.groups" type="sort"
+            :label="$t('Group past flights')" />
+        <div v-for="history in historyGroups" :key="history.id" class="passport-page__history">
             <h3>
                 <span>
-                    <BaseIcon
-                        v-if="history.icon"
-                        :src="history.icon"
-                        variant="image"
-                    />
+                    <BaseIcon v-if="history.icon" :src="history.icon" variant="image" />
                     {{ $t(history.label) }}
                 </span>
                 <small>{{ $t(history.count) }}</small>
             </h3>
-            <RouterLink
-                v-for="flight in history.flights"
-                :key="flight.id"
-                :to="{
-                    name: 'flight-detail',
-                    params: { id: flight.id },
-                    query: { ...route.query, from: flight.from, to: flight.to },
-                }"
-            >
-                <FcFlightListItem
-                    :airline="flight.airline"
-                    :flight="flight.flight"
-                    :title="$t(flight.title)"
-                    :date="flight.date"
-                    :departure="flight.departure"
-                    :arrival="flight.arrival"
-                    :duration="flight.duration"
-                    :flight-time="flight.flightTime"
-                    variant="history"
-                />
+            <RouterLink v-for="flight in history.flights" :key="flight.id" :to="{
+                name: 'flight-detail',
+                params: { id: flight.id },
+                query: { ...route.query, from: flight.from, to: flight.to },
+            }">
+                <FcFlightListItem :airline="flight.airline" :flight="flight.flight" :title="$t(flight.title)"
+                    :date="flight.date" :departure="flight.departure" :arrival="flight.arrival"
+                    :duration="flight.duration" :flight-time="flight.flightTime" variant="history" />
             </RouterLink>
         </div>
-        <p
-            class="sr-only"
-            role="status"
-        >
+        <p class="sr-only" role="status">
             {{
                 $t(
                     group
@@ -148,11 +99,7 @@
                 )
             }}
         </p>
-        <p
-            v-if="!historyGroups.length"
-            class="frame-page__note"
-            role="status"
-        >
+        <p v-if="!historyGroups.length" class="frame-page__note" role="status">
             {{ $t("No past flights for this period.") }}
         </p>
     </section>
@@ -226,13 +173,15 @@ const overview = computed(() => {
     ]);
     return {
         flights: items.length,
-        distance: `≈ ${formatDistance(items.reduce((sum, flight) => sum + flight.distanceKm, 0))}`,
+        distance: formatDistance(
+            items.reduce((sum, flight) => sum + flight.distanceKm, 0),
+        ),
         flightTime: formatDuration(
             recordedFlights.value.length
                 ? recordedFlights.value.reduce(
-                      (sum, flight) => sum + flight.airborneMinutes,
-                      0,
-                  )
+                    (sum, flight) => sum + flight.airborneMinutes,
+                    0,
+                )
                 : null,
         ),
         airports: new Set(airports.map((airport) => airport.iata)).size,
@@ -240,6 +189,14 @@ const overview = computed(() => {
         periods: periods.value,
         mapFrom: items[0]?.from || "ICN",
         mapTo: items[0]?.to || "ICN",
+        routes: [
+            ...new Map(
+                items.map((flight) => [
+                    `${flight.from}-${flight.to}`,
+                    { from: flight.from, to: flight.to },
+                ]),
+            ).values(),
+        ],
         flags: [...new Set(airports.map((airport) => airport.flag))].join(" "),
         historyTitle: period.value,
         historyCount: `${items.length} FLIGHTS`,
@@ -293,19 +250,19 @@ const aircraft = computed(() => {
     const mostFlown = [...models.values()].sort((a, b) => b.count - a.count)[0];
     return mostFlown
         ? {
-              ...mostFlown,
-              summary: t(
-                  "{count} flights · {duration} recorded ({recorded}/{total})",
-                  {
-                      count: mostFlown.count,
-                      duration: formatDuration(
-                          mostFlown.recorded ? mostFlown.minutes : null,
-                      ),
-                      recorded: mostFlown.recorded,
-                      total: mostFlown.count,
-                  },
-              ),
-          }
+            ...mostFlown,
+            summary: t(
+                "{count} flights · {duration} recorded ({recorded}/{total})",
+                {
+                    count: mostFlown.count,
+                    duration: formatDuration(
+                        mostFlown.recorded ? mostFlown.minutes : null,
+                    ),
+                    recorded: mostFlown.recorded,
+                    total: mostFlown.count,
+                },
+            ),
+        }
         : { model: "—", image: "", summary: "No aircraft history" };
 });
 const historyGroups = computed(() => {
@@ -377,12 +334,12 @@ const historyGroups = computed(() => {
                 (typeof a.value === "number"
                     ? a.value - b.value
                     : String(a.value).localeCompare(
-                          String(b.value),
-                          locale.value,
-                          {
-                              numeric: true,
-                          },
-                      ))
+                        String(b.value),
+                        locale.value,
+                        {
+                            numeric: true,
+                        },
+                    ))
             );
         })
         .map((history) => ({

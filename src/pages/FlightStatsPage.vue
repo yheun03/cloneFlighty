@@ -1,18 +1,7 @@
 <template>
-    <section
-        class="frame-page stats-page flight-stats-page"
-        @click="share"
-    >
-        <BaseTabItem
-            v-model="period"
-            :items="periods"
-            :label="$t('Flight statistics period')"
-        />
-        <FcPassportOverview
-            v-bind="statistics.overview"
-            :show-period="false"
-            :show-history="false"
-        />
+    <section class="frame-page stats-page flight-stats-page" @click="share">
+        <BaseTabItem v-model="period" :items="periods" :label="$t('Flight statistics period')" />
+        <FcPassportOverview v-bind="statistics.overview" :show-period="false" :show-history="false" />
         <p class="frame-page__note">
             {{ $t("Completed flights only.") }}
             {{
@@ -25,23 +14,13 @@
                 )
             }}
         </p>
-        <p
-            v-if="!periodFlights.length"
-            class="frame-page__note"
-            role="status"
-        >
+        <p v-if="!periodFlights.length" class="frame-page__note" role="status">
             {{ $t("No past flights for this period.") }}
         </p>
         <section class="stats-page__section">
             <div class="fc-stat-head">
                 <h2>{{ $t("Flights") }}</h2>
-                <BaseButton
-                    :label="$t('Share')"
-                    :icon="shareIcon"
-                    size="md"
-                    variant="fill"
-                    tone="gray"
-                />
+                <BaseButton :label="$t('Share')" :icon="shareIcon" size="md" variant="fill" tone="gray" />
             </div>
             <div class="fc-stat-number">
                 <strong>{{ $t(statistics.totals.total) }}</strong>
@@ -59,92 +38,39 @@
             </p>
             <div class="stats-page__flight-tabs">
                 <span>{{ $t("FLIGHTS PER") }}</span>
-                <BaseTabItem
-                    v-model="metric"
-                    :items="pageData.metrics"
-                    :label="$t('Flights per')"
-                    size="sm"
-                />
+                <BaseTabItem v-model="metric" :items="pageData.metrics" :label="$t('Flights per')" size="sm" />
             </div>
-            <svg
-                class="stats-page__line-chart"
-                viewBox="0 0 280 180"
-                role="img"
-                :aria-label="$t(chartLabel)"
-            >
-                <polyline
-                    :points="
-                        chartPoints
-                            .map((point) => `${point.x},${point.y}`)
-                            .join(' ')
-                    "
-                    fill="none"
-                    stroke="var(--fc-chart-line)"
-                    stroke-width="2"
-                />
-                <g
-                    v-for="point in chartPoints"
-                    :key="point.label"
-                    aria-hidden="true"
-                >
-                    <circle
-                        :cx="point.x"
-                        :cy="point.y"
-                        r="3"
-                        fill="var(--fc-chart-line)"
-                    />
-                    <text
-                        class="stats-page__chart-count"
-                        :x="point.x"
-                        :y="point.y - 8"
-                        text-anchor="middle"
-                    >
+            <svg class="stats-page__line-chart" viewBox="0 0 280 180" role="img" :aria-label="$t(chartLabel)">
+                <polyline :points="chartPoints
+                        .map((point) => `${point.x},${point.y}`)
+                        .join(' ')
+                    " fill="none" stroke="var(--fc-chart-line)" stroke-width="2" />
+                <g v-for="point in chartPoints" :key="point.label" aria-hidden="true">
+                    <circle :cx="point.x" :cy="point.y" r="3" fill="var(--fc-chart-line)" />
+                    <text class="stats-page__chart-count" :x="point.x" :y="point.y - 8" text-anchor="middle">
                         {{ $t(point.count) }}
                     </text>
-                    <text
-                        class="stats-page__chart-label"
-                        :x="point.x"
-                        y="165"
-                        text-anchor="middle"
-                    >
+                    <text class="stats-page__chart-label" :x="point.x" y="165" text-anchor="middle">
                         {{ $t(point.label) }}
                     </text>
                 </g>
             </svg>
         </section>
-        <FcFlightDistanceStats
-            v-bind="statistics.distance"
-            view="summary"
-        />
-        <FcFlightDistanceStats
-            v-bind="statistics.distance"
-            view="breakdown"
-        />
-        <FcRankingStats
-            v-bind="statistics.airports"
-            type="airport"
-        />
-        <FcRankingStats
-            v-bind="statistics.airlines"
-            type="airline"
-        />
-        <FcRankingStats
-            v-bind="statistics.routes"
-            type="route"
-        />
+        <FcFlightDistanceStats v-bind="statistics.distance" view="summary" />
+        <FcFlightDistanceStats v-bind="statistics.distance" view="breakdown" />
+        <FcRankingStats v-bind="statistics.airports" type="airport" />
+        <FcRankingStats v-bind="statistics.airlines" type="airline" />
+        <FcRankingStats v-bind="statistics.routes" type="route" />
         <FcCountriesStats v-bind="statistics.countries" />
         <p class="frame-page__note">
             {{
                 $t(
-                    "Country flights include departures or arrivals, counted once per flight. Region totals count distinct countries and territories.",
+                    "Country flights include departures or arrivals, counted once per flight. Region totals count distinct
+            countries and territories.",
                 )
             }}
         </p>
-        <p
-            v-if="message"
-            class="frame-page__feedback"
-            role="status"
-        >
+        <p v-if="message" class="frame-page__feedback" role="status">
             {{ $t(message) }}
         </p>
     </section>
@@ -232,10 +158,10 @@ const statistics = computed(() => {
     );
     const taxiMinutes = taxiFlights.length
         ? taxiFlights.reduce(
-              (sum, flight) =>
-                  sum + flight.durationMinutes - flight.airborneMinutes,
-              0,
-          )
+            (sum, flight) =>
+                sum + flight.durationMinutes - flight.airborneMinutes,
+            0,
+        )
         : null;
     const distanceKm = items.reduce(
         (sum, flight) => sum + flight.distanceKm,
@@ -365,7 +291,7 @@ const statistics = computed(() => {
             longHaul: items.filter(
                 (flight) =>
                     Date.parse(flight.arrivalInfo.scheduledAt) -
-                        Date.parse(flight.departureInfo.scheduledAt) >=
+                    Date.parse(flight.departureInfo.scheduledAt) >=
                     6 * 60 * 60000,
             ).length,
         },
@@ -424,11 +350,12 @@ const statistics = computed(() => {
             ],
             averageLabel: items.length
                 ? t("Average distance: {distance}", {
-                      distance: `≈ ${formatDistance(distanceKm / items.length)}`,
-                  })
+                    distance: `≈ ${formatDistance(distanceKm / items.length)}`,
+                })
                 : "Average distance: —",
             comparisons: distanceComparisons.map((item) => ({
                 icon: item.icon,
+                value: distanceKm / item.km,
                 text: `${(distanceKm / item.km).toLocaleString(locale.value, { maximumSignificantDigits: 2 })}x ${t(item.label)}`,
             })),
             summaryLabel: "Show Summary",
@@ -499,7 +426,7 @@ const chartData = computed(() => {
                             `${flight.departureDate}T00:00:00Z`,
                         ).getUTCDay() +
                             6) %
-                            7 ===
+                        7 ===
                         index,
                 ).length,
             }),

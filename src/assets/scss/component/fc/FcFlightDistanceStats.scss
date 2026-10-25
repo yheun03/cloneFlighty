@@ -3,7 +3,7 @@
 .fc-distance {
     margin: 25px 0;
 
-    > p {
+    >p {
         margin: 0 0 22px;
         color: var(--fc-text-secondary, #aaa);
         @include typo.font(t5, rg);
@@ -12,18 +12,55 @@
     &__comparisons {
         display: flex;
         flex-direction: column;
-        gap: 22px;
+        gap: 8px;
 
-        > strong {
+        >strong {
             margin-bottom: 5px;
             @include typo.font(t5, sb);
         }
 
-        > span {
+        >span {
+            position: relative;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            @include typo.font(b2, sb);
+            min-height: 36px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: var(--fc-control-bg, #29292d);
+            @include typo.font(b3, sb);
+
+            &::before {
+                position: absolute;
+                inset: 0 auto 0 0;
+                width: var(--fc-distance-width);
+                border-radius: inherit;
+                background: #8657ef;
+                content: "";
+            }
+
+            i,
+            b {
+                position: relative;
+                z-index: 1;
+            }
+
+            i {
+                display: grid;
+                width: 32px;
+                height: 32px;
+                margin-left: 2px;
+                place-items: center;
+                border-radius: 50%;
+                background: #444;
+                color: white;
+                font-style: normal;
+            }
+
+            b {
+                flex: 1;
+                padding: 0 12px;
+                text-align: right;
+            }
         }
     }
 
@@ -53,14 +90,14 @@
             @include typo.font(t5, sb);
         }
 
-        > strong {
+        >strong {
             display: flex;
             justify-content: space-between;
             gap: 6px;
             @include typo.font(b1, sb);
         }
 
-        > strong span {
+        >strong span {
             flex: none;
         }
 
