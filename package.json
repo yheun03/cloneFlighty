@@ -5,6 +5,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
+        "predeploy": "npm run build",
+        "deploy": "npx --yes gh-pages -d dist -b gh-pages",
         "test:stats": "node --test tests/flight-statistics.test.mjs",
         "data:refresh": "node scripts/generate-aviation-data.mjs && node scripts/generate-aircraft-data.mjs",
         "data:aircraft": "node scripts/generate-aircraft-data.mjs --refresh",
