@@ -49,6 +49,7 @@ import BaseInput from "../component/base/BaseInput.vue";
 import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 
 import { flights } from "../common/flights.js";
+import pageData from "../data/pages/home.json";
 
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/base/BaseIcon.scss";
@@ -56,12 +57,6 @@ import "../assets/scss/component/fc/FcFlightListItem.scss";
 import "../assets/scss/pages/page_home.scss";
 
 const emit = defineEmits(["map-flights"]);
-
-// 화면 문구만 페이지에서 관리하고 항공편은 공통 JSON을 사용합니다.
-const pageData = {
-    placeholder: "Search airline, flight, airport, or date",
-    emptyMessage: "No flights found.",
-};
 
 const route = useRoute();
 const search = ref("");

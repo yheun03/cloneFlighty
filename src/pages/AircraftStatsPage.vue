@@ -1,13 +1,6 @@
 <template>
-    <section
-        class="frame-page stats-page aircraft-stats-page"
-        @click="share"
-    >
-        <BaseTabItem
-            v-model="period"
-            :items="periods"
-            :label="$t('Flight statistics period')"
-        />
+    <section class="frame-page stats-page aircraft-stats-page" @click="share">
+        <BaseTabItem v-model="period" :items="periods" :label="$t('Flight statistics period')" />
         <p class="frame-page__note">
             {{ $t("Completed flights only.") }}
             {{
@@ -22,39 +15,23 @@
                 })
             }}
         </p>
-        <p
-            v-if="!periodFlights.length"
-            class="frame-page__note"
-            role="status"
-        >
+        <p v-if="!periodFlights.length" class="frame-page__note" role="status">
             {{ $t("No past flights for this period.") }}
         </p>
-        <FcAircraftStats
-            :aircraft="statistics.aircraft"
-            :show-period="false"
-            :show-age="false"
-            :show-tail="false"
-        />
+        <FcAircraftStats :aircraft="statistics.aircraft" :show-period="false" :show-age="false" :show-tail="false" />
         <div class="aircraft-stats-page__seat-summary">
             <div>
-                <span
-                    v-for="row in statistics.seats.class.rows.filter(
-                        (row) => row.count,
-                    )"
-                    :key="row.name"
-                >
+                <span v-for="row in statistics.seats.class.rows.filter(
+                    (row) => row.count,
+                )" :key="row.name">
                     {{ $t(row.name) }}
                 </span>
             </div>
             <div class="aircraft-stats-page__seat-bar">
-                <span
-                    v-for="row in statistics.seats.class.rows.filter(
-                        (row) => row.count,
-                    )"
-                    :key="row.name"
-                    :style="{ flexGrow: row.count, background: row.color }"
-                    :title="`${$t(row.name)}: ${row.count}`"
-                >
+                <span v-for="row in statistics.seats.class.rows.filter(
+                    (row) => row.count,
+                )" :key="row.name" :style="{ flexGrow: row.count, background: row.color }"
+                    :title="`${$t(row.name)}: ${row.count}`">
                     {{ $t(row.count) }}
                 </span>
             </div>
@@ -63,54 +40,24 @@
                 <strong>{{ statistics.seatSummary }}</strong>
             </p>
         </div>
-        <FcRankingStats
-            v-bind="statistics.types"
-            type="aircraft"
-        />
+        <FcRankingStats v-bind="statistics.types" type="aircraft" />
         <section class="stats-page__section">
             <div class="fc-stat-head">
                 <h2>{{ $t("Class and Seat") }}</h2>
-                <BaseButton
-                    :label="$t('Share')"
-                    :icon="shareIcon"
-                    size="md"
-                    variant="fill"
-                    tone="gray"
-                />
+                <BaseButton :label="$t('Share')" :icon="shareIcon" size="md" variant="fill" tone="gray" />
             </div>
-            <FcSeatStats
-                v-bind="statistics.seats.class"
-                :show-title="false"
-            />
-            <FcSeatStats
-                v-bind="statistics.seats.seat"
-                :show-title="false"
-            />
-            <FcSeatStats
-                v-bind="statistics.seats.reason"
-                :show-title="false"
-            />
+            <FcSeatStats v-bind="statistics.seats.class" :show-title="false" />
+            <FcSeatStats v-bind="statistics.seats.seat" :show-title="false" />
+            <FcSeatStats v-bind="statistics.seats.reason" :show-title="false" />
         </section>
-        <FcFrequentTails
-            v-if="statistics.tails"
-            v-bind="statistics.tails"
-        />
-        <p
-            v-else
-            class="frame-page__note"
-        >
+        <FcFrequentTails v-if="statistics.tails" v-bind="statistics.tails" />
+        <p v-else class="frame-page__note">
             {{ $t("No recorded tail numbers for this period.") }}
         </p>
         <div class="aircraft-stats-page__age">
             <div class="fc-stat-head">
                 <h2>{{ $t("Aircraft Age") }}</h2>
-                <BaseButton
-                    :label="$t('Share')"
-                    :icon="shareIcon"
-                    size="md"
-                    variant="fill"
-                    tone="gray"
-                />
+                <BaseButton :label="$t('Share')" :icon="shareIcon" size="md" variant="fill" tone="gray" />
             </div>
             <p class="frame-page__note">
                 {{
@@ -120,11 +67,7 @@
                 }}
             </p>
         </div>
-        <p
-            v-if="message"
-            class="frame-page__feedback"
-            role="status"
-        >
+        <p v-if="message" class="frame-page__feedback" role="status">
             {{ $t(message) }}
         </p>
     </section>
@@ -145,6 +88,7 @@ import { flights, formatDuration } from "../common/flights.js";
 import { normalizeRegistration } from "../common/aircraft.js";
 import { t, locale } from "../common/preferences.js";
 import shareIcon from "../assets/figma/share.svg";
+import pageData from "../data/pages/aircraft-stats.json";
 
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/base/BaseIcon.scss";
@@ -158,24 +102,6 @@ import "../assets/scss/layout/_stats.scss";
 import "../assets/scss/pages/page_aircraft_stats.scss";
 
 const emit = defineEmits(["map-flights"]);
-const pageData = {
-    classes: [
-        { name: "Economy", color: "var(--fc-economy)" },
-        { name: "Premium Economy", color: "var(--fc-premium-economy)" },
-        { name: "Business", color: "var(--fc-business)" },
-        { name: "First Class", color: "var(--fc-first-class)" },
-    ],
-    positions: [
-        { name: "Aisle", color: "var(--fc-success)" },
-        { name: "Middle", color: "#ff9d20" },
-        { name: "Window", color: "var(--fc-blue)" },
-    ],
-    reasons: [
-        { name: "Leisure", color: "var(--fc-success)" },
-        { name: "Business", color: "var(--fc-blue)" },
-    ],
-    shareMessage: "Share preview ready.",
-};
 const route = useRoute();
 const router = useRouter();
 const period = computed({
@@ -254,10 +180,10 @@ const statistics = computed(() => {
                 flight.aircraft.lookup?.data?.registered_owner_country_iso_name;
             row.flag = country
                 ? [...country]
-                      .map((letter) =>
-                          String.fromCodePoint(127397 + letter.charCodeAt(0)),
-                      )
-                      .join("")
+                    .map((letter) =>
+                        String.fromCodePoint(127397 + letter.charCodeAt(0)),
+                    )
+                    .join("")
                 : "";
             tails.set(tail, row);
         }
@@ -342,24 +268,24 @@ const statistics = computed(() => {
             source: mostFlown?.source || "",
             summary: mostFlown
                 ? t(
-                      "{count} flights · {duration} recorded ({recorded}/{total})",
-                      {
-                          count: mostFlown.flights,
-                          duration: formatDuration(
-                              mostFlown.recorded ? mostFlown.minutes : null,
-                          ),
-                          recorded: mostFlown.recorded,
-                          total: mostFlown.flights,
-                      },
-                  )
+                    "{count} flights · {duration} recorded ({recorded}/{total})",
+                    {
+                        count: mostFlown.flights,
+                        duration: formatDuration(
+                            mostFlown.recorded ? mostFlown.minutes : null,
+                        ),
+                        recorded: mostFlown.recorded,
+                        total: mostFlown.flights,
+                    },
+                )
                 : "No aircraft history",
             periods: periods.value,
         },
         seatSummary: topSeat
             ? t("{seat} ({count} times)", {
-                  seat: topSeat[0],
-                  count: topSeat[1],
-              })
+                seat: topSeat[0],
+                count: topSeat[1],
+            })
             : t("Not recorded"),
         types: {
             title: "Aircraft Types",

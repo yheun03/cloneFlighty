@@ -1,0 +1,7 @@
+{
+    "calendars": ["Personal", "Work", "Flighty"],
+    "importEnabled": false,
+    "exportEnabled": false,
+    "importCalendars": [],
+    "exportCalendar": ""
+}

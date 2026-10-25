@@ -14,6 +14,7 @@ import { useRoute, useRouter } from "vue-router";
 import airports from "../common/airports.js";
 import { flights, getFlight } from "../common/flights.js";
 import { t, locale } from "../common/preferences.js";
+import navigation from "../data/navigation.json";
 
 import "../assets/scss/layout/MapLayout.scss";
 import "../assets/scss/layout/_frame.scss";
@@ -436,7 +437,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section class="flight-map" :class="{ 'is-sidebar-closed': !sidebarOpen }" :aria-label="$t('비행 경로 지도')">
+    <div id="main-content" class="flight-map" :class="{ 'is-sidebar-closed': !sidebarOpen }"
+        :aria-label="$t('비행 경로 지도')" tabindex="-1">
         <div id="flight-map-canvas" role="region" :aria-label="`${routeSummary} ${$t('비행 경로 지도')}`"
             aria-describedby="flight-map-route-summary flight-map-status"></div>
         <p id="flight-map-status" class="flight-map__status sr-only" role="status" aria-live="polite">
@@ -445,10 +447,10 @@ onUnmounted(() => {
         <p v-if="mapError" class="flight-map__error" role="alert" aria-live="assertive">
             {{ $t(mapError) }}
         </p>
-        <main id="main-content" ref="sidebar" class="flight-map__sidebar" :class="{
+        <div ref="sidebar" class="flight-map__sidebar" :class="{
             'is-closed': !sidebarOpen,
             'flight-map__sidebar--wide': route.meta.widePanel,
-        }" tabindex="-1" aria-labelledby="flight-map-title">
+        }" aria-labelledby="flight-map-title">
             <header class="flight-map__heading">
                 <div class="flight-map__heading-copy">
                     <h1 id="flight-map-title">
@@ -458,7 +460,6 @@ onUnmounted(() => {
                         <strong>{{ $t(routeLabel) }}</strong>
                         <span :title="$t(routeSummary)">
                             {{ $t(routeSummary) }}
-                            {{ `· ${$t("Temporary data")}` }}
                         </span>
                     </p>
                 </div>
@@ -468,34 +469,13 @@ onUnmounted(() => {
                 </button>
             </header>
             <nav v-show="sidebarOpen" class="flight-map__nav" :aria-label="$t('주요 메뉴')">
-                <RouterLink :to="{ name: 'home', query: route.query }"
-                    :class="{ 'is-active': route.meta.section === 'flights' }" :aria-current="route.meta.section === 'flights' ? 'page' : undefined
-                        ">
-                    {{ $t("Flights") }}
-                </RouterLink>
-                <RouterLink :to="{ name: 'passport', query: route.query }"
-                    :class="{ 'is-active': route.meta.section === 'passport' }" :aria-current="route.meta.section === 'passport' ? 'page' : undefined
-                        ">
-                    {{ $t("Passport") }}
-                </RouterLink>
-                <RouterLink :to="{ name: 'friends', query: route.query }"
-                    :class="{ 'is-active': route.meta.section === 'friends' }" :aria-current="route.meta.section === 'friends' ? 'page' : undefined
-                        ">
-                    {{ $t("Friends") }}
-                </RouterLink>
-                <RouterLink :to="{ name: 'settings', query: route.query }"
-                    :class="{ 'is-active': route.meta.section === 'settings' }" :aria-current="route.meta.section === 'settings' ? 'page' : undefined
-                        ">
-                    {{ $t("Settings") }}
-                </RouterLink>
-                <RouterLink class="flight-map__nav-action" :to="{ name: 'add-flight', query: route.query }"
-                    :aria-label="$t('Add Flight')">
-                    ＋ {{ $t("Add Flight") }}
-                </RouterLink>
-                <RouterLink :to="{ name: 'component', query: route.query }"
-                    :class="{ 'is-active': route.meta.section === 'ui' }" :aria-current="route.meta.section === 'ui' ? 'page' : undefined
-                        ">
-                    {{ $t("UI") }}
+                <RouterLink v-for="item in navigation.primary" :key="item.name"
+                    :to="{ name: item.name, query: route.query }" :class="{
+                        'is-active': route.meta.section === item.section,
+                        'flight-map__nav-action': item.action,
+                    }" :aria-current="item.section && route.meta.section === item.section ? 'page' : undefined">
+                    <span v-if="item.prefix" aria-hidden="true">{{ item.prefix }}</span>
+                    {{ $t(item.label) }}
                 </RouterLink>
             </nav>
             <div v-if="
@@ -511,22 +491,14 @@ onUnmounted(() => {
                 <template v-if="
                     route.name === 'home' || route.name === 'friend-flights'
                 ">
-                    <RouterLink :to="{ name: 'home', query: route.query }"
-                        :class="{ 'is-active': route.name === 'home' }" :aria-current="route.name === 'home' ? 'page' : undefined
-                            ">
-                        {{ $t("My Flights") }}
-                    </RouterLink>
-                    <RouterLink :to="{ name: 'friend-flights', query: route.query }" :class="{
-                        'is-active': route.name === 'friend-flights',
-                    }" :aria-current="route.name === 'friend-flights'
-                        ? 'page'
-                        : undefined
-                        ">
-                        {{ $t("Friends’ Flights") }}
+                    <RouterLink v-for="item in navigation.flightViews" :key="item.name"
+                        :to="{ name: item.name, query: route.query }" :class="{ 'is-active': route.name === item.name }"
+                        :aria-current="route.name === item.name ? 'page' : undefined">
+                        {{ $t(item.label) }}
                     </RouterLink>
                 </template>
             </div>
-            <div v-show="sidebarOpen" id="flight-map-content" ref="content" class="flight-map__content" :class="{
+            <main v-show="sidebarOpen" id="flight-map-content" ref="content" class="flight-map__content" :class="{
                 'flight-map__content--gallery': route.meta.widePanel,
             }">
                 <RouterView v-slot="{ Component }">
@@ -534,8 +506,11 @@ onUnmounted(() => {
                         <component :is="Component" :key="pageKey" @map-flights="setPageFlights" />
                     </Transition>
                 </RouterView>
-            </div>
-        </main>
+            </main>
+            <footer v-show="sidebarOpen" class="flight-map__footer">
+                {{ $t("Temporary data") }}
+            </footer>
+        </div>
         <div class="flight-map__controls" role="group" :aria-label="$t('지도 조작')">
             <button type="button" :aria-label="$t('지도 확대')" :disabled="!ready" @click="map?.zoomIn()">
                 +
@@ -548,5 +523,5 @@ onUnmounted(() => {
                 {{ $t(isGlobe ? "평면" : "지구본") }}
             </button>
         </div>
-    </section>
+    </div>
 </template>

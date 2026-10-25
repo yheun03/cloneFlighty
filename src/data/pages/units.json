@@ -1,0 +1,5 @@
+{
+    "distanceUnits": ["km", "mi", "nm"],
+    "speedUnits": ["mph", "km/h", "kt"],
+    "altitudeUnits": ["ft", "km", "m", "FL"]
+}

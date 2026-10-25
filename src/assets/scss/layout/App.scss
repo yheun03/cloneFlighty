@@ -2,6 +2,7 @@
 
 .app {
     max-width: 960px;
+    min-width: 320px;
     min-height: 100vh;
     margin: auto;
     padding: 24px;
@@ -43,6 +44,25 @@
     &__brand {
         color: inherit;
         @include typo.font(t4, sb);
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 64px;
+        padding-top: 20px;
+        border-top: 1px solid #dfe2ea;
+        color: #697083;
+        @include typo.font(b4, rg);
+
+        p {
+            margin: 0;
+        }
+
+        a {
+            font-weight: 600;
+        }
     }
 
     &--map {

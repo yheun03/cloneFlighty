@@ -1,0 +1,12 @@
+@mixin surface($radius: 6px) {
+    border-radius: $radius;
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+        background: var(--fc-control-bg, #303034);
+        color: var(--fc-text-strong, white);
+    }
+}

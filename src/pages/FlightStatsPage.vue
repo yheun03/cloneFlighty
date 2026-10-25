@@ -42,8 +42,8 @@
             </div>
             <svg class="stats-page__line-chart" viewBox="0 0 280 180" role="img" :aria-label="$t(chartLabel)">
                 <polyline :points="chartPoints
-                        .map((point) => `${point.x},${point.y}`)
-                        .join(' ')
+                    .map((point) => `${point.x},${point.y}`)
+                    .join(' ')
                     " fill="none" stroke="var(--fc-chart-line)" stroke-width="2" />
                 <g v-for="point in chartPoints" :key="point.label" aria-hidden="true">
                     <circle :cx="point.x" :cy="point.y" r="3" fill="var(--fc-chart-line)" />
@@ -65,8 +65,7 @@
         <p class="frame-page__note">
             {{
                 $t(
-                    "Country flights include departures or arrivals, counted once per flight. Region totals count distinct
-            countries and territories.",
+                    "Country flights include departures or arrivals, counted once per flight. Region totals count distinct countries and territories.",
                 )
             }}
         </p>
@@ -90,6 +89,7 @@ import FcCountriesStats from "../component/fc/FcCountriesStats.vue";
 
 import { flights, formatDuration } from "../common/flights.js";
 import { t, locale, formatDistance } from "../common/preferences.js";
+import pageData from "../data/pages/flight-stats.json";
 import shareIcon from "../assets/figma/share.svg";
 
 import "../assets/scss/component/base/BaseButton.scss";
@@ -104,25 +104,6 @@ import "../assets/scss/layout/_stats.scss";
 import "../assets/scss/pages/page_flight_stats.scss";
 
 const emit = defineEmits(["map-flights"]);
-const pageData = {
-    metrics: ["Year", "Month", "Weekday"],
-    shareMessage: "Share preview ready.",
-};
-const regionNames = {
-    AS: "Asia",
-    EU: "Europe",
-    NA: "N. America",
-    SA: "S. America",
-    AF: "Africa",
-    OC: "Oceania",
-    AN: "Antarctica",
-};
-// 거리 비교 기준: https://science.nasa.gov/moon/by-the-numbers/
-const distanceComparisons = [
-    { icon: "earth", label: "Around Earth", km: 40030.2 },
-    { icon: "moon", label: "To the Moon", km: 384400 },
-    { icon: "sun", label: "To the Sun", km: 149598262 },
-];
 const route = useRoute();
 const router = useRouter();
 const period = computed({
@@ -236,7 +217,7 @@ const statistics = computed(() => {
     );
     const regionRows = new Map();
     for (const country of countries) {
-        const name = regionNames[country.continent] || "Other";
+        const name = pageData.regionNames[country.continent] || "Other";
         regionRows.set(name, (regionRows.get(name) || 0) + 1);
     }
     const regions = [...regionRows]
@@ -353,7 +334,7 @@ const statistics = computed(() => {
                     distance: `≈ ${formatDistance(distanceKm / items.length)}`,
                 })
                 : "Average distance: —",
-            comparisons: distanceComparisons.map((item) => ({
+            comparisons: pageData.distanceComparisons.map((item) => ({
                 icon: item.icon,
                 value: distanceKm / item.km,
                 text: `${(distanceKm / item.km).toLocaleString(locale.value, { maximumSignificantDigits: 2 })}x ${t(item.label)}`,

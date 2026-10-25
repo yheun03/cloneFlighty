@@ -1,0 +1,18 @@
+{
+    "friends": [
+        {
+            "id": "1",
+            "title": "김민지",
+            "email": "minji@example.com",
+            "profile": "https://api.dicebear.com/10.x/lorelei/svg?seed=Minji"
+        },
+        {
+            "id": "2",
+            "title": "박서준",
+            "email": "seojun@example.com",
+            "profile": "https://api.dicebear.com/10.x/lorelei/svg?seed=Seojun"
+        }
+    ],
+    "email": "",
+    "invitationMessage": "Invitation preview ready."
+}

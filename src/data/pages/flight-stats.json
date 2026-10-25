@@ -1,0 +1,18 @@
+{
+    "metrics": ["Year", "Month", "Weekday"],
+    "shareMessage": "Share preview ready.",
+    "regionNames": {
+        "AS": "Asia",
+        "EU": "Europe",
+        "NA": "N. America",
+        "SA": "S. America",
+        "AF": "Africa",
+        "OC": "Oceania",
+        "AN": "Antarctica"
+    },
+    "distanceComparisons": [
+        { "icon": "earth", "label": "Around Earth", "km": 40030.2 },
+        { "icon": "moon", "label": "To the Moon", "km": 384400 },
+        { "icon": "sun", "label": "To the Sun", "km": 149598262 }
+    ]
+}

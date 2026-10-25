@@ -1,0 +1,12 @@
+{
+    "groups": [
+        "Aisle",
+        "From",
+        "To",
+        "Airline",
+        "Airport",
+        "Tail",
+        "Aircraft",
+        "Flight Time"
+    ]
+}

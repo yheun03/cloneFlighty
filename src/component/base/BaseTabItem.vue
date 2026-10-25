@@ -18,7 +18,7 @@ const props = defineProps({
     },
     type: {
         type: String,
-        default: "tab",
+        default: "radio",
         validator: (value) =>
             ["tab", "checkbox", "radio", "sort"].includes(value),
     },
@@ -69,6 +69,31 @@ function selectItem(item) {
         : [...values, item];
 }
 
+function moveSelection(event) {
+    if (!["tab", "radio"].includes(props.type)) return;
+
+    const keys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"];
+    if (!keys.includes(event.key)) return;
+
+    event.preventDefault();
+    const buttons = [...event.currentTarget.parentElement.querySelectorAll(".fc-tab-item")];
+    const currentIndex = buttons.indexOf(event.currentTarget);
+    const lastIndex = buttons.length - 1;
+    let nextIndex = currentIndex;
+
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = lastIndex;
+    if (["ArrowLeft", "ArrowUp"].includes(event.key)) {
+        nextIndex = currentIndex === 0 ? lastIndex : currentIndex - 1;
+    }
+    if (["ArrowRight", "ArrowDown"].includes(event.key)) {
+        nextIndex = currentIndex === lastIndex ? 0 : currentIndex + 1;
+    }
+
+    buttons[nextIndex]?.focus();
+    selectItem(props.items[nextIndex]);
+}
+
 function itemAria(item) {
     if (props.type === "sort") {
         return {
@@ -80,40 +105,26 @@ function itemAria(item) {
         ? { "aria-selected": isSelected(item) }
         : { "aria-checked": isSelected(item) };
 }
+
+function itemTabindex(item, index) {
+    if (!["tab", "radio"].includes(props.type)) return 0;
+    return isSelected(item) || (!selected.value && index === 0) ? 0 : -1;
+}
 </script>
 
 <template>
-    <div
-        class="fc-tab-items"
-        :class="{ 'fc-tab-items--segment': variant === 'segment' }"
-        :role="groupRole[type]"
-        :aria-label="$t(label)"
-    >
-        <button
-            v-for="item in items"
-            :key="item"
-            type="button"
-            class="fc-tab-item"
-            :class="[
-                `fc-tab-item--${size}`,
-                `fc-tab-item--${variant}`,
-                { 'is-active': isSelected(item) },
-            ]"
-            :role="type === 'sort' ? undefined : type"
-            v-bind="itemAria(item)"
-            @click="selectItem(item)"
-        >
-            <BaseIcon
-                v-if="icon"
-                :src="icon"
-            />
+    <div class="fc-tab-items" :class="{ 'fc-tab-items--segment': variant === 'segment' }" :role="groupRole[type]"
+        :aria-label="$t(label)">
+        <button v-for="(item, index) in items" :key="item" type="button" class="fc-tab-item" :class="[
+            `fc-tab-item--${size}`,
+            `fc-tab-item--${variant}`,
+            { 'is-active': isSelected(item) },
+        ]" :role="type === 'sort' ? undefined : type" :tabindex="itemTabindex(item, index)" v-bind="itemAria(item)"
+            @click="selectItem(item)" @keydown="moveSelection">
+            <BaseIcon v-if="icon" :src="icon" />
             {{ $t(item) }}
-            <BaseIcon
-                v-if="type === 'sort' && isSelected(item) && order"
-                src="chevron-right"
-                class="fc-tab-item__sort-icon"
-                :class="`fc-tab-item__sort-icon--${order}`"
-            />
+            <BaseIcon v-if="type === 'sort' && isSelected(item) && order" src="chevron-right"
+                class="fc-tab-item__sort-icon" :class="`fc-tab-item__sort-icon--${order}`" />
         </button>
     </div>
 </template>

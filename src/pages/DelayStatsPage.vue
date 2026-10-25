@@ -1,13 +1,6 @@
 <template>
-    <section
-        class="frame-page stats-page delay-stats-page"
-        @click="share"
-    >
-        <BaseTabItem
-            v-model="period"
-            :items="periods"
-            :label="$t('Flight statistics period')"
-        />
+    <section class="frame-page stats-page delay-stats-page" @click="share">
+        <BaseTabItem v-model="period" :items="periods" :label="$t('Flight statistics period')" />
         <p class="frame-page__note">
             {{ $t("Completed flights only.") }}
             {{
@@ -29,38 +22,15 @@
                 )
             }}
         </p>
-        <p
-            v-if="!periodFlights.length"
-            class="frame-page__note"
-            role="status"
-        >
+        <p v-if="!periodFlights.length" class="frame-page__note" role="status">
             {{ $t("No past flights for this period.") }}
         </p>
-        <FcDelayReport
-            v-bind="statistics.report"
-            :period="period"
-        />
-        <FcAirlinePerformance
-            :report="statistics.performance"
-            section="mine"
-        />
-        <FcAirlinePerformance
-            :report="statistics.performance"
-            section="delays"
-        />
-        <FcAirlinePerformance
-            :report="statistics.performance"
-            section="airline"
-        />
-        <FcAirlinePerformance
-            :report="statistics.performance"
-            section="airport"
-        />
-        <p
-            v-if="message"
-            class="frame-page__feedback"
-            role="status"
-        >
+        <FcDelayReport v-bind="statistics.report" :period="period" />
+        <FcAirlinePerformance :report="statistics.performance" section="mine" />
+        <FcAirlinePerformance :report="statistics.performance" section="delays" />
+        <FcAirlinePerformance :report="statistics.performance" section="airline" />
+        <FcAirlinePerformance :report="statistics.performance" section="airport" />
+        <p v-if="message" class="frame-page__feedback" role="status">
             {{ $t(message) }}
         </p>
     </section>
@@ -76,6 +46,7 @@ import FcAirlinePerformance from "../component/fc/FcAirlinePerformance.vue";
 
 import { flights, formatDuration } from "../common/flights.js";
 import { t, locale } from "../common/preferences.js";
+import pageData from "../data/pages/delay-stats.json";
 
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/base/BaseIcon.scss";
@@ -87,7 +58,6 @@ import "../assets/scss/layout/_stats.scss";
 import "../assets/scss/pages/page_delay_stats.scss";
 
 const emit = defineEmits(["map-flights"]);
-const pageData = { shareMessage: "Share preview ready." };
 const route = useRoute();
 const router = useRouter();
 const period = computed({
@@ -244,13 +214,13 @@ const statistics = computed(() => {
             worstDelay: worst
                 ? `${worst.airline} ${worst.flight} · ${t("{duration} Late", { duration: formatDuration(worst.arrivalDelayMinutes) })}`
                 : arrivals.length
-                  ? "No delayed arrivals"
-                  : "Not recorded",
+                    ? "No delayed arrivals"
+                    : "Not recorded",
             worstAirline: worstAirline
                 ? `${worstAirline.name} · ${formatDuration(worstAirline.minutes)}`
                 : arrivals.length
-                  ? "No delayed arrivals"
-                  : "Not recorded",
+                    ? "No delayed arrivals"
+                    : "Not recorded",
         },
         performance: {
             airports: ranking(airports),
@@ -267,15 +237,15 @@ const statistics = computed(() => {
             cumulativeTiming: !arrivals.length
                 ? "Not recorded"
                 : netMinutes < 0
-                  ? "Early"
-                  : netMinutes > 0
-                    ? "Late"
-                    : "On Time",
+                    ? "Early"
+                    : netMinutes > 0
+                        ? "Late"
+                        : "On Time",
             performance: arrivals.length
                 ? buckets.map((bucket) => ({
-                      ...bucket,
-                      value: percent(bucket.count, arrivals.length),
-                  }))
+                    ...bucket,
+                    value: percent(bucket.count, arrivals.length),
+                }))
                 : [],
             delayTotal: delayed.length,
             delays: delayed.map((flight) => ({

@@ -2,6 +2,7 @@
 import { provide, readonly, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { locale, t } from "./common/preferences.js";
+import navigation from "./data/navigation.json";
 
 const route = useRoute();
 watchEffect(() => {
@@ -25,47 +26,34 @@ function focusMainContent() {
 </script>
 
 <template>
-    <div
-        class="app"
-        :data-theme="theme"
-        :class="{
-            'app--map': $route.meta.layout === 'map',
-        }"
-    >
-        <a
-            class="skip-link"
-            href="#main-content"
-            @click.prevent="focusMainContent"
-        >
+    <div class="app" :data-theme="theme" :class="{
+        'app--map': $route.meta.layout === 'map',
+    }">
+        <a class="skip-link" href="#main-content" @click.prevent="focusMainContent">
             {{ $t("본문 바로가기") }}
         </a>
-        <header
-            v-if="$route.name === 'intro'"
-            class="app__header"
-        >
+        <header v-if="$route.name === 'intro'" class="app__header">
             <div class="app__identity">
-                <RouterLink
-                    class="app__brand"
-                    to="/"
-                >
+                <RouterLink class="app__brand" to="/">
                     {{ $t("Flighty UI Clone") }}
                 </RouterLink>
                 <span>{{ $t("비공식 개인 포트폴리오") }}</span>
             </div>
             <nav :aria-label="$t('주요 메뉴')">
-                <RouterLink to="/intro">{{ $t("프로젝트 소개") }}</RouterLink>
-                <RouterLink to="/home">{{ $t("내 항공편") }}</RouterLink>
-                <RouterLink to="/component">{{ $t("UI 컴포넌트") }}</RouterLink>
+                <RouterLink v-for="item in navigation.intro" :key="item.name" :to="{ name: item.name }">
+                    {{ $t(item.label) }}
+                </RouterLink>
             </nav>
         </header>
-        <main
-            v-if="$route.name === 'intro'"
-            id="main-content"
-            class="app__main"
-            tabindex="-1"
-        >
+        <main v-if="$route.name === 'intro'" id="main-content" class="app__main" tabindex="-1">
             <RouterView />
         </main>
+        <footer v-if="$route.name === 'intro'" class="app__footer">
+            <p>{{ $t("비공식 개인 포트폴리오") }}</p>
+            <RouterLink :to="{ name: 'home' }">
+                {{ $t("내 항공편") }}
+            </RouterLink>
+        </footer>
         <RouterView v-else />
     </div>
 </template>

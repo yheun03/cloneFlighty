@@ -84,6 +84,7 @@ import routeIcon from "../assets/icons/lucide/route.svg";
 import ticketIcon from "../assets/icons/lucide/ticket.svg";
 import calendarIcon from "../assets/icons/lucide/calendar-days.svg";
 import randomIcon from "../assets/icons/lucide/plane.svg";
+import pageContent from "../data/pages/add-flight.json";
 
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/base/BaseButton.scss";
@@ -93,34 +94,18 @@ import "../assets/scss/component/base/BaseListRow.scss";
 import "../assets/scss/component/fc/FcAddFlightSearch.scss";
 import "../assets/scss/pages/page_add_flight.scss";
 
-// 이 페이지에서 사용하는 샘플 데이터입니다.
-// prettier-ignore
+const iconAssets = {
+    route: routeIcon,
+    ticket: ticketIcon,
+    calendar: calendarIcon,
+    random: randomIcon,
+};
 const pageData = {
-    "more": [
-        {
-            "title": "Find by Route",
-            "icon": routeIcon,
-            "name": "add-flight-route"
-        },
-        {
-            "title": "Find by Flight Number",
-            "icon": ticketIcon,
-            "name": "add-flight-number"
-        },
-        {
-            "title": "Sync from Calendar",
-            "subtitle": "Fast, secure, and no setup",
-            "icon": calendarIcon,
-            "name": "calendar-sync"
-        },
-        {
-            "title": "Random Flight",
-            "subtitle": "Try Pro features for free",
-            "icon": randomIcon,
-            "name": "flight-detail"
-        }
-    ],
-    "reportMessage": "Report preview opened."
+    ...pageContent,
+    more: pageContent.more.map((item) => ({
+        ...item,
+        icon: iconAssets[item.icon],
+    })),
 };
 
 const route = useRoute();

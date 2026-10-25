@@ -1,95 +1,34 @@
 <template>
-    <Teleport
-        defer
-        to="#main-content"
-    >
-        <div
-            class="booking-dialog"
-            @click.self="close"
-            @keydown="handleKeydown"
-        >
-            <section
-                ref="dialog"
-                class="booking-dialog__panel"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="booking-title"
-                tabindex="-1"
-            >
-                <h2
-                    id="booking-title"
-                    class="sr-only"
-                >
+    <Teleport defer to="#main-content">
+        <div class="booking-dialog" @click.self="close" @keydown="handleKeydown">
+            <section ref="dialog" class="booking-dialog__panel" role="dialog" aria-modal="true"
+                aria-labelledby="booking-title" tabindex="-1">
+                <h2 id="booking-title" class="sr-only">
                     {{ $t("Edit flight information") }}
                 </h2>
-                <button
-                    type="button"
-                    class="booking-dialog__close"
-                    :aria-label="$t('Close booking editor')"
-                    @click="close"
-                >
+                <button type="button" class="booking-dialog__close" :aria-label="$t('Close booking editor')"
+                    @click="close">
                     ×
                 </button>
-                <label
-                    class="booking-dialog__label booking-dialog__label--first"
-                    for="booking-code"
-                >
+                <label class="booking-dialog__label booking-dialog__label--first" for="booking-code">
                     {{ $t("Booking Code") }}
                 </label>
-                <BaseInput
-                    id="booking-code"
-                    v-model="booking.code"
-                    :placeholder="pageData.bookingCode"
-                    icon="clipboard-paste"
-                    :action-label="$t('PASTE')"
-                    @action="booking.code = pageData.bookingCode"
-                />
-                <label
-                    class="booking-dialog__label"
-                    for="flight-seat"
-                >
+                <BaseInput id="booking-code" v-model="booking.code" :placeholder="pageData.bookingCode"
+                    icon="clipboard-paste" :action-label="$t('PASTE')" @action="booking.code = pageData.bookingCode" />
+                <label class="booking-dialog__label" for="flight-seat">
                     {{ $t("Seat") }}
                 </label>
-                <BaseInput
-                    id="flight-seat"
-                    v-model="booking.seat"
-                    class="frame-page__input"
-                    :placeholder="$t(pageData.seatPlaceholder)"
-                />
-                <BaseTabItem
-                    v-model="booking.position"
-                    class="booking-dialog__choices"
-                    :label="$t('Seat position')"
-                    :items="pageData.positions"
-                    :icon="chipIcon"
-                    size="md"
-                    variant="stroke"
-                />
+                <BaseInput id="flight-seat" v-model="booking.seat" class="frame-page__input"
+                    :placeholder="$t(pageData.seatPlaceholder)" />
+                <BaseTabItem v-model="booking.position" class="booking-dialog__choices" :label="$t('Seat position')"
+                    :items="pageData.positions" :icon="chipIcon" size="md" variant="stroke" />
                 <h3 class="booking-dialog__label">{{ $t("Class") }}</h3>
-                <BaseTabItem
-                    v-model="booking.cabin"
-                    class="booking-dialog__choices"
-                    :label="$t('Travel class')"
-                    :items="pageData.cabins"
-                    :icon="chipIcon"
-                    size="md"
-                    variant="stroke"
-                />
+                <BaseTabItem v-model="booking.cabin" class="booking-dialog__choices" :label="$t('Travel class')"
+                    :items="pageData.cabins" :icon="chipIcon" size="md" variant="stroke" />
                 <h3 class="booking-dialog__label">{{ $t("Reason") }}</h3>
-                <BaseTabItem
-                    v-model="booking.reason"
-                    class="booking-dialog__choices"
-                    :label="$t('Travel reason')"
-                    :items="pageData.reasons"
-                    :icon="chipIcon"
-                    size="md"
-                    variant="stroke"
-                />
-                <button
-                    type="button"
-                    class="frame-page__primary"
-                    @click="close"
-                >
+                <BaseTabItem v-model="booking.reason" class="booking-dialog__choices" :label="$t('Travel reason')"
+                    :items="pageData.reasons" :icon="chipIcon" size="md" variant="stroke" />
+                <button type="button" class="frame-page__primary" @click="close">
                     {{ $t("Done") }}
                 </button>
             </section>
@@ -106,22 +45,13 @@ import BaseInput from "../component/base/BaseInput.vue";
 import BaseTabItem from "../component/base/BaseTabItem.vue";
 
 import chipIcon from "../assets/icons/lucide/square.svg";
+import pageData from "../data/pages/flight-booking.json";
 
 import "../assets/scss/component/base/BaseInput.scss";
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/base/BaseTabItem.scss";
 import "../assets/scss/pages/page_flight_booking.scss";
-
-// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
-// prettier-ignore
-const pageData = {
-    "bookingCode": "ABC123",
-    "seatPlaceholder": "32K",
-    "positions": ["Aisle", "Middle", "Window", "Pilot", "Captain", "Jumpseat"],
-    "cabins": ["Economy", "Premium Economy", "Business", "First Class"],
-    "reasons": ["Leisure", "Personal", "Business", "Crew"]
-};
 
 const booking = defineModel({ type: Object, required: true });
 const route = useRoute();

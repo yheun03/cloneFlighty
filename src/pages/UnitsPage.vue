@@ -8,42 +8,23 @@
                 )
             }}
         </p>
-        <section
-            class="units-page__section"
-            aria-labelledby="distance-title"
-        >
+        <section class="units-page__section" aria-labelledby="distance-title">
             <h2 id="distance-title">{{ $t("Distance") }}</h2>
-            <BaseTabItem
-                v-model="preferences.distance"
-                variant="segment"
-                type="radio"
-                :items="pageData.distanceUnits"
-                :label="$t('Distance unit')"
-            />
+            <BaseTabItem v-model="preferences.distance" variant="segment" type="radio" :items="pageData.distanceUnits"
+                :label="$t('Distance unit')" />
             <p>{{ $t("Example: {value}", { value: formatDistance(1000) }) }}</p>
         </section>
-        <section
-            class="units-page__section"
-            aria-labelledby="speed-title"
-        >
+        <section class="units-page__section" aria-labelledby="speed-title">
             <h2 id="speed-title">
                 <BaseIcon :src="speedIcon" />
                 {{ $t("Aircraft Speed") }}
             </h2>
             <p>{{ $t("Speed relative to the ground.") }}</p>
-            <BaseTabItem
-                v-model="preferences.speed"
-                variant="segment"
-                type="radio"
-                :items="pageData.speedUnits"
-                :label="$t('Aircraft speed unit')"
-            />
+            <BaseTabItem v-model="preferences.speed" variant="segment" type="radio" :items="pageData.speedUnits"
+                :label="$t('Aircraft speed unit')" />
             <p>{{ $t("Example: {value}", { value: formatSpeed(900) }) }}</p>
         </section>
-        <section
-            class="units-page__section"
-            aria-labelledby="altitude-title"
-        >
+        <section class="units-page__section" aria-labelledby="altitude-title">
             <h2 id="altitude-title">
                 <BaseIcon :src="speedIcon" />
                 {{ $t("Altitude") }}
@@ -55,13 +36,8 @@
                     )
                 }}
             </p>
-            <BaseTabItem
-                v-model="preferences.altitude"
-                variant="segment"
-                type="radio"
-                :items="pageData.altitudeUnits"
-                :label="$t('Altitude unit')"
-            />
+            <BaseTabItem v-model="preferences.altitude" variant="segment" type="radio" :items="pageData.altitudeUnits"
+                :label="$t('Altitude unit')" />
             <p>
                 {{ $t("Example: {value}", { value: formatAltitude(10668) }) }}
             </p>
@@ -85,13 +61,9 @@ import {
     formatAltitude,
 } from "../common/preferences.js";
 import speedIcon from "../assets/figma/speed.svg";
+import pageData from "../data/pages/units.json";
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/base/BaseTabItem.scss";
 import "../assets/scss/pages/page_units.scss";
 
-const pageData = {
-    distanceUnits: ["km", "mi", "nm"],
-    speedUnits: ["mph", "km/h", "kt"],
-    altitudeUnits: ["ft", "km", "m", "FL"],
-};
 </script>

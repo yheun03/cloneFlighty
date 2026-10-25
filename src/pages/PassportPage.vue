@@ -117,6 +117,7 @@ import FcFlightListItem from "../component/fc/FcFlightListItem.vue";
 
 import { flights, formatDuration } from "../common/flights.js";
 import { t, formatDistance, locale } from "../common/preferences.js";
+import pageData from "../data/pages/passport.json";
 
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/base/BaseTabItem.scss";
@@ -125,19 +126,6 @@ import "../assets/scss/component/fc/FcPassportOverview.scss";
 import "../assets/scss/pages/page_passport.scss";
 
 const emit = defineEmits(["map-flights"]);
-
-const pageData = {
-    groups: [
-        "Aisle",
-        "From",
-        "To",
-        "Airline",
-        "Airport",
-        "Tail",
-        "Aircraft",
-        "Flight Time",
-    ],
-};
 
 const route = useRoute();
 const router = useRouter();

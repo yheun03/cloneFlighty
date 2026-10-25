@@ -1,0 +1,27 @@
+{
+    "more": [
+        {
+            "title": "Find by Route",
+            "icon": "route",
+            "name": "add-flight-route"
+        },
+        {
+            "title": "Find by Flight Number",
+            "icon": "ticket",
+            "name": "add-flight-number"
+        },
+        {
+            "title": "Sync from Calendar",
+            "subtitle": "Fast, secure, and no setup",
+            "icon": "calendar",
+            "name": "calendar-sync"
+        },
+        {
+            "title": "Random Flight",
+            "subtitle": "Try Pro features for free",
+            "icon": "random",
+            "name": "flight-detail"
+        }
+    ],
+    "reportMessage": "Report preview opened."
+}

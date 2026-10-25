@@ -4,8 +4,7 @@
         <p class="frame-page__lead">
             {{
                 $t(
-                    "Share upcoming flights among friends and family. Invite new friends, set custom alerts, and control access
-            here.",
+                    "Share upcoming flights among friends and family. Invite new friends, set custom alerts, and control access here.",
                 )
             }}
         </p>
@@ -35,32 +34,12 @@ import { useRoute, useRouter } from "vue-router";
 import BaseInput from "../component/base/BaseInput.vue";
 import BaseButton from "../component/base/BaseButton.vue";
 import BaseListRow from "../component/base/BaseListRow.vue";
+import pageData from "../data/pages/friends.json";
 
 import "../assets/scss/component/base/BaseButton.scss";
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/base/BaseListRow.scss";
 import "../assets/scss/pages/page_friends.scss";
-
-// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
-// prettier-ignore
-const pageData = {
-    "friends": [
-        {
-            "id": "1",
-            "title": "김민지",
-            "email": "minji@example.com",
-            "profile": "https://api.dicebear.com/10.x/lorelei/svg?seed=Minji"
-        },
-        {
-            "id": "2",
-            "title": "박서준",
-            "email": "seojun@example.com",
-            "profile": "https://api.dicebear.com/10.x/lorelei/svg?seed=Seojun"
-        }
-    ],
-    "email": "",
-    "invitationMessage": "Invitation preview ready."
-};
 
 const route = useRoute();
 const router = useRouter();

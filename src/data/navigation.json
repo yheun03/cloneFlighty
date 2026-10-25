@@ -1,0 +1,24 @@
+{
+    "intro": [
+        { "label": "프로젝트 소개", "name": "intro" },
+        { "label": "내 항공편", "name": "home" },
+        { "label": "UI 컴포넌트", "name": "component" }
+    ],
+    "primary": [
+        { "label": "Flights", "name": "home", "section": "flights" },
+        { "label": "Passport", "name": "passport", "section": "passport" },
+        { "label": "Friends", "name": "friends", "section": "friends" },
+        { "label": "Settings", "name": "settings", "section": "settings" },
+        {
+            "label": "Add Flight",
+            "name": "add-flight",
+            "prefix": "＋",
+            "action": true
+        },
+        { "label": "UI", "name": "component", "section": "ui" }
+    ],
+    "flightViews": [
+        { "label": "My Flights", "name": "home" },
+        { "label": "Friends’ Flights", "name": "friend-flights" }
+    ]
+}

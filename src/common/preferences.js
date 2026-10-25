@@ -1,5 +1,9 @@
 import { computed, reactive, watch } from "vue";
-import messages from "../locales/messages.json";
+import en from "../i18n/en.json";
+import ko from "../i18n/ko.json";
+import jp from "../i18n/jp.json";
+
+const messages = { en, ko, ja: jp };
 
 const storageKey = "flighty-preferences";
 const defaults = {
@@ -113,8 +117,8 @@ export function countryName(code, fallback = code) {
 // 영어 원문을 키로 사용합니다. 선택·정렬에 쓰는 원본 값은 바꾸지 않고 표시 시점에 번역합니다.
 export function t(value, params = {}) {
     if (typeof value !== "string") return value;
-    let result = messages[value]?.[language.value] || value;
-    if (result === value && !messages[value]) {
+    let result = messages[language.value]?.[value] || value;
+    if (result === value && !messages[language.value]?.[value]) {
         const duration = value.match(
             /^(?:(\d+)d\s*)?(?:(\d+)h\s*)?(?:(\d+)m)?$/,
         );

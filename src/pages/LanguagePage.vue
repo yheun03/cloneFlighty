@@ -11,33 +11,17 @@
             }}
         </p>
         <h2 class="frame-page__label">{{ $t("Languages") }}</h2>
-        <div
-            role="group"
-            :aria-label="$t('Language')"
-        >
-            <BaseListRow
-                v-for="language in pageData.languages"
-                :key="language.id"
-                v-bind="language"
-                :translate-subtitle="false"
-                :accent="selected === language.id"
-                :aria-pressed="selected === language.id"
-                @click="selected = language.id"
-            />
+        <div role="group" :aria-label="$t('Language')">
+            <BaseListRow v-for="language in pageData.languages" :key="language.id" v-bind="language"
+                :translate-subtitle="false" :accent="selected === language.id" :aria-pressed="selected === language.id"
+                @click="selected = language.id" />
         </div>
         <h2 class="frame-page__label language-page__device">
             {{ $t("Device Language") }}
         </h2>
-        <BaseListRow
-            v-bind="pageData.device"
-            :accent="selected === 'device'"
-            :aria-pressed="selected === 'device'"
-            @click="selected = 'device'"
-        />
-        <p
-            class="sr-only"
-            role="status"
-        >
+        <BaseListRow v-bind="pageData.device" :accent="selected === 'device'" :aria-pressed="selected === 'device'"
+            @click="selected = 'device'" />
+        <p class="sr-only" role="status">
             {{ $t("Selected language:") }}
             {{
                 $t(
@@ -58,41 +42,20 @@ import koreanFlag from "../assets/figma/flag-ko.svg";
 import englishFlag from "../assets/figma/flag-en.svg";
 import japaneseFlag from "../assets/figma/flag-ja.svg";
 import deviceIcon from "../assets/figma/language-device.svg";
+import pageContent from "../data/pages/language.json";
 
 import "../assets/scss/component/base/BaseIcon.scss";
 import "../assets/scss/component/base/BaseListRow.scss";
 import "../assets/scss/pages/page_language.scss";
 
-// 이 페이지에서 사용하는 예제 JSON 데이터입니다.
-// prettier-ignore
+const imageAssets = { ko: koreanFlag, en: englishFlag, ja: japaneseFlag };
 const pageData = {
-    "selected": "device",
-    "languages": [
-        {
-            "id": "ko",
-            "title": "Korean",
-            "subtitle": "한국어",
-            "image": koreanFlag
-        },
-        {
-            "id": "en",
-            "title": "English",
-            "subtitle": "English",
-            "image": englishFlag
-        },
-        {
-            "id": "ja",
-            "title": "Japanese",
-            "subtitle": "日本語",
-            "image": japaneseFlag
-        }
-    ],
-    "device": {
-        "id": "device",
-        "title": "Use Device Language",
-        "subtitle": "Follow your device language settings.",
-        "icon": deviceIcon
-    }
+    ...pageContent,
+    languages: pageContent.languages.map((item) => ({
+        ...item,
+        image: imageAssets[item.image],
+    })),
+    device: { ...pageContent.device, icon: deviceIcon },
 };
 
 const selected = computed({

@@ -1,0 +1,18 @@
+{
+    "classes": [
+        { "name": "Economy", "color": "var(--fc-economy)" },
+        { "name": "Premium Economy", "color": "var(--fc-premium-economy)" },
+        { "name": "Business", "color": "var(--fc-business)" },
+        { "name": "First Class", "color": "var(--fc-first-class)" }
+    ],
+    "positions": [
+        { "name": "Aisle", "color": "var(--fc-success)" },
+        { "name": "Middle", "color": "#ff9d20" },
+        { "name": "Window", "color": "var(--fc-blue)" }
+    ],
+    "reasons": [
+        { "name": "Leisure", "color": "var(--fc-success)" },
+        { "name": "Business", "color": "var(--fc-blue)" }
+    ],
+    "shareMessage": "Share preview ready."
+}
