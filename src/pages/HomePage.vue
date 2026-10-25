@@ -1,59 +1,40 @@
 <template>
-    <section
-        class="frame-page flights-page"
-        :aria-label="
-            $t(
-                route.name === 'flight-results'
-                    ? 'Flight search results'
-                    : 'Upcoming flights',
-            )
-        "
-    >
-        <BaseInput
-            v-model="search"
-            class="frame-page__input"
-            type="search"
-            :placeholder="$t(pageData.placeholder)"
-            :aria-label="$t('Search flights')"
-        />
-        <div class="flights-page__list">
-            <RouterLink
-                v-for="flight in filteredFlights"
-                :key="flight.id"
-                class="flights-page__flight"
-                :to="{
-                    name: 'flight-detail',
-                    params: { id: flight.id },
-                    query: { ...route.query, from: flight.from, to: flight.to },
-                }"
-            >
-                <FcFlightListItem
-                    :airline="flight.airline"
-                    :flight="flight.flight"
-                    :title="$t(flight.title)"
-                    :date="flight.date"
-                    :departure="flight.departure"
-                    :arrival="flight.arrival"
-                    :duration="flight.duration"
-                    :flight-time="flight.flightTime"
-                    :variant="flight.isCompleted ? 'history' : 'upcoming'"
-                    :days="flight.days"
-                    :type="flight.type"
-                    :profile="flight.profile"
-                />
-            </RouterLink>
-            <p
-                v-if="!filteredFlights.length"
-                class="frame-page__note"
-                role="status"
-            >
-                {{ $t(pageData.emptyMessage) }}
-            </p>
+    <section class="frame-page flights-page" :aria-label="$t(
+        route.name === 'flight-results'
+            ? 'Flight search results'
+            : 'Upcoming flights',
+    )
+        ">
+        <div class="flights-page__search">
+            <BaseInput v-model="search" class="frame-page__input" type="search" :placeholder="$t(pageData.placeholder)"
+                :aria-label="$t('Search flights')" @keydown.esc="clearSearch" />
+            <button v-if="search" type="button" class="flights-page__clear" :aria-label="$t('Clear search')"
+                @click="clearSearch">
+                ×
+            </button>
         </div>
-        <RouterLink
-            class="frame-page__link flights-page__add"
-            :to="{ name: 'add-flight', query: route.query }"
-        >
+        <div class="flights-page__list">
+            <RouterLink v-for="flight in filteredFlights" :key="flight.id" class="flights-page__flight" :to="{
+                name: 'flight-detail',
+                params: { id: flight.id },
+                query: { ...route.query, from: flight.from, to: flight.to },
+            }">
+                <FcFlightListItem :airline="flight.airline" :flight="flight.flight" :title="$t(flight.title)"
+                    :date="flight.date" :departure="flight.departure" :arrival="flight.arrival"
+                    :duration="flight.duration" :flight-time="flight.flightTime"
+                    :variant="flight.isCompleted ? 'history' : 'upcoming'" :days="flight.days" :type="flight.type"
+                    :profile="flight.profile" />
+            </RouterLink>
+            <div v-if="!filteredFlights.length" class="flights-page__empty" role="status">
+                <p class="frame-page__note">
+                    {{ $t(pageData.emptyMessage) }}
+                </p>
+                <button v-if="search" type="button" class="frame-page__link" @click="clearSearch">
+                    {{ $t("Clear search") }}
+                </button>
+            </div>
+        </div>
+        <RouterLink class="frame-page__link flights-page__add" :to="{ name: 'add-flight', query: route.query }">
             {{ $t("+ Add Flight") }}
         </RouterLink>
     </section>
@@ -84,6 +65,9 @@ const pageData = {
 
 const route = useRoute();
 const search = ref("");
+const clearSearch = () => {
+    search.value = "";
+};
 const visibleFlights = computed(() => {
     if (route.name === "friend-flights") {
         return flights.value.filter(

@@ -9,7 +9,7 @@ import {
     watch,
 } from "vue";
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import airports from "../common/airports.js";
 import { flights, getFlight } from "../common/flights.js";
@@ -24,7 +24,26 @@ const MAPLIBRE_CSS_URL =
 const defaultFrom = "SFO";
 const defaultTo = "ICN";
 const route = useRoute();
+const router = useRouter();
 const { theme } = inject("appearance");
+const pageKey = computed(() => route.matched[1]?.name || route.name);
+const backTarget = computed(() => {
+    if (!route.meta.backName) return null;
+
+    const needsId = ["flight-detail", "connection"].includes(
+        route.meta.backName,
+    );
+    return {
+        name: route.meta.backName,
+        params: needsId ? { id: route.params.id } : {},
+        query: route.query,
+    };
+});
+const backTitle = computed(() =>
+    backTarget.value
+        ? router.resolve(backTarget.value).meta.panelTitle || "Back"
+        : "",
+);
 const mapStyle = computed(
     () =>
         `https://tiles.openfreemap.org/styles/${theme.value === "light" ? "bright" : "dark"}`,
@@ -111,13 +130,13 @@ const mapStatus = ref("Loading map…");
 const routeSummary = computed(() =>
     mapRoutes.value.length
         ? mapRoutes.value
-              .map((item) =>
-                  t("{from} to {to} route", {
-                      from: airports[item.from].name,
-                      to: airports[item.to].name,
-                  }),
-              )
-              .join(" · ")
+            .map((item) =>
+                t("{from} to {to} route", {
+                    from: airports[item.from].name,
+                    to: airports[item.to].name,
+                }),
+            )
+            .join(" · ")
         : t("No journeys in the current list."),
 );
 let map;
@@ -417,53 +436,25 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section
-        class="flight-map"
-        :class="{ 'is-sidebar-closed': !sidebarOpen }"
-        :aria-label="$t('비행 경로 지도')"
-    >
-        <div
-            id="flight-map-canvas"
-            role="region"
-            :aria-label="`${routeSummary} ${$t('비행 경로 지도')}`"
-            aria-describedby="flight-map-route-summary flight-map-status"
-        ></div>
-        <p
-            id="flight-map-status"
-            class="flight-map__status sr-only"
-            role="status"
-            aria-live="polite"
-        >
+    <section class="flight-map" :class="{ 'is-sidebar-closed': !sidebarOpen }" :aria-label="$t('비행 경로 지도')">
+        <div id="flight-map-canvas" role="region" :aria-label="`${routeSummary} ${$t('비행 경로 지도')}`"
+            aria-describedby="flight-map-route-summary flight-map-status"></div>
+        <p id="flight-map-status" class="flight-map__status sr-only" role="status" aria-live="polite">
             {{ $t(mapStatus) }}
         </p>
-        <p
-            v-if="mapError"
-            class="flight-map__error"
-            role="alert"
-            aria-live="assertive"
-        >
+        <p v-if="mapError" class="flight-map__error" role="alert" aria-live="assertive">
             {{ $t(mapError) }}
         </p>
-        <main
-            id="main-content"
-            ref="sidebar"
-            class="flight-map__sidebar"
-            :class="{
-                'is-closed': !sidebarOpen,
-                'flight-map__sidebar--wide': route.meta.widePanel,
-            }"
-            tabindex="-1"
-            aria-labelledby="flight-map-title"
-        >
+        <main id="main-content" ref="sidebar" class="flight-map__sidebar" :class="{
+            'is-closed': !sidebarOpen,
+            'flight-map__sidebar--wide': route.meta.widePanel,
+        }" tabindex="-1" aria-labelledby="flight-map-title">
             <header class="flight-map__heading">
                 <div class="flight-map__heading-copy">
                     <h1 id="flight-map-title">
                         {{ $t(route.meta.panelTitle) }}
                     </h1>
-                    <p
-                        id="flight-map-route-summary"
-                        class="flight-map__route-summary"
-                    >
+                    <p id="flight-map-route-summary" class="flight-map__route-summary">
                         <strong>{{ $t(routeLabel) }}</strong>
                         <span :title="$t(routeSummary)">
                             {{ $t(routeSummary) }}
@@ -471,141 +462,89 @@ onUnmounted(() => {
                         </span>
                     </p>
                 </div>
-                <button
-                    type="button"
-                    class="flight-map__collapse"
-                    :aria-label="$t(sidebarOpen ? '본문 접기' : '본문 펼치기')"
-                    :aria-expanded="sidebarOpen"
-                    aria-controls="flight-map-content"
-                    @click="toggleSidebar"
-                >
+                <button type="button" class="flight-map__collapse" :aria-label="$t(sidebarOpen ? '본문 접기' : '본문 펼치기')"
+                    :aria-expanded="sidebarOpen" aria-controls="flight-map-content" @click="toggleSidebar">
                     {{ $t(sidebarOpen ? "−" : "+") }}
                 </button>
             </header>
-            <nav
-                v-show="sidebarOpen"
-                class="flight-map__nav"
-                :aria-label="$t('주요 메뉴')"
-            >
-                <RouterLink
-                    :to="{ name: 'home', query: route.query }"
-                    :class="{ 'is-active': route.meta.section === 'flights' }"
-                >
+            <nav v-show="sidebarOpen" class="flight-map__nav" :aria-label="$t('주요 메뉴')">
+                <RouterLink :to="{ name: 'home', query: route.query }"
+                    :class="{ 'is-active': route.meta.section === 'flights' }" :aria-current="route.meta.section === 'flights' ? 'page' : undefined
+                        ">
                     {{ $t("Flights") }}
                 </RouterLink>
-                <RouterLink
-                    :to="{ name: 'passport', query: route.query }"
-                    :class="{ 'is-active': route.meta.section === 'passport' }"
-                >
+                <RouterLink :to="{ name: 'passport', query: route.query }"
+                    :class="{ 'is-active': route.meta.section === 'passport' }" :aria-current="route.meta.section === 'passport' ? 'page' : undefined
+                        ">
                     {{ $t("Passport") }}
                 </RouterLink>
-                <RouterLink
-                    :to="{ name: 'friends', query: route.query }"
-                    :class="{ 'is-active': route.meta.section === 'friends' }"
-                >
+                <RouterLink :to="{ name: 'friends', query: route.query }"
+                    :class="{ 'is-active': route.meta.section === 'friends' }" :aria-current="route.meta.section === 'friends' ? 'page' : undefined
+                        ">
                     {{ $t("Friends") }}
                 </RouterLink>
-                <RouterLink
-                    :to="{ name: 'settings', query: route.query }"
-                    :class="{ 'is-active': route.meta.section === 'settings' }"
-                >
+                <RouterLink :to="{ name: 'settings', query: route.query }"
+                    :class="{ 'is-active': route.meta.section === 'settings' }" :aria-current="route.meta.section === 'settings' ? 'page' : undefined
+                        ">
                     {{ $t("Settings") }}
                 </RouterLink>
-                <RouterLink
-                    :to="{ name: 'add-flight', query: route.query }"
-                    :aria-label="$t('Add Flight')"
-                >
-                    ＋
+                <RouterLink class="flight-map__nav-action" :to="{ name: 'add-flight', query: route.query }"
+                    :aria-label="$t('Add Flight')">
+                    ＋ {{ $t("Add Flight") }}
                 </RouterLink>
-                <RouterLink :to="{ name: 'component', query: route.query }">
+                <RouterLink :to="{ name: 'component', query: route.query }"
+                    :class="{ 'is-active': route.meta.section === 'ui' }" :aria-current="route.meta.section === 'ui' ? 'page' : undefined
+                        ">
                     {{ $t("UI") }}
                 </RouterLink>
             </nav>
-            <div
-                v-if="
-                    sidebarOpen &&
-                    (route.meta.backName ||
-                        route.name === 'home' ||
-                        route.name === 'friend-flights')
-                "
-                class="flight-map__page-nav"
-            >
-                <RouterLink
-                    v-if="route.meta.backName"
-                    :to="{
-                        name: route.meta.backName,
-                        params:
-                            route.meta.backName === 'flight-detail' ||
-                            route.meta.backName === 'connection'
-                                ? { id: route.params.id }
-                                : {},
-                        query: route.query,
-                    }"
-                >
-                    {{ $t("‹ Back") }}
+            <div v-if="
+                sidebarOpen &&
+                (route.meta.backName ||
+                    route.name === 'home' ||
+                    route.name === 'friend-flights')
+            " class="flight-map__page-nav">
+                <RouterLink v-if="backTarget" class="flight-map__back" :to="backTarget">
+                    <span aria-hidden="true">‹</span>
+                    {{ $t(backTitle) }}
                 </RouterLink>
-                <template
-                    v-if="
-                        route.name === 'home' || route.name === 'friend-flights'
-                    "
-                >
-                    <RouterLink :to="{ name: 'home', query: route.query }">
+                <template v-if="
+                    route.name === 'home' || route.name === 'friend-flights'
+                ">
+                    <RouterLink :to="{ name: 'home', query: route.query }"
+                        :class="{ 'is-active': route.name === 'home' }" :aria-current="route.name === 'home' ? 'page' : undefined
+                            ">
                         {{ $t("My Flights") }}
                     </RouterLink>
-                    <RouterLink
-                        :to="{ name: 'friend-flights', query: route.query }"
-                    >
+                    <RouterLink :to="{ name: 'friend-flights', query: route.query }" :class="{
+                        'is-active': route.name === 'friend-flights',
+                    }" :aria-current="route.name === 'friend-flights'
+                        ? 'page'
+                        : undefined
+                        ">
                         {{ $t("Friends’ Flights") }}
                     </RouterLink>
                 </template>
             </div>
-            <div
-                v-show="sidebarOpen"
-                id="flight-map-content"
-                ref="content"
-                class="flight-map__content"
-                :class="{
-                    'flight-map__content--gallery': route.meta.widePanel,
-                }"
-            >
+            <div v-show="sidebarOpen" id="flight-map-content" ref="content" class="flight-map__content" :class="{
+                'flight-map__content--gallery': route.meta.widePanel,
+            }">
                 <RouterView v-slot="{ Component }">
-                    <component
-                        :is="Component"
-                        @map-flights="setPageFlights"
-                    />
+                    <Transition name="flight-map-page" mode="out-in">
+                        <component :is="Component" :key="pageKey" @map-flights="setPageFlights" />
+                    </Transition>
                 </RouterView>
             </div>
         </main>
-        <div
-            class="flight-map__controls"
-            role="group"
-            :aria-label="$t('지도 조작')"
-        >
-            <button
-                type="button"
-                :aria-label="$t('지도 확대')"
-                :disabled="!ready"
-                @click="map?.zoomIn()"
-            >
+        <div class="flight-map__controls" role="group" :aria-label="$t('지도 조작')">
+            <button type="button" :aria-label="$t('지도 확대')" :disabled="!ready" @click="map?.zoomIn()">
                 +
             </button>
-            <button
-                type="button"
-                :aria-label="$t('지도 축소')"
-                :disabled="!ready"
-                @click="map?.zoomOut()"
-            >
+            <button type="button" :aria-label="$t('지도 축소')" :disabled="!ready" @click="map?.zoomOut()">
                 −
             </button>
-            <button
-                type="button"
-                :disabled="!ready"
-                :aria-pressed="isGlobe"
-                :aria-label="
-                    $t(isGlobe ? '평면 보기로 전환' : '지구본 보기로 전환')
-                "
-                @click="toggleProjection"
-            >
+            <button type="button" :disabled="!ready" :aria-pressed="isGlobe" :aria-label="$t(isGlobe ? '평면 보기로 전환' : '지구본 보기로 전환')
+                " @click="toggleProjection">
                 {{ $t(isGlobe ? "평면" : "지구본") }}
             </button>
         </div>

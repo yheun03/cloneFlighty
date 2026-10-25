@@ -289,6 +289,7 @@ const router = createRouter({
                         description:
                             "Flighty UI 클론을 위해 제작한 Vue 3 기반 항공편 인터페이스 컴포넌트를 소개합니다.",
                         panelTitle: "UI 컴포넌트",
+                        section: "ui",
                         widePanel: true,
                     },
                 },
